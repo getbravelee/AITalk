@@ -24,10 +24,28 @@ repositories {
 }
 
 dependencies {
+    // Spring Boot Web (REST API 지원)
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Spring WebSocket 지원
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework:spring-messaging'
+
+    // WebSocket 클라이언트 (Jakarta WebSocket API)
+    implementation 'jakarta.websocket:jakarta.websocket-api:2.1.0'
+    implementation 'org.glassfish.tyrus.bundles:tyrus-standalone-client:1.19'
+
+    // Jackson (JSON 데이터 처리)
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    // Lombok (코드 간소화)
     compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // DevTools (개발 중 핫 리로드 지원)
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // Test Dependencies
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
