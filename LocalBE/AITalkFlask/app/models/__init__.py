@@ -1,2 +1,3 @@
 from .user import User
-from .child import Child
+from .child_model import Child
+from .speech_therapist_model import SpeechTherapist
