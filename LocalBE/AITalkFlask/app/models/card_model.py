@@ -1,23 +1,10 @@
-import mysql.connector
+from app.extensions import db
+
+class Card(db.Model):
+    __tablename__ = 'card'
+
+    card_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    image = db.Column(db.LargeBinary, nullable=False)
 
 
-def get_db_connection():
-    return mysql.connector.connect(
-        host='localhost',
-        user='your_username',
-        password='your_password',
-        database='your_database'
-    )
-
-
-def get_card_by_id(card_id):
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-
-    query = "SELECT card_id, name, image FROM card WHERE card_id = %s"
-    cursor.execute(query, (card_id,))
-    card = cursor.fetchone()
-
-    cursor.close()
-    conn.close()
-    return card

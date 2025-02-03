@@ -1,8 +1,8 @@
 import smartcard.System
 from smartcard.util import toHexString
 
-def extract_ndef_text():
-    """NFC 태그에서 NDEF 텍스트 데이터 추출 및 반환"""
+def read_nfc_tag():
+    """NFC 태그가 태깅될 때까지 대기 후 cardId 반환"""
     readers = smartcard.System.readers()
     if not readers:
         print("NFC 리더기를 찾을 수 없습니다.")
@@ -11,6 +11,8 @@ def extract_ndef_text():
     reader = readers[0]
     connection = reader.createConnection()
     connection.connect()
+
+    print("NFC 태그를 태깅하세요...")
 
     # NFC 태그 UID 요청
     get_uid = [0xFF, 0xCA, 0x00, 0x00, 0x00]
@@ -35,7 +37,7 @@ def extract_ndef_text():
             print(f"블록 {block} 읽기 실패: {sw1:02X} {sw2:02X}")
             return None
 
-    # NDEF 텍스트 레코드 찾기
+    # NDEF 텍스트 데이터에서 cardId 추출
     try:
         start_index = ndef_data.index(0xD1)
         if ndef_data[start_index + 3] != 0x54:
@@ -44,10 +46,12 @@ def extract_ndef_text():
 
         text_length = ndef_data[start_index + 2] - 3
         language_length = ndef_data[start_index + 4]
-        text_data = ''.join(chr(b) for b in ndef_data[start_index + 5 + language_length: start_index + 5 + language_length + text_length])
+        text_data = ''.join(
+            chr(b) for b in ndef_data[start_index + 5 + language_length : start_index + 5 + language_length + text_length]
+        )
 
-        print(f"NFC 태그에 저장된 텍스트 데이터: {text_data}")
-        return int(text_data)  # card_id 반환
+        print(f"태그된 카드의 cardId: {text_data}")
+        return int(text_data)  # cardId 반환
 
     except ValueError:
         print("NDEF 텍스트 레코드를 찾을 수 없습니다.")
