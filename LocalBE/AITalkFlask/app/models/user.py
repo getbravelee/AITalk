@@ -7,5 +7,3 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), unique=False, nullable=False)  # NULL 허용하는 컬럼
 
-    def __repr__(self):
-        return f'<User {self.username}>'
