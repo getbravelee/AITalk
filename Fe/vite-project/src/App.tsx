@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Homepage";
+import Home from "./pages/HomePage";
 import MenuPage from "./pages/MenuPage";
-import DetailSelectPage from "./pages/DetailSelectpage";
+import DetailSelectPage from "./pages/DetailSelectPage";
 import CardWordPage from "./pages/CardWordPage";
 
 function App() {
