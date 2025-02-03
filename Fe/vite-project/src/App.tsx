@@ -1,16 +1,16 @@
-import BackgroundContainer from './components/BackgroundContainer';
-import NavbarContainer from './components/NavbarContainer';
+import { Routes, Route } from 'react-router-dom';
 
-import './App.css';
+import HomePage from './pages/HomePage';
+import TestPage from './pages/TestPage';
+import NfcTagPage from './pages/NfcTagPage';
 
 function App() {
   return (
-    <div>
-      <div className="MainContainer">
-        <NavbarContainer />
-        <BackgroundContainer />
-      </div>
-    </div>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/test" element={<TestPage />} />
+      <Route path="/nfc" element={<NfcTagPage />} />
+    </Routes>
   );
 }
 

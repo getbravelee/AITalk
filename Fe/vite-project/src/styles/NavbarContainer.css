@@ -1,10 +1,4 @@
 .NavbarContainer {
   background-color: #00a2ff;
   height: 10vh;
-  display: flex;
-  align-items: center;
-  padding: 0 1rem;
-  color: white;
-  font-family: Arial, sans-serif;
-  font-size: 1rem;
 }
