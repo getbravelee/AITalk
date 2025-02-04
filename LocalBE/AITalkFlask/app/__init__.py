@@ -1,6 +1,9 @@
 from flask import Flask
 from .extensions import db
 from .routes import register_routes
+# from .routes.user_face import face_bp  # face_bp 가져오기
+from .routes.child_face import child_face_bp
+from .routes.user_face import user_face_bp
 
 
 def create_app():
@@ -14,5 +17,10 @@ def create_app():
 
     # 라우트 등록
     register_routes(app)
+
+    # 블루프린트 등록
+    # app.register_blueprint(face_bp)
+    app.register_blueprint(child_face_bp)
+    app.register_blueprint(user_face_bp)
 
     return app

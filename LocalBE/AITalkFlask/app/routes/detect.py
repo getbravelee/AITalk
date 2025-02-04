@@ -7,7 +7,11 @@ detect_bp = Blueprint('detect', __name__)  # Blueprint 등록
 def detect():
     """ 감지된 객체 정보를 JSON으로 반환 """
     detected_objects = detect_objects.get_detected_objects()
-    return jsonify(detected_objects)
+
+    if not detected_objects:
+        return jsonify({"status": "no_object", "data": []}), 200 # 감지되지 않음
+
+    return jsonify({"status": "success", "data": detected_objects}), 200
 
 @detect_bp.route("/video")
 def video_feed():
