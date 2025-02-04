@@ -1,4 +1,4 @@
-import '../../styles/NfcTagText.css';
+import './NfcTagText.css';
 
 export default function LoadingText() {
   return (
