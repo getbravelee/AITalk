@@ -1,10 +1,9 @@
-import './Home.css';
-// import Title from '../components/Texts/MainTitle';
+import './HomePage.css';
 import { Button, VStack, Text } from '@chakra-ui/react';
 
 export default function Home() {
   return (
-    <div className="home">
+    <div className="HomeContainer">
       <VStack>
         <Text textStyle="7xl" pt={200}>
           아이톡

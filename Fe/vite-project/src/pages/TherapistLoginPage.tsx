@@ -1,10 +1,10 @@
 import { Flex, HStack, Text, Input, VStack, Button } from '@chakra-ui/react';
-import BackButton from '../components/Common/BackButton';
+import NavbarContainer from '../components/Common/NavbarContainer';
 
 export default function TherapistLoginPage() {
   return (
     <div>
-      <BackButton />
+      <NavbarContainer />
       <Flex direction="row" align="flex-start" pl={800} pt={150}>
         <HStack>
           <Text textStyle="7xl">치료사</Text>

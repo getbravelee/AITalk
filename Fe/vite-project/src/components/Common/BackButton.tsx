@@ -6,7 +6,7 @@ function BackButton() {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate(-1); // 📌 브라우저의 뒤로가기 기능과 동일하게 수정정
+    navigate(-1); // 📌 브라우저의 뒤로가기 기능과 동일하게 수정
   };
 
   return (

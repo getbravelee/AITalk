@@ -1,12 +1,12 @@
 import { Text, HStack, Flex, Button } from '@chakra-ui/react';
-import BackButton from '../components/Common/BackButton';
+import NavbarContainer from '../components/Common/NavbarContainer';
 
 export default function TherapistFaceLoginPage() {
   const faceIdImage: string = 'src/assets/Login/FaceID.png';
 
   return (
     <div>
-      <BackButton />
+      <NavbarContainer />
       <Flex direction="row" align="flex-start" pl={800} pt={100}>
         <HStack>
           <Text textStyle="7xl">치료사</Text>

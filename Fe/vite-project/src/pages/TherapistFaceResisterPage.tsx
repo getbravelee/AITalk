@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { Flex, HStack, Text, Button } from '@chakra-ui/react';
-import BackButton from '../components/Common/BackButton';
+import { Flex, HStack, Text } from '@chakra-ui/react';
+import NavbarContainer from '../components/Common/NavbarContainer';
 import CameraDialog from '../components/Dialogs/CameraDialog';
 
 export default function TherapistFaceResisterPage() {
-  const faceIdImage: string = 'src/assets/Login/FaceID.png';
   const [isCameraOpen, setIsCameraOpen] = useState(false);
 
   const handleOpenCamera = () => {
@@ -17,7 +16,7 @@ export default function TherapistFaceResisterPage() {
 
   return (
     <div>
-      <BackButton />
+      <NavbarContainer />
       <Flex direction="row" align="flex-start" pl={800} pt={100}>
         <HStack>
           <Text textStyle="7xl">치료사</Text>
