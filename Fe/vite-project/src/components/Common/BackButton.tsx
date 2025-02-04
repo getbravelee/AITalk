@@ -6,7 +6,7 @@ function BackButton() {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate('/test'); // 📌 'localhost:5173/test' 경로로 이동 (TestPage로 고정)
+    navigate(-1); // 이전 페이지로 이동
   };
 
   return (

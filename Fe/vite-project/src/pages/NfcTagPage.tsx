@@ -1,22 +1,22 @@
-import { motion } from 'framer-motion';
-
-import BackgroundContainerKid from '../components/Common/BackgroundContainerKid';
 import NavbarContainer from '../components/Common/NavbarContainer';
+import LoadingCircle from '../components/Common/LoadingCircle';
+import NfcImage from '../components/Images/NfcImage';
+import NfcTagText from '../components/Texts/NfcTagText';
+import './NfcTagPage.css';
+import BackButton from '../components/Common/BackButton';
 
-function NfcTagPage() {
+export default function NfcTagPage() {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div>
-        <NavbarContainer />
-        <BackgroundContainerKid />
+    <div>
+      {/* NavbarContainer 내부에 BackButton을 children으로 전달 */}
+      <NavbarContainer>
+        <BackButton />
+      </NavbarContainer>
+      <div className="NfcTagContainer">
+        <LoadingCircle />
+        <NfcImage />
+        <NfcTagText />
       </div>
-    </motion.div>
+    </div>
   );
 }
-
-export default NfcTagPage;
