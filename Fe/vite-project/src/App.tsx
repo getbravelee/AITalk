@@ -1,17 +1,20 @@
-import { Routes, Route } from 'react-router-dom';
-
-import HomePage from './pages/HomePage';
-import TestPage from './pages/TestPage';
-import NfcTagPage from './pages/NfcTagPage';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/HomePage";
+import MenuPage from "./pages/MenuPage";
+import DetailSelectPage from "./pages/DetailSelectPage";
+import CardWordPage from "./pages/CardWordPage";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/test" element={<TestPage />} />
-      <Route path="/nfc" element={<NfcTagPage />} />
-    </Routes>
-  );
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/MenuPage" element={<MenuPage />} />
+        <Route path="/MenuPage/DetailSelectPage" element={<DetailSelectPage />} />
+        <Route path="/MenuPage/DetailSelectPage/CardWordPage" element={<CardWordPage />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
 export default App;
