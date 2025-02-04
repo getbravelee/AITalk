@@ -11,7 +11,7 @@ function PlayButton({ message, children, imageSrc }: playButtonProps) {
   const navigate = useNavigate();
 
   const handleClick = (): void => {
-    navigate('DetailSelectPage');
+    navigate('/Nfc');
   };
   return (
     <button onClick={() => {
