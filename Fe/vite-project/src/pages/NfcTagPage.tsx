@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 
-import BackgroundContainer from '../components/BackgroundContainer';
-import NavbarContainer from '../components/NavbarContainer';
+import BackgroundContainerKid from '../components/Common/BackgroundContainerKid';
+import NavbarContainer from '../components/Common/NavbarContainer';
 
 function NfcTagPage() {
   return (
@@ -13,7 +13,7 @@ function NfcTagPage() {
     >
       <div>
         <NavbarContainer />
-        <BackgroundContainer />
+        <BackgroundContainerKid />
       </div>
     </motion.div>
   );

@@ -1,4 +1,4 @@
-import '../styles/LoadingCircle.css';
+import '../../styles/LoadingCircle.css';
 
 function LoadingCircle() {
   return (

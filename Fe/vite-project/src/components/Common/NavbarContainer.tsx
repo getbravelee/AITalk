@@ -1,5 +1,5 @@
 import BackButton from './BackButton';
-import '../styles/NavbarContainer.css';
+import '../../styles/NavbarContainer.css';
 
 function NavbarContainer() {
   return (

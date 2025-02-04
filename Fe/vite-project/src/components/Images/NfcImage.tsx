@@ -1,4 +1,4 @@
-import '../styles/NfcImage.css';
+import '../../styles/NfcImage.css';
 
 function NfcImage() {
   return (

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { IoArrowBack } from 'react-icons/io5'; // 뒤로가기 화살표 아이콘
-import '../styles/BackButton.css';
+import '../../styles/BackButton.css';
 
 function BackButton() {
   const navigate = useNavigate();
