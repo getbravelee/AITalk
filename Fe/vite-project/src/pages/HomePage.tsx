@@ -1,5 +1,5 @@
-import '../styles/Home.css';
-import Title from '../components/MainTitle';
+import './Home.css';
+import Title from '../components/Texts/MainTitle';
 import { Button } from '@chakra-ui/react';
 
 export default function Home() {

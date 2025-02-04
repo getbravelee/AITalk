@@ -1,4 +1,4 @@
-import '../styles/DetailImages.css'
+import './DetailImages.css'
 
 interface ImagesProps {
   width: number;
