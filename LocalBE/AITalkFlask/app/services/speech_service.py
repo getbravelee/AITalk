@@ -7,6 +7,9 @@ import openai
 from threading import Lock, Thread
 import os
 from app.extensions import socketio
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # 로깅 설정
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -67,10 +70,7 @@ def recognize_audio():
                     logging.info(f"📝 텍스트 변환 완료: {text}")
                     socketio.start_background_task(target=socketio.emit, event='recognized_text', data={'text': text})
 
-                    # GPT 응답 후 음성 인식을 재개하기 위해 상태 변경
-                    with recognition_lock:
-                        is_recognizing = False
-
+                    # GPT 응답 처리
                     get_gpt_response(text)
 
             except Exception as e:
@@ -85,18 +85,26 @@ def recognize_audio():
 def get_gpt_response(user_input):
     global is_recognizing
     try:
-        print(openai.api_key)
         logging.info(f"🧠 GPT에 질문: {user_input}")
         response = openai.ChatCompletion.create(
-            model="gpt-4",
-            prompt=user_input,
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": user_input}],
             max_tokens=150
         )
-        gpt_reply = response.choices[0].text.strip()
-        logging.info(f"🤖 GPT 응답: {gpt_reply}")
-        socketio.start_background_task(target=socketio.emit, event='gpt_response', data={'response': gpt_reply})
 
-        # GPT 응답이 끝난 후 음성 인식을 새 스레드로 재개
+        logging.debug(f"GPT 원시 응답: {response}")  # 응답 구조 확인
+
+        # 응답 처리
+        try:
+            gpt_reply = response.choices[0].message['content'].strip()
+        except AttributeError:
+            gpt_reply = response.choices[0].text.strip()
+
+        logging.info(f"🤖 GPT 응답: {gpt_reply}")
+
+        socketio.emit('gpt_response', {'response': gpt_reply}, namespace='/')
+
+        # GPT 응답 후 음성 인식 재개
         with recognition_lock:
             is_recognizing = True
 
