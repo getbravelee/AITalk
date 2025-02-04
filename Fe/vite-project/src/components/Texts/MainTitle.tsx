@@ -6,7 +6,7 @@ export default function MainTitle() {
   const navigate = useNavigate();
 
   const handleClick = (): void => {
-    navigate('MenuPage');
+    navigate('TherapistFaceLoginPage');
   };
   return (
     <div className="title">

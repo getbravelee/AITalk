@@ -1,15 +1,25 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/HomePage";
 import MenuPage from "./pages/MenuPage";
-import DetailSelectPage from "./pages/DetailSelectPage";
+import DetailSelectPage from "./pages/CardDetailSelectPage";
 import CardWordPage from "./pages/CardWordPage";
 import NfcTagPage from "./pages/NfcTagPage";
+import TherapistFaceLoginPage from "./pages/TherapistFaceLoginPage";
+import TherapistLoginPage from "./pages/TherapistLoginPage";
+import TherapistFaceResisterPage from "./pages/TherapistFaceResisterPage";
+import TherapistFaceResisterCompletePage from "./pages/TherapistFaceResisterCompletePage";
+import HomeAfterLoginPage from "./pages/HomeAfterLoginPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/TherapistFaceLoginPage" element={<TherapistFaceLoginPage />} />
+        <Route path="/TherapistLoginPage" element={<TherapistLoginPage />} />
+        <Route path="/TherapistFaceResisterPage" element={<TherapistFaceResisterPage />} />
+        <Route path="/TherapistFaceResisterCompletePage" element={<TherapistFaceResisterCompletePage />} />
+        <Route path="/HomeAfterLoginPage" element={<HomeAfterLoginPage />} />
         <Route path="/Nfc" element={<NfcTagPage />} />
         <Route path="/MenuPage" element={<MenuPage />} />
         <Route path="/MenuPage/DetailSelectPage" element={<DetailSelectPage />} />
