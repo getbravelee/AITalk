@@ -4,7 +4,7 @@ export default function CameraButton() {
   const navigate = useNavigate();
 
   const handleClick = (): void => {
-    alert('사진 찍기로 이동합니다.');
+    alert('사진 찍기 페이지 만드는 중');
     navigate('/camera');
   };
 

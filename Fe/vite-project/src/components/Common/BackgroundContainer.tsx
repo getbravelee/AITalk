@@ -1,7 +1,7 @@
 import './BackgroundContainer.css';
 
-function BackgroundKidContainer() {
+function BackgroundContainer() {
   return <div className="BackgroundContainer"></div>;
 }
 
-export default BackgroundKidContainer;
+export default BackgroundContainer;

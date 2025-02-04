@@ -4,7 +4,6 @@ export default function CardTagButton() {
   const navigate = useNavigate();
 
   const handleClick = (): void => {
-    alert('카드 태그로 이동합니다.');
     navigate('/nfc-tag');
   };
 
