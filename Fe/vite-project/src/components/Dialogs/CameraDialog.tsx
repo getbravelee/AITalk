@@ -21,8 +21,6 @@ export default function CameraDialog({ isOpen, onClose }: CameraDialogProps) {
     <DialogRoot>
       <DialogTrigger asChild>
         <Button
-          pl={1000}
-          pt={200}
           bg="transparent"
           _hover={{ bg: 'transparent' }}
           _active={{ bg: 'transparent' }}
@@ -35,9 +33,7 @@ export default function CameraDialog({ isOpen, onClose }: CameraDialogProps) {
           <DialogTitle>얼굴 등록</DialogTitle>
         </DialogHeader>
         <DialogBody>
-          <p>
-            이곳에 카메라를 통해 얼굴을 인식하는 기능을 넣어주세요.
-          </p>
+          <p>이곳에 카메라를 통해 얼굴을 인식하는 기능을 넣어주세요.</p>
         </DialogBody>
         <DialogFooter>
           <DialogActionTrigger asChild>

@@ -1,0 +1,11 @@
+.BackgroundKidContainer {
+  background-image: url('src/assets/Background/background_2.png'); /* 배경 이미지 경로 */
+  background-size: cover; /* 화면 채우기 */
+  background-position: center; /* 이미지 중앙 정렬 */
+  height: 90vh;
+  display: flex;
+  flex-direction: column; /* 세로 방향 정렬 */
+  justify-content: center; /* 세로 중앙 정렬 */
+  align-items: center; /* 가로 중앙 정렬 */
+  position: relative; /* 컨테이너 내부 요소들의 위치 기준 */
+}
