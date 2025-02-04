@@ -5,7 +5,6 @@ import DetailSelectPage from "./pages/DetailSelectPage";
 import CardWordPage from "./pages/CardWordPage";
 
 function App() {
-
   return (
     <BrowserRouter>
       <Routes>

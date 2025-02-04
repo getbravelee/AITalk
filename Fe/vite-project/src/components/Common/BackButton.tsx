@@ -1,20 +1,19 @@
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@chakra-ui/react';
+import { IoArrowBack } from 'react-icons/io5'; // 뒤로가기 화살표 아이콘
+import '../../styles/BackButton.css';
 
-export default function Navbar() {
-  
+function BackButton() {
   const navigate = useNavigate();
-  const handleBackClick = () => {
-    navigate(-1); // 뒤로가기 기능
+
+  const handleBack = () => {
+    navigate('/test'); // 📌 'localhost:5173/test' 경로로 이동 (TestPage로 고정)
   };
 
   return (
-    <div>
-      <div>
-        <Button onClick={handleBackClick}>
-          <img src="/src/assets/menu/back_button.png" alt="뒤로가기버튼" />
-        </Button>
-      </div>
-    </div>
+    <button className="BackButton" onClick={handleBack}>
+      <IoArrowBack className="BackIcon" />
+    </button>
   );
 }
+
+export default BackButton;
