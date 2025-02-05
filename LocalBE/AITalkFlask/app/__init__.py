@@ -18,9 +18,4 @@ def create_app():
     # 라우트 등록
     register_routes(app)
 
-    # 블루프린트 등록
-    # app.register_blueprint(face_bp)
-    app.register_blueprint(child_face_bp)
-    app.register_blueprint(user_face_bp)
-
     return app

@@ -9,7 +9,7 @@ class Child(db.Model):
     profile_image = db.Column(db.LargeBinary)
     disability_type = db.Column(db.String(20))
     age = db.Column(db.Integer)
-    face_id = db.Column(db.LargeBinary)  # 얼굴 인식 데이터 저장
+    # face_id = db.Column(db.LargeBinary)  # 얼굴 인식 데이터 저장
 
     # 관계 설정 (옵션)
     therapist = db.relationship('SpeechTherapist', backref='children')
