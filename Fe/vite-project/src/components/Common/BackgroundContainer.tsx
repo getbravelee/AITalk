@@ -1,7 +1,13 @@
 import './BackgroundContainer.css';
 
-function BackgroundContainer() {
-  return <div className="BackgroundContainer"></div>;
+export default function BackgroundKidContainer({ 
+  children 
+}: { 
+  children?: React.ReactNode 
+}) {
+  return (
+    <div className='BackgroundKidContainer'>
+      {children}
+    </div>
+  );
 }
-
-export default BackgroundContainer;

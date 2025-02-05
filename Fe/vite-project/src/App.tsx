@@ -9,6 +9,9 @@ import TherapistLoginPage from "./pages/TherapistLoginPage";
 import TherapistFaceResisterPage from "./pages/TherapistFaceResisterPage";
 import TherapistFaceResisterCompletePage from "./pages/TherapistFaceResisterCompletePage";
 import HomeAfterLoginPage from "./pages/HomeAfterLoginPage";
+import KidSelectPage from "./pages/KidSelectPage";
+import KidFaceLoginPage from "./pages/KidFaceLoginPage";
+
 
 function App() {
   return (
@@ -20,6 +23,8 @@ function App() {
         <Route path="/TherapistFaceResisterPage" element={<TherapistFaceResisterPage />} />
         <Route path="/TherapistFaceResisterCompletePage" element={<TherapistFaceResisterCompletePage />} />
         <Route path="/HomeAfterLoginPage" element={<HomeAfterLoginPage />} />
+        <Route path="/KidSelectPage" element={<KidSelectPage />} />
+        <Route path="/KidFaceLoginPage" element={<KidFaceLoginPage />} />
         <Route path="/Nfc" element={<NfcTagPage />} />
         <Route path="/MenuPage" element={<MenuPage />} />
         <Route path="/MenuPage/DetailSelectPage" element={<DetailSelectPage />} />

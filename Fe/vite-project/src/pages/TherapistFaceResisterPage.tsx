@@ -19,13 +19,13 @@ export default function TherapistFaceResisterPage() {
     <div>
       <NavbarContainer />
       <BackgroundKidContainer>
-        <Flex direction="column" align="flex-start" gap={150}>
+        <Flex direction="column" align="center" gap={150}>
           <HStack>
-            <Text textStyle="7xl">치료사</Text>
-            <Text textStyle="2xl"> 님의 얼굴을 등록해 주세요</Text>
+            <Text fontSize={100}>치료사</Text>
+            <Text fontSize={30}> 님의 얼굴을 등록해 주세요</Text>
           </HStack>
-          <VStack pl={200}>
-            <CameraDialog isOpen={isCameraOpen} onClose={handleCloseCamera} />
+          <VStack>
+            <CameraDialog isOpen={isCameraOpen} onClose={handleCloseCamera} title='얼굴 등록' message='카메라로 연결됩니다.'/>
           </VStack>
         </Flex>
       </BackgroundKidContainer>

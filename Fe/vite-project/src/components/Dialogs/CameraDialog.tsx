@@ -10,13 +10,22 @@ import {
   DialogTrigger,
 } from '../ui/dialog';
 import { Button } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 interface CameraDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  title: string;
+  message: string;
 }
-export default function CameraDialog({ isOpen, onClose }: CameraDialogProps) {
+export default function CameraDialog({
+  isOpen,
+  onClose,
+  title,
+  message,
+}: CameraDialogProps) {
   const faceIdImage: string = 'src/assets/Login/FaceID.png';
+  const navigate = useNavigate()
   return (
     <DialogRoot>
       <DialogTrigger asChild>
@@ -30,14 +39,27 @@ export default function CameraDialog({ isOpen, onClose }: CameraDialogProps) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>얼굴 등록</DialogTitle>
+          <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
         <DialogBody>
-          <p>이곳에 카메라를 통해 얼굴을 인식하는 기능을 넣어주세요.</p>
+          <p>{message}</p>
         </DialogBody>
         <DialogFooter>
           <DialogActionTrigger asChild>
-            <Button variant="outline">Cancel</Button>
+            <Button variant="outline" onClick={() => {
+              if (title === '얼굴 등록') {
+                navigate('/TherapistFaceResisterCompletePage')
+              }
+              else if (title === '아이 얼굴 등록') {
+                alert("아이의 얼굴 등록이 완료되었습니다.")
+              }
+              else if (title === '아이 얼굴 인식') {
+                navigate('/MenuPage')
+              }
+              else {
+                navigate('/HomeAfterLoginPage')  
+              }
+            }}>Cancel</Button>
           </DialogActionTrigger>
           <Button>Save</Button>
         </DialogFooter>
