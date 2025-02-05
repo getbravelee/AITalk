@@ -6,8 +6,11 @@ speech_bp = Blueprint('speech', __name__)
 
 @speech_bp.route('/play/talk-start', methods=['POST'])
 def start_recognition():
+    global keep_listening
     if is_recognizing:
         return jsonify({"status": "already running"}), 409
+
+    keep_listening = True
 
     threading.Thread(target=recognize_audio, daemon=True).start()
     return jsonify({"status": "started"}), 200
