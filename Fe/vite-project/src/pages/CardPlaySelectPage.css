@@ -19,5 +19,5 @@
 
 .ButtonContainer {
   display: flex;
-  gap: 1rem; /* 버튼 간 간격 */
+  gap: 1rem; /* 버튼 간 간격 설정 */
 }
