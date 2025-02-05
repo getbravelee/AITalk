@@ -7,4 +7,3 @@ class Card(db.Model):
     name = db.Column(db.String(50), nullable=False)
     image = db.Column(db.LargeBinary, nullable=False)
 
-
