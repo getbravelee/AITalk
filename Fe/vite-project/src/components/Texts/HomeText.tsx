@@ -1,5 +1,6 @@
-import './HomeText.css';
 import { useNavigate } from 'react-router-dom';
+
+import './HomeText.css';
 
 export default function HomeText() {
   const navigate = useNavigate();
