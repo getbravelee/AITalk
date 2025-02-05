@@ -1,17 +1,18 @@
--- create schema aitalk;
+drop schema aitalk;
+create schema aitalk;
 
 USE aitalk;
 
 -- 언어치료사 테이블 생성
 -- therapist_id, face
--- 치료사 테이블 생성 (AUTO_INCREMENT 추가)
 CREATE TABLE speech_therapist (
-    therapist_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY
+    therapist_id INT UNSIGNED NOT NULL PRIMARY KEY,
+    therapist_name VARCHAR(20)
 );
 
--- 치료 아동 테이블 생성 (AUTO_INCREMENT 추가)
+-- 치료아동 테이블 생성
 CREATE TABLE care_children (
-    child_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    child_id INT UNSIGNED PRIMARY KEY,
     therapist_id INT UNSIGNED,
     child_name VARCHAR(20) NOT NULL,
     profile_image BLOB,
@@ -19,7 +20,6 @@ CREATE TABLE care_children (
     age INT,
     FOREIGN KEY (therapist_id) REFERENCES speech_therapist(therapist_id)
 );
-
 
 -- 치료 테이블 생성
 CREATE TABLE treatment (
@@ -40,7 +40,5 @@ CREATE TABLE treatment (
 CREATE TABLE card (
     card_id INT UNSIGNED PRIMARY KEY,
     name VARCHAR(20),
-    image BLOB
+    image VARCHAR(20)
 );
-
-
