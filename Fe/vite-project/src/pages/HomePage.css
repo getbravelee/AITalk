@@ -1,5 +1,5 @@
 .HomeContainer {
-  background-image: url('src/assets/Background/background_1.png');
+  background-image: url('/src/assets/background/background_1.png');
   background-size: cover;
   height: 100vh;
 }

@@ -5,7 +5,7 @@ import './HomeText.css';
 export default function HomeText() {
   const navigate = useNavigate();
   const handleClick = (): void => {
-    navigate('/card-play-select');
+    navigate('/play-select');
   };
 
   return (
