@@ -20,34 +20,27 @@ export default function WordButton() {
     // ✅ 먼저 `/card-play-select/word`로 이동하며 첫 번째 카드 정보 전달
     navigate('/card-play-select/word', { state: { firstCard: firstCardData } });
 
-    // 0.5초 뒤 NFC 태그 요청 시작 (UX 개선)
-    setTimeout(async () => {
-      console.log('📡 Fetching second NFC tag data...');
+    // ✅ NFC 태그 요청 시작 (시간 제한 없이)
+    console.log('📡 Waiting for second NFC tag data...');
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5초 후 자동 취소
+    try {
+      const response = await fetch(
+        'http://192.168.30.206:5000/play/card-scan', // ✅ 시간 제한 제거!
+      );
 
-      try {
-        const response = await fetch(
-          'http://192.168.30.206:5000/play/card-scan',
-          { signal: controller.signal },
-        );
-        clearTimeout(timeoutId);
+      if (!response.ok)
+        throw new Error(`Failed to fetch data (Status: ${response.status})`);
 
-        if (!response.ok)
-          throw new Error(`Failed to fetch data (Status: ${response.status})`);
+      const secondCardData = await response.json();
+      console.log('✅ Second NFC Tag Data:', secondCardData);
 
-        const secondCardData = await response.json();
-        console.log('✅ Second NFC Tag Data:', secondCardData);
-
-        // ✅ 첫 번째 카드 정보를 유지하면서 두 번째 카드 데이터 추가
-        navigate('/card-play-select/word/verb', {
-          state: { firstCard: firstCardData, secondCard: secondCardData[0] },
-        });
-      } catch (error) {
-        console.error('❌ Error fetching second card data:', error);
-      }
-    }, 500); // 0.5초 후 API 호출
+      // ✅ 첫 번째 카드 정보를 유지하면서 두 번째 카드 데이터 추가
+      navigate('/card-play-select/word/verb', {
+        state: { firstCard: firstCardData, secondCard: secondCardData[0] },
+      });
+    } catch (error) {
+      console.error('❌ Error fetching second card data:', error);
+    }
   };
 
   return (

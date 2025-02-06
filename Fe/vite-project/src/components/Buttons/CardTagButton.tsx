@@ -8,15 +8,11 @@ export default function CardTagButton() {
 
     navigate('/nfc-tag');
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5초 후 요청 자동 취소
-
     try {
       const response = await fetch(
-        'http://192.168.30.206:5000/play/card-scan',
-        { signal: controller.signal, credentials: 'include' },
+        'http://192.168.30.206:5000/play/card-scan', // ✅ 시간 제한 제거!
+        { credentials: 'include' },
       );
-      clearTimeout(timeoutId);
 
       if (!response.ok)
         throw new Error(
@@ -26,8 +22,7 @@ export default function CardTagButton() {
       const cardData = await response.json();
       console.log('✅ Server Response Data:', cardData);
 
-      // NFC 태그 페이지로 이동 후 데이터를 받아오면 바로 card-play-select로 이동
-      navigate('/nfc-tag');
+      // ✅ NFC 태그 페이지로 이동 후 데이터를 받아오면 바로 card-play-select로 이동
       setTimeout(() => {
         navigate('/card-play-select', { state: cardData[0] });
       }, 2000); // 2초 후 이동 (로딩 화면 유지)
