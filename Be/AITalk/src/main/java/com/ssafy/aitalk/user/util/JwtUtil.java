@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
 
@@ -18,32 +19,44 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private long expirationTime;
 
-    // JWT 토큰 생성
-    public String generateToken() {
-        byte[] keyBytes = Base64.getDecoder().decode(secretKey);  // Base64 디코딩
+    // ✅ Base64 디코딩 방식으로 통일
+    private byte[] getSigningKey() {
+        return Base64.getDecoder().decode(secretKey);
+    }
+
+    // ✅ 토큰 생성
+    public String generateToken(String id) {
         return Jwts.builder()
+                .setSubject(id)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
-                .signWith(SignatureAlgorithm.HS256, keyBytes)  // 디코딩된 바이트 배열 사용
+                .signWith(SignatureAlgorithm.HS256, getSigningKey())
                 .compact();
     }
 
-    // JWT 토큰 검증
+    // ✅ 토큰 검증
     public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            Jwts.parser()
+                    .setSigningKey(getSigningKey())
+                    .parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
 
-    // JWT 토큰에서 사용자 ID 추출
-    public String extractId(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(secretKey)
+    // ✅ Claims 추출
+    public Claims extractAllClaims(String token) {
+        return Jwts.parser()
+                .setSigningKey(getSigningKey())
                 .parseClaimsJws(token)
                 .getBody();
-        return claims.getSubject();
+    }
+
+
+    // 토큰에서 ID 추출 (옵션)
+    public String extractId(String token) {
+        return extractAllClaims(token).getSubject();  // Claims에서 Subject(ID) 추출
     }
 }

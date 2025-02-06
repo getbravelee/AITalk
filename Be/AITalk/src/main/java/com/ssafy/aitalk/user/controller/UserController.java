@@ -37,4 +37,11 @@ public class UserController {
                 .headers(headers)
                 .body(response.getTherapistId());  // 200 OK와 함께 therapist_id 및 JWT 토큰 반환
     }
+
+    // 보호된 테스트 API (JWT 토큰이 있어야 접근 가능)
+    @GetMapping("/protected")
+    public ResponseEntity<String> protectedEndpoint() {
+        return ResponseEntity.ok("🎉 인증 성공! 이 메시지는 JWT 토큰이 유효할 때만 볼 수 있습니다.");
+    }
+
 }
