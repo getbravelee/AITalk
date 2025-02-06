@@ -10,7 +10,7 @@
         VALUES (#{id}, #{password})
     </insert>
 
-    <select id="findById" resultType="com.ssafy.aitalk.user.dto.User">
+    <select id="findById" resultType="com.ssafy.aitalk.user.entity.User">
         SELECT * FROM speech_therapist WHERE id = #{id}
     </select>
 

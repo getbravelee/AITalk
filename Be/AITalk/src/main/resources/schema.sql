@@ -9,7 +9,7 @@ USE aitalk_web;
 CREATE TABLE speech_therapist (
                                   therapist_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                   id VARCHAR(20) UNIQUE,
-                                  password VARCHAR(20),
+                                  password VARCHAR(255),
                                   email VARCHAR(50),
                                   therapist_name VARCHAR(20),
                                   phone_number VARCHAR(20)

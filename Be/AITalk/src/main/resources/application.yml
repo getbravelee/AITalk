@@ -15,3 +15,7 @@ mybatis:
   type-aliases-package: com.ssafy.aitalk.user.dto
   configuration:
     map-underscore-to-camel-case: true
+
+jwt:
+  secret: MDEyMzQ1Njc4OWFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6MTIzNA==
+  expiration: 86400000  # 1일 (밀리초 단위)
