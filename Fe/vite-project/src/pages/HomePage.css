@@ -1,5 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
+
 .HomeContainer {
-  background-image: url('src/assets/Background/background_1.png');
+  background-image: url('/src/assets/background/background_1.png');
   background-size: cover;
   height: 100vh;
+  font-family: 'Dongle', serif;
+  font-style: normal;
+}
+
+.ButtonContainer {
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  align-items: center; /* 중앙 정렬 */
+  position: relative;
+  top: 75%;
+  margin: auto;
+}
+
+.FaceIdLoginButton {
+  background-color: #3182ce; /* blue.500 */
+  color: white;
+  font-size: 10px;
+  border-radius: 4px;
+  height: 15px;
+  width: 90px;
+  transition: background-color 0.2s;
+  margin-bottom: -10px;
+}
+
+.FaceIdLoginButton:hover {
+  background-color: #2b6cb0; /* blue.600 */
+}
+
+.FaceIdLoginButton:active {
+  background-color: #2c5282; /* blue.700 */
+}
+
+.FaceIdRegistrationButton {
+  background-color: grey;
+  color: white;
+  font-size: 10px;
+  border-radius: 4px;
+  height: 15px;
+  width: 90px;
+  transition: background-color 0.2s;
+}
+
+.FaceIdRegistrationButton:hover {
+  background-color: #6d6d6d; /* grey.600 */
+}
+
+.FaceIdRegistrationButton:active {
+  background-color: #555555; /* grey.700 */
+}
+
+.IdPwLoginButton {
+  background-color: transparent;
+  color: black;
+  font-size: 10px;
+  border-radius: 4px;
+  height: 15px;
+  width: 90px;
+  transition: background-color 0.2s;
+}
+
+.IdPwLoginButton:hover {
+  background-color: transparent;
+}
+
+.IdPwLoginButton:active {
+  background-color: transparent;
 }
