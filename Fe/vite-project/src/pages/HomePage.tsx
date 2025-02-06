@@ -1,4 +1,5 @@
 import { Button } from '@chakra-ui/react';
+
 import HomeText from '../components/Texts/HomeText';
 
 import './HomePage.css';
