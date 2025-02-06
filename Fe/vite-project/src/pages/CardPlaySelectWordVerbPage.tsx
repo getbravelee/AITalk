@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import NavbarContainer from '../components/Common/NavbarContainer';
 import BackButton from '../components/Common/BackButton';
@@ -9,14 +9,30 @@ import './CardPlaySelectWordVerbPage.css';
 
 export default function CardPlaySelectWordVerbPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const firstCard = location.state?.firstCard || {
+    name: 'Unknown',
+    image: 'default',
+  };
+  const secondCard = location.state?.secondCard || {
+    name: 'Unknown',
+    image: 'default',
+  };
+
+  console.log('🔍 First NFC Card:', firstCard);
+  console.log('🔍 Second NFC Card:', secondCard);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate('/card-play-select/word/verb/sentence');
-    }, 5000); // 5초 후 이동
+      // ✅ `state`를 함께 넘겨줌
+      navigate('/card-play-select/word/verb/sentence', {
+        state: { firstCard, secondCard },
+      });
+    }, 5000);
 
-    return () => clearTimeout(timer); // 컴포넌트가 언마운트되면 타이머 해제
-  }, [navigate]);
+    return () => clearTimeout(timer);
+  }, [navigate, firstCard, secondCard]); // ✅ firstCard, secondCard를 의존성 배열에 추가
 
   return (
     <div>
@@ -25,15 +41,15 @@ export default function CardPlaySelectWordVerbPage() {
       </NavbarContainer>
       <div className="CardPlaySelectWordVerbContainer">
         <CardInfoContainer
-          className="LargeCardInfoContainer"
-          imageSrc="/src/assets/card/bread.png"
+          imageSrc={`/src/assets/card/${firstCard.image}.png`}
+          cardName={firstCard.name}
         />
         <div className="Plus">
           <p>+</p>
         </div>
         <CardInfoContainer
-          className="LargeCardInfoContainer"
-          imageSrc="/src/assets/card/eat.png"
+          imageSrc={`/src/assets/card/${secondCard.image}.png`}
+          cardName={secondCard.name}
         />
       </div>
     </div>

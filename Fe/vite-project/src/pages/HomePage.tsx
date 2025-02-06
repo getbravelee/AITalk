@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
     <div className="HomeContainer">
       <HomeText />
-      <div className="ButtonContainer">
+      <div className="ButtonsContainer">
         <Button
           className="FaceIdLoginButton"
           onClick={() => navigate('/TherapistFaceLoginPage')}

@@ -29,7 +29,7 @@ export default function CardPlaySelectPage() {
       <div className="CardPlaySelectContainer">
         <DetailPlaySelectText />
         <div className="CardPlaySelectInnerContainer">
-          <div className="CardContainer">
+          <div>
             <CardInfoContainer
               imageSrc={imageSrc}
               cardName={parsedCardData.name}
