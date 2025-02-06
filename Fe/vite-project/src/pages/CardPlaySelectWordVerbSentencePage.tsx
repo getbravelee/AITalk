@@ -1,9 +1,9 @@
-import './CardPlaySelectWordVerbSentencePage.css';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import BackButton from '../components/Common/BackButton';
 import CardInfoContainer from '../components/Common/CardInfoContainer';
 
 import './CardPlaySelectWordVerbPage.css';
+import './CardPlaySelectWordVerbSentencePage.css';
 
 export default function CardPlaySelectWordVerbPage() {
   return (

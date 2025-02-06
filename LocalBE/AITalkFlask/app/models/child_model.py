@@ -11,4 +11,4 @@ class Child(db.Model):
     age = db.Column(db.Integer)
 
     # 관계 설정 (옵션)
-    therapist = db.relationship('SpeechTherapist', backref='children')
+    therapist = db.relationship('Therapist', backref='children')

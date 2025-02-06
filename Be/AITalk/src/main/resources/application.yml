@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/aitalk_web?useSSL=false&serverTimezone=UTC
+    username: root
+    password: ssafy
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none  # MyBatis를 사용하므로 JPA 자동 테이블 생성 비활성화
+    show-sql: true
+
+mybatis:
+  mapper-locations: classpath:mapper/xml/*.xml
+  type-aliases-package: com.ssafy.aitalk.user.dto
+  configuration:
+    map-underscore-to-camel-case: true

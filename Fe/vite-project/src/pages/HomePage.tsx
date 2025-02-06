@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@chakra-ui/react';
 
 import HomeText from '../components/Texts/HomeText';
@@ -5,6 +6,7 @@ import HomeText from '../components/Texts/HomeText';
 import './HomePage.css';
 
 export default function HomePage() {
+  const navigate = useNavigate();
   return (
     <div className="HomeContainer">
       <HomeText />
