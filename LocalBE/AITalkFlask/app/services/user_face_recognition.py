@@ -38,12 +38,12 @@ def register_user_face():
         df = pd.read_csv(DB_PATH, dtype={'therapist_id': int, 'name': str})
 
     frame_count = 0
-    detect_interval = 5
+    detect_interval = 10
     registered_count = 0
 
     print("[INFO] 새로운 얼굴을 등록합니다. ESC 키를 누르면 종료됩니다.")
 
-    while registered_count < 5:
+    while registered_count < 20:
         ret, frame = cap.read()
         if not ret:
             return {"status": 500, "message": "이미지 캡처 실패"}
@@ -140,7 +140,7 @@ def verify_user_face():
             max_similarity = np.max(similarities)
             best_match_index = np.argmax(similarities)
 
-            if max_similarity > 0.7:
+            if max_similarity > 0.9:
                 print(f"[INFO] {names[best_match_index]}님 환영합니다!" )  # ✅ 인증 성공 메시지 추가
                 cap.release()
                 return {
