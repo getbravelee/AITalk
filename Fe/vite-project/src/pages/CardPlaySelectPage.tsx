@@ -13,8 +13,13 @@ export default function CardPlaySelectPage() {
   const location = useLocation();
   const cardData = location.state || { name: 'Unknown', image: 'default' };
 
-  // 확장자 붙여서 이미지 파일 경로 생성
-  const imageSrc = `/src/assets/card/${cardData.image}.png`;
+  // 데이터가 배열이라면 첫 번째 요소 사용
+  const parsedCardData = Array.isArray(cardData) ? cardData[0] : cardData;
+
+  // 이미지 경로 설정
+  const imageSrc = `/src/assets/card/${parsedCardData.image}.png`;
+
+  console.log('🔍 Received Data:', location.state);
 
   return (
     <div>
@@ -25,7 +30,10 @@ export default function CardPlaySelectPage() {
         <DetailPlaySelectText />
         <div className="CardPlaySelectInnerContainer">
           <div className="CardContainer">
-            <CardInfoContainer imageSrc={imageSrc} />
+            <CardInfoContainer
+              imageSrc={imageSrc}
+              cardName={parsedCardData.name}
+            />
           </div>
           <div className="ButtonContainer">
             <WordButton />

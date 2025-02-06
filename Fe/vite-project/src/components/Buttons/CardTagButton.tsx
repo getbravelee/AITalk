@@ -14,23 +14,24 @@ export default function CardTagButton() {
 
     try {
       const response = await fetch(
-        'http://192.168.30.193:5000/play/card-scan',
+        'http://192.168.30.206:5000/play/card-scan',
         { signal: controller.signal },
       );
+      clearTimeout(timeoutId);
 
-      clearTimeout(timeoutId); // 응답이 왔으면 타이머 취소
-      console.log('🔍 Server Response Status:', response.status);
-
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(
           `Failed to fetch card data (Status: ${response.status})`,
         );
-      }
 
       const cardData = await response.json();
       console.log('✅ Server Response Data:', cardData);
 
-      navigate('/card-play-select', { state: cardData });
+      // NFC 태그 페이지로 이동 후 데이터를 받아오면 바로 card-play-select로 이동
+      navigate('/nfc-tag');
+      setTimeout(() => {
+        navigate('/card-play-select', { state: cardData[0] });
+      }, 2000); // 2초 후 이동 (로딩 화면 유지)
     } catch (error) {
       console.error('❌ Error fetching card data:', error);
     }

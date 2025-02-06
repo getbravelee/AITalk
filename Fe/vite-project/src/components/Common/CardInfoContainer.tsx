@@ -8,17 +8,17 @@ interface CardInfoContainerProps {
 
 export default function CardInfoContainer({
   imageSrc,
-  cardName,
+  cardName, // name 값이 여기에 들어옴
   className = '',
 }: CardInfoContainerProps) {
-  // 이미지 경로에서 파일명 추출 (예: bread.png → bread)
-  const extractedCardName =
+  // cardName이 있으면 사용, 없으면 이미지 파일명에서 추출
+  const displayCardName =
     cardName || imageSrc.split('/').pop()?.split('.')[0] || 'Unknown';
 
   return (
     <div className={`CardInfoContainer ${className}`.trim()}>
-      <img className="CardImage" src={imageSrc} alt={extractedCardName} />
-      <p className="CardText">카드: {extractedCardName}</p>
+      <img className="CardImage" src={imageSrc} alt={displayCardName} />
+      <p className="CardText">카드: {displayCardName}</p>
     </div>
   );
 }
