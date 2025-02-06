@@ -6,7 +6,6 @@ export default function CardTagButton() {
   const handleClick = async (): Promise<void> => {
     console.log('📡 Fetching card data from server...');
 
-    // 먼저 `/nfc-tag`로 이동
     navigate('/nfc-tag');
 
     const controller = new AbortController();
