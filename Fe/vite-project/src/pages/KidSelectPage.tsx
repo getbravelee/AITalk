@@ -1,8 +1,9 @@
 import NavbarContainer from '../components/Common/NavbarContainer';
-import { Text, VStack, HStack, Flex } from '@chakra-ui/react';
+import { Text, VStack, HStack, Flex, Box } from '@chakra-ui/react';
 import '../components/Common/BackgroundContainer.css';
 import { useEffect, useState } from 'react';
 import ChildCard from '../components/Cards/ChildCard';
+import BackButton from '../components/Common/BackButton';
 
 interface ChildData {
   id: number;
@@ -56,16 +57,19 @@ export default function KidSelectPage() {
 
   return (
     <div>
-      <NavbarContainer />
+      <NavbarContainer>
+        <BackButton/>
+      </NavbarContainer>
       <div className="BackgroundContainer">
-        <Text fontSize={50} pt={5} pl={5}>
+        <Text fontSize={20} pt={1} pl={3}>
           아이 선택하기
         </Text>
+        <Box height={3}/>
         <Flex direction="column" align="center">
-          <VStack spacing={4} align="stretch">
+          <VStack align="stretch" gap={10}>
             {/* 각 그룹을 HStack으로 묶어 가로 방향으로 정렬 */}
             {groupedChildren.map((group, index) => (
-              <HStack key={index} gap={400}>
+              <HStack key={index} gap={10}>
                 {group.map((child) => (
                   <ChildCard key={child.child_id} data={child} />
                 ))}
