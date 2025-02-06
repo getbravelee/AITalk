@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Flex, HStack, Text, VStack } from '@chakra-ui/react';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import CameraDialog from '../components/Dialogs/CameraDialog';
-import BackgroundKidContainer from '../components/Common/BackgroundKidContainer';
+import '../components/Common/BackgroundContainer.css'
 
 export default function TherapistFaceResisterPage() {
   const [isCameraOpen, setIsCameraOpen] = useState(false);
@@ -16,10 +16,9 @@ export default function TherapistFaceResisterPage() {
   };
 
   return (
-    <div>
+    <div className='BackgroundContainer' >
       <NavbarContainer />
-      <BackgroundKidContainer>
-        <Flex direction="column" align="center" gap={150}>
+        <Flex direction="column" align="center" gap={150} pt={180}>
           <HStack>
             <Text fontSize={100}>치료사</Text>
             <Text fontSize={30}> 님의 얼굴을 등록해 주세요</Text>
@@ -28,7 +27,6 @@ export default function TherapistFaceResisterPage() {
             <CameraDialog isOpen={isCameraOpen} onClose={handleCloseCamera} title='얼굴 등록' message='카메라로 연결됩니다.'/>
           </VStack>
         </Flex>
-      </BackgroundKidContainer>
     </div>
   );
 }

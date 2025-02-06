@@ -1,8 +1,8 @@
 import { Flex, Text, HStack, VStack } from '@chakra-ui/react';
-import BackgroundKidContainer from '../components/Common/BackgroundKidContainer';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import CameraDialog from '../components/Dialogs/CameraDialog';
 import { useState } from 'react';
+import '../components/Common/BackgroundContainer.css'
 
 export default function TherapistFaceResisterCompletePage() {
     const [isCameraOpen, setIsCameraOpen] = useState(false);
@@ -15,9 +15,8 @@ export default function TherapistFaceResisterCompletePage() {
       setIsCameraOpen(false);
     };
   return (
-    <div>
+    <div className='BackgroundContainer' >
       <NavbarContainer />
-      <BackgroundKidContainer>
         <Flex direction="column" align="center" justify="center" gap={39}>
           <VStack>
             <Text
@@ -37,7 +36,6 @@ export default function TherapistFaceResisterCompletePage() {
             />
           </HStack>
         </Flex>
-      </BackgroundKidContainer>
     </div>
   );
 }

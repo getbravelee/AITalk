@@ -1,9 +1,9 @@
 import { Text, HStack, Flex, Button, VStack, Box } from '@chakra-ui/react';
 import { useState } from 'react';
 import NavbarContainer from '../components/Common/NavbarContainer';
-import BackgroundKidContainer from '../components/Common/BackgroundKidContainer';
 import CameraDialog from '../components/Dialogs/CameraDialog';
 import { useNavigate } from 'react-router-dom';
+import '../components/Common/BackgroundContainer.css'
 
 export default function KidFaceLoginPage() {
   const navigate = useNavigate();
@@ -18,16 +18,16 @@ export default function KidFaceLoginPage() {
   };
 
   return (
-    <div>
+    <div className='BackgroundContainer' >
       <NavbarContainer />
-      <BackgroundKidContainer>
-        <Flex direction="column" align="center" gap={30}>
+        <Flex direction="column" align="center" gap={30} pt={100}>
           <HStack>
-            <Text fontSize={80} textAlign="center">
+            <Text fontSize={100} textAlign="center">
               아이
             </Text>
-            <Text fontSize={30}> 의 얼굴을 인식해 주세요</Text>
+            <Text fontSize={50}> 의 얼굴을 인식해 주세요</Text>
           </HStack>
+          <Box />
           <VStack>
             <CameraDialog
               isOpen={isCameraOpen}
@@ -51,9 +51,9 @@ export default function KidFaceLoginPage() {
             >
               아이 직접 선택하기
             </Button>
-            <Text>아이 얼굴을 아직 등록하지 않았다면</Text>
+            <Text fontSize={30}>아이 얼굴을 아직 등록하지 않았다면</Text>
             <HStack>
-              <Text>등록을 먼저 진행해 주세요!</Text>
+              <Text fontSize={30}>등록을 먼저 진행해 주세요!</Text>
               <CameraDialog
                 isOpen={isCameraOpen}
                 onClose={handleCloseCamera}
@@ -63,7 +63,6 @@ export default function KidFaceLoginPage() {
             </HStack>
           </VStack>
         </Flex>
-      </BackgroundKidContainer>
     </div>
   );
 }

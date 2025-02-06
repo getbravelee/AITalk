@@ -33,7 +33,7 @@ export default function KidSelectPage() {
       try {
         // 이후 api 연결 필요함
         // profileImage는 서버에 저장된 아이의 사진 데이터여야 함. url로 바로 접근 가능하도록.
-        const response = await fetch('/Test/DummyChildren.json'); // public 폴더 경로
+        const response = await fetch('http://192.168.30.193:5000/child/list');
         const jsonData = await response.json();
         setChildren(jsonData);
       } catch (error) {
@@ -67,7 +67,7 @@ export default function KidSelectPage() {
             {groupedChildren.map((group, index) => (
               <HStack key={index} gap={400}>
                 {group.map((child) => (
-                  <ChildCard key={child.id} data={child} />
+                  <ChildCard key={child.child_id} data={child} />
                 ))}
               </HStack>
             ))}

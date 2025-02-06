@@ -1,9 +1,10 @@
 import { Text, HStack, Flex, Button, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
 import NavbarContainer from '../components/Common/NavbarContainer';
-import BackgroundKidContainer from '../components/Common/BackgroundKidContainer';
 import CameraDialog from '../components/Dialogs/CameraDialog';
 import { useNavigate } from 'react-router-dom';
+import '../components/Common/BackgroundContainer.css'
+
 
 export default function TherapistFaceLoginPage() {
   const navigate = useNavigate()
@@ -18,9 +19,8 @@ export default function TherapistFaceLoginPage() {
   };
 
   return (
-    <div>
+    <div className='BackgroundContainer'>
       <NavbarContainer />
-      <BackgroundKidContainer>
         <Flex direction="column" align="center" gap={100}>
           <HStack>
             <Text fontSize={100} textAlign='center'>치료사</Text>
@@ -48,7 +48,6 @@ export default function TherapistFaceLoginPage() {
             </Button>
           </VStack>
         </Flex>
-      </BackgroundKidContainer>
     </div>
   );
 }

@@ -8,9 +8,9 @@ import {
   Box,
 } from '@chakra-ui/react';
 import NavbarContainer from '../components/Common/NavbarContainer';
-import BackgroundKidContainer from '../components/Common/BackgroundKidContainer';
 import CameraDialog from '../components/Dialogs/CameraDialog';
 import { useState } from 'react';
+import '../components/Common/BackgroundContainer.css'
 
 export default function TherapistLoginPage() {
     const [isCameraOpen, setIsCameraOpen] = useState(false);
@@ -23,10 +23,9 @@ export default function TherapistLoginPage() {
       setIsCameraOpen(false);
     };
   return (
-    <div>
+    <div className='BackgroundContainer' >
       <NavbarContainer />
-      <BackgroundKidContainer>
-        <Flex direction="column" align="center" gap={70}>
+        <Flex direction="column" align="center" gap={70} pt={130}>
           <HStack>
             <Text textStyle="7xl">치료사</Text>
             <Text textStyle="2xl"> 님의 ID, PW를 입력해 주세요</Text>
@@ -70,7 +69,6 @@ export default function TherapistLoginPage() {
             />
           </HStack>
         </Flex>
-      </BackgroundKidContainer>
     </div>
   );
 }

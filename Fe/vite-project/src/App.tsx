@@ -1,8 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/HomePage";
 import MenuPage from "./pages/MenuPage";
-import DetailSelectPage from "./pages/CardDetailSelectPage";
-import CardWordPage from "./pages/CardWordPage";
 import NfcTagPage from "./pages/NfcTagPage";
 import TherapistFaceLoginPage from "./pages/TherapistFaceLoginPage";
 import TherapistLoginPage from "./pages/TherapistLoginPage";
@@ -27,8 +25,6 @@ function App() {
         <Route path="/KidFaceLoginPage" element={<KidFaceLoginPage />} />
         <Route path="/Nfc" element={<NfcTagPage />} />
         <Route path="/MenuPage" element={<MenuPage />} />
-        <Route path="/MenuPage/DetailSelectPage" element={<DetailSelectPage />} />
-        <Route path="/MenuPage/DetailSelectPage/CardWordPage" element={<CardWordPage />} />
       </Routes>
     </BrowserRouter>
   )

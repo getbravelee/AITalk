@@ -1,17 +1,18 @@
 import { Button, Text, VStack, HStack, Flex } from '@chakra-ui/react';
 import NavbarContainer from '../components/Common/NavbarContainer';
-import BackgroundKidContainer from '../components/Common/BackgroundKidContainer';
+import '../components/Common/BackgroundContainer.css'
+import { useNavigate } from 'react-router-dom';
 
 export default function HomeAfterLoginPage() {
   const eduKitImg: string = 'src/assets/AfterLogin/edu_kit.svg';
   const careSelectImg: string = 'src/assets/AfterLogin/care_select.svg';
   const kidSelectImg: string = 'src/assets/AfterLogin/kid_select.svg';
+  const navigate = useNavigate()
 
   return (
-    <div>
+    <div className='BackgroundContainer'>
       <NavbarContainer />
-      <BackgroundKidContainer>
-        <Flex direction='row' align='flex-start'>
+        <Flex direction='column' align='center' pt={250}>
           <HStack>
             <VStack gap={200}>
               <Button bg="transparent">
@@ -22,7 +23,9 @@ export default function HomeAfterLoginPage() {
               </Text>
             </VStack>
             <VStack gap={200}>
-              <Button bg="transparent">
+              <Button bg="transparent" onClick={() => (
+                navigate('/KidSelectPage')
+              )}>
                 <img src={kidSelectImg} alt="카메라이미지" />
               </Button>
               <Text textStyle="3xl">
@@ -30,7 +33,9 @@ export default function HomeAfterLoginPage() {
               </Text>
             </VStack>
             <VStack gap={200}>
-              <Button bg="transparent">
+              <Button bg="transparent" onClick={() => (
+                navigate('/MenuPage')
+              )}>
                 <img src={careSelectImg} alt="심볼이미지" />
               </Button>
               <Text textStyle="3xl">
@@ -39,7 +44,6 @@ export default function HomeAfterLoginPage() {
             </VStack>
           </HStack>
         </Flex>
-      </BackgroundKidContainer>
     </div>
   );
 }
