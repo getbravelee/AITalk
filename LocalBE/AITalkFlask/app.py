@@ -8,4 +8,4 @@ app = create_app()
 
 if __name__ == '__main__':
     print("실행")
-    socketio.run(app, host='0.0.0.0', port=5000, debug=False)
+    socketio.run(app, host='192.168.30.146', port=5000, debug=False)
