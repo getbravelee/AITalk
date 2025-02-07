@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // JWT 토큰 생성
-        String token = jwtUtil.generateToken(user.getId());
+        String token = jwtUtil.generateToken(user.getTherapistId());
 
         // therapist_id와 JWT 토큰 반환
         return new LoginResponse(user.getTherapistId(), token);
