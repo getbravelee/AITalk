@@ -96,7 +96,6 @@ def recognize_audio(child_id):
     logging.info("🎙 음성 인식 시작")
 
     while keep_listening:
-        # TTS 음성 재생 중이면 음성 인식 무시
         if is_tts_playing:
             time.sleep(0.1)
             continue
@@ -138,7 +137,7 @@ def recognize_audio(child_id):
     with recognition_lock:
         is_recognizing = False
 
-def get_gpt_response(user_input, child_id):
+def get_gpt_response(user_input, child_id, is_summary=False):
     global gpt_processing, conversation_history, is_tts_playing
     try:
         conversation_history.append({"role": "user", "content": user_input})
@@ -154,16 +153,17 @@ def get_gpt_response(user_input, child_id):
         logging.info(f"🤖 GPT 응답: {gpt_reply}")
         conversation_history.append({"role": "assistant", "content": gpt_reply})
 
-        # GPT 응답을 음성으로 변환하기 전에 TTS 재생 플래그를 설정
-        is_tts_playing = True
+        if not is_summary:  # 일반 대화일 때만 TTS 변환 및 전송
+            is_tts_playing = True
+            audio_base64 = text_to_speech(gpt_reply)
+            socketio.emit('gpt_response', {'response': gpt_reply, 'audio': audio_base64}, namespace='/')
+        else:  # 요약일 경우 아무 데이터도 전송하지 않음
+            logging.info("✅ 요약 완료 (클라이언트로 전송하지 않음)")
 
-        audio_base64 = text_to_speech(gpt_reply)
-        socketio.emit('gpt_response', {'response': gpt_reply, 'audio': audio_base64}, namespace='/')
     except Exception as e:
         logging.error(f"❌ GPT 요청 중 오류: {e}")
     finally:
         gpt_processing = False
-        # is_tts_playing 플래그는 클라이언트에서 재생 완료 이벤트("tts_finished")가 오면 리셋하도록 함
 
 def stop_recognition(child_id):
     global keep_listening, conversation_history
@@ -177,16 +177,13 @@ def stop_recognition(child_id):
         Please summarize the conversation from a speech therapist’s perspective in **3 concise sentences**. Focus on the child’s response style, speech and pronunciation, vocabulary use, and engagement, but do not list these points separately.
         Provide the summary in **Korean**.
         """
-        get_gpt_response(summary_prompt, child_id)
+        get_gpt_response(summary_prompt, child_id, is_summary=True)
 
     socketio.emit('session_end', {'message': '대화가 종료되었습니다.'}, namespace='/')
 
-    # 대화 기록 초기화
     initialize_conversation(child_id)
-
     logging.info("✅ 대화 종료 후 리소스 정리 완료.")
 
-# 클라이언트에서 TTS 재생 완료 시 호출할 이벤트 핸들러
 @socketio.on('tts_finished', namespace='/')
 def handle_tts_finished():
     global is_tts_playing

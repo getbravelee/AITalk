@@ -43,7 +43,6 @@ def start_recognition():
         return jsonify({
             "message": greeting_message,
             "audio": audio_base64,
-            "status": "recognition started"
         }), 200
 
     # 음성 인식이 이미 실행 중인 경우
