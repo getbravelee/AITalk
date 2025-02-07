@@ -123,7 +123,6 @@ def recognize_audio(child_id):
 
                     if text:
                         logging.info(f"📝 텍스트 변환 완료: {text}")
-                        socketio.emit('recognized_text', {'text': text}, namespace='/')
                         gpt_processing = True
                         Thread(target=get_gpt_response, args=(text, child_id), daemon=True).start()
                 except Exception as e:
