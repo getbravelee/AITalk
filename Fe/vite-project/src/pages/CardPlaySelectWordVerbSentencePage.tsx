@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 
 import NavbarContainer from '../components/Common/NavbarContainer';
-import BackButton from '../components/Common/BackButton';
+import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import CardInfoContainer from '../components/Common/CardInfoContainer';
 
 import './CardPlaySelectWordVerbPage.css';
@@ -47,7 +47,7 @@ export default function CardPlaySelectWordVerbSentencePage() {
   return (
     <div>
       <NavbarContainer>
-        <BackButton />
+        <BackPlaySelectButton />
       </NavbarContainer>
       <div className="CardPlaySelectWordVerbSentenceContainer">
         <CardInfoContainer

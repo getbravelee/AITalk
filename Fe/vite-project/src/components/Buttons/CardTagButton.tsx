@@ -10,7 +10,7 @@ export default function CardTagButton() {
 
     try {
       const response = await fetch(
-        'http://192.168.30.206:5000/play/card-scan', // ✅ 시간 제한 제거!
+        'http://192.168.30.146:5000/play/card-scan', // ✅ 시간 제한 제거!
         { credentials: 'include' },
       );
 

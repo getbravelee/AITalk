@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import NavbarContainer from '../components/Common/NavbarContainer';
-import BackButton from '../components/Common/BackButton';
+import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import CardInfoContainer from '../components/Common/CardInfoContainer';
 import NfcImage from '../components/Images/NfcImage';
 import LoadingCircle from '../components/Common/LoadingCircle';
@@ -36,7 +36,7 @@ export default function CardPlaySelectWordPage() {
   return (
     <div>
       <NavbarContainer>
-        <BackButton />
+        <BackPlaySelectButton />
       </NavbarContainer>
       <div className="CardPlaySelectWordContainer">
         <div className="NfcLoadingWrapper" onClick={handleClick}>

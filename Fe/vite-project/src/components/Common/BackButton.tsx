@@ -3,7 +3,7 @@ import { IoArrowBack } from 'react-icons/io5'; // 뒤로가기 화살표 아이�
 
 import './BackButton.css';
 
-function BackButton() {
+export default function BackButton() {
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -16,5 +16,3 @@ function BackButton() {
     </button>
   );
 }
-
-export default BackButton;
