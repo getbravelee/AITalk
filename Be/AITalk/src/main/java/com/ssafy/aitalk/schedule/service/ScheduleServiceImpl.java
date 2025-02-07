@@ -1,7 +1,6 @@
 package com.ssafy.aitalk.schedule.service;
 
-import com.ssafy.aitalk.schedule.dto.MonthlyScheduleRequestDTO;
-import com.ssafy.aitalk.schedule.dto.MonthlyScheduleResponseDTO;
+import com.ssafy.aitalk.schedule.dto.MonthlyScheduleResponse;
 import com.ssafy.aitalk.schedule.entity.Schedule;
 import com.ssafy.aitalk.schedule.mapper.ScheduleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +16,22 @@ public class ScheduleServiceImpl implements ScheduleService {
     private ScheduleMapper scheduleMapper;
 
     @Override
-    public ArrayList<MonthlyScheduleResponseDTO> getMonthSchedule(MonthlyScheduleRequestDTO requestDTO) {
-        int year = requestDTO.getYear();
-        int month = requestDTO.getMonth();
+    public ArrayList<MonthlyScheduleResponse> getMonthSchedule(int year,int month) {
         List<Schedule> list = scheduleMapper.selectMonthlySchedules(year, month);
-        ArrayList<MonthlyScheduleResponseDTO> responseDTOs = new ArrayList<>();
+        ArrayList<MonthlyScheduleResponse> responseDTOs = new ArrayList<>();
         for (Schedule schedule : list) {
-            MonthlyScheduleResponseDTO responseDTO = MonthlyScheduleResponseDTO.builder()
-                    .
+            String childName = scheduleMapper.findChildName(schedule.getChildId());
 
+            MonthlyScheduleResponse responseDTO = MonthlyScheduleResponse.builder()
+                    .treatmentId(schedule.getTreatmentId())
+                    .childName(childName)
+                    .treatmentDate(schedule.getTreatmentDate())
+                    .startTime(schedule.getStartTime())
+                    .endTime(schedule.getEndTime())
+                    .build();
+
+            responseDTOs.add(responseDTO);
         }
+        return responseDTOs;
     }
 }

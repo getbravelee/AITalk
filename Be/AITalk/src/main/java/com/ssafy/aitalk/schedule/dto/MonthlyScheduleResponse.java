@@ -12,7 +12,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MonthlyScheduleResponseDTO {
+public class MonthlyScheduleResponse {
     private Integer treatmentId;
     private String childName;
     private LocalDate treatmentDate;
