@@ -1,11 +1,23 @@
 from flask import Blueprint, jsonify, request
 import threading
 from app.services.speech_service import recognize_audio, stop_recognition, is_recognizing, initialize_conversation, get_child_info
+from gtts import gTTS
+import base64
+from io import BytesIO
 
 speech_bp = Blueprint('speech', __name__)
 
 # 대화 상태 플래그
 conversation_started = False
+
+# 텍스트를 음성으로 변환하는 함수
+def text_to_speech(text):
+    tts = gTTS(text, lang='ko')
+    audio_data = BytesIO()
+    tts.write_to_fp(audio_data)
+    audio_data.seek(0)
+    audio_base64 = base64.b64encode(audio_data.read()).decode('utf-8')
+    return audio_base64
 
 @speech_bp.route('/play/talk-start', methods=['POST'])
 def start_recognition():
@@ -25,8 +37,14 @@ def start_recognition():
 
         # 인사말을 클라이언트로 전송
         greeting_message = f"{child_info['child_name']}아, 안녕! 준비가 되면 말을 시작해봐."
+        audio_base64 = text_to_speech(greeting_message)
+
         threading.Thread(target=recognize_audio, args=(child_id,), daemon=True).start()  # 인사말 후 바로 음성 인식 시작
-        return jsonify({"message": greeting_message, "status": "recognition started"}), 200
+        return jsonify({
+            "message": greeting_message,
+            "audio": audio_base64,
+            "status": "recognition started"
+        }), 200
 
     # 음성 인식이 이미 실행 중인 경우
     if is_recognizing:

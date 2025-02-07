@@ -6,6 +6,9 @@ import time
 import openai
 from threading import Lock, Thread
 import os
+from gtts import gTTS
+import base64
+from io import BytesIO
 
 from app.extensions import socketio, db
 from app.models import Child
@@ -24,6 +27,7 @@ is_recognizing = False
 recognition_lock = Lock()
 keep_listening = True      # 음성 인식을 계속할지 여부
 gpt_processing = False     # 현재 GPT 요청을 처리 중인지 여부
+is_tts_playing = False     # 클라이언트에서 TTS 음성 재생 중임을 나타내는  플래그
 
 # OpenAI API 설정
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -40,6 +44,14 @@ def get_child_info(child_id):
             'disability_type': child.disability_type
         }
     return None
+
+def text_to_speech(text):
+    tts = gTTS(text, lang='ko')
+    audio_data = BytesIO()
+    tts.write_to_fp(audio_data)
+    audio_data.seek(0)
+    audio_base64 = base64.b64encode(audio_data.read()).decode('utf-8')
+    return audio_base64
 
 def initialize_conversation(child_id):
     child_info = get_child_info(child_id)
@@ -62,7 +74,7 @@ def initialize_conversation(child_id):
     conversation_history.append({"role": "system", "content": initial_system_prompt})
 
 def recognize_audio(child_id):
-    global is_recognizing, keep_listening, gpt_processing
+    global is_recognizing, keep_listening, gpt_processing, is_tts_playing
 
     with recognition_lock:
         is_recognizing = True
@@ -84,6 +96,11 @@ def recognize_audio(child_id):
     logging.info("🎙 음성 인식 시작")
 
     while keep_listening:
+        # TTS 음성 재생 중이면 음성 인식 무시
+        if is_tts_playing:
+            time.sleep(0.1)
+            continue
+
         frames = [stream.read(CHUNK, exception_on_overflow=False)
                   for _ in range(0, int(RATE / CHUNK * RECORD_SECONDS))]
         audio_data = b''.join(frames)
@@ -100,8 +117,8 @@ def recognize_audio(child_id):
                 audio_buffer = []
 
                 try:
-                    audio_np = np.frombuffer(full_audio, dtype=np.int16).astype(np.float32) / 32768.0
-                    result = model.transcribe(audio_np, language="korean", temperature=0)
+                    audio_np_full = np.frombuffer(full_audio, dtype=np.int16).astype(np.float32) / 32768.0
+                    result = model.transcribe(audio_np_full, language="korean", temperature=0)
                     text = result["text"].strip()
 
                     if text:
@@ -123,7 +140,7 @@ def recognize_audio(child_id):
         is_recognizing = False
 
 def get_gpt_response(user_input, child_id):
-    global gpt_processing, conversation_history
+    global gpt_processing, conversation_history, is_tts_playing
     try:
         conversation_history.append({"role": "user", "content": user_input})
         logging.info(f"🤝 GPT에 질문: {user_input}")
@@ -137,11 +154,17 @@ def get_gpt_response(user_input, child_id):
         gpt_reply = response.choices[0].message['content'].strip()
         logging.info(f"🤖 GPT 응답: {gpt_reply}")
         conversation_history.append({"role": "assistant", "content": gpt_reply})
-        socketio.emit('gpt_response', {'response': gpt_reply}, namespace='/')
+
+        # GPT 응답을 음성으로 변환하기 전에 TTS 재생 플래그를 설정
+        is_tts_playing = True
+
+        audio_base64 = text_to_speech(gpt_reply)
+        socketio.emit('gpt_response', {'response': gpt_reply, 'audio': audio_base64}, namespace='/')
     except Exception as e:
         logging.error(f"❌ GPT 요청 중 오류: {e}")
     finally:
         gpt_processing = False
+        # is_tts_playing 플래그는 클라이언트에서 재생 완료 이벤트("tts_finished")가 오면 리셋하도록 함
 
 def stop_recognition(child_id):
     global keep_listening, conversation_history
@@ -163,3 +186,10 @@ def stop_recognition(child_id):
     initialize_conversation(child_id)
 
     logging.info("✅ 대화 종료 후 리소스 정리 완료.")
+
+# 클라이언트에서 TTS 재생 완료 시 호출할 이벤트 핸들러
+@socketio.on('tts_finished', namespace='/')
+def handle_tts_finished():
+    global is_tts_playing
+    is_tts_playing = False
+    logging.info("TTS 재생 완료 이벤트 수신: 음성 인식 재개됨")
