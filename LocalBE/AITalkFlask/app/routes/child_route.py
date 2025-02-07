@@ -35,5 +35,6 @@ def select_child():
         "disability_type": child.disability_type,
         "age": child.age
     }
+    print(session)
 
     return jsonify({'message': 'Child selected successfully'}), 200
