@@ -1,17 +1,18 @@
 package com.ssafy.aitalk.user.controller;
 
-import com.ssafy.aitalk.user.entity.User;
-import com.ssafy.aitalk.user.security.JwtAuthorizationFilter;
+import com.ssafy.aitalk.user.dto.RegisterRequest;
+import com.ssafy.aitalk.user.dto.RegisterResponse;
 import com.ssafy.aitalk.user.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.ssafy.aitalk.user.dto.LoginRequest;
 import com.ssafy.aitalk.user.dto.LoginResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
-
 
 @RestController
 @RequestMapping("/user")
@@ -20,13 +21,25 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
-    // 간단 회원가입
+    // 회원가입
     @PostMapping("/signup")
-    public String registerUser(@RequestBody User user) {
-        userService.registerUser(user);
-        return "회원가입이 완료되었습니다. therapist_id: " + user.getTherapistId();
+    public ResponseEntity<RegisterResponse> registerUser(@Valid @RequestBody RegisterRequest request, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            // 첫 번째 오류 메시지만 반환
+            String errorMessage = bindingResult.getFieldErrors().get(0).getDefaultMessage();
+            return ResponseEntity.status(400).body(new RegisterResponse("회원가입 실패 : " + errorMessage));
+        }
+
+        try {
+            userService.registerUser(request);
+
+            return ResponseEntity.status(201).body(new RegisterResponse("회원가입 완료"));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(new RegisterResponse("회원가입 실패 : " + e.getMessage()));
+        }
     }
+
 
     // 로그인
     @PostMapping("/login")

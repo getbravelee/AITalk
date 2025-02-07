@@ -8,7 +8,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    private int therapistId;  //  int형 유지 (자동으로 Integer로 변환됨)
-    private String id;
-    private String password;
+    private Integer therapistId;
+    private String therapistName;
+    private String id;         // 사용자 ID
+    private String password;   // 암호화된 비밀번호
+    private String email;
+    private String phoneNumber;
 }
