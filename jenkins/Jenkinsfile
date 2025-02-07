@@ -28,7 +28,7 @@ pipeline {
         stage('Build Backend') {
             steps {
                 sh '''
-                cd backend
+                cd Be
                 chmod +x ./gradlew
                 ./gradlew clean build -x test
                 '''
@@ -40,7 +40,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'DockerId', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         sh '''
-                        cd backend
+                        cd Be
                         docker build -t ${IMAGE_NAME}:${IMAGE_TAG_BACKEND} .
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                         docker push ${IMAGE_NAME}:${IMAGE_TAG_BACKEND}
