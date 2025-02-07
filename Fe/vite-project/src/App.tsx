@@ -17,7 +17,7 @@ import KidSelectPage from './pages/KidSelectPage';
 import KidFaceLoginPage from './pages/KidFaceLoginPage';
 import CardPlaySelectThreeSentencePage from './pages/CardPlaySelectThreeSentencePage';
 
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
       <Routes>
@@ -65,5 +65,3 @@ function App() {
     </BrowserRouter>
   );
 }
-
-export default App;
