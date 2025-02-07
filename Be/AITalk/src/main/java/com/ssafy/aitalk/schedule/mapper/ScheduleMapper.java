@@ -9,4 +9,6 @@ import java.util.List;
 @Mapper
 public interface ScheduleMapper {
     List<Schedule> selectMonthlySchedules(@Param("year") int year, @Param("month") int month);
+
+    String findChildName(@Param("id") int id);
 }

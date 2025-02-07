@@ -4,5 +4,35 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ssafy.aitalk.schedule.mapper.UserMapper">
+    <resultMap id="Schedule" type="com.ssafy.aitalk.schedule.entity.Schedule">
+        <id property="treatmentId" column="treatmentId"/>
+        <result property="childId" column="childId"/>
+        <result property="treatmentDate" column="treatmentDate"/>
+        <result property="startTime" column="startTime"/>
+        <result property="endTime" column="endTime"/>
+    </resultMap>
+
+    <select id="selectMonthlySchedules" resultMap="Schedule">
+        SELECT
+            treatment_id,
+            child_id,
+            treatment_date,
+            start_time,
+            end_time
+        FROM
+            treatment
+        WHERE
+            YEAR(treatment_date) = #{year}
+          AND MONTH(treatment_date) = #{month};
+    </select>
+
+    <select id="findChildName" resultType="String">
+        select
+            child_name
+        from
+            care_children
+        where
+            child_id = #{id}
+    </select>
 
 </mapper>
