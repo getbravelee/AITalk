@@ -3,6 +3,7 @@ import NavbarContainer from '../components/Common/NavbarContainer';
 import '../components/Common/BackgroundContainer.css';
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../components/Common/BackButton';
+import '../components/Texts/TextFontFromGoogle.css';
 
 export default function HomeAfterLoginPage() {
   const eduKitImg: string = 'src/assets/AfterLogin/edu_kit.svg';
@@ -14,32 +15,29 @@ export default function HomeAfterLoginPage() {
     <div className="BackgroundContainer">
       <NavbarContainer>
         <BackButton />
-        <Flex direction="column">
-          <HStack pt={20}>
-            <VStack gap={12}>
-              <Button bg="transparent">
-                <img src={eduKitImg} alt="교보재이미지" />
-              </Button>
-              <Text fontSize={15}>교보재 보기 및 등록</Text>
-            </VStack>
-            <VStack gap={12}>
-              <Button
-                bg="transparent"
-                onClick={() => navigate('/KidSelectPage')}
-              >
-                <img src={kidSelectImg} alt="카메라이미지" />
-              </Button>
-              <Text fontSize={15}>아이 선택하기</Text>
-            </VStack>
-            <VStack gap='60px'>
-              <Button bg="transparent" onClick={() => navigate('/play-select')}>
-                <img src={careSelectImg} alt="심볼이미지" />          
-              </Button>                         
-              <Text fontSize={15}>치료 시작하기</Text>
-            </VStack>
-          </HStack>
-        </Flex>
       </NavbarContainer>
+      <Flex direction="column" className='font'>
+        <HStack pt={20}>
+          <VStack gap={12}>
+            <Button bg="transparent">
+              <img src={eduKitImg} alt="교보재이미지" />
+            </Button>
+            <Text fontSize={30}>교보재 보기 및 등록</Text>
+          </VStack>
+          <VStack gap={12}>
+            <Button bg="transparent" onClick={() => navigate('/KidSelectPage')}>
+              <img src={kidSelectImg} alt="카메라이미지" />
+            </Button>
+            <Text fontSize={30}>아이 선택하기</Text>
+          </VStack>
+          <VStack gap="60px">
+            <Button bg="transparent" onClick={() => navigate('/play-select')}>
+              <img src={careSelectImg} alt="심볼이미지" />
+            </Button>
+            <Text fontSize={30}>치료 시작하기</Text>
+          </VStack>
+        </HStack>
+      </Flex>
     </div>
   );
 }

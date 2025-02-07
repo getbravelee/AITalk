@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@chakra-ui/react';
 
-export default function CardTagButtonForID() {
+export default function CardTagButtonForFaceResist() {
   const navigate = useNavigate();
 
   const handleClick = async (): Promise<void> => {
@@ -11,10 +11,10 @@ export default function CardTagButtonForID() {
     navigate('/nfc-tag');
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5초 후 요청 자동 취소
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10초 후 요청 자동 취소
 
     try {
-      const response = await fetch('http://192.168.30.206:5000/user/login', {
+      const response = await fetch('http://192.168.30.146:5000/user/login', {
         method: 'POST', // POST 방식으로 요청
         headers: {
           'Content-Type': 'application/json', // JSON 형식의 요청 헤더
@@ -38,7 +38,7 @@ export default function CardTagButtonForID() {
       // NFC 태그 페이지로 이동 후 데이터를 받아오면 바로 등록 페이지로 이동
       navigate('/nfc-tag');
       setTimeout(() => {
-        navigate('/TherapistFaceResisterPage', { state: cardData[0] });
+        navigate('/TherapistFaceResisterPage', { state: cardData.therapist_id });
       }, 2000); // 2초 후 이동 (로딩 화면 유지)
     } catch (error) {
       console.error('❌ Error fetching card data:', error);

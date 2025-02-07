@@ -5,7 +5,7 @@ import CameraDialog from '../components/Dialogs/CameraDialog';
 import { useNavigate } from 'react-router-dom';
 import '../components/Common/BackgroundContainer.css'
 import BackButton from '../components/Common/BackButton';
-
+import '../components/Texts/TextFontFromGoogle.css'
 
 export default function TherapistFaceLoginPage() {
   const navigate = useNavigate()
@@ -24,10 +24,10 @@ export default function TherapistFaceLoginPage() {
       <NavbarContainer>
         <BackButton />
       </NavbarContainer>
-        <Flex direction="column" align="center" gap={10} pt={5}>
-          <HStack>
-            <Text fontSize={30} textAlign='center'>치료사</Text>
-            <Text fontSize={20}> 님의 얼굴을 인식해 주세요</Text>
+        <Flex direction="column" align="center" gap={5} pt={3}>
+          <HStack className='font'>
+            <Text fontSize={50} textAlign='center'>치료사</Text>
+            <Text fontSize={30}> 님의 얼굴을 인식해 주세요</Text>
           </HStack>
           <VStack gap={10}>
             <CameraDialog
@@ -42,11 +42,12 @@ export default function TherapistFaceLoginPage() {
               color="white"
               _hover={{ bg: 'blue.600' }}
               _active={{ bg: 'blue.700' }}
-              fontSize={10}
+              fontSize={20}
               rounded="l3"
               onClick={() => {
                 navigate('/TherapistLoginPage');
               }}
+              className='font'
             >
               ID/PW로 로그인 하기
             </Button>

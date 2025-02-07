@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Flex, HStack, Text, VStack } from '@chakra-ui/react';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import ResistCameraDialog from '../components/Dialogs/ResistCameraDialog';
@@ -6,6 +7,10 @@ import '../components/Common/BackgroundContainer.css';
 import BackButton from '../components/Common/BackButton';
 
 export default function TherapistFaceResisterPage() {
+  const location = useLocation();
+  const cardDataID = location.state || { id: 'Unknown'};
+
+
   const [isCameraOpen, setIsCameraOpen] = useState(false);
 
   const handleOpenCamera = () => {
@@ -33,6 +38,7 @@ export default function TherapistFaceResisterPage() {
             title="얼굴 등록"
             message="카메라로 연결됩니다."
             from="thera_face"
+            therapistID={cardDataID}
           />
         </VStack>
       </Flex>

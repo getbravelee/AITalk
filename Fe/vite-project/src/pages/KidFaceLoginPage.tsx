@@ -2,11 +2,15 @@ import { Text, HStack, Flex, Button, VStack, Box } from '@chakra-ui/react';
 import { useState } from 'react';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import CameraDialog from '../components/Dialogs/CameraDialog';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../components/Common/BackgroundContainer.css';
 import BackButton from '../components/Common/BackButton';
+import { useSelector } from 'react-redux';
+import { RootState } from '../feature/user/store';
+import '../components/Texts/TextFontFromGoogle.css';
 
 export default function KidFaceLoginPage() {
+  const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const navigate = useNavigate();
   const [isCameraOpen, setIsCameraOpen] = useState(false);
 
@@ -23,14 +27,14 @@ export default function KidFaceLoginPage() {
       <NavbarContainer>
         <BackButton />
       </NavbarContainer>
-      <Flex direction="column" align="center" gap={6}>
-        <HStack>
-          <Text fontSize={30} textAlign="center">
+      <Flex direction="column" align="center" gap={5}>
+        <HStack className="font">
+          <Text fontSize={50} textAlign="center">
             아이
           </Text>
-          <Text fontSize={20}> 의 얼굴을 인식해 주세요</Text>
+          <Text fontSize={30}> 의 얼굴을 인식해 주세요</Text>
         </HStack>
-        <VStack>
+        <VStack className="font" gap={10}>
           <CameraDialog
             isOpen={isCameraOpen}
             onClose={handleCloseCamera}
@@ -38,40 +42,20 @@ export default function KidFaceLoginPage() {
             message="카메라로 이동합니다."
             from="kid_face"
           />
-        </VStack>
-        <VStack>
           <Button
             bg="blue.500"
             color="white"
             size={'sm'}
             _hover={{ bg: 'blue.600' }}
             _active={{ bg: 'blue.700' }}
-            // fontSize={10}
+            fontSize={20}
             rounded="l3"
             onClick={() => {
               navigate('/KidSelectPage');
             }}
           >
-            아이 직접 선택하기
+            직접 선택하기
           </Button>
-          <Text fontSize={10}>아이 얼굴을 아직 등록하지 않았다면</Text>
-          <HStack>
-            <Text fontSize={10}>
-              <Button
-                bg="blue.500"
-                color="white"
-                size={'sm'}
-                _hover={{ bg: 'blue.600' }}
-                rounded="l3"
-                onClick={() => {
-                  navigate('/KidSelectPage');
-                }}
-              >
-                등록
-              </Button>
-              을 먼저 진행해 주세요!
-            </Text>
-          </HStack>
         </VStack>
       </Flex>
     </div>

@@ -13,6 +13,7 @@ import ResistCameraDialog from '../components/Dialogs/ResistCameraDialog';
 import { useState } from 'react';
 import '../components/Common/BackgroundContainer.css';
 import BackButton from '../components/Common/BackButton';
+import '../components/Texts/TextFontFromGoogle.css'
 
 export default function TherapistLoginPage() {
   const [isCameraOpen, setIsCameraOpen] = useState(false);
@@ -29,10 +30,10 @@ export default function TherapistLoginPage() {
       <NavbarContainer>
         <BackButton />
       </NavbarContainer>
-      <Flex direction="column" align="center" gap={3}>
-        <HStack>
-          <Text fontSize={30}>치료사</Text>
-          <Text fontSize={20}> 님의 ID, PW를 입력해 주세요</Text>
+      <Flex direction="column" align="center">
+        <HStack className='font'>
+          <Text fontSize={50}>치료사</Text>
+          <Text fontSize={30}> 님의 ID, PW를 입력해 주세요</Text>
         </HStack>
         <VStack align="center">
           <VStack>
@@ -59,12 +60,14 @@ export default function TherapistLoginPage() {
             width={300}
             backgroundColor="blue.500"
             rounded="2xl"
+            className='font'
+            fontSize={30}
           >
             Login
           </Button>
         </VStack>
         <HStack>
-          <Text fontSize={10}>Face ID로 로그인 하기</Text>
+          <Text fontSize={20} className='font'>Face ID로 로그인 하기</Text>
           <CameraDialog
             isOpen={isCameraOpen}
             onClose={handleCloseCamera}
@@ -72,7 +75,7 @@ export default function TherapistLoginPage() {
             message="카메라로 이동합니다."
             isSmall={true}
           />
-          <Text fontSize={10}>
+          <Text fontSize={20} className='font'>
             / 등록하기
             <ResistCameraDialog
               isOpen={isCameraOpen}

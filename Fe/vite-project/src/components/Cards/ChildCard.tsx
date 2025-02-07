@@ -46,13 +46,13 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
             backgroundColor="lightgrey"
             height={'120px'}
           >
-            <Card.Title fontSize={10}>이름: {data.child_name}</Card.Title>
+            <Card.Title fontSize={20}>이름: {data.child_name}</Card.Title>
             <Card.Description fontSize="xs">
-              <Text fontSize={10}>나이 : {data.age}</Text>
-              <Text fontSize={10}>치료사ID : {data.therapist_id}</Text>
+              <Text fontSize={15}>나이 : {data.age}</Text>
+              {/* <Text fontSize={15}>센터명 : {data.center_name}</Text> */}
             </Card.Description>
             <HStack onClick={(e) => e.stopPropagation()}>
-              <Badge fontSize={5}>{data.disability_type}</Badge>
+              <Badge fontSize={10}>{data.disability_type}</Badge>
               <ResistCameraDialog
                 title="아이 얼굴 등록"
                 message="카메라를 인식합니다."

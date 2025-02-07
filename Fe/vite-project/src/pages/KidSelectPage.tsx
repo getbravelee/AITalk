@@ -4,6 +4,7 @@ import '../components/Common/BackgroundContainer.css';
 import { useEffect, useState } from 'react';
 import ChildCard from '../components/Cards/ChildCard';
 import BackButton from '../components/Common/BackButton';
+import '../components/Texts/TextFontFromGoogle.css'
 
 interface ChildData {
   id: number;
@@ -37,6 +38,7 @@ export default function KidSelectPage() {
         const response = await fetch('http://192.168.30.193:5000/child/list');
         const jsonData = await response.json();
         setChildren(jsonData);
+        console.log(jsonData)
       } catch (error) {
         console.error('데이터 로드 실패:', error);
         setError('데이터 로드 실패');
@@ -61,11 +63,11 @@ export default function KidSelectPage() {
         <BackButton/>
       </NavbarContainer>
       <div className="BackgroundContainer">
-        <Text fontSize={20} pt={1} pl={3}>
+        <Text fontSize={30} pt={1} pl={3} className='font'>
           아이 선택하기
         </Text>
         <Box height={3}/>
-        <Flex direction="column" align="center">
+        <Flex direction="column" align="center" className='font'> 
           <VStack align="stretch" gap={10}>
             {/* 각 그룹을 HStack으로 묶어 가로 방향으로 정렬 */}
             {groupedChildren.map((group, index) => (

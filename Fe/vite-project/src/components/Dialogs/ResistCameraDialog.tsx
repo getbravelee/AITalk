@@ -22,6 +22,7 @@ interface CameraDialogProps {
   message: string;
   from: string;
   isSmall: boolean
+  therapistID: number
 }
 
 export default function CameraDialog({
@@ -30,7 +31,8 @@ export default function CameraDialog({
   title,
   message,
   from,
-  isSmall
+  isSmall,
+  therapistID
 }: CameraDialogProps) {
   // FaceID 아이콘 이미지 경로
   const faceIdImage: string = 'src/assets/Login/FaceID.svg';
@@ -103,7 +105,7 @@ export default function CameraDialog({
   }, [isVerifying, navigate]);
 
   // 4. 서버에 얼굴 이미지를 전달하여 등록하는 함수입니다.
-  //    추후 로그인 시 이 등록된 얼굴 정보와 비교하여 인증에 활용됩니다.
+  // 추후 로그인 시 이 등록된 얼굴 정보와 비교하여 인증에 활용됩니다.
   const registerFace = async (faceImage: string) => {
     try {
       // POST 요청을 통해 서버의 얼굴 등록 엔드포인트에 이미지 데이터를 전달합니다.
