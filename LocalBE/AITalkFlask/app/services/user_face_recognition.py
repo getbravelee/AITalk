@@ -10,7 +10,7 @@ detector = MTCNN()  # MTCNN 사용 (정확도↑)
 
 def get_next_user_id(df):
     if df.empty:
-        return 10001
+        return 1
     else:
         return df["therapist_id"].max() + 1
 
@@ -23,6 +23,7 @@ def register_user_face():
     cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
     if not cap.isOpened():
         return {"status": 503, "message": "카메라 연결 오류"}
+    # 카메라 open 되었을때의 플래그를 보내기
 
     if not os.path.exists(DB_PATH):
         df = pd.DataFrame(columns=["therapist_id", "name"] + [f"v{i}" for i in range(512)])
