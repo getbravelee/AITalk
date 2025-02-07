@@ -1,8 +1,11 @@
 package com.ssafy.aitalk.user.controller;
 
 import com.ssafy.aitalk.user.entity.User;
+import com.ssafy.aitalk.user.security.JwtAuthorizationFilter;
 import com.ssafy.aitalk.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import com.ssafy.aitalk.user.dto.LoginRequest;
 import com.ssafy.aitalk.user.dto.LoginResponse;
@@ -41,6 +44,9 @@ public class UserController {
     // 보호된 테스트 API (JWT 토큰이 있어야 접근 가능)
     @GetMapping("/protected")
     public ResponseEntity<String> protectedEndpoint() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String id = auth.getName();
+        System.out.println("인증되었나요?:" + id);
         return ResponseEntity.ok("🎉 인증 성공! 이 메시지는 JWT 토큰이 유효할 때만 볼 수 있습니다.");
     }
 

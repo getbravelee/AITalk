@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
+import java.util.UUID;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -25,9 +26,18 @@ public class JwtUtil {
     }
 
     // ✅ 토큰 생성
-    public String generateToken(String id) {
+    public String generateToken(int therapistId) {
+
+        long nowMillis = System.currentTimeMillis();
+        Date now = new Date(nowMillis);
+        Date expiryDate = new Date(nowMillis + expirationTime);
+
+        System.out.println("발급 시간 (issuedAt): " + now);
+        System.out.println("만료 시간 (expiration): " + expiryDate);
+
         return Jwts.builder()
-                .setSubject(id)
+                .setSubject(String.valueOf(therapistId))
+                .setId(UUID.randomUUID().toString())           // ✅ 고유한 jti 추가
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(SignatureAlgorithm.HS256, getSigningKey())
