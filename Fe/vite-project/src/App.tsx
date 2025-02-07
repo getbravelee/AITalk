@@ -7,12 +7,15 @@ import CardPlaySelectWordPage from './pages/CardPlaySelectWordPage';
 import CardPlaySelectWordVerbPage from './pages/CardPlaySelectWordVerbPage';
 import CardPlaySelectWordVerbSentencePage from './pages/CardPlaySelectWordVerbSentencePage';
 import TherapistFaceLoginPage from './pages/TherapistFaceLoginPage';
+import AiTalkPage from './pages/AiTalkPage';
+
 import TherapistLoginPage from './pages/TherapistLoginPage';
 import TherapistFaceResisterPage from './pages/TherapistFaceResisterPage';
 import TherapistFaceResisterCompletePage from './pages/TherapistFaceResisterCompletePage';
 import HomeAfterLoginPage from './pages/HomeAfterLoginPage';
 import KidSelectPage from './pages/KidSelectPage';
 import KidFaceLoginPage from './pages/KidFaceLoginPage';
+import CardPlaySelectThreeSentencePage from './pages/CardPlaySelectThreeSentencePage';
 
 function App() {
   return (
@@ -37,6 +40,11 @@ function App() {
           path="/card-play-select/word/verb/sentence"
           element={<CardPlaySelectWordVerbSentencePage />}
         ></Route>
+        <Route
+          path="/card-play-select/three-sentence"
+          element={<CardPlaySelectThreeSentencePage />}
+        ></Route>
+        <Route path="/ai-talk" element={<AiTalkPage />}></Route>
         <Route
           path="/TherapistFaceLoginPage"
           element={<TherapistFaceLoginPage />}
