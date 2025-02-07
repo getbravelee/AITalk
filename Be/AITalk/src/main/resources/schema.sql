@@ -7,9 +7,9 @@ USE aitalk_web;
 -- 언어치료사 테이블 생성
 -- therapist_id, face
 CREATE TABLE speech_therapist (
-                                  therapist_id INT UNSIGNED NOT NULL PRIMARY KEY,
-                                  id VARCHAR(20),
-                                  password VARCHAR(20),
+                                  therapist_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                  id VARCHAR(20) UNIQUE,
+                                  password VARCHAR(255),
                                   email VARCHAR(50),
                                   therapist_name VARCHAR(20),
                                   phone_number VARCHAR(20)

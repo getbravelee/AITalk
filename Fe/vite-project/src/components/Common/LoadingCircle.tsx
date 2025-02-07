@@ -1,8 +1,12 @@
-import '../../styles/LoadingCircle.css';
+import './LoadingCircle.css';
 
-function LoadingCircle() {
+interface LoadingCircleProps {
+  className?: string; // className을 받을 수 있도록 설정
+}
+
+function LoadingCircle({ className = '' }: LoadingCircleProps) {
   return (
-    <div className="LoadingContainer">
+    <div className={`LoadingContainer ${className}`.trim()}>
       <div className="LoadingCircle"></div>
     </div>
   );
