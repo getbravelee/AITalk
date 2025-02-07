@@ -18,8 +18,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ArrayList<MonthlyScheduleResponse> getMonthSchedule(int year,int month) {
         List<Schedule> list = scheduleMapper.selectMonthlySchedules(year, month);
+        System.out.println(list);
         ArrayList<MonthlyScheduleResponse> responseDTOs = new ArrayList<>();
         for (Schedule schedule : list) {
+            System.out.println(schedule);
             String childName = scheduleMapper.findChildName(schedule.getChildId());
 
             MonthlyScheduleResponse responseDTO = MonthlyScheduleResponse.builder()
