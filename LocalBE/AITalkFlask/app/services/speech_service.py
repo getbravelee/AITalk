@@ -1,4 +1,3 @@
-from flask import session, current_app
 import logging
 import pyaudio
 import numpy as np
@@ -8,7 +7,8 @@ import openai
 from threading import Lock, Thread
 import os
 
-from app.extensions import socketio
+from app.extensions import socketio, db
+from app.models import Child
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -31,30 +31,37 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 # 대화 내역 저장 (초기 시스템 프롬프트 포함)
 conversation_history = []
 
+def get_child_info(child_id):
+    child = Child.query.filter_by(child_id=child_id).first()
+    if child:
+        return {
+            'child_name': child.child_name,
+            'child_age': child.age,
+            'disability_type': child.disability_type
+        }
+    return None
 
-def initialize_conversation():
-    with current_app.app_context():
-        child_name = session.get('selected_child', {}).get('child_name')
-        child_age = session.get('selected_child', {}).get('child_age')
-        child_disability_type = session.get('selected_child', {}).get('disability_type')
-        print(session)
-        print(child_name)
-        print(child_age)
-        print(child_disability_type)
+def initialize_conversation(child_id):
+    child_info = get_child_info(child_id)
+    if not child_info:
+        return
 
-        initial_system_prompt = f"""
-        You are a language therapy chatbot designed for a child who is {child_age} years old and has {child_disability_type}.
-        Your goal is to encourage the child to speak more by asking **simple, closed-ended questions** (yes/no questions or offering simple choices), but do **not** instruct the child to answer only with "yes" or "no." Allow natural, flexible responses from the child.
-        Since the child may have speech difficulties and might not pronounce words clearly, try to understand the meaning based on **context** even if the words sound incorrect. If the child's speech recognition is inaccurate, interpret it in the closest possible way to what they might have intended.
-        Keep the questions simple and age-appropriate. Make sure to respond **in Korean**.
-        Start with the first question: "오늘 기분이 좋아요?" (Are you feeling good today?)
-        """
+    child_name = child_info.get('child_name')
+    child_age = child_info.get('child_age')
+    child_disability_type = child_info.get('disability_type')
 
-        conversation_history.clear()
-        conversation_history.append({"role": "system", "content": initial_system_prompt})
+    initial_system_prompt = f"""
+    You are a language therapy chatbot designed for a child who is {child_age} years old and has {child_disability_type}.
+    Your goal is to encourage the child to speak more by asking **simple, closed-ended questions** (yes/no questions or offering simple choices), but do **not** instruct the child to answer only with "yes" or "no." Allow natural, flexible responses from the child.
+    Since the child may have speech difficulties and might not pronounce words clearly, try to understand the meaning based on **context** even if the words sound incorrect. If the child's speech recognition is inaccurate, interpret it in the closest possible way to what they might have intended.
+    Keep the questions simple and age-appropriate. Make sure to respond **in Korean**.
+    Start with the first question: "오늘 기분이 좋아요?" (Are you feeling good today?)
+    """
+    logging.info(f"프롬프트 : {initial_system_prompt}")
+    conversation_history.clear()
+    conversation_history.append({"role": "system", "content": initial_system_prompt})
 
-
-def recognize_audio():
+def recognize_audio(child_id):
     global is_recognizing, keep_listening, gpt_processing
 
     with recognition_lock:
@@ -71,7 +78,7 @@ def recognize_audio():
 
     audio_buffer = []
     silence_threshold = 0.02  # 소음 임계치
-    silence_duration = 1.0     # 친문으로 가정할 시간
+    silence_duration = 1.0     # 침묵으로 간주할 시간
     last_speech_time = time.time()
 
     logging.info("🎙 음성 인식 시작")
@@ -101,7 +108,7 @@ def recognize_audio():
                         logging.info(f"📝 텍스트 변환 완료: {text}")
                         socketio.emit('recognized_text', {'text': text}, namespace='/')
                         gpt_processing = True
-                        Thread(target=get_gpt_response, args=(text,), daemon=True).start()
+                        Thread(target=get_gpt_response, args=(text, child_id), daemon=True).start()
                 except Exception as e:
                     logging.error(f"❌ 텍스트 변환 중 오류: {e}")
             else:
@@ -115,8 +122,7 @@ def recognize_audio():
     with recognition_lock:
         is_recognizing = False
 
-
-def get_gpt_response(user_input):
+def get_gpt_response(user_input, child_id):
     global gpt_processing, conversation_history
     try:
         conversation_history.append({"role": "user", "content": user_input})
@@ -137,26 +143,23 @@ def get_gpt_response(user_input):
     finally:
         gpt_processing = False
 
-
-def stop_recognition():
+def stop_recognition(child_id):
     global keep_listening, conversation_history
     keep_listening = False
     logging.info("🔁 음성 인식 중단")
 
-    with current_app.app_context():
-        child_age = session.get('selected_child', {}).get('child_age')
-        child_disability_type = session.get('selected_child', {}).get('disability_type')
-
+    child_info = get_child_info(child_id)
+    if child_info:
         summary_prompt = f"""
-        You are a speech therapist reviewing a conversation with a child who is {child_age} years old and has {child_disability_type}.
+        You are a speech therapist reviewing a conversation with a child who is {child_info['child_age']} years old and has {child_info['disability_type']}.
         Please summarize the conversation from a speech therapist’s perspective in **3 concise sentences**. Focus on the child’s response style, speech and pronunciation, vocabulary use, and engagement, but do not list these points separately.
         Provide the summary in **Korean**.
         """
-    get_gpt_response(summary_prompt)
+        get_gpt_response(summary_prompt, child_id)
 
     socketio.emit('session_end', {'message': '대화가 종료되었습니다.'}, namespace='/')
 
     # 대화 기록 초기화
-    initialize_conversation()
+    initialize_conversation(child_id)
 
     logging.info("✅ 대화 종료 후 리소스 정리 완료.")
