@@ -1,11 +1,15 @@
 package com.ssafy.aitalk.schedule.service;
 
+import com.ssafy.aitalk.schedule.dto.DailyScheduleResponse;
 import com.ssafy.aitalk.schedule.dto.MonthlyScheduleResponse;
+import com.ssafy.aitalk.schedule.dto.ScheduleDetailResponse;
+import com.ssafy.aitalk.schedule.dto.ScheduleRegistRequest;
 import com.ssafy.aitalk.schedule.entity.Schedule;
 import com.ssafy.aitalk.schedule.mapper.ScheduleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +25,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         System.out.println(list);
         ArrayList<MonthlyScheduleResponse> responseDTOs = new ArrayList<>();
         for (Schedule schedule : list) {
-            System.out.println(schedule);
             String childName = scheduleMapper.findChildName(schedule.getChildId());
 
             MonthlyScheduleResponse responseDTO = MonthlyScheduleResponse.builder()
@@ -35,5 +38,61 @@ public class ScheduleServiceImpl implements ScheduleService {
             responseDTOs.add(responseDTO);
         }
         return responseDTOs;
+    }
+
+    @Override
+    public List<DailyScheduleResponse> getDailySchedule(LocalDate date) {
+        List<Schedule> list = scheduleMapper.selectDailySchedules(date);
+        List<DailyScheduleResponse> responseDTOs = new ArrayList<>();
+        for (Schedule schedule : list) {
+            String childName = scheduleMapper.findChildName(schedule.getChildId());
+
+            DailyScheduleResponse responseDTO = DailyScheduleResponse.builder()
+                    .treatmentId(schedule.getTreatmentId())
+                    .childName(childName)
+                    .startTime(schedule.getStartTime())
+                    .endTime(schedule.getEndTime())
+                    .build();
+
+            responseDTOs.add(responseDTO);
+        }
+        return responseDTOs;
+    }
+
+    @Override
+    public void registerSchedule(ScheduleRegistRequest request, int therapistId) {
+
+        if (scheduleMapper.isTimeSlotTaken(request.getTreatmentDate(), request.getStartTime(), request.getEndTime()) > 0) {
+            throw new IllegalStateException("해당 시간은 이미 일정이 있습니다.");
+        }
+
+        Integer childId = scheduleMapper.findChildId(request.getChildName());
+
+        Schedule schedule = Schedule.builder()
+                .therapistId(therapistId)
+                .childId(childId)
+                .treatmentDate(request.getTreatmentDate())
+                .startTime(request.getStartTime())
+                .endTime(request.getEndTime())
+                .build();
+
+        scheduleMapper.registerSchedule(schedule);
+    }
+
+    @Override
+    public ScheduleDetailResponse getScheduleDetail(int id) {
+        Schedule schedule = scheduleMapper.selectScheduleByScheduleId(id);
+
+        String childName = scheduleMapper.findChildName(schedule.getChildId());
+
+        return ScheduleDetailResponse.builder()
+                .childName(childName)
+                .treatmentDate(schedule.getTreatmentDate())
+                .startTime(schedule.getStartTime())
+                .endTime(schedule.getEndTime())
+                .words(schedule.getWords())
+                .sentence(schedule.getSentence())
+                .conversation(schedule.getConversation())
+                .build();
     }
 }

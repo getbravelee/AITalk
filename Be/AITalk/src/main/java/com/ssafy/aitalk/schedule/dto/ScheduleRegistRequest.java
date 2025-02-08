@@ -1,5 +1,7 @@
-package com.ssafy.aitalk.schedule.entity;
+package com.ssafy.aitalk.schedule.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,20 +9,17 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Schedule {
-    private Integer treatmentId;
-    private Integer therapistId;
-    private Integer childId;
+public class ScheduleRegistRequest {
+
+    private String childName;
+
     private LocalDate treatmentDate;
+
     private LocalTime startTime;
     private LocalTime endTime;
-    private List<String> words;
-    private List<String> sentence;
-    private String conversation;
 }

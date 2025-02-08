@@ -11,8 +11,8 @@
         <result property="treatmentDate" column="treatment_date"/>
         <result property="startTime" column="start_time"/>
         <result property="endTime" column="end_time"/>
-        <result property="words" column="words"/>
-        <result property="sentence" column="sentence"/>
+        <result property="words" column="words" typeHandler="com.ssafy.aitalk.schedule.typehandler.JsonTypeHandler"/>
+        <result property="sentence" column="sentence" typeHandler="com.ssafy.aitalk.schedule.typehandler.JsonTypeHandler"/>
         <result property="conversation" column="conversation"/>
     </resultMap>
 
@@ -27,7 +27,7 @@
             treatment
         WHERE
             YEAR(treatment_date) = #{year}
-          AND MONTH(treatment_date) = #{month};
+          AND MONTH(treatment_date) = #{month}
     </select>
 
     <select id="findChildName" resultType="String">
@@ -37,6 +37,44 @@
             care_children
         where
             child_id = #{id}
+    </select>
+
+    <select id="findChildId" resultType="Integer">
+        select
+            child_id
+        from
+            care_children
+        where
+            child_name = #{name}
+    </select>
+
+    <select id="selectDailySchedules" resultMap="Schedule">
+        select
+            *
+        from
+            treatment
+        where
+            treatment_date = #{date}
+    </select>
+
+    <select id="selectScheduleByScheduleId" resultMap="Schedule">
+        select
+            *
+        from
+            treatment
+        where
+            treatment_id = #{id}
+    </select>
+
+    <insert id="registerSchedule">
+        INSERT INTO treatment (therapist_id, child_id, treatment_date, start_time, end_time)
+        VALUES (#{schedule.therapistId}, #{schedule.childId}, #{schedule.treatmentDate}, #{schedule.startTime}, #{schedule.endTime})
+    </insert>
+
+    <select id="isTimeSlotTaken" resultType="Integer">
+        SELECT COUNT(*) FROM treatment
+        WHERE treatment_date = #{date}
+          AND ((start_time &lt; #{endTime} AND end_time &gt; #{startTime}))
     </select>
 
 </mapper>

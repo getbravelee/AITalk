@@ -1,4 +1,4 @@
-package com.ssafy.aitalk.schedule.entity;
+package com.ssafy.aitalk.schedule.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,10 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Schedule {
-    private Integer treatmentId;
-    private Integer therapistId;
-    private Integer childId;
+public class ScheduleDetailResponse {
+    private String childName;
     private LocalDate treatmentDate;
     private LocalTime startTime;
     private LocalTime endTime;
