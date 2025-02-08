@@ -3,7 +3,7 @@ import { Button } from '@chakra-ui/react';
 import '../../pages/HomePage.css';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../feature/user/userSlice';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function CardTagButtonForLogin() {
   const navigate = useNavigate();
@@ -22,6 +22,9 @@ export default function CardTagButtonForLogin() {
       }
     };
   }, []);
+  // 잘못된 카드로 인증을 시도한 경우 실패 카운트 관리를 위한 state
+  const [failedAttempts, setFailedAttempts] = useState(0);
+
   const handleClick = async (): Promise<void> => {
     console.log('📡 Fetching card data from server...');
 
@@ -45,11 +48,20 @@ export default function CardTagButtonForLogin() {
       clearTimeout(timeoutId);
       // 서버가 404를 응답한 경우 alert 후 작업 중단
       if (response.status === 404) {
-        alert(
-          '인증된 사용자가 아닙니다. 다른 카드를 사용해 인증을 진행해 주세요!',
-        );
+        setFailedAttempts((prev) => {
+          const newCount = prev + 1;
+          if (newCount >= 3) {
+            alert('3번 초과하여 인증에 실패했습니다. 인증 과정을 종료합니다.');
+            navigate('/'); // 메인 페이지로 이동
+            return 0; // 카운트 리셋
+          } else {
+            alert('인증된 사용자가 아닙니다. 다른 카드를 사용해 주세요!');
+            return newCount;
+          }
+        });
         return;
       }
+
       if (!response.ok)
         throw new Error(
           `Failed to fetch card data (Status: ${response.status})`,
@@ -59,12 +71,14 @@ export default function CardTagButtonForLogin() {
 
       // 전역 상태에 사용자 데이터 저장 (redux-persist를 통해 유지됨)
       dispatch(setUser(cardData));
+      // 성공 시 카운트 초기화
+      setFailedAttempts(0); 
 
       alert(`${cardData.therapist_name}님 안녕하세요!`);
       navigate('/KidFaceLoginPage');
     } catch (error: any) {
-      if (!isActive.current) return; // 이미 페이지가 이동되었다면 후속 alert를 띄우지 않음
-
+      // 이미 페이지가 이동되었다면 후속 alert를 띄우지 않음
+      if (!isActive.current) return; 
       // AbortError의 경우 alert를 띄우지 않고 그냥 종료
       if (error.name === 'AbortError') {
         console.error('Fetch aborted:', error);

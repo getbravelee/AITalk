@@ -15,7 +15,7 @@ import { useRef, useEffect, useState } from 'react';
 import Webcam from 'react-webcam';
 import * as faceapi from 'face-api.js';
 
-interface CameraDialogProps {
+interface ResistCameraDialogProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
@@ -25,7 +25,7 @@ interface CameraDialogProps {
   therapistID: number
 }
 
-export default function CameraDialog({
+export default function ResistCameraDialog({
   isOpen,
   onClose,
   title,
@@ -33,7 +33,7 @@ export default function CameraDialog({
   from,
   isSmall,
   therapistID
-}: CameraDialogProps) {
+}: ResistCameraDialogProps) {
   // FaceID 아이콘 이미지 경로
   const faceIdImage: string = 'src/assets/Login/FaceID.svg';
   const faceIdImageSmall: string = 'src/assets/Login/FaceID_small.svg';
