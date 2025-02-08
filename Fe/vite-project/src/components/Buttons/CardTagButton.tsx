@@ -9,10 +9,9 @@ export default function CardTagButton() {
     navigate('/nfc-tag');
 
     try {
-      const response = await fetch(
-        'http://192.168.30.146:5000/play/card-scan',
-        { credentials: 'include' },
-      );
+      const response = await fetch('http://127.0.0.1:5000/play/card-scan', {
+        credentials: 'include',
+      });
 
       if (!response.ok)
         throw new Error(
