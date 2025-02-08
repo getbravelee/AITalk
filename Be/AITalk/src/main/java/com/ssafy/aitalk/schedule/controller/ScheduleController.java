@@ -41,16 +41,34 @@ public class ScheduleController {
         return ResponseEntity.status(200).body(scheduleDetail);
     }
 
+    @PutMapping("/detail/{scheduleId}")
+    public ResponseEntity<ScheduleMessageResponse> updateSchedule(@PathVariable Integer scheduleId, @RequestBody ScheduleUpdateRequest request) {
+        try {
+            scheduleService.updateSchedule(scheduleId, request);
+            return ResponseEntity.ok(new ScheduleMessageResponse("수정완료"));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(400).body(new ScheduleMessageResponse(e.getMessage()));
+        }
+    }
+
+    @DeleteMapping("/detail/{scheduleId}")
+    public ResponseEntity<ScheduleMessageResponse> deleteSchedule(@PathVariable Integer scheduleId) {
+        scheduleService.deleteSchedule(scheduleId);
+        return ResponseEntity.ok(new ScheduleMessageResponse("삭제완료"));
+    }
+
     @PostMapping("/register")
-    public ResponseEntity<ScheduleRegistResponse> registerSchedule(@RequestBody ScheduleRegistRequest request){
+    public ResponseEntity<ScheduleMessageResponse> registerSchedule(@RequestBody ScheduleRegistRequest request){
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             int therapistId = Integer.parseInt(auth.getName());
             scheduleService.registerSchedule(request,therapistId);
-            return ResponseEntity.status(201).body(new ScheduleRegistResponse("등록 완료"));
+            return ResponseEntity.status(201).body(new ScheduleMessageResponse("등록 완료"));
         } catch (IllegalStateException e) {
-            return ResponseEntity.status(400).body(new ScheduleRegistResponse(e.getMessage()));
+            return ResponseEntity.status(400).body(new ScheduleMessageResponse(e.getMessage()));
         }
     }
+
+
 
 }

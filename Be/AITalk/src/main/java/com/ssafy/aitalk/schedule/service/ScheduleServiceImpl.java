@@ -1,9 +1,6 @@
 package com.ssafy.aitalk.schedule.service;
 
-import com.ssafy.aitalk.schedule.dto.DailyScheduleResponse;
-import com.ssafy.aitalk.schedule.dto.MonthlyScheduleResponse;
-import com.ssafy.aitalk.schedule.dto.ScheduleDetailResponse;
-import com.ssafy.aitalk.schedule.dto.ScheduleRegistRequest;
+import com.ssafy.aitalk.schedule.dto.*;
 import com.ssafy.aitalk.schedule.entity.Schedule;
 import com.ssafy.aitalk.schedule.mapper.ScheduleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,5 +91,25 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .sentence(schedule.getSentence())
                 .conversation(schedule.getConversation())
                 .build();
+    }
+
+    public void updateSchedule(Integer scheduleId, ScheduleUpdateRequest request) {
+
+        if (scheduleMapper.isTimeSlotTaken(request.getTreatmentDate(), request.getStartTime(), request.getEndTime()) > 0) {
+            throw new IllegalStateException("해당 시간은 이미 일정이 있습니다.");
+        }
+
+        Schedule schedule = Schedule.builder()
+                .treatmentId(scheduleId)
+                .treatmentDate(request.getTreatmentDate())
+                .startTime(request.getStartTime())
+                .endTime(request.getEndTime())
+                .conversation(request.getConversation())
+                .build();
+        scheduleMapper.updateSchedule(schedule);
+    }
+
+    public void deleteSchedule(Integer scheduleId) {
+        scheduleMapper.deleteSchedule(scheduleId);
     }
 }

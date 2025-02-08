@@ -16,13 +16,17 @@ public interface ScheduleMapper {
 
     Schedule selectScheduleByScheduleId(@Param("id") int id);
 
-    void registerSchedule(@Param("schedule") Schedule schedule);
+    void registerSchedule(Schedule schedule);
 
     String findChildName(@Param("id") int id);
 
     Integer findChildId(@Param("name") String name);
 
     Integer isTimeSlotTaken(LocalDate date, LocalTime startTime, LocalTime endTime);
+
+    void updateSchedule(Schedule schedule);
+
+    void deleteSchedule(Integer scheduleId);
 
 
 }

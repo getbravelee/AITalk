@@ -1,9 +1,6 @@
 package com.ssafy.aitalk.schedule.service;
 
-import com.ssafy.aitalk.schedule.dto.DailyScheduleResponse;
-import com.ssafy.aitalk.schedule.dto.MonthlyScheduleResponse;
-import com.ssafy.aitalk.schedule.dto.ScheduleDetailResponse;
-import com.ssafy.aitalk.schedule.dto.ScheduleRegistRequest;
+import com.ssafy.aitalk.schedule.dto.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,4 +13,10 @@ public interface ScheduleService {
     public void registerSchedule(ScheduleRegistRequest request, int therapistId);
 
     public ScheduleDetailResponse getScheduleDetail(int id);
+
+    public void updateSchedule(Integer scheduleId, ScheduleUpdateRequest request);
+
+    public void deleteSchedule(Integer scheduleId);
+
+
 }

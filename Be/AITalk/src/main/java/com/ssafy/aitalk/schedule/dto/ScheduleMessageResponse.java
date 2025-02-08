@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ScheduleRegistResponse {
+public class ScheduleMessageResponse {
     private String message;
 }
