@@ -27,8 +27,8 @@ public interface UserMapper {
 
     String findEmailById(@Param("id") String id);
 
-
-    void updatePasswordById(@Param("id") String id, @Param("password") String password);
+//    @Update("UPDATE speech_therapist SET password = #{password} WHERE id = #{id}")
+    int updatePasswordById(@Param("id") String id, @Param("password") String password);
 
 
 }

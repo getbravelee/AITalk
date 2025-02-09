@@ -11,9 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.ssafy.aitalk.user.util.JwtUtil;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Service
@@ -150,19 +148,24 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    // 인증코드 저장용 (DB 대신 임시 메모리 사용)
-    private Map<String, String> verificationCodes = new HashMap<>();
+    // ✅ 인증코드 저장 (아이디 -> 인증코드, 만료시간)
+    private final Map<String, String> verificationCodes = new HashMap<>();
+    private final Map<String, Long> expirationTimes = new HashMap<>();
+
+    // ✅ 인증된 사용자 저장
+    private final Set<String> verifiedUsers = new HashSet<>();
 
     @Override
     public void sendVerificationCode(String id) {
-        String email = userMapper.findEmailById(id);  // 아이디를 통해 이메일 조회
+        String email = userMapper.findEmailById(id);
         if (email == null) {
             throw new IllegalArgumentException("해당 아이디를 사용하는 계정을 찾을 수 없습니다.");
         }
 
         // 6자리 랜덤 인증코드 생성
         String verificationCode = String.format("%06d", new Random().nextInt(999999));
-        verificationCodes.put(id, verificationCode); // 아이디-코드 매핑
+        verificationCodes.put(id, verificationCode); // 인증코드 저장
+        expirationTimes.put(id, System.currentTimeMillis() + (5 * 60 * 1000)); // 5분 후 만료
 
         // 이메일 발송
         try {
@@ -174,21 +177,65 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean verifyCode(String id, String code) {
-        if (verificationCodes.containsKey(id) && verificationCodes.get(id).equals(code)) {
-            verificationCodes.remove(id); // 인증 성공 시 코드 삭제
+        if (!verificationCodes.containsKey(id)) {
+            throw new IllegalArgumentException("인증 요청이 없습니다.");
+        }
+
+        // 만료 시간 확인
+        if (System.currentTimeMillis() > expirationTimes.get(id)) {
+            verificationCodes.remove(id);
+            expirationTimes.remove(id);
+            throw new IllegalArgumentException("인증코드가 만료되었습니다.");
+        }
+
+        // 코드 검증
+        if (verificationCodes.get(id).equals(code)) {
+            verificationCodes.remove(id);
+            expirationTimes.remove(id);
+            verifiedUsers.add(id); // 인증 완료된 사용자 저장
             return true;
         }
+
         return false;
     }
 
     @Override
-    public void updatePassword(String id, String newPassword) {
-        if (newPassword.length() < 8) {
-            throw new IllegalArgumentException("비밀번호는 8자 이상이어야 합니다.");
+    public void updatePassword(ChangePasswordRequest request) {
+        if (!verifiedUsers.contains(request.getId())) {
+            throw new IllegalArgumentException("비밀번호 변경을 위해 먼저 인증을 완료해야 합니다.");
         }
 
-        String encryptedPassword = passwordEncoder.encode(newPassword);
-        userMapper.updatePasswordById(id, encryptedPassword);
+        // ✅ 1. 비밀번호 & confirmPassword 검증
+        if (!request.getPassword().equals(request.getConfirmPassword())) {
+            throw new IllegalArgumentException("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+        }
+
+        // ✅ 2. 비밀번호 유효성 검사
+        if (!isValidPassword(request.getPassword())) {
+            throw new IllegalArgumentException("비밀번호는 영문, 숫자, 특수문자를 포함하여 8~20자로 입력해야 합니다.");
+        }
+
+        // ✅ 3. 비밀번호 암호화 후 저장
+        String encryptedPassword = passwordEncoder.encode(request.getPassword());
+
+        try {
+            int updatedRows = userMapper.updatePasswordById(request.getId(), encryptedPassword);
+            if (updatedRows == 0) {
+                throw new IllegalArgumentException("비밀번호 변경 실패: 아이디를 확인하세요.");
+            }
+        } finally {
+            // ✅ 4. 인증 완료 상태 제거 (성공/실패 관계없이 무조건 실행)
+            verifiedUsers.remove(request.getId());
+        }
     }
 
+
+    private boolean isValidPassword(String password) {
+        String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$";
+        return password.matches(passwordPattern);
+    }
 }
+
+
+
+

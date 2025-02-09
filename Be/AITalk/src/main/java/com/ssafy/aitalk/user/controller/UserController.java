@@ -85,7 +85,13 @@ public class UserController {
 
     // 회원정보 수정
     @PutMapping("/info")
-    public ResponseEntity<UpdateInfoResponse> updateUserInfo(@RequestBody @Valid UpdateInfoRequest request) {
+    public ResponseEntity<UpdateInfoResponse> updateUserInfo(@RequestBody @Valid UpdateInfoRequest request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            // 첫 번째 오류 메시지만 반환
+            String errorMessage = bindingResult.getFieldErrors().get(0).getDefaultMessage();
+            return ResponseEntity.status(400).body(new UpdateInfoResponse("회원가입 실패 : " + errorMessage));
+        }
+
         try {
             int id = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getName());
             System.out.println("로그인한 사용자 ID: " + id);
@@ -152,12 +158,26 @@ public class UserController {
         }
     }
 
-    // 3️⃣ 비밀번호 변경
     @PostMapping("/change-password")
-    public ResponseEntity<PasswordResponse> updatePassword(@RequestBody ChangePasswordRequest request) {
-        userService.updatePassword(request.getId(), request.getPassword());
-        return ResponseEntity.ok(new PasswordResponse("비밀번호가 성공적으로 변경되었습니다."));
+    public ResponseEntity<PasswordResponse> changePassword(@RequestBody @Valid ChangePasswordRequest request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            // 첫 번째 오류 메시지만 반환
+            String errorMessage = bindingResult.getFieldErrors().get(0).getDefaultMessage();
+            return ResponseEntity.status(400).body(new PasswordResponse("회원가입 실패 : " + errorMessage));
+        }
+        try{
+            userService.updatePassword(request);
+            return ResponseEntity.ok(new PasswordResponse("비밀번호가 성공적으로 변경되었습니다."));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(new PasswordResponse(e.getMessage()));
+        }
+
     }
+
+
+
+
+
 }
 
 
