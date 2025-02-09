@@ -1,5 +1,6 @@
 package com.ssafy.aitalk.child.service;
 
+import com.ssafy.aitalk.child.dto.ChildDetailResponse;
 import com.ssafy.aitalk.child.dto.ChildRegisterRequest;
 import com.ssafy.aitalk.child.dto.ChildrenListResponse;
 import com.ssafy.aitalk.child.entity.Child;
@@ -53,4 +54,9 @@ public class ChildServiceImpl implements ChildService {
         return childList;
     }
 
+    // 아동 상세 보기
+    @Override
+    public ChildDetailResponse getChildDetail(int childId) {
+        return childMapper.findChildById(childId);
+    }
 }

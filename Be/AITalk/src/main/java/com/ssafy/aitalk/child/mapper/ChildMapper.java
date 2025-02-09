@@ -1,5 +1,6 @@
 package com.ssafy.aitalk.child.mapper;
 
+import com.ssafy.aitalk.child.dto.ChildDetailResponse;
 import com.ssafy.aitalk.child.dto.ChildrenListResponse;
 import com.ssafy.aitalk.child.entity.Child;
 import org.apache.ibatis.annotations.Mapper;
@@ -22,4 +23,6 @@ public interface ChildMapper {
     // 전체 아동 조회
     List<ChildrenListResponse> findAllChildren(@Param("therapistId") int therapistId);
 
+    // 아동 상세보기
+    ChildDetailResponse findChildById(int childId);
 }

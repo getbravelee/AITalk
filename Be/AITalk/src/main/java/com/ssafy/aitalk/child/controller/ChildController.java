@@ -1,5 +1,6 @@
 package com.ssafy.aitalk.child.controller;
 
+import com.ssafy.aitalk.child.dto.ChildDetailResponse;
 import com.ssafy.aitalk.child.dto.ChildMessageResponse;
 import com.ssafy.aitalk.child.dto.ChildRegisterRequest;
 import com.ssafy.aitalk.child.dto.ChildrenListResponse;
@@ -50,10 +51,21 @@ public class ChildController {
         return ResponseEntity.status(200).body(childList);
     }
 
-    // ✅ 예외 처리 추가
+    // 예외 처리 추가
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ChildMessageResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
         ChildMessageResponse response = new ChildMessageResponse(ex.getMessage());
         return ResponseEntity.status(400).body(response); // 400 Bad Request 반환
     }
+
+    // 아동 상세 정보
+    @GetMapping("/{childId}")
+    public ResponseEntity<?> getChildDetail(@PathVariable("childId") int childId) {
+        ChildDetailResponse childDetail = childService.getChildDetail(childId);
+
+        return ResponseEntity.status(200).body(childDetail);
+
+    }
+
+
 }

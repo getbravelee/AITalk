@@ -1,5 +1,6 @@
 package com.ssafy.aitalk.child.service;
 
+import com.ssafy.aitalk.child.dto.ChildDetailResponse;
 import com.ssafy.aitalk.child.dto.ChildRegisterRequest;
 import com.ssafy.aitalk.child.dto.ChildrenListResponse;
 
@@ -13,5 +14,6 @@ public interface ChildService {
     // 아동 리스트 불러오기
     public List<ChildrenListResponse> getChildrenList(int therapistId, String childName);
 
-
+    // 아동 상세 보기
+    public ChildDetailResponse getChildDetail(int childId);
 }

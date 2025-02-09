@@ -75,4 +75,18 @@
           AND cc.child_name = #{childName}
     </select>
 
+    <!-- 아동 상세 정보 조회 -->
+    <select id="findChildById" resultType="com.ssafy.aitalk.child.dto.ChildDetailResponse">
+        SELECT
+            c.center_name AS centerName,
+            cc.child_name AS childName,
+            cc.protector_number AS protectorNumber,
+            cc.profile_image AS profileImage,
+            cc.disability_type AS disabilityType,
+            cc.age AS age
+        FROM care_children cc
+                 JOIN care_center c ON cc.center_id = c.center_id
+        WHERE cc.child_id = #{childId}
+    </select>
+
 </mapper>
