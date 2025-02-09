@@ -12,7 +12,7 @@ interface ChildData {
   age: number;
   profileImage: string;
   center: string;
-  characteristic: string[];
+  disability_type: string;
   // 기타 필드
 }
 

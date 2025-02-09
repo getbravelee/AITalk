@@ -5,7 +5,7 @@ import './BackButton.css';
 import CurrentUserText from '../Texts/CurrentUserText';
 import LogoutButton from '../Buttons/LogoutButton';
 // 유저 로그인 상태를 확인하기 위한 import
-import { RootState } from '../../feature/user/store';
+import { RootState } from '../../feature/store';
 import { useSelector } from 'react-redux';
 import HomeButton from './HomeButton';
 function BackButton() {
@@ -17,7 +17,7 @@ function BackButton() {
 
   return (
     <HStack gap={423} pt={1}>
-      <button onClick={handleBack} className='BackButton'>
+      <button onClick={handleBack} className="BackButton">
         <IoArrowBack className="BackIcon" />
       </button>
       {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}

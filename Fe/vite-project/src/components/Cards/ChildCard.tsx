@@ -9,6 +9,8 @@ import {
 } from '@chakra-ui/react';
 import ResistCameraDialog from '../Dialogs/ResistCameraDialog';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setChildId } from '../../feature/child/childSlice'
 
 interface ChildCardProps {
   data: typeof ChildData;
@@ -17,6 +19,7 @@ interface ChildCardProps {
 export default function ChildCard({ data }: ChildCardProps): JSX.Element {
   const childDefaultImage = 'src/assets/ChildDummyImage/child_default.png';
   const navigate = useNavigate()
+  const dispatch = useDispatch();
   return (
     <div>
       <Card.Root
@@ -27,9 +30,10 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
         borderRadius="md"
         boxShadow="md"
         onClick={() => {
-          alert(
-            '해당 아이의 id를 넘겨 이후의 치료 과정동안 식별가능해야 함',
-          );
+          // Card.Root를 클릭하면 child_id를 전역 state (redux persist 포함)에 저장
+          // 이후 치료가 완료되면 해당 child의 치료 정보를 서버에 전달할 수 있도록 함.
+          dispatch(setChildId(child_id));
+          alert(`${child_name}의 치료를 시작합니다!`)
           navigate("/play-select")
         }}
       >

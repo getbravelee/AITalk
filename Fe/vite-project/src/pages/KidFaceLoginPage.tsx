@@ -2,11 +2,11 @@ import { Text, HStack, Flex, Button, VStack, Box } from '@chakra-ui/react';
 import { useState } from 'react';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import CameraDialog from '../components/Dialogs/CameraDialog';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../components/Common/BackgroundContainer.css';
 import BackButton from '../components/Common/BackButton';
 import { useSelector } from 'react-redux';
-import { RootState } from '../feature/user/store';
+import { RootState } from '../feature/store';
 import '../components/Texts/TextFontFromGoogle.css';
 
 export default function KidFaceLoginPage() {
@@ -27,7 +27,7 @@ export default function KidFaceLoginPage() {
       <NavbarContainer>
         <BackButton />
       </NavbarContainer>
-      <Flex direction="column" align="center" gap={5}>
+      <Flex direction="column" align="center" gap={5} pt={3}>
         <HStack className="font">
           <Text fontSize={50} textAlign="center">
             아이

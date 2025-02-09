@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import { Provider } from 'react-redux';
-import { store, persistor } from './feature/user/store';
+import { store, persistor } from './feature/store.tsx';
 import { PersistGate } from 'redux-persist/integration/react';
 import App from './App.tsx';
 
