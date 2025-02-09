@@ -1,4 +1,7 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { AudioProvider, useAudio } from './components/Common/AudioContext';
+
 import HomePage from './pages/HomePage';
 import PlaySelectPage from './pages/PlaySelectPage';
 import NfcTagPage from './pages/NfcTagPage';
@@ -8,7 +11,6 @@ import CardPlaySelectWordVerbPage from './pages/CardPlaySelectWordVerbPage';
 import CardPlaySelectWordVerbSentencePage from './pages/CardPlaySelectWordVerbSentencePage';
 import TherapistFaceLoginPage from './pages/TherapistFaceLoginPage';
 import AiTalkPage from './pages/AiTalkPage';
-
 import TherapistLoginPage from './pages/TherapistLoginPage';
 import TherapistFaceResisterPage from './pages/TherapistFaceResisterPage';
 import TherapistFaceResisterCompletePage from './pages/TherapistFaceResisterCompletePage';
@@ -19,49 +21,66 @@ import CardPlaySelectThreeSentencePage from './pages/CardPlaySelectThreeSentence
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/play-select" element={<PlaySelectPage />} />
-        <Route path="/nfc-tag" element={<NfcTagPage />} />
-        <Route
-          path="/card-play-select"
-          element={<CardPlaySelectPage />}
-        ></Route>
-        <Route
-          path="/card-play-select/word"
-          element={<CardPlaySelectWordPage />}
-        ></Route>
-        <Route
-          path="/card-play-select/word/verb"
-          element={<CardPlaySelectWordVerbPage />}
-        ></Route>
-        <Route
-          path="/card-play-select/word/verb/sentence"
-          element={<CardPlaySelectWordVerbSentencePage />}
-        ></Route>
-        <Route
-          path="/card-play-select/three-sentence"
-          element={<CardPlaySelectThreeSentencePage />}
-        ></Route>
-        <Route path="/ai-talk" element={<AiTalkPage />}></Route>
-        <Route
-          path="/TherapistFaceLoginPage"
-          element={<TherapistFaceLoginPage />}
-        />
-        <Route path="/TherapistLoginPage" element={<TherapistLoginPage />} />
-        <Route
-          path="/TherapistFaceResisterPage"
-          element={<TherapistFaceResisterPage />}
-        />
-        <Route
-          path="/TherapistFaceResisterCompletePage"
-          element={<TherapistFaceResisterCompletePage />}
-        />
-        <Route path="/HomeAfterLoginPage" element={<HomeAfterLoginPage />} />
-        <Route path="/KidSelectPage" element={<KidSelectPage />} />
-        <Route path="/KidFaceLoginPage" element={<KidFaceLoginPage />} />
-      </Routes>
-    </BrowserRouter>
+    <AudioProvider>
+      <BrowserRouter>
+        <MainRoutes />
+      </BrowserRouter>
+    </AudioProvider>
+  );
+}
+
+function MainRoutes() {
+  const { setAudioType } = useAudio();
+  const location = useLocation();
+
+  // 🔥 페이지 이동 시 음악 변경
+  useEffect(() => {
+    if (location.pathname === '/') {
+      setAudioType('home'); // ✅ HomePage에서는 homepagemusic.mp3
+    } else {
+      setAudioType('page'); // ✅ 다른 페이지에서는 pagemusic.mp3 (처음부터 다시 시작되지 않음)
+    }
+  }, [location.pathname]);
+
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/play-select" element={<PlaySelectPage />} />
+      <Route path="/nfc-tag" element={<NfcTagPage />} />
+      <Route path="/card-play-select" element={<CardPlaySelectPage />} />
+      <Route
+        path="/card-play-select/word"
+        element={<CardPlaySelectWordPage />}
+      />
+      <Route
+        path="/card-play-select/word/verb"
+        element={<CardPlaySelectWordVerbPage />}
+      />
+      <Route
+        path="/card-play-select/word/verb/sentence"
+        element={<CardPlaySelectWordVerbSentencePage />}
+      />
+      <Route
+        path="/card-play-select/three-sentence"
+        element={<CardPlaySelectThreeSentencePage />}
+      />
+      <Route path="/ai-talk" element={<AiTalkPage />} />
+      <Route
+        path="/TherapistFaceLoginPage"
+        element={<TherapistFaceLoginPage />}
+      />
+      <Route path="/TherapistLoginPage" element={<TherapistLoginPage />} />
+      <Route
+        path="/TherapistFaceResisterPage"
+        element={<TherapistFaceResisterPage />}
+      />
+      <Route
+        path="/TherapistFaceResisterCompletePage"
+        element={<TherapistFaceResisterCompletePage />}
+      />
+      <Route path="/HomeAfterLoginPage" element={<HomeAfterLoginPage />} />
+      <Route path="/KidSelectPage" element={<KidSelectPage />} />
+      <Route path="/KidFaceLoginPage" element={<KidFaceLoginPage />} />
+    </Routes>
   );
 }

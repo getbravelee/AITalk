@@ -1,4 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
+
 .NavbarContainer {
   background-color: #00a2ff;
   height: 10vh;
+}
+
+/* 🎵 배경음악 토글 버튼 */
+.MusicToggleButton {
+  position: absolute; /* 🔹 절대 위치 지정 */
+  top: 5px; /* 🔹 위쪽 여백 */
+  right: 5px; /* 🔹 오른쪽 여백 */
+  z-index: 1000; /* 🔹 다른 요소 위에 배치 */
+  background-color: rgba(255, 255, 255); /* 🔹 반투명 배경 */
+  border: 2px solid #ccc; /* 🔹 테두리 */
+  border-radius: 50px; /* 🔹 둥근 버튼 */
+  padding: 5px 10px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Dongle', serif;
+  font-style: normal;
+}
+
+.MusicToggleButton:hover {
+  border-color: #888;
 }

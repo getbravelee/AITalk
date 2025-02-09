@@ -1,10 +1,18 @@
 import { useNavigate } from 'react-router-dom';
+import { useAudio } from '../Common/AudioContext'; // 🎵 오디오 컨텍스트 추가
 
 export default function AiTalkButton() {
   const navigate = useNavigate();
+  const { isPlaying, toggleAudio } = useAudio(); // 🎵 현재 음악 상태 및 토글 함수 가져오기
 
   const handleClick = (): void => {
     console.log('📡 Navigating to /ai-talk page first...');
+
+    // 🎵 배경음악이 켜져 있다면 끄기
+    if (isPlaying) {
+      console.log('🔇 배경음악 끄기...');
+      toggleAudio();
+    }
 
     // 🏃‍♂️ `/ai-talk`로 이동 (초기 state는 임시 값)
     navigate('/ai-talk', {
