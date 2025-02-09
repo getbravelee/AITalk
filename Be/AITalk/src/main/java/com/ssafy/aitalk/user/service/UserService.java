@@ -19,4 +19,7 @@ public interface UserService {
     void updateUserInfo(int id, @Valid UpdateInfoRequest request);
 
     void deleteUser(int id);
+
+    void sendUserIdByEmail(String email);
+    void updatePassword(String email, String newPassword);
 }

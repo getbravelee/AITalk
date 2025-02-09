@@ -22,5 +22,9 @@ public interface UserMapper {
 
     void deleteUser(@Param("id") int id);
 
+    String findIdByEmail(@Param("email") String email);  // 아이디 찾기
+
+    void updatePassword(@Param("email") String email, @Param("password") String password);
+
 
 }

@@ -3,6 +3,7 @@ package com.ssafy.aitalk.user.service;
 import com.ssafy.aitalk.user.dto.*;
 import com.ssafy.aitalk.user.entity.User;
 import com.ssafy.aitalk.user.mapper.UserMapper;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,6 +17,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -120,6 +124,36 @@ public class UserServiceImpl implements UserService {
 
         // 회원 탈퇴 (데이터 삭제)
         userMapper.deleteUser(id);
+    }
+
+
+    @Override
+    public void sendUserIdByEmail(String email) {
+        if (email == null || !email.contains("@")) {
+            throw new IllegalArgumentException("올바른 이메일 주소를 입력해주세요");
+        }
+
+        String userId = userMapper.findIdByEmail(email);
+        if (userId == null) {
+            throw new UsernameNotFoundException("해당 이메일을 사용하는 계정을 찾을 수 없습니다.");
+        }
+
+        // 이메일 전송
+        try {
+            emailService.sendEmail(email, "아이디 찾기", "회원님의 아이디는: " + userId + " 입니다.");
+        } catch (MessagingException e) {
+            throw new RuntimeException("이메일 전송 실패");
+        }
+    }
+
+    @Override
+    public void updatePassword(String email, String newPassword) {
+        if (email == null || !email.contains("@") || newPassword.length() < 8) {
+            throw new IllegalArgumentException("올바른 이메일과 비밀번호를 입력해주세요");
+        }
+
+        String encryptedPassword = passwordEncoder.encode(newPassword);
+        userMapper.updatePassword(email, encryptedPassword);
     }
 
 }

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -114,6 +116,33 @@ public class UserController {
         }
     }
 
+
+    // 아이디 찾기
+    @PostMapping("/find-id")
+    public ResponseEntity<UpdateInfoResponse> findUserId(@RequestBody Map<String, String> request) {
+        try {
+            String email = request.get("email");
+            userService.sendUserIdByEmail(email);
+            return ResponseEntity.ok(new UpdateInfoResponse("아이디가 이메일로 전송되었습니다."));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new UpdateInfoResponse("올바른 이메일 주소를 입력해주세요"));
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new UpdateInfoResponse("해당 이메일을 사용하는 계정을 찾을 수 없습니다."));
+        }
+    }
+
+    // 비밀번호 변경
+    @PostMapping("/change-password")
+    public ResponseEntity<UpdateInfoResponse> resetPassword(@RequestBody Map<String, String> request) {
+        try {
+            String email = request.get("email");
+            String newPassword = request.get("password");
+            userService.updatePassword(email, newPassword);
+            return ResponseEntity.ok(new UpdateInfoResponse("비밀번호가 성공적으로 변경되었습니다."));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new UpdateInfoResponse("올바른 이메일과 비밀번호를 입력해주세요"));
+        }
+    }
 }
 
 

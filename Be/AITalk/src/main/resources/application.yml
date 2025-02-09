@@ -10,6 +10,16 @@ spring:
       ddl-auto: none  # MyBatis를 사용하므로 JPA 자동 테이블 생성 비활성화
     show-sql: true
 
+  mail:  # ✉️ 이메일 설정 추가 ✉️
+    host: smtp.gmail.com
+    port: 587
+    username: kimtest7001@gmail.com  # 📌 본인의 Gmail 주소 입력
+    password: hqoi sbve jxif ffmu  # 📌 "앱 비밀번호" 입력
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+
 mybatis:
   mapper-locations: classpath*:mappers/*.xml
   type-aliases-package: com.ssafy.aitalk.user.dto
