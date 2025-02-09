@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_cors import CORS
-from flask_session import Session
 
 from .extensions import db
 from dotenv import load_dotenv
