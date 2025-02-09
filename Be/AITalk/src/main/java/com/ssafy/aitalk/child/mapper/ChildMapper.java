@@ -1,8 +1,11 @@
 package com.ssafy.aitalk.child.mapper;
 
+import com.ssafy.aitalk.child.dto.ChildrenListResponse;
 import com.ssafy.aitalk.child.entity.Child;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface ChildMapper {
@@ -12,5 +15,11 @@ public interface ChildMapper {
 
     // 치료아동 등록
     void registerChild(Child child);
+
+    // 특정 아동 조회
+    List<ChildrenListResponse> findChildByName(@Param("therapistId") int therapistId, @Param("childName") String childName);
+
+    // 전체 아동 조회
+    List<ChildrenListResponse> findAllChildren(@Param("therapistId") int therapistId);
 
 }

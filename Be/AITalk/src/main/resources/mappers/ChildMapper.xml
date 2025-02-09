@@ -15,7 +15,7 @@
         <result property="age" column="age"/>
     </resultMap>
 
-
+    <!-- 치료 아동 등록 -->
     <insert id="registerChild" >
         INSERT INTO care_children (
             therapist_id,
@@ -37,10 +37,42 @@
                )
     </insert>
 
+
+    <!-- 이미 등록된 아동인지 확인 -->
     <select id="isRegisteredChild" resultType="int">
         SELECT COUNT(*)
         FROM care_children
         WHERE protector_number = #{protectorNumber}
           AND child_name = #{childName}
     </select>
+
+    <!-- 전체 아동 조회 -->
+    <select id="findAllChildren" resultType="com.ssafy.aitalk.child.dto.ChildrenListResponse">
+        SELECT
+            cc.child_id AS childId,
+            cc.child_name AS childName,
+            cc.protector_number AS protectorNumber,
+            cc.age,
+            cc.disability_type AS disabilityType,
+            c.center_name AS centerName
+        FROM care_children cc
+                 JOIN care_center c ON cc.center_id = c.center_id
+        WHERE cc.therapist_id = #{therapistId}
+    </select>
+
+    <!-- 특정 아동 조회 -->
+    <select id="findChildByName" resultType="com.ssafy.aitalk.child.dto.ChildrenListResponse">
+        SELECT
+            cc.child_id AS childId,
+            cc.child_name AS childName,
+            cc.protector_number AS protectorNumber,
+            cc.age,
+            cc.disability_type AS disabilityType,
+            c.center_name AS centerName
+        FROM care_children cc
+                 JOIN care_center c ON cc.center_id = c.center_id
+        WHERE cc.therapist_id = #{therapistId}
+          AND cc.child_name = #{childName}
+    </select>
+
 </mapper>

@@ -1,11 +1,13 @@
 package com.ssafy.aitalk.child.service;
 
 import com.ssafy.aitalk.child.dto.ChildRegisterRequest;
+import com.ssafy.aitalk.child.dto.ChildrenListResponse;
 import com.ssafy.aitalk.child.entity.Child;
-import com.ssafy.aitalk.schedule.entity.Schedule;
 import com.ssafy.aitalk.child.mapper.ChildMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ChildServiceImpl implements ChildService {
@@ -30,6 +32,25 @@ public class ChildServiceImpl implements ChildService {
                 .build();
 
         childMapper.registerChild(child);
+    }
+
+    // 아동 리스트 불러오기
+    @Override
+    public List<ChildrenListResponse> getChildrenList(int therapistId, String childName) {
+        List<ChildrenListResponse> childList;
+
+        if (childName != null && !childName.trim().isEmpty()) {
+            childList = childMapper.findChildByName(therapistId, childName);
+
+            if (childList.isEmpty()) {
+                // ✅ 검색 결과가 없으면 예외 발생
+                throw new IllegalArgumentException("해당하는 아동이 없습니다.");
+            }
+        } else {
+            childList = childMapper.findAllChildren(therapistId);
+        }
+
+        return childList;
     }
 
 }
