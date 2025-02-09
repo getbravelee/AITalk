@@ -25,7 +25,7 @@ def load_model():
     global model
     if model is None:
         print("🔍 Whisper 모델 로딩 중...")
-        model = whisper.load_model("base")  # 'large' 대신 'base'로 변경
+        model = whisper.load_model("large")
         print("✅ Whisper 모델 로드 완료")
     return model
 
