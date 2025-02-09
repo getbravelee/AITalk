@@ -4,6 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ssafy.aitalk.child.mapper.ChildMapper">
+
+    <!--아동 데이터 매핑-->
     <resultMap id="Child" type="com.ssafy.aitalk.child.entity.Child">
         <id property="childId" column="child_id"/>
         <result property="therapistId" column="therapist_id"/>
@@ -13,6 +15,16 @@
         <result property="profileImage" column="profile_image"/>
         <result property="disabilityType" column="disability_type"/>
         <result property="age" column="age"/>
+    </resultMap>
+
+    <!--아동 스케줄 데이터 매핑-->
+    <resultMap id="ChildScheduleResultMap" type="com.ssafy.aitalk.child.dto.ChildScheduleResponse">
+        <result property="treatmentDate" column="treatment_date"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="words" column="words" typeHandler="com.ssafy.aitalk.schedule.typehandler.JsonTypeHandler"/>
+        <result property="sentence" column="sentence" typeHandler="com.ssafy.aitalk.schedule.typehandler.JsonTypeHandler"/>
+        <result property="conversation" column="conversation"/>
     </resultMap>
 
     <!-- 치료 아동 등록 -->
@@ -87,6 +99,19 @@
         FROM care_children cc
                  JOIN care_center c ON cc.center_id = c.center_id
         WHERE cc.child_id = #{childId}
+    </select>
+
+    <select id="findChildScheduleById" resultMap="ChildScheduleResultMap">
+        SELECT
+            t.treatment_date,
+            t.start_time,
+            t.end_time,
+            t.words,
+            t.sentence,
+            t.conversation
+        FROM treatment t
+        WHERE t.child_id = #{childId}
+        ORDER BY t.treatment_date DESC, t.start_time DESC
     </select>
 
 </mapper>

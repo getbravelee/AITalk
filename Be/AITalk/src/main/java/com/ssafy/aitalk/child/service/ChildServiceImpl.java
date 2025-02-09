@@ -2,6 +2,7 @@ package com.ssafy.aitalk.child.service;
 
 import com.ssafy.aitalk.child.dto.ChildDetailResponse;
 import com.ssafy.aitalk.child.dto.ChildRegisterRequest;
+import com.ssafy.aitalk.child.dto.ChildScheduleResponse;
 import com.ssafy.aitalk.child.dto.ChildrenListResponse;
 import com.ssafy.aitalk.child.entity.Child;
 import com.ssafy.aitalk.child.mapper.ChildMapper;
@@ -58,5 +59,11 @@ public class ChildServiceImpl implements ChildService {
     @Override
     public ChildDetailResponse getChildDetail(int childId) {
         return childMapper.findChildById(childId);
+    }
+
+    // 해당 아동 일지 전체
+    @Override
+    public List<ChildScheduleResponse> getChildSchedule(int childId) {
+        return childMapper.findChildScheduleById(childId);
     }
 }

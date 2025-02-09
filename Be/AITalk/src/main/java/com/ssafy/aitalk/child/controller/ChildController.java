@@ -1,9 +1,6 @@
 package com.ssafy.aitalk.child.controller;
 
-import com.ssafy.aitalk.child.dto.ChildDetailResponse;
-import com.ssafy.aitalk.child.dto.ChildMessageResponse;
-import com.ssafy.aitalk.child.dto.ChildRegisterRequest;
-import com.ssafy.aitalk.child.dto.ChildrenListResponse;
+import com.ssafy.aitalk.child.dto.*;
 import com.ssafy.aitalk.child.service.ChildService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -65,6 +62,18 @@ public class ChildController {
 
         return ResponseEntity.status(200).body(childDetail);
 
+    }
+
+    // 해당 아동 일지 전체
+    @GetMapping("/{childId}/schedule-list")
+    public ResponseEntity<?> getChildScheduleList(@PathVariable("childId") int childId) {
+        List<ChildScheduleResponse> childSchedules = childService.getChildSchedule(childId);
+
+        if (childSchedules.isEmpty()) {
+            return ResponseEntity.status(404).body("해당 아동의 스케줄이 없습니다.");
+        }
+
+        return ResponseEntity.status(200).body(childSchedules);
     }
 
 
