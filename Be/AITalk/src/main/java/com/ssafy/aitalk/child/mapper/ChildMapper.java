@@ -32,4 +32,11 @@ public interface ChildMapper {
 
     // 아동 정보 수정
     void updateChild(@Param("child") Child child);
+
+
+    // 아동 삭제
+    void deleteChild(int childId);
+
+    // 일지 삭제
+    void deleteTreatmentsByChildId(Integer childId);
 }

@@ -5,6 +5,7 @@ import com.ssafy.aitalk.child.entity.Child;
 import com.ssafy.aitalk.child.mapper.ChildMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -85,4 +86,12 @@ public class ChildServiceImpl implements ChildService {
 
         childMapper.updateChild(child);
     }
+
+    // 아동 삭제
+    @Transactional
+    public void deleteChild(Integer childId) {
+        childMapper.deleteTreatmentsByChildId(childId); // 치료 데이터 삭제
+        childMapper.deleteChild(childId);               // 아동 데이터 삭제
+    }
+
 }

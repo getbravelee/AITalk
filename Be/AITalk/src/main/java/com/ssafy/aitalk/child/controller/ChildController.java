@@ -3,6 +3,7 @@ package com.ssafy.aitalk.child.controller;
 import com.ssafy.aitalk.child.dto.*;
 import com.ssafy.aitalk.child.service.ChildService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -88,5 +89,19 @@ public class ChildController {
         }
     }
 
+    // 아동 삭제
+    @DeleteMapping("/{childId}")
+    public ResponseEntity<ChildMessageResponse> deleteChild(@PathVariable("childId") int childId) {
+        try {
+            childService.deleteChild(childId);
+            return ResponseEntity.ok(new ChildMessageResponse("아동 삭제 완료"));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ChildMessageResponse("존재하지 않는 아동입니다."));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ChildMessageResponse("서버 오류가 발생했습니다."));
+        }
+    }
 
 }

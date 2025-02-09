@@ -20,4 +20,9 @@ public interface ChildService {
 
     // 아동 수정
     void updateChild(Integer childId, ChildUpdateRequest request);
+
+    // 아동 삭제
+    void deleteChild(Integer childId);
+
+    //
 }

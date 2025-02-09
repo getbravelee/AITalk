@@ -129,4 +129,15 @@
         WHERE child_id = #{child.childId}
     </update>
 
+    <!--치료 데이터 삭제 -->
+    <delete id="deleteTreatmentsByChildId">
+        DELETE FROM treatment WHERE child_id = #{childId}
+    </delete>
+
+    <!--아동 데이터 삭제 -->
+    <delete id="deleteChild">
+        DELETE FROM care_children WHERE child_id = #{childId}
+    </delete>
+
+
 </mapper>
