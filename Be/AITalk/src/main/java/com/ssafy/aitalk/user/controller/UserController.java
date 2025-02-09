@@ -1,16 +1,16 @@
 package com.ssafy.aitalk.user.controller;
 
-import com.ssafy.aitalk.user.dto.RegisterRequest;
-import com.ssafy.aitalk.user.dto.RegisterResponse;
+import com.ssafy.aitalk.user.dto.*;
+import com.ssafy.aitalk.user.entity.User;
 import com.ssafy.aitalk.user.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import com.ssafy.aitalk.user.dto.LoginRequest;
-import com.ssafy.aitalk.user.dto.LoginResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
 
@@ -40,7 +40,6 @@ public class UserController {
         }
     }
 
-
     // 로그인
     @PostMapping("/login")
     public ResponseEntity<Integer> loginUser(@RequestBody LoginRequest request) {
@@ -62,5 +61,23 @@ public class UserController {
         System.out.println("인증되었나요?:" + id);
         return ResponseEntity.ok("🎉 인증 성공! 이 메시지는 JWT 토큰이 유효할 때만 볼 수 있습니다.");
     }
+
+
+    // 회원정보 불러오기
+    @GetMapping("/info")
+    public ResponseEntity<?> getUserInfo() {
+        System.out.println("테스트");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        int id = Integer.parseInt(authentication.getName());  // 현재 로그인한 사용자의 이름(name)
+        System.out.println("테스트" + id);
+
+        try {
+            UserResponse userResponse = userService.getUserInfo(id);
+            return ResponseEntity.ok(userResponse);
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
+        }
+    }
+
 
 }

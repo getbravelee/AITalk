@@ -14,4 +14,6 @@ public class User {
     private String password;   // 암호화된 비밀번호
     private String email;
     private String phoneNumber;
+
+
 }

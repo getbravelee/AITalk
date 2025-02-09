@@ -3,9 +3,11 @@ package com.ssafy.aitalk.user.service;
 import com.ssafy.aitalk.user.dto.LoginRequest;
 import com.ssafy.aitalk.user.dto.LoginResponse;
 import com.ssafy.aitalk.user.dto.RegisterRequest;
+import com.ssafy.aitalk.user.dto.UserResponse;
 import com.ssafy.aitalk.user.entity.User;
 import com.ssafy.aitalk.user.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.ssafy.aitalk.user.util.JwtUtil;
@@ -79,4 +81,23 @@ public class UserServiceImpl implements UserService {
         userMapper.insertUser(user);
 
     }
+
+    // 🔹 현재 로그인한 사용자 정보 가져오기
+    @Override
+    public UserResponse getUserInfo(int id) {
+        User user = userMapper.findInfoById(id);
+        System.out.println(user);
+        if (user == null) {
+            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
+        }
+
+        // 🔹 User 객체에서 필요한 정보만 추출하여 UserResponse 생성
+        return new UserResponse(
+                user.getId(),
+                user.getTherapistName(),
+                user.getEmail(),
+                user.getPhoneNumber()
+        );
+    }
+
 }

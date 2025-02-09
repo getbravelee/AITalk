@@ -13,4 +13,6 @@ public interface UserMapper {
     int countById(@Param("id") String id);  // 아이디 중복 확인
 
     int countByEmail(@Param("email") String email);  // 이메일 중복 확인
+
+    User findInfoById(@Param("id") int id); // name으로 로그인한 사용자 찾기
 }

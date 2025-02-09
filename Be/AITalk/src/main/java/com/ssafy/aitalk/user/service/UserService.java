@@ -3,6 +3,7 @@ package com.ssafy.aitalk.user.service;
 import com.ssafy.aitalk.user.dto.LoginRequest;
 import com.ssafy.aitalk.user.dto.LoginResponse;
 import com.ssafy.aitalk.user.dto.RegisterRequest;
+import com.ssafy.aitalk.user.dto.UserResponse;
 import com.ssafy.aitalk.user.entity.User;
 
 public interface UserService {
@@ -10,4 +11,6 @@ public interface UserService {
 
 //    void registerUser(RegisterRequest request);
     void registerUser(RegisterRequest request);
+
+    UserResponse getUserInfo(int id);
 }
