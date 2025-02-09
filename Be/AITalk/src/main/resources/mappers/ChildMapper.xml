@@ -101,6 +101,8 @@
         WHERE cc.child_id = #{childId}
     </select>
 
+
+    <!--해당 아동 일지 조회-->
     <select id="findChildScheduleById" resultMap="ChildScheduleResultMap">
         SELECT
             t.treatment_date,
@@ -113,5 +115,18 @@
         WHERE t.child_id = #{childId}
         ORDER BY t.treatment_date DESC, t.start_time DESC
     </select>
+
+    <!--아동 정보 수정-->
+    <update id="updateChild">
+        UPDATE care_children
+        SET
+            center_id = #{child.centerId},
+            child_name = #{child.childName},
+            protector_number = #{child.protectorNumber},
+            profile_image = #{child.profileImage},
+            disability_type = #{child.disabilityType},
+            age = #{child.age}
+        WHERE child_id = #{child.childId}
+    </update>
 
 </mapper>

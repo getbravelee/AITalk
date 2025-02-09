@@ -1,9 +1,6 @@
 package com.ssafy.aitalk.child.service;
 
-import com.ssafy.aitalk.child.dto.ChildDetailResponse;
-import com.ssafy.aitalk.child.dto.ChildRegisterRequest;
-import com.ssafy.aitalk.child.dto.ChildScheduleResponse;
-import com.ssafy.aitalk.child.dto.ChildrenListResponse;
+import com.ssafy.aitalk.child.dto.*;
 import com.ssafy.aitalk.child.entity.Child;
 import com.ssafy.aitalk.child.mapper.ChildMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,5 +62,27 @@ public class ChildServiceImpl implements ChildService {
     @Override
     public List<ChildScheduleResponse> getChildSchedule(int childId) {
         return childMapper.findChildScheduleById(childId);
+    }
+
+    // 아동 수정
+    @Override
+    public void updateChild(Integer childId, ChildUpdateRequest request) {
+        // 같은 보호자 번호와 이름이 이미 등록된 경우 예외 처리
+        if (childMapper.isRegisteredChild(request.getProtectorNumber(), request.getChildName()) > 0) {
+            throw new IllegalStateException("이미 있는 아동입니다.");
+        }
+
+        // 수정할 아동 데이터 생성
+        Child child = Child.builder()
+                .childId(childId)
+                .centerId(request.getCenterId())
+                .childName(request.getChildName())
+                .protectorNumber(request.getProtectorNumber())
+                .profileImage(request.getProfileImage())
+                .disabilityType(request.getDisabilityType())
+                .age(request.getAge())
+                .build();
+
+        childMapper.updateChild(child);
     }
 }

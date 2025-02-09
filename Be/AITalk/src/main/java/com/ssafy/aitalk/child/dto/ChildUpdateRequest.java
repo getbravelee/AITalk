@@ -1,4 +1,5 @@
-package com.ssafy.aitalk.child.entity;
+package com.ssafy.aitalk.child.dto;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,16 +7,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Child {
-    private Integer childId;
-    private Integer therapistId;
+@Builder
+public class ChildUpdateRequest {
     private Integer centerId;
     private String childName;
     private String protectorNumber;
     private String profileImage;
     private String disabilityType;
-    private Integer age;
+    private int age;
 }

@@ -29,4 +29,7 @@ public interface ChildMapper {
 
     // 해당 아동 일지 전체
     List<ChildScheduleResponse> findChildScheduleById(int childId);
+
+    // 아동 정보 수정
+    void updateChild(@Param("child") Child child);
 }

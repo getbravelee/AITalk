@@ -1,9 +1,6 @@
 package com.ssafy.aitalk.child.service;
 
-import com.ssafy.aitalk.child.dto.ChildDetailResponse;
-import com.ssafy.aitalk.child.dto.ChildRegisterRequest;
-import com.ssafy.aitalk.child.dto.ChildScheduleResponse;
-import com.ssafy.aitalk.child.dto.ChildrenListResponse;
+import com.ssafy.aitalk.child.dto.*;
 
 import java.util.List;
 
@@ -20,4 +17,7 @@ public interface ChildService {
 
     // 해당 아동 일지 전체
     List<ChildScheduleResponse> getChildSchedule(int childId);
+
+    // 아동 수정
+    void updateChild(Integer childId, ChildUpdateRequest request);
 }

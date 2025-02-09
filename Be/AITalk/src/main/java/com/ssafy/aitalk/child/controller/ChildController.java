@@ -77,4 +77,16 @@ public class ChildController {
     }
 
 
+    // 아동 수정
+    @PutMapping("/{childId}")
+    public ResponseEntity<?> updateChild(@PathVariable("childId") int childId, @RequestBody ChildUpdateRequest request){
+        try {
+            childService.updateChild(childId, request);
+            return ResponseEntity.ok(new ChildMessageResponse("아동 수정 완료"));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(400).body(new ChildMessageResponse(e.getMessage()));
+        }
+    }
+
+
 }
