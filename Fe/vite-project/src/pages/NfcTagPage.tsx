@@ -1,5 +1,5 @@
 import NavbarContainer from '../components/Common/NavbarContainer';
-import BackButton from '../components/Common/BackButton';
+import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import LoadingCircle from '../components/Common/LoadingCircle';
 import NfcImage from '../components/Images/NfcImage';
 import NfcTagText from '../components/Texts/NfcTagText';
@@ -11,7 +11,7 @@ export default function NfcTagPage() {
     <div>
       {/* NavbarContainer 내부에 BackButton을 children으로 전달 */}
       <NavbarContainer>
-        <BackButton />
+        <BackPlaySelectButton />
       </NavbarContainer>
       <div className="NfcTagContainer">
         <LoadingCircle />
