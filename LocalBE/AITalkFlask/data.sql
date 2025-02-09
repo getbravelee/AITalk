@@ -29,8 +29,8 @@ CREATE TABLE treatment (
     treatment_date DATE,
     start_time TIME,
     end_time TIME,
-    words VARCHAR(100),
-    sentence VARCHAR(100),
+    words json,
+    sentence json,
     conversation VARCHAR(100),
     FOREIGN KEY (therapist_id) REFERENCES speech_therapist(therapist_id),
     FOREIGN KEY (child_id) REFERENCES care_children(child_id)

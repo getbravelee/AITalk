@@ -19,8 +19,16 @@ load_dotenv()
 # 로깅 설정
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Whisper 모델 로드
-model = whisper.load_model("large")
+model = None  # 지연 로딩을 위한 전역 변수
+
+def load_model():
+    global model
+    if model is None:
+        print("🔍 Whisper 모델 로딩 중...")
+        model = whisper.load_model("base")  # 'large' 대신 'base'로 변경
+        print("✅ Whisper 모델 로드 완료")
+    return model
+
 
 # 음성 인식 상태 변수 및 Lock
 is_recognizing = False
@@ -75,6 +83,8 @@ def initialize_conversation(child_id):
 
 def recognize_audio(child_id):
     global is_recognizing, keep_listening, gpt_processing, is_tts_playing
+
+    model = load_model()
 
     with recognition_lock:
         is_recognizing = True
