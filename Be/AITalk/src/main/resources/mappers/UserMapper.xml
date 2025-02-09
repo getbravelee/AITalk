@@ -38,4 +38,17 @@
         select count(*) from speech_therapist where email = #{email}
     </select>
 
+    <update id="updateUserInfo">
+        UPDATE speech_therapist
+        SET email = #{email}, phone_number = #{phoneNumber}
+        WHERE therapist_id = #{id};
+    </update>
+
+    <delete id="deleteUser">
+        DELETE FROM speech_therapist
+        WHERE therapist_id = #{id};
+    </delete>
+
+
+
 </mapper>

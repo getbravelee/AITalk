@@ -1,10 +1,8 @@
 package com.ssafy.aitalk.user.service;
 
-import com.ssafy.aitalk.user.dto.LoginRequest;
-import com.ssafy.aitalk.user.dto.LoginResponse;
-import com.ssafy.aitalk.user.dto.RegisterRequest;
-import com.ssafy.aitalk.user.dto.UserResponse;
+import com.ssafy.aitalk.user.dto.*;
 import com.ssafy.aitalk.user.entity.User;
+import jakarta.validation.Valid;
 
 public interface UserService {
     LoginResponse login(LoginRequest request);
@@ -13,4 +11,12 @@ public interface UserService {
     void registerUser(RegisterRequest request);
 
     UserResponse getUserInfo(int id);
+
+//    UserResponse updateUserInfo(UserResponse response);
+
+//    void updateUserInfo(User user);
+
+    void updateUserInfo(int id, @Valid UpdateInfoRequest request);
+
+    void deleteUser(int id);
 }

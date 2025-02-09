@@ -4,6 +4,8 @@ import com.ssafy.aitalk.user.dto.*;
 import com.ssafy.aitalk.user.entity.User;
 import com.ssafy.aitalk.user.service.UserService;
 import jakarta.validation.Valid;
+import org.mybatis.logging.Logger;
+import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -66,10 +68,10 @@ public class UserController {
     // 회원정보 불러오기
     @GetMapping("/info")
     public ResponseEntity<?> getUserInfo() {
-        System.out.println("테스트");
+//        System.out.println("테스트");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         int id = Integer.parseInt(authentication.getName());  // 현재 로그인한 사용자의 이름(name)
-        System.out.println("테스트" + id);
+//        System.out.println("테스트" + id);
 
         try {
             UserResponse userResponse = userService.getUserInfo(id);
@@ -79,5 +81,42 @@ public class UserController {
         }
     }
 
+    // 회원정보 수정
+    @PutMapping("/info")
+    public ResponseEntity<UpdateInfoResponse> updateUserInfo(@RequestBody @Valid UpdateInfoRequest request) {
+        try {
+            int id = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getName());
+            System.out.println("로그인한 사용자 ID: " + id);
+
+            userService.updateUserInfo(id, request);
+
+
+            // JSON 응답
+            return ResponseEntity.ok(new UpdateInfoResponse("수정되었습니다."));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new UpdateInfoResponse("회원정보 수정 실패: " + e.getMessage()));
+        }
+    }
+
+    // 회원정보 삭제
+    @DeleteMapping("/info")
+    public ResponseEntity<UpdateInfoResponse> deleteUser() {
+        try {
+            // 현재 로그인한 사용자의 ID 가져오기
+            int id = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getName());
+
+            // 회원 탈퇴 실행
+            userService.deleteUser(id);
+
+            return ResponseEntity.ok(new UpdateInfoResponse("회원 탈퇴가 완료되었습니다."));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new UpdateInfoResponse("회원 탈퇴 실패: " + e.getMessage()));
+        }
+    }
 
 }
+
+
+
+
+

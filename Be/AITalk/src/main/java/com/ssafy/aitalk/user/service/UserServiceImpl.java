@@ -1,11 +1,9 @@
 package com.ssafy.aitalk.user.service;
 
-import com.ssafy.aitalk.user.dto.LoginRequest;
-import com.ssafy.aitalk.user.dto.LoginResponse;
-import com.ssafy.aitalk.user.dto.RegisterRequest;
-import com.ssafy.aitalk.user.dto.UserResponse;
+import com.ssafy.aitalk.user.dto.*;
 import com.ssafy.aitalk.user.entity.User;
 import com.ssafy.aitalk.user.mapper.UserMapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -98,6 +96,30 @@ public class UserServiceImpl implements UserService {
                 user.getEmail(),
                 user.getPhoneNumber()
         );
+    }
+
+
+    @Override
+    public void updateUserInfo(int id, @Valid UpdateInfoRequest request) {
+        // 사용자 정보 조회
+        User user = userMapper.findInfoById(id);
+        if (user == null) {
+            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
+        }
+
+        // 사용자 정보 업데이트
+        userMapper.updateUserInfo(id, request.getEmail(), request.getPhoneNumber());
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        User user = userMapper.findInfoById(id);
+        if (user == null) {
+            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
+        }
+
+        // 회원 탈퇴 (데이터 삭제)
+        userMapper.deleteUser(id);
     }
 
 }
