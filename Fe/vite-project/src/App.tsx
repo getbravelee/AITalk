@@ -9,8 +9,10 @@ import CardPlaySelectPage from './pages/CardPlaySelectPage';
 import CardPlaySelectWordPage from './pages/CardPlaySelectWordPage';
 import CardPlaySelectWordVerbPage from './pages/CardPlaySelectWordVerbPage';
 import CardPlaySelectWordVerbSentencePage from './pages/CardPlaySelectWordVerbSentencePage';
-import TherapistFaceLoginPage from './pages/TherapistFaceLoginPage';
+import CameraScanPage from './pages/CameraScanPage';
 import AiTalkPage from './pages/AiTalkPage';
+
+import TherapistFaceLoginPage from './pages/TherapistFaceLoginPage';
 import TherapistLoginPage from './pages/TherapistLoginPage';
 import TherapistFaceResisterPage from './pages/TherapistFaceResisterPage';
 import TherapistFaceResisterCompletePage from './pages/TherapistFaceResisterCompletePage';
@@ -69,6 +71,7 @@ function MainRoutes() {
         path="/TherapistFaceLoginPage"
         element={<TherapistFaceLoginPage />}
       />
+      <Route path="/camera-scan" element={<CameraScanPage />}></Route>
       <Route path="/TherapistLoginPage" element={<TherapistLoginPage />} />
       <Route
         path="/TherapistFaceResisterPage"
