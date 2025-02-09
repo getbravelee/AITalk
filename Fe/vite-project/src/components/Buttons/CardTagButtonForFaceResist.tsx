@@ -1,54 +1,19 @@
-import { useNavigate } from 'react-router-dom';
 import { Button } from '@chakra-ui/react';
-
+import '../Texts/TextFontFromGoogle.css';
+import UseCardTagForFaceResist from '../../hooks/UseCardTagForFaceResist';
+/**
+CardTagButtonForFaceResist 컴포넌트
+이 컴포넌트는 "Face ID 등록하기" 버튼을 렌더링하며,
+버튼 클릭 시 UseCardTagForFaceResist 제공하는 핸들러 함수가 실행되어
+서버에서 카드 데이터를 받아온 후 지정된 페이지로 이동하는 처리를 합니다.
+*/
 export default function CardTagButtonForFaceResist() {
-  const navigate = useNavigate();
-
-  const handleClick = async (): Promise<void> => {
-    console.log('📡 Fetching card data from server...');
-
-    // 먼저 `/nfc-tag`로 이동
-    navigate('/nfc-tag');
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10초 후 요청 자동 취소
-
-    try {
-      const response = await fetch('http://192.168.30.146:5000/user/login', {
-        method: 'POST', // POST 방식으로 요청
-        headers: {
-          'Content-Type': 'application/json', // JSON 형식의 요청 헤더
-        },
-        // 서버에서 요구하는 데이터 형식에 맞게 body 내용을 채워주세요.
-        body: JSON.stringify({
-          tagInfo: 'example-tag-info', // 예시 데이터, 실제 값으로 변경 필요
-        }),
-        signal: controller.signal,
-      });
-      clearTimeout(timeoutId);
-
-      if (!response.ok)
-        throw new Error(
-          `Failed to fetch card data (Status: ${response.status})`,
-        );
-
-      const cardData = await response.json();
-      console.log('✅ Server Response Data:', cardData);
-
-      // NFC 태그 페이지로 이동 후 데이터를 받아오면 바로 등록 페이지로 이동
-      navigate('/nfc-tag');
-      setTimeout(() => {
-        navigate('/TherapistFaceResisterPage', { state: cardData.therapist_id });
-      }, 2000); // 2초 후 이동 (로딩 화면 유지)
-    } catch (error) {
-      console.error('❌ Error fetching card data:', error);
-    }
-  };
-
+  // custom hook을 사용하여 카드 태깅 관련 비즈니스 로직 핸들러를 가져옵니다.
+  const handleCardTagForFaceResist = UseCardTagForFaceResist();
   return (
     <Button
       className="FaceIdRegistrationButton"
-      onClick={() => handleClick()}
+      onClick={handleCardTagForFaceResist}
     >
       Face ID 등록하기
     </Button>

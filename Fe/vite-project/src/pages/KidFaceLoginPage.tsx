@@ -1,16 +1,13 @@
-import { Text, HStack, Flex, Button, VStack, Box } from '@chakra-ui/react';
+import { Text, HStack, Flex, Button, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import CameraDialog from '../components/Dialogs/CameraDialog';
 import { useNavigate } from 'react-router-dom';
 import '../components/Common/BackgroundContainer.css';
 import BackButton from '../components/Common/BackButton';
-import { useSelector } from 'react-redux';
-import { RootState } from '../feature/store';
 import '../components/Texts/TextFontFromGoogle.css';
 
 export default function KidFaceLoginPage() {
-  const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const navigate = useNavigate();
   const [isCameraOpen, setIsCameraOpen] = useState(false);
 
@@ -43,11 +40,11 @@ export default function KidFaceLoginPage() {
             from="kid_face"
           />
           <Button
-            bg="blue.500"
+            bg="blue.400"
             color="white"
             size={'sm'}
-            _hover={{ bg: 'blue.600' }}
-            _active={{ bg: 'blue.700' }}
+            _hover={{ bg: 'blue.500' }}
+            _active={{ bg: 'blue.600' }}
             fontSize={20}
             rounded="l3"
             onClick={() => {

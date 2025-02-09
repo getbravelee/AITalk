@@ -1,3 +1,5 @@
+// src/components/Dialogs/CameraDialog.tsx
+import React, { useRef, useState } from 'react';
 import {
   DialogActionTrigger,
   DialogBody,
@@ -11,9 +13,8 @@ import {
 } from '../ui/dialog';
 import { Button } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { useRef, useEffect, useState } from 'react';
 import Webcam from 'react-webcam';
-import * as faceapi from 'face-api.js';
+import UseFaceVerification from '../../hooks/UseFaceVerification';
 
 interface CameraDialogProps {
   isOpen: boolean;
@@ -21,106 +22,31 @@ interface CameraDialogProps {
   title: string;
   message: string;
   from: string;
-  isSmall: boolean
+  isSmall: boolean;
 }
+
 export default function CameraDialog({
   isOpen,
   onClose,
   title,
   message,
   from,
-  isSmall
+  isSmall,
 }: CameraDialogProps) {
+  // 얼굴 인식 아이콘 이미지 경로 (크기에 따라 분리)
   const faceIdImage: string = 'src/assets/Login/FaceID.svg';
-  const faceIdImageSmall: string = 'src/assets/Login/FaceID_small.svg'
+  const faceIdImageSmall: string = 'src/assets/Login/FaceID_small.svg';
   const navigate = useNavigate();
+
+  // Webcam과 Canvas에 대한 DOM 참조
   const webcamRef = useRef<Webcam>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  // 상태 변수를 추가하여 인증 요청이 진행 중일 때 중복 요청을 막음
+  
+  // 중복 인증 요청을 방지하기 위한 상태 변수
   const [isVerifying, setIsVerifying] = useState(false);
-  const faceDetectModel = '/Model';
 
-  useEffect(() => {
-    const loadModels = async () => {
-      await faceapi.nets.tinyFaceDetector.loadFromUri(faceDetectModel);
-      await faceapi.nets.faceLandmark68Net.loadFromUri(faceDetectModel);
-    };
-    loadModels();
-
-    const interval = setInterval(async () => {
-      if (webcamRef.current && canvasRef.current) {
-        const video = webcamRef.current.video;
-        if (!video || video.readyState !== 4) return;
-
-        const detections = await faceapi
-          .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
-          .withFaceLandmarks();
-
-        const canvas = canvasRef.current;
-
-        const rect = video.getBoundingClientRect();
-        const displaySize = { width: rect.width, height: rect.height };
-        canvas.width = rect.width;
-        canvas.height = rect.height;
-        faceapi.matchDimensions(canvas, displaySize);
-
-        const resizedDetections = faceapi.resizeResults(
-          detections,
-          displaySize,
-        );
-        const context = canvas.getContext('2d');
-        if (context) {
-          context.clearRect(0, 0, canvas.width, canvas.height);
-          faceapi.draw.drawDetections(canvas, resizedDetections);
-          faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
-        }
-        if (!isVerifying && detections.length > 0) {
-          setIsVerifying(true);
-          // getScreenshot() 메소드로 캡쳐한 이미지는 base64 문자열입니다.
-          const faceSnapshot = webcamRef.current.getScreenshot();
-          if (faceSnapshot) {
-            verifyFace(faceSnapshot);
-          } else {
-            setIsVerifying(false);
-          }
-        }
-      }
-    }, 100);
-
-    return () => clearInterval(interval);
-  }, [isVerifying, navigate]);
-
-  // 서버에 얼굴 이미지 데이터를 보내어 인증 여부를 확인하는 API 함수 입니다.
-  const verifyFace = async (faceImage: string) => {
-    try {
-      // 예시: POST /api/verify-face 엔드포인트에 이미지 데이터를 전송
-      const response = await fetch(
-        'http://192.168.30.193:5000/user/face-login',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          // image: faceImage는 base64 문자열을 담고 있습니다.
-          body: JSON.stringify({ image: faceImage }),
-        },
-      );
-      const data = await response.json();
-      // 서버가 인증된 사용자임을 리턴했다고 가정 (예: data.authenticated === true)
-      if (data?.authenticated) {
-        // 인증 성공 시, 원하는 페이지로 이동 (예: 홈 화면)
-        navigate('/KidFaceLoginPage');
-      } else {
-        // 인증 실패 시, 에러 메시지 출력 등 추가 처리를 할 수 있습니다.
-        console.error('인증 실패');
-      }
-    } catch (error) {
-      console.error('서버 요청 중 에러 발생:', error);
-    } finally {
-      // 인증 처리 후, 추가 요청이 발생하지 않도록 isVerifying 플래그를 리셋
-      setIsVerifying(false);
-    }
-  };
+  // UseFaceVerification hook을 호출하여 얼굴 인식 및 인증 로직을 실행합니다.
+  UseFaceVerification(webcamRef, canvasRef);
 
   return (
     <DialogRoot size={'xs'} placement="center">
@@ -134,6 +60,7 @@ export default function CameraDialog({
         </Button>
       </DialogTrigger>
       <DialogContent position="relative">
+        {/* Webcam 컴포넌트: 얼굴을 캡쳐하고 영상을 출력 */}
         <Webcam
           audio={false}
           ref={webcamRef}
@@ -142,6 +69,7 @@ export default function CameraDialog({
           style={{ width: '100%', borderRadius: '8px' }}
           mirrored={true}
         />
+        {/* Canvas: 얼굴 검출 결과(박스, 랜드마크)를 Webcam 영상 위에 표시 */}
         <canvas
           ref={canvasRef}
           style={{
@@ -162,6 +90,7 @@ export default function CameraDialog({
             <Button
               variant="outline"
               onClick={() => {
+                // from prop에 따라 다른 페이지로 이동
                 if (from === 'thera_face') {
                   navigate('/KidFaceLoginPage');
                 } else {
