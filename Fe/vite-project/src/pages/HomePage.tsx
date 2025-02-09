@@ -10,7 +10,7 @@ export default function HomePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setAudioType('home'); // ✅ HomePage에 오면 'homepagemusic.mp3' 재생
+    setAudioType('home'); // HomePage에 오면 'homepagemusic.mp3' 재생
   }, []);
 
   return (
