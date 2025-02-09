@@ -10,6 +10,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.ssafy.aitalk.user.util.JwtUtil;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 @Service
@@ -146,14 +150,45 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    // 인증코드 저장용 (DB 대신 임시 메모리 사용)
+    private Map<String, String> verificationCodes = new HashMap<>();
+
     @Override
-    public void updatePassword(String email, String newPassword) {
-        if (email == null || !email.contains("@") || newPassword.length() < 8) {
-            throw new IllegalArgumentException("올바른 이메일과 비밀번호를 입력해주세요");
+    public void sendVerificationCode(String id) {
+        String email = userMapper.findEmailById(id);  // 아이디를 통해 이메일 조회
+        if (email == null) {
+            throw new IllegalArgumentException("해당 아이디를 사용하는 계정을 찾을 수 없습니다.");
+        }
+
+        // 6자리 랜덤 인증코드 생성
+        String verificationCode = String.format("%06d", new Random().nextInt(999999));
+        verificationCodes.put(id, verificationCode); // 아이디-코드 매핑
+
+        // 이메일 발송
+        try {
+            emailService.sendEmail(email, "비밀번호 변경 인증코드", "인증코드: " + verificationCode);
+        } catch (MessagingException e) {
+            throw new RuntimeException("이메일 전송 실패");
+        }
+    }
+
+    @Override
+    public boolean verifyCode(String id, String code) {
+        if (verificationCodes.containsKey(id) && verificationCodes.get(id).equals(code)) {
+            verificationCodes.remove(id); // 인증 성공 시 코드 삭제
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void updatePassword(String id, String newPassword) {
+        if (newPassword.length() < 8) {
+            throw new IllegalArgumentException("비밀번호는 8자 이상이어야 합니다.");
         }
 
         String encryptedPassword = passwordEncoder.encode(newPassword);
-        userMapper.updatePassword(email, encryptedPassword);
+        userMapper.updatePasswordById(id, encryptedPassword);
     }
 
 }

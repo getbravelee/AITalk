@@ -40,7 +40,14 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // 세션 비활성화 (JWT 기반)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user/signup", "/user/login", "/user/find-id", "user/change-password").permitAll()  // 회원가입, 로그인은 허용
+                        .requestMatchers(
+                                "/user/signup",
+                                "/user/login",
+                                "/user/find-id",
+                                "/user/send-verification-code",
+                                "/user/verify-code",
+                                "/user/change-password"
+                        ).permitAll()  // 회원가입, 로그인은 허용
                         .anyRequest().authenticated()  // 나머지 요청은 인증 필요
                 )
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);  // ✅ JWT 필터 등록

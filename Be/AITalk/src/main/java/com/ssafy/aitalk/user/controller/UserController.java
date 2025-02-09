@@ -131,17 +131,32 @@ public class UserController {
         }
     }
 
-    // 비밀번호 변경
-    @PostMapping("/change-password")
-    public ResponseEntity<UpdateInfoResponse> resetPassword(@RequestBody Map<String, String> request) {
-        try {
-            String email = request.get("email");
-            String newPassword = request.get("password");
-            userService.updatePassword(email, newPassword);
-            return ResponseEntity.ok(new UpdateInfoResponse("비밀번호가 성공적으로 변경되었습니다."));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(new UpdateInfoResponse("올바른 이메일과 비밀번호를 입력해주세요"));
+
+    // 비밀번호 찾기
+    // 1️⃣ 인증코드 발송 (아이디 입력)
+    @PostMapping("/send-verification-code")
+    public ResponseEntity<PasswordResponse> sendVerificationCode(@RequestBody SendVerificationCodeRequest request) {
+        userService.sendVerificationCode(request.getId());
+        return ResponseEntity.ok(new PasswordResponse("인증코드가 이메일로 전송되었습니다."));
+    }
+
+    // 2️⃣ 인증코드 확인
+    @PostMapping("/verify-code")
+    public ResponseEntity<PasswordResponse> verifyCode(@RequestBody VerifyCodeRequest request) {
+        boolean isVerified = userService.verifyCode(request.getId(), request.getCode());
+
+        if (isVerified) {
+            return ResponseEntity.ok(new PasswordResponse("인증 성공"));
+        } else {
+            return ResponseEntity.badRequest().body(new PasswordResponse("인증코드가 일치하지 않습니다."));
         }
+    }
+
+    // 3️⃣ 비밀번호 변경
+    @PostMapping("/change-password")
+    public ResponseEntity<PasswordResponse> updatePassword(@RequestBody ChangePasswordRequest request) {
+        userService.updatePassword(request.getId(), request.getPassword());
+        return ResponseEntity.ok(new PasswordResponse("비밀번호가 성공적으로 변경되었습니다."));
     }
 }
 

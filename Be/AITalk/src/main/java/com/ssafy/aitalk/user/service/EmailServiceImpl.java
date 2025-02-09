@@ -20,7 +20,7 @@ public class EmailServiceImpl implements EmailService {
 
         helper.setTo(to);
         helper.setSubject(subject);
-        helper.setText(text, true); // HTML 사용 가능
+        helper.setText(text, true);
 
         mailSender.send(message);
     }

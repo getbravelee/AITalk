@@ -21,5 +21,7 @@ public interface UserService {
     void deleteUser(int id);
 
     void sendUserIdByEmail(String email);
-    void updatePassword(String email, String newPassword);
+    void sendVerificationCode(String id);
+    boolean verifyCode(String id, String code);
+    void updatePassword(String id, String newPassword);
 }

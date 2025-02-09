@@ -52,10 +52,15 @@
         SELECT id FROM speech_therapist WHERE email = #{email}
     </select>
 
-    <update id="updatePassword">
+
+    <select id="findEmailById" resultType="String">
+        SELECT email FROM speech_therapist WHERE id = #{id}
+    </select>
+
+    <update id="updatePasswordById">
         UPDATE speech_therapist
         SET password = #{password}
-        WHERE email = #{email};
+        WHERE id = #{id};
     </update>
 
 

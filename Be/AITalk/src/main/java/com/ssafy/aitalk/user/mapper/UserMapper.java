@@ -24,7 +24,11 @@ public interface UserMapper {
 
     String findIdByEmail(@Param("email") String email);  // 아이디 찾기
 
-    void updatePassword(@Param("email") String email, @Param("password") String password);
+
+    String findEmailById(@Param("id") String id);
+
+
+    void updatePasswordById(@Param("id") String id, @Param("password") String password);
 
 
 }
