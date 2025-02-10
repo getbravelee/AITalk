@@ -1,23 +1,24 @@
 from flask import Flask
 from flask_cors import CORS
-
-from .extensions import db
 from dotenv import load_dotenv
+from .extensions import db, socketio
 from .routes import register_routes
-from app.extensions import socketio
+from app.services.sync_service import sync_server_to_local, sync_local_to_server
+import atexit  # 서버 종료 시 동기화를 위해 추가
 
+# 환경 변수 로드
 load_dotenv()
 
 def create_app():
     print("create_app() has been called!")
     app = Flask(__name__)
-    CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
 
-
-    # 설정 파일 로드
+    # 설정 파일 로드 (비밀키 등)
     app.config.from_object('config.Config')
-
     print(f"Loaded secret key: {app.secret_key}")
+
+    # CORS 설정 (설정 파일 이후에 적용)
+    CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
 
     # ✅ 세션 설정
     app.config['SESSION_TYPE'] = 'filesystem'
@@ -25,14 +26,28 @@ def create_app():
     app.config['SESSION_COOKIE_SAMESITE'] = 'None'
     app.config['SESSION_COOKIE_SECURE'] = False
 
-
-    # MySQL 및 확장 모듈 초기화
+    # MySQL 및 기타 확장 모듈 초기화
     db.init_app(app)
-
     socketio.init_app(app)
-
 
     # 라우트 등록
     register_routes(app)
+
+    # ✅ 앱 시작 시 데이터 동기화 (앱 컨텍스트 활성화)
+    with app.app_context():
+        print("앱 시작 시 서버 데이터 → 로컬 데이터 동기화 중...")
+        sync_server_to_local()
+
+    # ✅ 클라이언트 연결 종료 시 데이터 동기화
+    @socketio.on('disconnect')
+    def handle_disconnect():
+        print("클라이언트 연결 종료 시 데이터 동기화 중...")
+        sync_local_to_server()
+
+    # ✅ 서버 종료 시 최종 데이터 동기화
+    @atexit.register
+    def on_server_shutdown():
+        print("서버 종료 시 최종 데이터 동기화 중...")
+        sync_local_to_server()
 
     return app
