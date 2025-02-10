@@ -8,7 +8,7 @@ USE aitalk;
 CREATE TABLE speech_therapist (
     therapist_id INT UNSIGNED NOT NULL PRIMARY KEY,
     therapist_name VARCHAR(20),
-    therapist_id VARCHAR(20),
+    id VARCHAR(20),
     password VARCHAR(255)
 );
 
