@@ -11,7 +11,7 @@ load_dotenv()
 def create_app():
     print("create_app() has been called!")
     app = Flask(__name__)
-    CORS(app, supports_credentials=True)
+    CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
 
 
     # 설정 파일 로드
@@ -29,7 +29,7 @@ def create_app():
     # MySQL 및 확장 모듈 초기화
     db.init_app(app)
 
-    socketio.init_app(app, cors_allowed_origins="*", async_mode='eventlet')
+    socketio.init_app(app)
 
 
     # 라우트 등록

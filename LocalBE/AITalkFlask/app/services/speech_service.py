@@ -76,10 +76,11 @@ def initialize_conversation(child_id):
     logging.info(f"초기 프롬프트: {initial_system_prompt}")
     conversation_history.clear()
     conversation_history.append({"role": "system", "content": initial_system_prompt})
+    model = load_model()
 
 def recognize_audio(child_id):
     global is_recognizing, keep_listening, gpt_processing, is_tts_playing
-    model = load_model()
+
 
     with recognition_lock:
         is_recognizing = True
@@ -190,7 +191,7 @@ def stop_recognition(child_id):
     logging.info("✅ 대화 종료 후 리소스 정리 완료.")
 
 @socketio.on('tts_finished', namespace='/')
-def handle_tts_finished(data):
+def handle_tts_finished():
     """
     클라이언트에서 TTS 재생 완료 후 호출하는 이벤트 핸들러.
     TTS 재생 플래그(is_tts_playing)를 해제하고, 음성 인식이 실행 중이 아니면 재시작합니다.
@@ -198,6 +199,5 @@ def handle_tts_finished(data):
     global is_tts_playing, current_child_id, is_recognizing, keep_listening
     is_tts_playing = False
     logging.info("TTS 재생 완료 이벤트 수신: 음성 인식 재개됨")
-    if not is_recognizing and current_child_id is not None:
-        keep_listening = True
-        Thread(target=recognize_audio, args=(current_child_id,), daemon=True).start()
+    keep_listening = True
+    Thread(target=recognize_audio, args=(current_child_id,), daemon=True).start()
