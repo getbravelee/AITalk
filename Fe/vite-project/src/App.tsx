@@ -12,6 +12,7 @@ import CardPlaySelectWordVerbSentencePage from './pages/CardPlaySelectWordVerbSe
 
 import CameraScanPage from './pages/CameraScanPage';
 import CameraImageGeneratePage from './pages/CameraImageGeneratePage';
+import CameraPlaySelectPage from './pages/CameraPlaySelectPage';
 
 import AiTalkPage from './pages/AiTalkPage';
 
@@ -73,6 +74,10 @@ function MainRoutes() {
       <Route
         path="/camera-img-generate"
         element={<CameraImageGeneratePage />}
+      ></Route>
+      <Route
+        path="/camera-play-select"
+        element={<CameraPlaySelectPage />}
       ></Route>
       <Route path="/ai-talk" element={<AiTalkPage />} />
       <Route

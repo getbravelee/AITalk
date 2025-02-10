@@ -16,7 +16,7 @@ export default function ImgGenerateImage({
         src="/src/assets/common/img_generate_loading.png"
         alt="이미지 생성 중 캐릭터 이미지"
         className="ImgGenerateImage"
-        onClick={() => navigate('/camrea-play-select')}
+        onClick={() => navigate('/camera-play-select')}
       />
     </div>
   );
