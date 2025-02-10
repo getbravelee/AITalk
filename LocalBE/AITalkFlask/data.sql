@@ -7,7 +7,9 @@ USE aitalk;
 -- therapist_id, face
 CREATE TABLE speech_therapist (
     therapist_id INT UNSIGNED NOT NULL PRIMARY KEY,
-    therapist_name VARCHAR(20)
+    therapist_name VARCHAR(20),
+    therapist_id VARCHAR(20),
+    password VARCHAR(255)
 );
 
 -- 치료아동 테이블 생성
