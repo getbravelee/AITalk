@@ -3,5 +3,18 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  "compilerOptions": {
+    "target": "ES6",
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": ["react", "react-dom"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }
