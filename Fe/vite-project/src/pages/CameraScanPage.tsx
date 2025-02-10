@@ -1,10 +1,12 @@
 import { useEffect, useRef } from 'react';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
+import { useNavigate } from 'react-router-dom';
 
 import './CameraScanPage.css';
 
 export default function CameraScanPage() {
+  const navigate = useNavigate();
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
@@ -51,6 +53,7 @@ export default function CameraScanPage() {
             ref={videoRef}
             autoPlay
             playsInline
+            onClick={() => navigate('/camera-img-generate')}
             className="CameraFeed"
           ></video>
         </div>

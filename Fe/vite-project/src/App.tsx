@@ -9,7 +9,10 @@ import CardPlaySelectPage from './pages/CardPlaySelectPage';
 import CardPlaySelectWordPage from './pages/CardPlaySelectWordPage';
 import CardPlaySelectWordVerbPage from './pages/CardPlaySelectWordVerbPage';
 import CardPlaySelectWordVerbSentencePage from './pages/CardPlaySelectWordVerbSentencePage';
+
 import CameraScanPage from './pages/CameraScanPage';
+import CameraImageGeneratePage from './pages/CameraImageGeneratePage';
+
 import AiTalkPage from './pages/AiTalkPage';
 
 import TherapistFaceLoginPage from './pages/TherapistFaceLoginPage';
@@ -66,12 +69,16 @@ function MainRoutes() {
         path="/card-play-select/three-sentence"
         element={<CardPlaySelectThreeSentencePage />}
       />
+      <Route path="/camera-scan" element={<CameraScanPage />}></Route>
+      <Route
+        path="/camera-img-generate"
+        element={<CameraImageGeneratePage />}
+      ></Route>
       <Route path="/ai-talk" element={<AiTalkPage />} />
       <Route
         path="/TherapistFaceLoginPage"
         element={<TherapistFaceLoginPage />}
       />
-      <Route path="/camera-scan" element={<CameraScanPage />}></Route>
       <Route path="/TherapistLoginPage" element={<TherapistLoginPage />} />
       <Route
         path="/TherapistFaceResisterPage"
