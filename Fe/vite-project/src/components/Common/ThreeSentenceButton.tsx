@@ -1,11 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 import './ThreeSentenceButton.css';
 
-export default function ThreeSentenceButton() {
+interface ThreeSentenceButtonProps {
+  targetPath: string; // 경로를 설정하는 prop 추가
+}
+
+export default function ThreeSentenceButton({
+  targetPath,
+}: ThreeSentenceButtonProps) {
   const navigate = useNavigate();
 
   const handleClick = (): void => {
-    navigate('/card-play-select/three-sentence');
+    console.log(`🔄 Navigating to ${targetPath}...`);
+    navigate(targetPath);
   };
 
   return (

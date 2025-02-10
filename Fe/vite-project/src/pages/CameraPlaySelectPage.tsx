@@ -23,8 +23,9 @@ export default function CameraPlaySelectPage() {
             />
           </div>
           <div className="ButtonContainer">
-            <WordButton />
-            <ThreeSentenceButton />
+            {/* CameraPlaySelectPage 전용 경로 설정 */}
+            <WordButton targetPath="/camera-play-select/word" />
+            <ThreeSentenceButton targetPath="/camera-play-select/three-sentence" />
           </div>
         </div>
       </div>
