@@ -6,6 +6,8 @@ from app.services.speech_service import (
     is_recognizing,
     initialize_conversation,
     get_child_info,
+    keep_listening,
+    is_tts_playing
 )
 from gtts import gTTS
 import base64
@@ -52,11 +54,15 @@ def start_recognition_route():
             "audio": audio_base64,
         }), 200
 
-    # 이미 음성 인식 중이면 중복 실행 방지
+    # 대화가 이미 시작된 경우, TTS 재생 중이면 음성 인식 시작을 막음
+    if is_tts_playing:
+        return jsonify({"status": "TTS 재생 중, 음성 인식 대기중"}), 200
+
+    # 음성 인식이 이미 실행 중이면 중복 실행 방지
     if is_recognizing:
         return jsonify({"status": "already running"}), 409
 
-    # 대화가 이미 시작된 경우 별도 요청으로 음성 인식을 시작
+    # TTS 재생이 완료된 상태에서 대화가 이미 시작된 경우에만 음성 인식을 시작
     keep_listening = True
     threading.Thread(target=recognize_audio, args=(child_id,), daemon=True).start()
     return jsonify({"status": "recognition started"}), 200

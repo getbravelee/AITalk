@@ -35,7 +35,7 @@ is_recognizing = False
 recognition_lock = Lock()
 keep_listening = True      # 음성 인식을 계속할지 여부
 gpt_processing = False     # GPT 요청 처리 중 여부
-is_tts_playing = False     # TTS 재생 중임을 나타내는 플래그
+is_tts_playing = True     # TTS 재생 중임을 나타내는 플래그
 current_child_id = None    # 현재 대화 중인 아동의 ID
 
 # OpenAI API 설정
