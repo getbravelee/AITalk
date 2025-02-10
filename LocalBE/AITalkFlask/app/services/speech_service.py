@@ -189,3 +189,4 @@ def handle_tts_finished():
     global is_tts_playing
     is_tts_playing = False
     logging.info("TTS 재생 완료 이벤트 수신: 음성 인식 재개됨")
+
