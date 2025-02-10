@@ -1,6 +1,6 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from app.services.therapist_login_service import get_card_info_after_tagging
-from app.services.auth_service import authenticate_user
+from app.services.login_service import login_user
 
 login_bp = Blueprint('login_bp', __name__)
 
@@ -19,7 +19,7 @@ def login():
     if not user_id or not password:
         return jsonify({'message': 'ID와 비밀번호를 입력하세요.'}), 400
 
-    user = authenticate_user(user_id, password)
+    user = login_user(user_id, password)
     if user:
         return jsonify({'message': '로그인 성공', 'therapist_id': user.therapist_id}), 200
     else:
