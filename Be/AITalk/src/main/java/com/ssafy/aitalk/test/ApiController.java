@@ -1,12 +1,8 @@
 package com.ssafy.aitalk.test;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import java.util.HashMap;
+
 import java.util.Map;
 
 @RestController
@@ -14,16 +10,20 @@ import java.util.Map;
 public class ApiController {
 
     private final String FLASK_URL = "http://175.209.203.185:5220/process"; // GPU 서버 URL
-    private final RestTemplate restTemplate = new RestTemplate();
 
     @PostMapping("/send")
     public ResponseEntity<String> sendRequestToFlask(@RequestBody Map<String, String> request) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        System.out.println("Received from client: " + request);
 
-        HttpEntity<Map<String, String>> entity = new HttpEntity<>(request, headers);
-        ResponseEntity<String> response = restTemplate.postForEntity(FLASK_URL, entity, String.class);
+        ResponseEntity<String> response = ResponseEntity.ok("{\"status\": \"sent to Flask\"}");
+        return response;
+    }
 
-        return ResponseEntity.ok(response.getBody());
+    // 🛠️ **Flask가 응답을 보낼 엔드포인트 추가**
+    @PostMapping("/receive")
+    public ResponseEntity<String> receiveFromFlask(@RequestBody Map<String, String> response) {
+        System.out.println("Received from Flask: " + response);
+
+        return ResponseEntity.ok("{\"status\": \"received from Flask\"}");
     }
 }
