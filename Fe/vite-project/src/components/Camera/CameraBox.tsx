@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Webcam from 'react-webcam';
 // 아래 수정해서 객체인식 완료해야 함
-// import * as cocoSsd from '../@tensorflow-models/coco-ssd';
+import * as cocoSsd from '@tensorflow-models/coco-ssd';
 import * as tf from '@tensorflow/tfjs';
 import { VideoConstraints } from './VideoConstraints';
 
@@ -28,7 +28,11 @@ const CameraBox: React.FC<CameraBoxProps> = ({ scaleFactor }) => {
   useEffect(() => {
     let animationId: number;
     const detectObjects = async () => {
-      if (model && webcamRef.current && webcamRef.current.video?.readyState === 4) {
+      if (
+        model &&
+        webcamRef.current &&
+        webcamRef.current.video?.readyState === 4
+      ) {
         const video = webcamRef.current.video;
         const videoWidth = video.videoWidth;
         const videoHeight = video.videoHeight;
@@ -45,18 +49,73 @@ const CameraBox: React.FC<CameraBoxProps> = ({ scaleFactor }) => {
           canvas.height = videoHeight;
           const ctx = canvas.getContext('2d');
           if (ctx) {
+            // 기존 내용 지우기
+            ctx.clearRect(0, 0, videoWidth, videoHeight);
+            // 좌우 반전을 위해 캔버스 컨텍스트 변환 적용
+            ctx.save();
+            ctx.translate(canvas.width, 0);
+            ctx.scale(-1, 1);
             ctx.clearRect(0, 0, videoWidth, videoHeight);
             // coco-ssd 모델로 객체 감지
-            const predictions = await model.detect(video);
-            predictions.forEach(prediction => {
+            // predictions 배열의 타입을 지정
+            const predictions: Prediction[] = await model.detect(video);
+
+            predictions.forEach((prediction) => {
               const [x, y, width, height] = prediction.bbox;
-              ctx.strokeStyle = '#00FFFF';
-              ctx.lineWidth = 2;
+
+              // 1. 객체 인식 박스 그리기 (현재 좌우 반전 상태에서 그려짐)
+              ctx.save();
+
+              // 그림자 효과 설정
+              ctx.shadowColor = 'rgba(0, 0, 0, 0.6)'; // 어두운 그림자
+              ctx.shadowBlur = 8; // 블러 효과
+              ctx.shadowOffsetX = 4; // 오른쪽 오프셋
+              ctx.shadowOffsetY = 4; // 아래쪽 오프셋
+
+              // 노란색 그라데이션 stroke 스타일 생성 (왼쪽 상단 → 오른쪽 상단)
+              const lineGradient = ctx.createLinearGradient(x, y, x + width, y);
+              lineGradient.addColorStop(0, '#FFD700'); // 골드 색상
+              lineGradient.addColorStop(1, '#FFFACD'); // 레몬 치폰 색상
+
+              ctx.lineWidth = 3;
+              ctx.strokeStyle = lineGradient;
               ctx.strokeRect(x, y, width, height);
-              ctx.font = '18px Arial';
-              ctx.fillStyle = '#00FFFF';
+
+              ctx.restore();
+
+              // 2. 텍스트는 좌우 반전되지 않도록 변환 초기화 후 그리기
+              ctx.save();
+              ctx.setTransform(1, 0, 0, 1, 0, 0); // 좌표계를 원래대로 복원
+
+              // 반전되어 그려진 박스의 올바른 텍스트 좌표 계산:
+              // 텍스트의 x 좌표는 캔버스 너비에서 (x+width)를 빼준 값에 약간의 여백을 더함
+              const textX = canvas.width - (x + width) + 4;
+              const textY = y > 22 ? y - 24 : y + 4;
               const text = `${prediction.class} ${Math.round(prediction.score * 100)}%`;
-              ctx.fillText(text, x, y > 10 ? y - 10 : y + 20);
+
+              // 텍스트 그라데이션 (상단부터 하단까지 핑크 계열)
+              const textGradient = ctx.createLinearGradient(
+                textX,
+                textY,
+                textX,
+                textY + 25,
+              );
+              textGradient.addColorStop(0, '#FF69B4'); // 핫핑크
+              textGradient.addColorStop(1, '#FF1493'); // 딥핑크
+
+              ctx.font = 'bold 16px Arial';
+              ctx.textBaseline = 'top';
+
+              // 텍스트 가독성을 위한 반투명 배경 그리기
+              const textWidth = ctx.measureText(text).width;
+              ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+              ctx.fillRect(textX, textY, textWidth + 8, 24);
+
+              // 텍스트를 그라데이션 색상으로 채워줌
+              ctx.fillStyle = textGradient;
+              ctx.fillText(text, textX + 4, textY + 2);
+
+              ctx.restore();
             });
           }
         }
@@ -109,5 +168,11 @@ const CameraBox: React.FC<CameraBoxProps> = ({ scaleFactor }) => {
     </div>
   );
 };
+
+interface Prediction {
+  bbox: [number, number, number, number]; // [x, y, width, height]
+  class: string; // 객체 클래스 이름
+  score: number; // 신뢰도 점수 (0~1)
+}
 
 export default CameraBox;
