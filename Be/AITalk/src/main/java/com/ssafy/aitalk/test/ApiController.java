@@ -13,7 +13,7 @@ import java.util.Map;
 @RequestMapping("/api") // 🔥 API 경로가 "/api"로 시작하도록 설정
 public class ApiController {
 
-    private final String FLASK_URL = "http://70.12.130.121:5220/process"; // GPU 서버 URL
+    private final String FLASK_URL = "http://175.209.203.185:5220/process"; // GPU 서버 URL
     private final RestTemplate restTemplate = new RestTemplate();
 
     @PostMapping("/send")
