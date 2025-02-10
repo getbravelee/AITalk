@@ -20,7 +20,6 @@ const UseCardTagForFaceResist = () => {
   const handleCardTagForFaceResist = useCallback(async () => {
     // 이미 1차 로그인 완료된 사용자라면 NFC 카드 태깅 없이 바로 얼굴 등록 페이지로 이동
     if (currentUser) {
-      console.log(currentUser.therapist_id)
       navigate('/TherapistFaceResisterPage',{ state: currentUser });
       return;
     }

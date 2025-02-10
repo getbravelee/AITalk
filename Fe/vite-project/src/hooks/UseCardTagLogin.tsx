@@ -50,15 +50,15 @@ export function UseCardTagLogin() {
 
     try {
       // POST 방식으로 카드 태깅 로그인 API 호출
-      const response = await fetch('http://192.168.30.146:5000/user/login', {
+      const response = await fetch('http://192.168.30.146:5000/user/card-login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         // 실제 카드 데이터로 대체해야 하는 예시 데이터
-        body: JSON.stringify({
-          tagInfo: 'example-tag-info',
-        }),
+        // body: JSON.stringify({
+        //   tagInfo: 'example-tag-info',
+        // }),
         signal: controller.signal, // abort-controller의 signal 연결
       });
       // 요청이 정상적으로 완료되었다면 타임아웃 제거

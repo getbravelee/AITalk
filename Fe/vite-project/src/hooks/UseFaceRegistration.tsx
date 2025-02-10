@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as faceapi from 'face-api.js';
 
@@ -17,12 +17,12 @@ const UseFaceRegistration = (
   canvasRef: React.MutableRefObject<any>,
   isVerifying: boolean,
   setIsVerifying: (verifying: boolean) => void,
-  cardData: { therapist_id: number; name: string },
+  cardData: { therapist_id: number; therapist_name: string },
 ) => {
   const navigate = useNavigate();
   // 모델 파일들이 위치한 public 내 디렉터리 경로
   const faceDetectModel = '/Model';
-
+  const [registrationComplete, setRegistrationComplete] = useState(false); // 등록 성공 여부 저장
   useEffect(() => {
     // 1. 얼굴 검출에 사용할 모델들을 로드합니다.
     const loadModels = async () => {
@@ -33,6 +33,9 @@ const UseFaceRegistration = (
 
     // 2. 주기적으로 Webcam의 영상을 분석하여 얼굴 검출 시 등록 처리를 진행합니다.
     const interval = setInterval(async () => {
+      // 등록 성공 후 추가 요청 발생 방지
+      if (registrationComplete) return;
+
       if (webcamRef.current && canvasRef.current) {
         const video = webcamRef.current.video;
         // 비디오 요소가 준비되지 않았다면 중단합니다.
@@ -67,7 +70,12 @@ const UseFaceRegistration = (
         // // 얼굴이 검출되고, NFC 카드 데이터가 있을 때 등록 API를 호출
         if (!isVerifying && detections.length > 0 && cardData?.therapist_id) {
           setIsVerifying(true);
-          await registerFace(cardData.therapist_id, navigate, setIsVerifying);
+          await registerFace(
+            cardData.therapist_id,
+            navigate,
+            setIsVerifying,
+            () => setRegistrationComplete(true),
+          );
         }
       }
     }, 100);
@@ -81,6 +89,7 @@ const UseFaceRegistration = (
     setIsVerifying,
     faceDetectModel,
     cardData,
+    registrationComplete,
   ]);
 };
 
@@ -94,31 +103,37 @@ const UseFaceRegistration = (
  */
 async function registerFace(
   therapist_id: number,
+  therapist_name: string,
   navigate: ReturnType<typeof useNavigate>,
   setIsVerifying: (verifying: boolean) => void,
+  onRegistrationComplete: () => void, // 등록 완료 시 호출할 callback
 ) {
   try {
     const response = await fetch(
-      'http://192.168.30.189:5000/user/face-resist',
+      'http://192.168.30.189:5000/user/face-regist',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ therapist_id: therapist_id }),
+        // 서버에 json 객체 형태로 전달달
+        body: JSON.stringify({ therapist_id, therapist_name }),
       },
     );
     const data = await response.json();
+    console.log(data);
 
-    // 서버가 얼굴 등록 성공을 응답하면 페이지 이동 진행
-    if (data?.registered) {
+    // 데이터의 status 가 문자열 "201"일 수 있으니 Number()로 변환하여 비교
+    if (Number(data?.status) === 201) {
       console.log('얼굴 등록 성공:', data);
-      navigate('/TherapistFaceResisterCompletePage');
+      alert('얼굴 등록이 성공했습니다!');
+      onRegistrationComplete();
+      navigate('/KidFaceLoginPage');
     } else {
       console.error('얼굴 등록 실패:', data?.message || '');
     }
   } catch (error) {
     console.error('서버 요청 중 에러 발생:', error);
   } finally {
-    setIsVerifying(false); // 등록 후 중복 요청 방지 플래그 리셋
+    setIsVerifying(false);
   }
 }
 

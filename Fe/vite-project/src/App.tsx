@@ -8,11 +8,12 @@ import CardPlaySelectWordVerbPage from './pages/CardPlaySelectWordVerbPage';
 import CardPlaySelectWordVerbSentencePage from './pages/CardPlaySelectWordVerbSentencePage';
 import TherapistFaceLoginPage from './pages/TherapistFaceLoginPage';
 import TherapistLoginPage from './pages/TherapistLoginPage';
-import TherapistFaceResisterPage from './pages/TherapistFaceResisterPage';
-import TherapistFaceResisterCompletePage from './pages/TherapistFaceResisterCompletePage';
+import TherapistFaceResisterPage from './pages/TherapistFaceRegisterPage';
+import TherapistFaceResisterCompletePage from './pages/TherapistFaceRegisterCompletePage';
 import HomeAfterLoginPage from './pages/HomeAfterLoginPage';
 import KidSelectPage from './pages/KidSelectPage';
 import KidFaceLoginPage from './pages/KidFaceLoginPage';
+import CameraPlayPage from './pages/CameraPlayPage';
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
         <Route path="/HomeAfterLoginPage" element={<HomeAfterLoginPage />} />
         <Route path="/KidSelectPage" element={<KidSelectPage />} />
         <Route path="/KidFaceLoginPage" element={<KidFaceLoginPage />} />
+        <Route path="/CameraPlayPage" element={<CameraPlayPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -14,7 +14,7 @@ import {
 import { Button } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import Webcam from 'react-webcam';
-import UseFaceResistration from '../../hooks/UseFaceResistration';
+import UseFaceResistration from '../../hooks/UseFaceRegistration';
 
 interface ResistCameraDialogProps {
   isOpen: boolean;
