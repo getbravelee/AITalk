@@ -1,15 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import UserMainContainer from '../../components/user/common/UserMainContainer';
 
-export default function User() {
-  const navigate = useNavigate(); // useNavigate 훅은 컴포넌트 내부에서 호출해야 함.
-
+export default function User(): React.JSX.Element {
   return (
-    <div>
-      <p>UserPage</p>
-      <div>
-        {/* onClick 내부에서 함수로 감싸서 실행해야 함 */}
-        <button onClick={() => navigate('/main')}>MainPage</button>
-      </div>
-    </div>
+    <UserMainContainer>
+      <Outlet /> {/* 자식 컴포넌트가 동적으로 바뀌는 부분 */}
+    </UserMainContainer>
   );
 }

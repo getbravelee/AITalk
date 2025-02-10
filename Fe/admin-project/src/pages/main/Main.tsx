@@ -1,13 +1,12 @@
-import { ReactNode } from 'react';
+import { Outlet } from 'react-router-dom';
 
-interface MainProps {
-  children: ReactNode;
-}
+export default function Main() {
+  console.log('✅ Main 컴포넌트 렌더링됨');
 
-export default function Main({ children }: MainProps): React.JSX.Element {
   return (
-    <div>
-      <main>{children}</main>
+    <div style={{ border: '2px solid red', padding: '20px' }}>
+      <h1>📍 Main Component</h1>
+      <Outlet />
     </div>
   );
 }
