@@ -1,6 +1,7 @@
 # 라우트연결
 
 from .child_route import child_bp
+from .sentence_routes import sentence_bp
 from .speech_route import speech_bp
 from .card_routes import card_bp
 from .session_routes import  session_bp
@@ -13,3 +14,4 @@ def register_routes(app):
     app.register_blueprint(login_bp)
     app.register_blueprint(child_bp)
     app.register_blueprint(speech_bp)
+    app.register_blueprint(sentence_bp)
