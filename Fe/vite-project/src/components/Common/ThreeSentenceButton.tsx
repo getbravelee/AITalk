@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import './ThreeSentenceButton.css';
 
 interface ThreeSentenceButtonProps {
-  targetPath: string; // 경로를 설정하는 prop 추가
+  targetPath: string; // 경로를 설정하는 prop
 }
 
 export default function ThreeSentenceButton({
