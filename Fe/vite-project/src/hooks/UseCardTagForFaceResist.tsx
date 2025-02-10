@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 /**
 UseCardTagForFaceResist hook
 이 hook은 카드 태깅(예시용) API를 호출하여 얼굴 등록 처리를 위한 데이터를 받아오고,
@@ -15,7 +16,14 @@ TherapistFaceResisterPage로 카드 데이터(therapist_id)를 상태에 담아 
 */
 const UseCardTagForFaceResist = () => {
   const navigate = useNavigate();
+  const currentUser = useSelector((state: any) => state.user.currentUser);
   const handleCardTagForFaceResist = useCallback(async () => {
+    // 이미 1차 로그인 완료된 사용자라면 NFC 카드 태깅 없이 바로 얼굴 등록 페이지로 이동
+    if (currentUser) {
+      console.log(currentUser.therapist_id)
+      navigate('/TherapistFaceResisterPage',{ state: currentUser });
+      return;
+    }
     console.log('📡 Fetching card data from server...');
     // 1. NFC 태깅 진행 화면(예: 로딩 또는 NFC 태깅 화면)으로 이동합니다.
     navigate('/nfc-tag');
@@ -26,7 +34,7 @@ const UseCardTagForFaceResist = () => {
 
     try {
       // 3. POST 요청 실행: 예시 데이터(tagInfo)를 서버로 전송하여 카드 데이터를 요청합니다.
-      const response = await fetch('http://192.168.30.146:5000/user/login', {
+      const response = await fetch('http://192.168.30.189:5000/user/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tagInfo: 'example-tag-info' }), // 실제 데이터로 변경 필요
@@ -50,7 +58,7 @@ const UseCardTagForFaceResist = () => {
       setTimeout(() => {
         // therapist_id 값을 상태에 담아 다음 페이지로 전송합니다.
         navigate('/TherapistFaceResisterPage', {
-          state: cardData.therapist_id,
+          state: cardData,
         });
       }, 2000); // 2초 후 이동
     } catch (error) {
@@ -59,4 +67,4 @@ const UseCardTagForFaceResist = () => {
   }, [navigate]);
   return handleCardTagForFaceResist;
 };
-export default UseCardTagForFaceResist
+export default UseCardTagForFaceResist;

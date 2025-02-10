@@ -10,12 +10,10 @@ import {
 } from '@chakra-ui/react';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import CameraDialog from '../components/Dialogs/CameraDialog';
-import ResistCameraDialog from '../components/Dialogs/ResistCameraDialog';
 import BackButton from '../components/Common/BackButton';
 import '../components/Common/BackgroundContainer.css';
 import '../components/Texts/TextFontFromGoogle.css';
 import UseTherapistLogin from '../hooks/UseTherapistLogin';
-import CardTagButtonForFaceResist from '../components/Buttons/CardTagButtonForFaceResist';
 
 export default function TherapistLoginPage() {
   // 로그인 폼 관련 상태

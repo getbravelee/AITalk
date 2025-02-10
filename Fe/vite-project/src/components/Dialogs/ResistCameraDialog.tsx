@@ -23,7 +23,7 @@ interface ResistCameraDialogProps {
   message: string;
   from: string;
   isSmall: boolean;
-  therapistID: number;
+  cardData: { therapist_id: number; name: string }; // NFC 카드에서 읽은 사용자 정보
 }
 
 export default function ResistCameraDialog({
@@ -33,7 +33,7 @@ export default function ResistCameraDialog({
   message,
   from,
   isSmall,
-  therapistID,
+  cardData,
 }: ResistCameraDialogProps) {
   // 얼굴 아이콘 경로 (상황에 따라 작은 이미지나 기본 이미지 선택)
   const faceIdImage: string = 'src/assets/Login/FaceID.svg';
@@ -47,7 +47,7 @@ export default function ResistCameraDialog({
   const [isVerifying, setIsVerifying] = useState(false);
 
   // useFaceRegistration hook을 호출하여 얼굴 인식 및 등록 로직 실행
-  UseFaceResistration(webcamRef, canvasRef, isVerifying, setIsVerifying);
+  UseFaceResistration(webcamRef, canvasRef, isVerifying, setIsVerifying, cardData);
 
   return (
     <DialogRoot size={'xs'} placement="center">

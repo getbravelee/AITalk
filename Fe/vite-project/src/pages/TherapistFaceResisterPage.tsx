@@ -8,9 +8,7 @@ import BackButton from '../components/Common/BackButton';
 
 export default function TherapistFaceResisterPage() {
   const location = useLocation();
-  const cardDataID = location.state || { id: 'Unknown'};
-
-
+  const cardDataFromNFC = location.state || { id: 0, name: 'Unknown' };
   const [isCameraOpen, setIsCameraOpen] = useState(false);
 
   const handleOpenCamera = () => {
@@ -38,7 +36,8 @@ export default function TherapistFaceResisterPage() {
             title="얼굴 등록"
             message="카메라로 연결됩니다."
             from="thera_face"
-            therapistID={cardDataID}
+            // therapistID={cardDataID}
+            cardData={cardDataFromNFC}  // NFC 카드 정보를 전달
           />
         </VStack>
       </Flex>
