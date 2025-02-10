@@ -76,7 +76,6 @@ export default function CameraDialog({
             position: 'absolute',
             top: 0,
             left: 0,
-            transform: 'scaleX(-1)',
           }}
         />
         <DialogHeader>

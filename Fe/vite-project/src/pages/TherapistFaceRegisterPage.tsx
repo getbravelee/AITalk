@@ -5,6 +5,8 @@ import NavbarContainer from '../components/Common/NavbarContainer';
 import ResistCameraDialog from '../components/Dialogs/ResistCameraDialog';
 import '../components/Common/BackgroundContainer.css';
 import BackButton from '../components/Common/BackButton';
+import '../components/Texts/TextFontFromGoogle.css'
+
 
 export default function TherapistFaceResisterPage() {
   const location = useLocation();
@@ -24,10 +26,10 @@ export default function TherapistFaceResisterPage() {
       <NavbarContainer>
         <BackButton />
       </NavbarContainer>
-      <Flex direction="column" align="center" pt={10} gap={10}>
-        <HStack>
-          <Text fontSize={30}>치료사</Text>
-          <Text fontSize={20}> 님의 얼굴을 등록해 주세요</Text>
+      <Flex direction="column" align="center" pt={5} gap={7}>
+        <HStack className='font'>
+          <Text fontSize={50}>치료사</Text>
+          <Text fontSize={30}> 님의 얼굴을 등록해 주세요</Text>
         </HStack>
         <VStack>
           <ResistCameraDialog
