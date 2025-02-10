@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
+
+.AiTalkContainer {
+  background-image: url('/src/assets/background/background_3.png');
+  background-size: cover;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* 내부 요소의 절대 위치 기준 */
+  font-family: 'Dongle', serif;
+}

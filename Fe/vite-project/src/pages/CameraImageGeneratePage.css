@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
+
+.CameraImageGenerateContainer {
+  background-image: url('/src/assets/background/background_2.png'); /* 배경 이미지 경로 */
+  background-size: cover; /* 화면 채우기 */
+  background-position: center; /* 이미지 중앙 정렬 */
+  height: 90vh;
+  display: flex;
+  flex-direction: column; /* 세로 방향 정렬, flexbox 안에서 요소를 세로로 정렬한다. */
+  justify-content: center; /* 세로 중앙 정렬 */
+  align-items: center; /* 가로 중앙 정렬 */
+}
+
+/* CameraImageGeneratePage.css */
+.camera-loading-circle {
+  position: absolute;
+  bottom: 13%;
+}

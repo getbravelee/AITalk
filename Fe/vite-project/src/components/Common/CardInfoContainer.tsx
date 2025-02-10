@@ -18,7 +18,7 @@ export default function CardInfoContainer({
   return (
     <div className={`CardInfoContainer ${className}`.trim()}>
       <img className="CardImage" src={imageSrc} alt={displayCardName} />
-      <p className="CardText">카드: {displayCardName}</p>
+      <p className="CardTexts">{displayCardName}</p>
     </div>
   );
 }

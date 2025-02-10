@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
 
-.CardPlaySelectContainer {
+.CameraPlaySelectContainer {
   background-image: url('/src/assets/background/background_3.png');
   background-size: cover;
   height: 90vh;
@@ -10,7 +10,7 @@
   font-family: 'Dongle', serif;
 }
 
-.CardPlaySelectInnerContainer {
+.CameraPlaySelectInnerContainer {
   display: flex;
   gap: 4rem; /* 각 요소 사이 간격 */
   margin-top: 3rem; /* 전체 간격 조정 */
