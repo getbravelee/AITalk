@@ -204,7 +204,7 @@ def stop_recognition(child_id):
 def handle_tts_finished():
     """
     클라이언트에서 TTS 재생 완료 후 호출하는 이벤트 핸들러.
-    TTS 재생 플래그(is_tts  q_playing)를 해제하고, 음성 인식이 실행 중이 아니면 재시작합니다.
+    TTS 재생 플래그(is_tts_playing)를 해제하고, 음성 인식이 실행 중이 아니면 재시작합니다.
     """
     global is_tts_playing, current_child_id, is_recognizing, keep_listening
     is_tts_playing = False
