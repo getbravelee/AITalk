@@ -1,0 +1,17 @@
+.BackPlaySelectButton {
+  display: flex;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+}
+
+.BackPlaySelectButton:hover {
+  opacity: 0.8;
+}
+
+.BackPlaySelectIcon {
+  margin-top: 0.25rem;
+  margin-left: 0.2rem;
+  font-size: 8vh;
+  color: white;
+}

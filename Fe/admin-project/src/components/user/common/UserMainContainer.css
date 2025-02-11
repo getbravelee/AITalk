@@ -1,0 +1,10 @@
+.user-main-container {
+  display: flex;
+  justify-content: center; /* 콘텐츠를 수평으로 중앙 정렬 */
+  align-items: center; /* 콘텐츠를 수직으로 중앙 정렬 */
+  height: 100vh; /* 화면 전체 높이를 차지 */
+  background-color: #f9f9f9; /* 배경 색상 */
+  background-image: url('../../../assets/User/UserBackgroud.svg'); /* 배경 이미지 */
+  background-size: cover; /* 이미지 크기를 화면에 맞춤 */
+  background-position: center; /* 이미지 위치를 중앙으로 설정 */
+}

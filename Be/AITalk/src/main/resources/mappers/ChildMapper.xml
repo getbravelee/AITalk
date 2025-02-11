@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.aitalk.child.mapper.ChildMapper">
+
+    <!--아동 데이터 매핑-->
+    <resultMap id="Child" type="com.ssafy.aitalk.child.entity.Child">
+        <id property="childId" column="child_id"/>
+        <result property="therapistId" column="therapist_id"/>
+        <result property="centerId" column="center_id"/>
+        <result property="childName" column="child_name"/>
+        <result property="protectorNumber" column="protector_number"/>
+        <result property="profileImage" column="profile_image"/>
+        <result property="disabilityType" column="disability_type"/>
+        <result property="age" column="age"/>
+    </resultMap>
+
+    <!--아동 스케줄 데이터 매핑-->
+    <resultMap id="ChildScheduleResultMap" type="com.ssafy.aitalk.child.dto.ChildScheduleResponse">
+        <result property="treatmentDate" column="treatment_date"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="words" column="words" typeHandler="com.ssafy.aitalk.schedule.typehandler.JsonTypeHandler"/>
+        <result property="sentence" column="sentence" typeHandler="com.ssafy.aitalk.schedule.typehandler.JsonTypeHandler"/>
+        <result property="conversation" column="conversation"/>
+    </resultMap>
+
+    <!-- 치료 아동 등록 -->
+    <insert id="registerChild" >
+        INSERT INTO care_children (
+            therapist_id,
+            center_id,
+            child_name,
+            protector_number,
+            profile_image,
+            disability_type,
+            age
+        )
+        VALUES (
+                   #{therapistId},
+                   #{centerId},
+                   #{childName},
+                   #{protectorNumber},
+                   #{profileImage},
+                   #{disabilityType},
+                   #{age}
+               )
+    </insert>
+
+
+    <!-- 이미 등록된 아동인지 확인 -->
+    <select id="isRegisteredChild" resultType="int">
+        SELECT COUNT(*)
+        FROM care_children
+        WHERE protector_number = #{protectorNumber}
+          AND child_name = #{childName}
+    </select>
+
+    <!-- 전체 아동 조회 -->
+    <select id="findAllChildren" resultType="com.ssafy.aitalk.child.dto.ChildrenListResponse">
+        SELECT
+            cc.child_id AS childId,
+            cc.child_name AS childName,
+            cc.protector_number AS protectorNumber,
+            cc.age,
+            cc.disability_type AS disabilityType,
+            c.center_name AS centerName
+        FROM care_children cc
+                 JOIN care_center c ON cc.center_id = c.center_id
+        WHERE cc.therapist_id = #{therapistId}
+    </select>
+
+    <!-- 특정 아동 조회 -->
+    <select id="findChildByName" resultType="com.ssafy.aitalk.child.dto.ChildrenListResponse">
+        SELECT
+            cc.child_id AS childId,
+            cc.child_name AS childName,
+            cc.protector_number AS protectorNumber,
+            cc.age,
+            cc.disability_type AS disabilityType,
+            c.center_name AS centerName
+        FROM care_children cc
+                 JOIN care_center c ON cc.center_id = c.center_id
+        WHERE cc.therapist_id = #{therapistId}
+          AND cc.child_name = #{childName}
+    </select>
+
+    <!-- 아동 상세 정보 조회 -->
+    <select id="findChildById" resultType="com.ssafy.aitalk.child.dto.ChildDetailResponse">
+        SELECT
+            c.center_name AS centerName,
+            cc.child_name AS childName,
+            cc.protector_number AS protectorNumber,
+            cc.profile_image AS profileImage,
+            cc.disability_type AS disabilityType,
+            cc.age AS age
+        FROM care_children cc
+                 JOIN care_center c ON cc.center_id = c.center_id
+        WHERE cc.child_id = #{childId}
+    </select>
+
+
+    <!--해당 아동 일지 조회-->
+    <select id="findChildScheduleById" resultMap="ChildScheduleResultMap">
+        SELECT
+            t.treatment_date,
+            t.start_time,
+            t.end_time,
+            t.words,
+            t.sentence,
+            t.conversation
+        FROM treatment t
+        WHERE t.child_id = #{childId}
+        ORDER BY t.treatment_date DESC, t.start_time DESC
+    </select>
+
+    <!--아동 정보 수정-->
+    <update id="updateChild">
+        UPDATE care_children
+        SET
+            center_id = #{child.centerId},
+            child_name = #{child.childName},
+            protector_number = #{child.protectorNumber},
+            profile_image = #{child.profileImage},
+            disability_type = #{child.disabilityType},
+            age = #{child.age}
+        WHERE child_id = #{child.childId}
+    </update>
+
+    <!--치료 데이터 삭제 -->
+    <delete id="deleteTreatmentsByChildId">
+        DELETE FROM treatment WHERE child_id = #{childId}
+    </delete>
+
+    <!--아동 데이터 삭제 -->
+    <delete id="deleteChild">
+        DELETE FROM care_children WHERE child_id = #{childId}
+    </delete>
+
+
+</mapper>

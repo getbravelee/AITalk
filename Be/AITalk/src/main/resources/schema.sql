@@ -17,24 +17,24 @@ CREATE TABLE speech_therapist (
 
 -- 치료센터 테이블 생성
 CREATE TABLE care_center (
-                             center_id INT UNSIGNED PRIMARY KEY,
+                             center_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
                              center_name VARCHAR(20),
                              center_number VARCHAR(20),
                              center_address VARCHAR(50)
 );
 
--- 치료아동 테이블 생성
 CREATE TABLE care_children (
-                               child_id INT UNSIGNED PRIMARY KEY,
+                               child_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
                                therapist_id INT UNSIGNED,
                                center_id INT UNSIGNED,
                                child_name VARCHAR(20) NOT NULL,
+                               protector_number VARCHAR(20),
                                profile_image BLOB,
                                disability_type VARCHAR(20),
                                age INT,
                                FOREIGN KEY (therapist_id) REFERENCES speech_therapist(therapist_id),
                                FOREIGN KEY (center_id) REFERENCES care_center(center_id)
-);
+) AUTO_INCREMENT = 10001;
 
 
 -- 치료 테이블 생성
