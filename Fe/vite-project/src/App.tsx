@@ -9,11 +9,13 @@ import CardPlaySelectPage from './pages/CardPlaySelectPage';
 import CardPlaySelectWordPage from './pages/CardPlaySelectWordPage';
 import CardPlaySelectWordVerbPage from './pages/CardPlaySelectWordVerbPage';
 import CardPlaySelectWordVerbSentencePage from './pages/CardPlaySelectWordVerbSentencePage';
+import CardPlaySelectThreeSentencePage from './pages/CardPlaySelectThreeSentencePage';
 
 import CameraScanPage from './pages/CameraScanPage';
 import CameraImageGeneratePage from './pages/CameraImageGeneratePage';
 import CameraPlaySelectPage from './pages/CameraPlaySelectPage';
 import CameraPlaySelectWordPage from './pages/CameraPlaySelectWordPage';
+import CameraPlaySelectWordVerbPage from './pages/CameraPlaySelectWordVerbPage';
 
 import AiTalkPage from './pages/AiTalkPage';
 
@@ -24,7 +26,6 @@ import TherapistFaceResisterCompletePage from './pages/TherapistFaceRegisterComp
 import HomeAfterLoginPage from './pages/HomeAfterLoginPage';
 import KidSelectPage from './pages/KidSelectPage';
 import KidFaceLoginPage from './pages/KidFaceLoginPage';
-import CardPlaySelectThreeSentencePage from './pages/CardPlaySelectThreeSentencePage';
 
 export default function App() {
   return (
@@ -83,6 +84,10 @@ function MainRoutes() {
       <Route
         path="/camera-play-select/word"
         element={<CameraPlaySelectWordPage />}
+      ></Route>
+      <Route
+        path="/camera-play-select/word/verb"
+        element={<CameraPlaySelectWordVerbPage />}
       ></Route>
       <Route path="/ai-talk" element={<AiTalkPage />} />
       <Route
