@@ -8,7 +8,7 @@ USE aitalk;
 CREATE TABLE speech_therapist (
     therapist_id INT UNSIGNED NOT NULL PRIMARY KEY,
     therapist_name VARCHAR(20),
-    id VARCHAR(20),
+    therapist_id VARCHAR(20),
     password VARCHAR(255)
 );
 
@@ -25,7 +25,7 @@ CREATE TABLE care_children (
 
 -- 치료 테이블 생성
 CREATE TABLE treatment (
-    treatment_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    treatment_id INT UNSIGNED PRIMARY KEY,
     therapist_id INT UNSIGNED NOT NULL,
     child_id INT UNSIGNED,
     treatment_date DATE,

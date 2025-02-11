@@ -1,0 +1,23 @@
+.LoadingContainer {
+  position: relative;
+  bottom: 10%;
+}
+
+.LoadingCircle {
+  width: min(50vw, 60vh); /* 뷰포트에 맞춰 크기 조정 */
+  height: min(50vw, 60vh);
+  border: max(2.5vw, 5px) solid rgba(0, 0, 0, 0.1); /* 반응형 테두리 */
+  border-top: max(2.5vw, 5px) solid #3498db;
+  border-radius: 50%;
+  animation: spin 1.5s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,8 +1,8 @@
 -- 치료사 샘플 데이터 추가
 USE aitalk;
 
-INSERT INTO speech_therapist (therapist_id, therapist_name,id, password)
-VALUES (1, '박수민','ssafy123', 'dda69783f28fdf6f1c5a83e8400f2472e9300887d1dffffe12a07b92a3d0aa25');
+INSERT INTO speech_therapist (therapist_id, therapist_name)
+VALUES (1, '박수민'), (2, '김우영'), (3, '최진문');
 
 -- 치료 아동 샘플 데이터 추가
 INSERT INTO care_children (child_id,therapist_id, child_name, profile_image, disability_type, age)

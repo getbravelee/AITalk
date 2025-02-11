@@ -1,0 +1,32 @@
+/* 카드 정보 컨테이너 크기 조정 */
+.CardPlaySelectWordVerbContainer {
+  background-image: url('/src/assets/background/background_3.png');
+  background-size: cover;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* 내부 요소의 절대 위치 기준 */
+  gap: 40px;
+}
+
+.Plus {
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.LargeCardInfoContainer {
+  width: 200px;
+  height: 200px;
+  margin-bottom: 20px;
+}
+
+.LargeCardInfoContainer .CardImage {
+  width: 100%;
+  height: 100%;
+}
+
+.LargeCardInfoContainer .CardText {
+  font-family: 'Dongle', serif;
+  font-size: 2.5rem;
+}
