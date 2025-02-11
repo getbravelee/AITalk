@@ -4,7 +4,7 @@ import NavbarContainer from '../components/Common/NavbarContainer';
 import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import CardInfoContainer from '../components/Common/CardInfoContainer';
 
-import './CardPlaySelectWordVerbSentencePage.css';
+import './CameraPlaySelectWordVerbSentencePage.css';
 
 // ✅ 받침이 있는지 확인하는 함수
 const hasFinalConsonant = (word: string): boolean => {
@@ -20,7 +20,7 @@ const hasFinalConsonant = (word: string): boolean => {
   return finalConsonantIndex !== 0; // 받침이 있으면 true, 없으면 false
 };
 
-export default function CardPlaySelectWordVerbSentencePage() {
+export default function CameraPlaySelectWordVerbSentencePage() {
   const location = useLocation();
 
   // ✅ `firstCard`와 `secondCard` 데이터를 받아옴
@@ -33,22 +33,18 @@ export default function CardPlaySelectWordVerbSentencePage() {
     image: 'default',
   };
 
-  console.log('🔍 First NFC Card:', firstCard);
-  console.log('🔍 Second NFC Card:', secondCard);
-
   // ✅ `secondCard.image + firstCard.image + ".png"` 형식으로 이미지 파일 경로 설정
   const combinedImageSrc = `/src/assets/card/${secondCard.image}${firstCard.image}.png`;
 
   // ✅ `을` 또는 `를`을 추가하여 문장 만들기
   const particle = hasFinalConsonant(firstCard.name) ? '을' : '를'; // 받침 여부에 따라 조사 선택
   const combinedCardName = `${firstCard.name}${particle} ${secondCard.name}`; // ✅ "빵을 먹다" 형태
-
   return (
     <div>
       <NavbarContainer>
         <BackPlaySelectButton />
       </NavbarContainer>
-      <div className="CardPlaySelectWordVerbSentenceContainer">
+      <div className="CameraPlaySelectWordVerbSentenceContainer">
         <CardInfoContainer
           className="LargeCardInfoContainer"
           imageSrc={combinedImageSrc}

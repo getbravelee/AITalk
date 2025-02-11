@@ -16,6 +16,7 @@ import CameraImageGeneratePage from './pages/CameraImageGeneratePage';
 import CameraPlaySelectPage from './pages/CameraPlaySelectPage';
 import CameraPlaySelectWordPage from './pages/CameraPlaySelectWordPage';
 import CameraPlaySelectWordVerbPage from './pages/CameraPlaySelectWordVerbPage';
+import CameraPlaySelectWordVerbSentencePage from './pages/CameraPlaySelectWordVerbSentencePage';
 
 import AiTalkPage from './pages/AiTalkPage';
 
@@ -88,6 +89,10 @@ function MainRoutes() {
       <Route
         path="/camera-play-select/word/verb"
         element={<CameraPlaySelectWordVerbPage />}
+      ></Route>
+      <Route
+        path="/camera-play-select/word/verb/sentence"
+        element={<CameraPlaySelectWordVerbSentencePage />}
       ></Route>
       <Route path="/ai-talk" element={<AiTalkPage />} />
       <Route
