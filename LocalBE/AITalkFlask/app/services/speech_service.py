@@ -126,9 +126,6 @@ def recognize_audio(child_id):
                 
                 # ✅ 음성이 멈췄을 때 클라이언트에 이벤트 전송
                 socketio.emit('speech_stopped', {'status': 'silent'}, namespace='/')
-                socketio.sleep(0.1)  # 🔥 0.1초 후 한 번 더 전송 (딜레이 문제 해결)
-                socketio.emit('speech_stopped', {'status': 'silent'}, namespace='/')
-
 
                 is_tts_playing = True
                 full_audio = b''.join(audio_buffer)
