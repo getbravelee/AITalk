@@ -6,6 +6,8 @@ from .speech_route import speech_bp
 from .card_routes import card_bp
 from .session_routes import  session_bp
 from .therapist_login import login_bp
+from .play_start_route import play_start_bp
+
 
 # 라우트 블루프린트 연결
 def register_routes(app):
@@ -15,3 +17,4 @@ def register_routes(app):
     app.register_blueprint(child_bp)
     app.register_blueprint(speech_bp)
     app.register_blueprint(sentence_bp)
+    app.register_blueprint(play_start_bp)
