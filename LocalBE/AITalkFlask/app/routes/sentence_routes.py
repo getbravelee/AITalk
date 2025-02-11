@@ -9,7 +9,7 @@ sentence_bp = Blueprint('sentence_bp', __name__)
 def generate_sentence():
     data = request.get_json()
     word = data.get('word')
-    schedule_id = data.get('schedule_id')
+    schedule_id = data.get('scheduleId')
 
     if not word:
         return jsonify({"error": "word is required"}), 400

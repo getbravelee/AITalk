@@ -13,6 +13,8 @@ from io import BytesIO
 from app.extensions import socketio, db
 from app.models import Child
 from dotenv import load_dotenv
+from app.models import Schedule  # ✅ 추가
+from sqlalchemy.orm.attributes import flag_modified  # ✅ 변경 사항 감지용 추가
 
 load_dotenv()
 
@@ -164,25 +166,25 @@ def get_gpt_response(user_input, child_id, is_summary=False):
             messages=conversation_history,
             max_tokens=500
         )
-        logging.debug(f"GPT 원시 응답: {response}")
 
         gpt_reply = response.choices[0].message['content'].strip()
         logging.info(f"🤖 GPT 응답: {gpt_reply}")
         conversation_history.append({"role": "assistant", "content": gpt_reply})
 
-        if not is_summary:  # 일반 대화 응답일 경우
+        if not is_summary:  # 일반 대화 응답
             is_tts_playing = True
             audio_base64 = text_to_speech(gpt_reply)
             socketio.emit('gpt_response', {'response': gpt_reply, 'audio': audio_base64}, namespace='/')
         else:
             logging.info("✅ 요약 완료 (클라이언트로 전송하지 않음)")
+            return gpt_reply  # ✅ 요약된 내용 반환
 
     except Exception as e:
         logging.error(f"❌ GPT 요청 중 오류: {e}")
     finally:
         gpt_processing = False
 
-def stop_recognition(child_id):
+def stop_recognition(child_id, schedule_id=None):
     global keep_listening, conversation_history
     keep_listening = False
     logging.info("🔁 음성 인식 중단")
@@ -190,11 +192,24 @@ def stop_recognition(child_id):
     child_info = get_child_info(child_id)
     if child_info:
         summary_prompt = f"""
-        You are a speech therapist reviewing a conversation with a child who is {child_info['child_age']} years old and has {child_info['disability_type']}.
-        Please summarize the conversation from a speech therapist’s perspective in **3 concise sentences**. Focus on the child’s response style, speech and pronunciation, vocabulary use, and engagement, but do not list these points separately.
-        Provide the summary in **Korean**.
-        """
-        get_gpt_response(summary_prompt, child_id, is_summary=True)
+                You are a speech therapist reviewing a conversation with a child who is {child_info['child_age']} years old and has {child_info['disability_type']}.
+                Please summarize the conversation from a speech therapist’s perspective in **3 concise sentences**. Focus on the child’s response style, speech and pronunciation, vocabulary use, and engagement, but do not list these points separately.
+                Provide the summary in **Korean**, and keep the summary within **100 characters**.
+                """
+
+        # ✅ 요약 생성 및 저장
+        summary = get_gpt_response(summary_prompt, child_id, is_summary=True)
+
+        # ✅ schedule_id가 있는 경우 treatment 테이블에 저장
+        if schedule_id:
+            treatment = Schedule.query.filter_by(treatment_id=schedule_id).first()
+            if treatment:
+                treatment.conversation = summary
+                flag_modified(treatment, "conversation")  # 변경 사항 강제 감지
+                db.session.commit()
+                logging.info(f"✅ treatment_id {schedule_id}에 요약 저장 완료: {summary}")
+            else:
+                logging.warning(f"❌ treatment_id {schedule_id}에 해당하는 치료 정보를 찾을 수 없습니다.")
 
     socketio.emit('session_end', {'message': '대화가 종료되었습니다.'}, namespace='/')
     initialize_conversation(child_id)
