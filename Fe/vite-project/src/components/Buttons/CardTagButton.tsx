@@ -14,6 +14,7 @@ export default function CardTagButton() {
 
     try {
       const response = await fetch(
+        
         'http://192.168.30.206:5000/play/card-scan',
         { signal: controller.signal },
       );

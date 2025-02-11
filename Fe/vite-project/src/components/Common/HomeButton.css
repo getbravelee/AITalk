@@ -1,0 +1,10 @@
+.HomeButton {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+  width: fit-content;
+  height: fit-content;
+  cursor: pointer;
+}

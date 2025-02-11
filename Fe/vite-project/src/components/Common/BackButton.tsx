@@ -1,23 +1,34 @@
 import { useNavigate } from 'react-router-dom';
 import { IoArrowBack } from 'react-icons/io5'; // 뒤로가기 화살표 아이콘
-
+import { HStack } from '@chakra-ui/react';
 import './BackButton.css';
-
+import CurrentUserText from '../Texts/CurrentUserText';
+import LogoutButton from '../Buttons/LogoutButton';
+// 유저 로그인 상태를 확인하기 위한 import
+import { RootState } from '../../feature/store';
+import { useSelector } from 'react-redux';
+import HomeButton from './HomeButton';
 function BackButton() {
   const navigate = useNavigate();
-
+  const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const handleBack = () => {
-<<<<<<< HEAD
     navigate(-1); // 이전 페이지로 이동
-=======
-    navigate(-1); // 📌 브라우저의 뒤로가기 기능과 동일하게 수정
->>>>>>> develop
   };
 
   return (
-    <button className="BackButton" onClick={handleBack}>
-      <IoArrowBack className="BackIcon" />
-    </button>
+    <HStack gap={423} pt={1}>
+      <button onClick={handleBack} className="BackButton">
+        <IoArrowBack className="BackIcon" />
+      </button>
+      {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
+      {currentUser && (
+        <HStack>
+          <CurrentUserText />
+          <LogoutButton />
+          <HomeButton />
+        </HStack>
+      )}
+    </HStack>
   );
 }
 
