@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Webcam from 'react-webcam';
-// 아래 수정해서 객체인식 완료해야 함
 import * as cocoSsd from '@tensorflow-models/coco-ssd';
 import * as tf from '@tensorflow/tfjs';
 import { VideoConstraints } from './VideoConstraints';

@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as tf from '@tensorflow/tfjs';
 import * as blazeface from '@tensorflow-models/blazeface';
+import { BlazeFacePrediction } from '@tensorflow-models/blazeface';
 
 /**
 UseFaceRegistration hook
@@ -51,8 +52,8 @@ const UseFaceRegistration = (
   const detectionDataRef = useRef<{
     videoRect: DOMRect;
     scaleX: number;
-    scaleY: number;
-    predictions: blazeface.Face[];
+    predictions: BlazeFacePrediction[];
+    // predictions: blazeface.Face[];
   } | null>(null);
 
   // 첫 로드 시 BlazeFace 모델 로드
