@@ -24,7 +24,7 @@
   font-size: 10px;
   border-radius: 4px;
   height: 15px;
-  width: 70px;
+  width: 90px;
   transition: background-color 0.2s;
   margin-bottom: -10px;
 }
@@ -65,15 +65,6 @@
   transition: background-color 0.2s;
 }
 
-.IdPwLoginButton:hover {
-  background-color: transparent;
-}
-
-.IdPwLoginButton:active {
-  background-color: transparent;
-}
-
-<<<<<<< HEAD
 /* 🎵 배경음악 토글 버튼 스타일 */
 .MusicToggleButton {
   position: absolute; /* 🔹 절대 위치 지정 */
@@ -91,15 +82,23 @@
 
 .MusicToggleButton:hover {
   border-color: #888;
-=======
+}
+
 .CardLoginButton {
-  background-color: #f6bbbd; 
-  color: black;
+  background-color: hsl(358, 86%, 75%);
+  color: white;
   font-size: 10px;
   border-radius: 4px;
   height: 15px;
-  width: 70px;
-  transition: background-color 0.2s;
+  width: 90px;
+  transition: background-color 0.2s ease-in-out;
   margin-bottom: -10px;
->>>>>>> 2b6ad3ce5dafe6660ec4934b3a547ff5c5a2fc66
+}
+
+.CardLoginButton:hover {
+  background-color: hsl(358, 86%, 68%); /* 약간 더 어두운 색 */
+}
+
+.CardLoginButton:active {
+  background-color: hsl(358, 86%, 60%); /* 좀 더 깊은 색 */
 }
