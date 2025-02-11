@@ -18,8 +18,8 @@ import AiTalkPage from './pages/AiTalkPage';
 
 import TherapistFaceLoginPage from './pages/TherapistFaceLoginPage';
 import TherapistLoginPage from './pages/TherapistLoginPage';
-import TherapistFaceResisterPage from './pages/TherapistFaceResisterPage';
-import TherapistFaceResisterCompletePage from './pages/TherapistFaceResisterCompletePage';
+import TherapistFaceResisterPage from './pages/TherapistFaceRegisterPage';
+import TherapistFaceResisterCompletePage from './pages/TherapistFaceRegisterCompletePage';
 import HomeAfterLoginPage from './pages/HomeAfterLoginPage';
 import KidSelectPage from './pages/KidSelectPage';
 import KidFaceLoginPage from './pages/KidFaceLoginPage';

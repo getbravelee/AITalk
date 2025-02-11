@@ -7,6 +7,7 @@ import NfcTagText from '../components/Texts/NfcTagText';
 import './NfcTagPage.css';
 
 export default function NfcTagPage() {
+
   return (
     <div>
       {/* NavbarContainer 내부에 BackButton을 children으로 전달 */}
