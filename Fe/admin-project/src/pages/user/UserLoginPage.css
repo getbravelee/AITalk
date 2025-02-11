@@ -5,7 +5,6 @@
   align-items: center;
   height: 100vh; /* 화면 전체 높이 */
   background-color: transparent;
-  /* background-image: url('/path-to-background-image.jpg'); 배경 이미지 */
   background-size: cover;
   background-position: center;
 }
