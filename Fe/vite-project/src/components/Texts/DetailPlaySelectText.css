@@ -1,8 +1,0 @@
-.DetailPlaySelectText {
-  font-size: 2.5rem; /* 텍스트 크기 */
-  text-align: center; /* 텍스트 중앙 정렬 */
-  margin-top: 20px; /* 위쪽 버튼과 간격 */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 부드러운 그림자 효과 */
-  padding: 10px 20px; /* 내부 여백 */
-  display: inline-block; /* 텍스트 길이에 따라 크기 조정 */
-}
