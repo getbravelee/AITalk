@@ -1,14 +1,18 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import MainRoutes from './MainRoutes';
+import UserRoutes from './UserRoutes';
 
-export default function App() {
-  console.log('✅ App 렌더링됨');
-
+export default function AppRoutes() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<h1>🏠 Home Page - 라우터 정상 작동</h1>} />
-        <Route path="/test" element={<h1>✅ 테스트 페이지 정상 작동</h1>} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/main/*" element={<MainRoutes />} />
+      <Route path="/user/*" element={<UserRoutes />} />
+
+      {/* ✅ 기본 경로를 로그인 페이지로 리디렉션 */}
+      <Route path="/" element={<Navigate to="/user/login" replace />} />
+
+      {/* 잘못된 경로 처리 */}
+      <Route path="*" element={<h1>404 - 페이지를 찾을 수 없습니다</h1>} />
+    </Routes>
   );
 }
