@@ -44,12 +44,14 @@ export default function AiTalkPage() {
 
         const audioUrl = URL.createObjectURL(audioBlob);
         const audio = new Audio(audioUrl);
+
+        audio.addEventListener('ended', () => {
+          console.log('✅ TTS 재생 완료');
+          socket.emit('tts_finished'); // TTS 재생이 끝났음을 서버에 알림
+        });
+
         audio
           .play()
-          .then(() => {
-            console.log('✅ TTS 재생 완료');
-            socket.emit('tts_finished'); // ✅ TTS 재생이 끝나면 서버에 알림
-          })
           .catch((err) => console.error('❌ Audio playback failed:', err));
       }
     });

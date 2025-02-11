@@ -1,5 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useAudio } from '../Common/AudioContext'; // 🎵 오디오 컨텍스트 추가
+import { io } from 'socket.io-client';
+
+const socket = io('http://127.0.0.1:5000');
 
 export default function AiTalkButton() {
   const navigate = useNavigate();
@@ -61,6 +64,11 @@ export default function AiTalkButton() {
 
           audio = new Audio(audioUrl);
         }
+
+        audio.addEventListener('ended', () => {
+          console.log('✅ TTS 재생 완료 - 서버로 WebSocket 이벤트 전송');
+          socket.emit('tts_finished'); // 서버로 이벤트 전송
+        });
 
         audio
           .play()

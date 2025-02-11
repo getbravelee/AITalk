@@ -7,7 +7,9 @@ USE aitalk;
 -- therapist_id, face
 CREATE TABLE speech_therapist (
     therapist_id INT UNSIGNED NOT NULL PRIMARY KEY,
-    therapist_name VARCHAR(20)
+    therapist_name VARCHAR(20),
+    id VARCHAR(20),
+    password VARCHAR(255)
 );
 
 -- 치료아동 테이블 생성
@@ -29,8 +31,8 @@ CREATE TABLE treatment (
     treatment_date DATE,
     start_time TIME,
     end_time TIME,
-    words VARCHAR(100),
-    sentence VARCHAR(100),
+    words json,
+    sentence json,
     conversation VARCHAR(100),
     FOREIGN KEY (therapist_id) REFERENCES speech_therapist(therapist_id),
     FOREIGN KEY (child_id) REFERENCES care_children(child_id)
