@@ -5,9 +5,9 @@ import sqlite3  # 간단한 로컬 DB 사용 (MySQL, MongoDB 등으로 변경 �
 
 app = Flask(__name__)
 
-JETSON_SAVE_DIR = "/desktop/study/ssafyProject/commonPJT/images/"
+JETSON_SAVE_DIR = "/Users/isu/Desktop/study/ssafyProject/commonPJT/images/"
 EC2_SERVER_URL = "http://3.38.106.51:7260/api/generate"  # EC2의 Spring Boot API
-DB_PATH = "/desktop/study/ssafyProject/commonPJT/image_db.sqlite"  # SQLite DB 파일
+DB_PATH = "/Users/isu/Desktop/study/ssafyProject/commonPJT/image_db.sqlite"  # SQLite DB 파일
 
 os.makedirs(JETSON_SAVE_DIR, exist_ok=True)
 
