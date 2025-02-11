@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
+
 .NfcTagTextContainer {
   position: absolute;
   top: 75%;
@@ -5,7 +7,8 @@
 }
 
 .NfcTagText {
-  font-size: 1rem;
+  font-size: 3rem;
   font-weight: bold;
   color: #000;
+  font-family: 'Dongle', serif;
 }

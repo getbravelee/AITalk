@@ -1,0 +1,27 @@
+.ImgGenerateImageContainer {
+  position: absolute;
+  bottom: 23%;
+}
+
+.ImgGenerateImage {
+  width: 50vh;
+  height: auto;
+  animation: diagonal-jump 1.5s infinite ease-in-out; /* 대각선 점프 애니메이션 */
+  transform-origin: center bottom; /* 중심을 발 부분으로 설정 */
+}
+
+@keyframes diagonal-jump {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg); /* 정위치 */
+  }
+  25% {
+    transform: translate(-15px, -20px) rotate(-15deg); /* 좌측 대각선 위로 점프 */
+  }
+  50% {
+    transform: translate(0, 0) rotate(0deg); /* 다시 정위치 */
+  }
+  75% {
+    transform: translate(15px, -20px) rotate(15deg); /* 우측 대각선 위로 점프 */
+  }
+}

@@ -1,8 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import NavbarContainer from '../components/Common/NavbarContainer';
-import BackButton from '../components/Common/BackButton';
-
-import DetailPlaySelectText from '../components/Texts/CardPlaySelectText';
+import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
+import DetailPlaySelectText from '../components/Texts/DetailPlaySelectText';
 import CardInfoContainer from '../components/Common/CardInfoContainer';
 import WordButton from '../components/Common/WordButton';
 import ThreeSentenceButton from '../components/Common/ThreeSentenceButton';
@@ -24,20 +23,21 @@ export default function CardPlaySelectPage() {
   return (
     <div>
       <NavbarContainer>
-        <BackButton />
+        <BackPlaySelectButton />
       </NavbarContainer>
       <div className="CardPlaySelectContainer">
         <DetailPlaySelectText />
         <div className="CardPlaySelectInnerContainer">
-          <div className="CardContainer">
+          <div>
             <CardInfoContainer
               imageSrc={imageSrc}
               cardName={parsedCardData.name}
             />
           </div>
           <div className="ButtonContainer">
-            <WordButton />
-            <ThreeSentenceButton />
+            {/* CardPlaySelectPage 전용 경로 설정 */}
+            <WordButton targetPath="/card-play-select/word" />
+            <ThreeSentenceButton targetPath="/card-play-select/three-sentence" />
           </div>
         </div>
       </div>
