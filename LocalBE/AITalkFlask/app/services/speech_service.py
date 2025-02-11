@@ -26,7 +26,7 @@ def load_model():
     global model
     if model is None:
         logging.info("🔍 Whisper 모델 로딩 중...")
-        model = whisper.load_model("large")
+        model = whisper.load_model("small")
         logging.info("✅ Whisper 모델 로드 완료")
     return model
 

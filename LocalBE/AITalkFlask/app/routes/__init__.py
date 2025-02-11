@@ -10,6 +10,9 @@ from .detect import detect_bp
 from flask import Flask
 from .user_face import user_face_bp
 from .child_face import child_face_bp
+from .play_start_route import play_start_bp
+
+
 # 라우트 블루프린트 연결
 def register_routes(app):
     app.register_blueprint(card_bp)
@@ -27,3 +30,4 @@ def register_routes(app):
 
     if "child_face" not in app.blueprints:
         app.register_blueprint(child_face_bp)
+    app.register_blueprint(play_start_bp)
