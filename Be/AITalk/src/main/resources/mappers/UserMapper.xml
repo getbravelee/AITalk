@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.aitalk.user.mapper.UserMapper">
+
+    <resultMap id="userResultMap" type="com.ssafy.aitalk.user.entity.User">
+        <id property="therapistId" column="therapist_id"/>
+        <result property="id" column="id"/>
+        <result property="password" column="password"/>
+        <result property="email" column="email"/>
+        <result property="therapistName" column="therapist_name"/>
+        <result property="phoneNumber" column="phone_number"/>
+    </resultMap>
+
+    <!-- 사용자 추가 -->
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="therapistId">
+        INSERT INTO speech_therapist (id, password, email, therapist_name, phone_number)
+        VALUES (#{id}, #{password}, #{email}, #{therapistName}, #{phoneNumber})
+    </insert>
+
+    <select id="findById" resultMap="userResultMap">
+        SELECT * FROM speech_therapist WHERE id = #{id}
+    </select>
+
+    <!-- 🔹 id로 사용자 조회 추가 -->
+    <select id="findInfoById" resultMap="userResultMap">
+        SELECT * FROM speech_therapist WHERE therapist_id = #{id}
+    </select>
+
+    <select id="countById" resultType="Integer">
+        select count(*) from speech_therapist where id = #{id}
+    </select>
+
+    <select id="countByEmail" resultType="Integer">
+        select count(*) from speech_therapist where email = #{email}
+    </select>
+
+    <update id="updateUserInfo">
+        UPDATE speech_therapist
+        SET email = #{email}, phone_number = #{phoneNumber}
+        WHERE therapist_id = #{id};
+    </update>
+
+    <delete id="deleteUser">
+        DELETE FROM speech_therapist
+        WHERE therapist_id = #{id};
+    </delete>
+
+    <select id="findIdByEmail" resultType="String">
+        SELECT id FROM speech_therapist WHERE email = #{email}
+    </select>
+
+
+    <select id="findEmailById" resultType="String">
+        SELECT email FROM speech_therapist WHERE id = #{id}
+    </select>
+
+    <update id="updatePasswordById">
+        UPDATE speech_therapist
+        SET password = #{password}
+        WHERE id = #{id};
+    </update>
+
+
+
+</mapper>
