@@ -81,7 +81,6 @@ def initialize_conversation(child_id):
 def recognize_audio(child_id):
     global is_recognizing, keep_listening, gpt_processing, is_tts_playing
 
-
     with recognition_lock:
         is_recognizing = True
 
@@ -100,9 +99,9 @@ def recognize_audio(child_id):
     last_speech_time = time.time()
 
     logging.info("🎙 음성 인식 시작")
+    socketio.emit("speech_ready")
 
     while keep_listening:
-        # TTS 재생 중이면 음성 인식 처리 건너뜀
         if is_tts_playing:
             time.sleep(0.1)
             continue
@@ -114,18 +113,23 @@ def recognize_audio(child_id):
 
         if np.abs(audio_np).mean() > silence_threshold:
             logging.debug("🍗 음성 감지 중...")
+            
+            # ✅ 음성이 감지되었을 때 클라이언트에 이벤트 전송
+            socketio.emit('speech_detected', {'status': 'speaking'}, namespace='/')
+
             audio_buffer.append(audio_data)
             last_speech_time = time.time()
+
         elif time.time() - last_speech_time > silence_duration and audio_buffer:
             if not gpt_processing:
                 logging.info("🔁 말 중단 감지 → 텍스트 변환 시도")
+                
+                # ✅ 음성이 멈췄을 때 클라이언트에 이벤트 전송
+                socketio.emit('speech_stopped', {'status': 'silent'}, namespace='/')
+
                 is_tts_playing = True
                 full_audio = b''.join(audio_buffer)
-
-                if len(full_audio) < 8000:  # 0.5초 미만 음성은 무시
-                    logging.debug("⚠️ 음성이 너무 짧아서 무시합니다.")
-                    audio_buffer = []
-                    continue
+                audio_buffer = []
 
                 try:
                     audio_np_full = np.frombuffer(full_audio, dtype=np.int16).astype(np.float32) / 32768.0
@@ -138,9 +142,9 @@ def recognize_audio(child_id):
                         Thread(target=get_gpt_response, args=(text, child_id), daemon=True).start()
                 except Exception as e:
                     logging.error(f"❌ 텍스트 변환 중 오류: {e}")
-                finally:
-                    audio_buffer = []
-
+            else:
+                audio_buffer = []
+        
         time.sleep(0.01)
 
     stream.stop_stream()
@@ -200,7 +204,7 @@ def stop_recognition(child_id):
 def handle_tts_finished():
     """
     클라이언트에서 TTS 재생 완료 후 호출하는 이벤트 핸들러.
-    TTS 재생 플래그(is_tts_playing)를 해제하고, 음성 인식이 실행 중이 아니면 재시작합니다.
+    TTS 재생 플래그(is_tts  q_playing)를 해제하고, 음성 인식이 실행 중이 아니면 재시작합니다.
     """
     global is_tts_playing, current_child_id, is_recognizing, keep_listening
     is_tts_playing = False

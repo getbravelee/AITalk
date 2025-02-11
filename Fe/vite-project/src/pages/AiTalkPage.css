@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
+
+.AiTalkContainer {
+  background-image: url('/src/assets/background/background_3.png');
+  background-size: cover;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* 내부 요소의 절대 위치 기준 */
+  font-family: 'Dongle', serif;
+}
+
+.speech-status {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  transform: translateX(-50%);
+  font-size: 1rem; /* 글씨 크기 */
+  font-weight: bold;
+  color: #ffffff; /* 기본 흰색 */
+  background: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+  padding: 5px 10px;
+  border-radius: 20px;
+  width: 130px;
+  text-align: center;
+  white-space: nowrap;
+  transition: all 0.3s ease-in-out;
+}
+
+/* 🟢 말할 수 있는 상태 */
+.speech-status.speak-ready {
+  color: #00ff00; /* 초록색 */
+  animation: pulse 1.5s infinite alternate;
+}
+
+/* 🎤 음성 감지 중 */
+.speech-status.speaking {
+  color: #ffcc00; /* 노란색 */
+  animation: bounce 0.5s infinite alternate;
+}
+
+/* 🟡 톡톡이 생각 중 */
+.speech-status.thinking {
+  color: #ffaa00; /* 주황색 */
+  animation: pulse 1.5s infinite alternate;
+}
+
+/* 🔴 톡톡이 말하는 중 */
+.speech-status.talking {
+  color: #ff4444; /* 빨간색 */
+  animation: wave 1.5s infinite alternate;
+}
+
+/* 🟡 상태 변경 애니메이션 */
+@keyframes pulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes wave {
+  from {
+    transform: rotate(-3deg);
+  }
+  to {
+    transform: rotate(3deg);
+  }
+}

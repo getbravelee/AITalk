@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
 
-.NfcTagTextContainer {
+.ImgGenerateTextContainer {
   position: absolute;
-  top: 75%;
+  top: 10%;
   text-align: center;
 }
 
-.NfcTagText {
-  font-size: 3rem;
+.ImgGenerateText {
+  font-size: 2.5rem;
   font-weight: bold;
   color: #000;
   font-family: 'Dongle', serif;
