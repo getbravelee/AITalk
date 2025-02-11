@@ -1,22 +1,12 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-import User from "./pages/user/User";
-import Main from "./pages/main/Main";
-import "./App.css";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import AppRoutes from './routes/AppRoutes';
 
 export default function App() {
   return (
     <BrowserRouter>
-      <MainRoutes />
+      <Routes>
+        <Route path="/*" element={<AppRoutes />} />
+      </Routes>
     </BrowserRouter>
-  );
-}
-
-function MainRoutes() {
-  return (
-    <Routes>
-      <Route path="/" element={<User />} />
-      <Route path="/main" element={<Main />} />
-    </Routes>
   );
 }
