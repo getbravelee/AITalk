@@ -6,7 +6,7 @@ from .child_model import Child, ServerChild
 class Schedule(db.Model):
     __tablename__ = 'treatment'
 
-    schedule_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    treatment_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     therapist_id = db.Column(db.Integer, db.ForeignKey('speech_therapist.therapist_id'), nullable=False)
     child_id = db.Column(db.Integer, db.ForeignKey('care_children.child_id'), nullable=True)
     treatment_date = db.Column(db.Date)
@@ -26,7 +26,7 @@ class ServerSchedule(db.Model):
     __bind_key__ = 'server'
     __tablename__ = 'treatment'
 
-    schedule_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    treatment_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     therapist_id = db.Column(db.Integer, db.ForeignKey('speech_therapist.therapist_id'), nullable=False)
     child_id = db.Column(db.Integer, db.ForeignKey('care_children.child_id'), nullable=True)
     treatment_date = db.Column(db.Date)

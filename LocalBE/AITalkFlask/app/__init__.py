@@ -38,16 +38,11 @@ def create_app():
         print("앱 시작 시 서버 데이터 → 로컬 데이터 동기화 중...")
         sync_server_to_local()
 
-    # ✅ 클라이언트 연결 종료 시 데이터 동기화
-    @socketio.on('disconnect')
-    def handle_disconnect():
-        print("클라이언트 연결 종료 시 데이터 동기화 중...")
-        sync_local_to_server()
-
     # ✅ 서버 종료 시 최종 데이터 동기화
     @atexit.register
     def on_server_shutdown():
         print("서버 종료 시 최종 데이터 동기화 중...")
-        sync_local_to_server()
+        with app.app_context():  # 애플리케이션 컨텍스트 추가
+            sync_local_to_server()
 
     return app

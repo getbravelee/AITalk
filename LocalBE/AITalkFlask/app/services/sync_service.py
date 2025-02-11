@@ -1,15 +1,23 @@
 from app.models import Therapist, Child, ServerTherapist, ServerChild, Schedule, ServerSchedule
 from app.extensions import db
+from sqlalchemy import text
 
 def sync_server_to_local():
     try:
+        # 외래 키 제약 조건 비활성화
+        db.session.execute(text("SET FOREIGN_KEY_CHECKS = 0"))
+
+        # 자식 테이블(Child) 먼저 삭제
+        Child.query.delete()
+        # 부모 테이블(Therapist) 삭제
+        Therapist.query.delete()
+
+        # 외래 키 제약 조건 다시 활성화
+        db.session.execute(text("SET FOREIGN_KEY_CHECKS = 1"))
+
         # 서버 DB에서 데이터 가져오기
         server_therapists = ServerTherapist.query.all()
         server_children = ServerChild.query.all()
-
-        # 로컬 DB 초기화
-        Therapist.query.delete()
-        Child.query.delete()
 
         # 서버 DB 데이터를 로컬로 복사
         for therapist in server_therapists:
@@ -45,7 +53,7 @@ def sync_local_to_server():
         local_schedules = Schedule.query.all()
 
         for schedule in local_schedules:
-            server_schedule = ServerSchedule.query.filter_by(schedule_id=schedule.schedule_id).first()
+            server_schedule = ServerSchedule.query.filter_by(treatment_id=schedule.treatment_id).first()
 
             if server_schedule:
                 # 서버에 이미 존재하면 업데이트
@@ -60,7 +68,7 @@ def sync_local_to_server():
             else:
                 # 서버에 없으면 새로 추가
                 new_schedule = ServerSchedule(
-                    schedule_id=schedule.schedule_id,
+                    treatment_id=schedule.treatment_id,
                     therapist_id=schedule.therapist_id,
                     child_id=schedule.child_id,
                     treatment_date=schedule.treatment_date,

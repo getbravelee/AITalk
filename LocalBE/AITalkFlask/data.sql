@@ -25,7 +25,7 @@ CREATE TABLE care_children (
 
 -- 치료 테이블 생성
 CREATE TABLE treatment (
-    treatment_id INT UNSIGNED PRIMARY KEY,
+    treatment_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     therapist_id INT UNSIGNED NOT NULL,
     child_id INT UNSIGNED,
     treatment_date DATE,

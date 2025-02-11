@@ -121,7 +121,11 @@ def recognize_audio(child_id):
                 logging.info("🔁 말 중단 감지 → 텍스트 변환 시도")
                 is_tts_playing = True
                 full_audio = b''.join(audio_buffer)
-                audio_buffer = []
+
+                if len(full_audio) < 8000:  # 0.5초 미만 음성은 무시
+                    logging.debug("⚠️ 음성이 너무 짧아서 무시합니다.")
+                    audio_buffer = []
+                    continue
 
                 try:
                     audio_np_full = np.frombuffer(full_audio, dtype=np.int16).astype(np.float32) / 32768.0
@@ -134,8 +138,9 @@ def recognize_audio(child_id):
                         Thread(target=get_gpt_response, args=(text, child_id), daemon=True).start()
                 except Exception as e:
                     logging.error(f"❌ 텍스트 변환 중 오류: {e}")
-            else:
-                audio_buffer = []
+                finally:
+                    audio_buffer = []
+
         time.sleep(0.01)
 
     stream.stop_stream()
