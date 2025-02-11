@@ -1,0 +1,24 @@
+.HomeTextContainer {
+  text-align: center; /* 텍스트 중앙 정렬 */
+  color: white; /* 글자 색상 */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* 가독성을 위한 그림자 효과 */
+  position: absolute; /* HomeContainer 내부에서 중앙 정렬 */
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.Title {
+  font-size: 5rem; /* 큰 제목 크기 */
+  font-weight: bold; /* 두꺼운 글씨 */
+}
+
+.SubTitle {
+  font-size: 2rem; /* 부제목 크기 */
+  font-weight: 600; /* 약간 두꺼운 글씨 */
+}
+
+.Explain {
+  font-size: 1rem; /* 설명 문구 크기 */
+  font-weight: 400; /* 기본 글씨 두께 */
+}
