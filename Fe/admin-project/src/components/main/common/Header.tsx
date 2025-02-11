@@ -9,7 +9,7 @@ export default function Header() {
   };
 
   return (
-    <header style={{ background: 'yellow', padding: '20px' }}>
+    <header style={{  padding: '30px' }}>
       <nav>
         <Link to="/main/home" style={{ margin: '0 10px' }}>
           🏠 Home

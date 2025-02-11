@@ -5,6 +5,7 @@ import MyPage from '../pages/main/MyPage';
 import SchedulePage from '../pages/main/SchedulePage';
 import ChildListPage from '../pages/main/child/ChildListPage';
 import ChildDetailPage from '../pages/main/child/ChildDetailPage';
+import ChildRegisterPage from '../pages/main/child/ChildRegisterPage';
 
 export default function MainRoutes() {
   return (
@@ -17,6 +18,8 @@ export default function MainRoutes() {
         <Route path="child/list" element={<ChildListPage />} />
 
         <Route path="child/detail/:id" element={<ChildDetailPage />} />
+
+        <Route path="child/register" element={<ChildRegisterPage />} />
 
 
         {/* 잘못된 경로 처리 */}
