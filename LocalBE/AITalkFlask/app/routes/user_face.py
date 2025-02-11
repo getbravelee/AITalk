@@ -1,17 +1,14 @@
 from flask import Blueprint, jsonify, request
 from app.services.user_face_recognition import register_user_face, verify_user_face
-from flask_cors import cross_origin  # ✅ CORS 허용
+from flask_cors import CORS  # ✅ CORS 전체 적용
 
 user_face_bp = Blueprint("user_face", __name__)
+CORS(user_face_bp)  # ✅ Blueprint 전체에 CORS 적용
 
-@user_face_bp.route("/user/face-regist", methods=["OPTIONS", "POST"])
-@cross_origin()  # ✅ CORS 문제 해결
+@user_face_bp.route("/user/face-regist", methods=["POST"])
+# @cross_origin()  # ✅ CORS 문제 해결
 def user_face_regist():
     """ React에서 therapist_id와 therapist_name을 받아 Face ID 등록 """
-
-    if request.method == "OPTIONS":
-        print("[DEBUG] CORS OPTIONS 요청 처리")
-        return jsonify({"status": 200, "message": "CORS Preflight 요청 허용"}), 200
 
     data = request.get_json()
 
