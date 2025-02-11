@@ -10,6 +10,7 @@ export default function ChildListPage() {
         {careChildrenDummyData.map((child) => (
           <CardContainer
             key={child.id}
+            id={child.id}
             childName={child.childName}
             age={child.age}
             disabilityType={child.disabilityType}

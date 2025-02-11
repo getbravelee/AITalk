@@ -1,16 +1,26 @@
 import './CardContainer.css';
 import profile from '../../../assets/images/main/profile_img.png';
+import { useNavigate } from 'react-router-dom';
 
 interface CardContainerProps {
+  id : number;
   childName: string;
   age: number;
   disabilityType: string;
   center: number; 
 }
 
-export default function CardContainer({ childName, age, disabilityType, center }: CardContainerProps) {
+export default function CardContainer({ id, childName, age, disabilityType, center }: CardContainerProps) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/main/child/detail/${id}`, {
+      state: { id, childName, age, disabilityType, center }, // 아동 정보 전달
+    });
+  }
+  
   return (
-    <div className="card-container">
+    <div className="card-container" onClick={handleClick}>
       <img src={profile} alt='profile image' />
       <div className="card-text-container">
         <h2>{childName}</h2>
