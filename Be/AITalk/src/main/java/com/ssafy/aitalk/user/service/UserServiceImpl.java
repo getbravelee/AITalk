@@ -3,6 +3,7 @@ package com.ssafy.aitalk.user.service;
 import com.ssafy.aitalk.user.dto.*;
 import com.ssafy.aitalk.user.entity.User;
 import com.ssafy.aitalk.user.mapper.UserMapper;
+import com.ssafy.aitalk.user.util.EmailVerificationStorage;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private EmailVerificationStorage emailVerificationStorage;
+
     @Override
     public LoginResponse login(LoginRequest request) {
         User user = userMapper.findById(request.getId());
@@ -49,6 +53,10 @@ public class UserServiceImpl implements UserService {
         // 아이디 중복 확인
         if (userMapper.countById(request.getId()) > 0) {
             throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
+        }
+
+        if (!emailVerificationStorage.isEmailVerified(request.getEmail())) {
+            throw new IllegalArgumentException("이메일 인증이 완료되지 않았습니다.");
         }
 
         // 이메일 중복 확인
@@ -73,6 +81,8 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("전화번호는 010-xxxx-xxxx 또는 010xxxxxxxx 형식으로 입력해야 합니다.");
         }
 
+        emailVerificationStorage.removeVerifiedEmail(request.getEmail());
+
         // 비밀번호 암호화 후 저장
         User user = new User();
         user.setId(request.getId());
@@ -85,6 +95,24 @@ public class UserServiceImpl implements UserService {
         userMapper.insertUser(user);
 
     }
+
+    @Override
+    public void sendEmailVerification(String email) {
+        String verificationCode = String.format("%06d", new Random().nextInt(999999));
+        emailVerificationStorage.saveVerificationCode(email, verificationCode);
+
+        try {
+            emailService.sendEmail(email, "이메일 인증 코드", "인증코드: " + verificationCode + "\n인증코드는 5분 후 만료됩니다.");
+        } catch (MessagingException e) {
+            throw new RuntimeException("이메일 전송 실패");
+        }
+    }
+
+    @Override
+    public boolean verifyEmail(String email, String code) {
+        return emailVerificationStorage.verifyCode(email, code);
+    }
+
 
     // 🔹 현재 로그인한 사용자 정보 가져오기
     @Override
