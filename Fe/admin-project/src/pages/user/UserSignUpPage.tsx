@@ -14,7 +14,7 @@ const UserSignupPage: React.FC = () => {
   const [phoneNumber, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const { handleEmailVerify, loading, error } = useEmailVerify();
-  
+
   const handleSignup = () => {
     // 회원가입 로직 처리
     console.log({

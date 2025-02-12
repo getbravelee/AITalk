@@ -42,7 +42,7 @@
   font-weight: bold;
   border-radius: 5px;
   color: black;
-  margin-top: 0.2rem;
+  /* margin-top: 0.2rem; */
   margin-bottom: 2rem;
   transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
   cursor: pointer;
