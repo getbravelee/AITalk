@@ -20,7 +20,7 @@ const UseCardTagForFaceResist = () => {
   const handleCardTagForFaceResist = useCallback(async () => {
     // 이미 1차 로그인 완료된 사용자라면 NFC 카드 태깅 없이 바로 얼굴 등록 페이지로 이동
     if (currentUser) {
-      navigate('/TherapistFaceResisterPage', { state: currentUser });
+      navigate('/TherapistFaceResisterPage',{ state: currentUser });
       return;
     }
     console.log('📡 Fetching card data from server...');
@@ -33,7 +33,7 @@ const UseCardTagForFaceResist = () => {
 
     try {
       // 3. POST 요청 실행: 예시 데이터(tagInfo)를 서버로 전송하여 카드 데이터를 요청합니다.
-      const response = await fetch('http://127.0.0.1:5000/user/login', {
+      const response = await fetch('http://192.168.30.189:5000/user/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tagInfo: 'example-tag-info' }), // 실제 데이터로 변경 필요

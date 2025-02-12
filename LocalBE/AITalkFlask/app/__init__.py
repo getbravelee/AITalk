@@ -37,7 +37,7 @@ def create_app():
     db.init_app(app)
     socketio.init_app(app)
 
-    # 라우트 등록
+    # 라우트 등록 (추가적인 Blueprint는 register_routes()에서 처리할 수도 있음)
     register_routes(app)
 
     # ✅ 앱 시작 시 데이터 동기화 (앱 컨텍스트 활성화)
@@ -51,5 +51,19 @@ def create_app():
         print("서버 종료 시 최종 데이터 동기화 중...")
         with app.app_context():  # 애플리케이션 컨텍스트 추가
             sync_local_to_server()
+
+    # CORS 설정 추가
+    CORS(app, resources={r"/*": {"origins": "*"}})
+
+    # Blueprint 등록 (중복 등록 방지)
+    if "child_face" not in app.blueprints:
+        app.register_blueprint(child_face_bp)
+
+    if "user_face" not in app.blueprints:
+        app.register_blueprint(user_face_bp)
+
+    # 새 detect Blueprint 등록
+    if "detect" not in app.blueprints:
+        app.register_blueprint(detect_bp)
 
     return app

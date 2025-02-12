@@ -21,7 +21,7 @@ function drawRoundedRect(
   y: number,
   width: number,
   height: number,
-  radius: number,
+  radius: number
 ) {
   ctx.beginPath();
   ctx.moveTo(x + radius, y);
@@ -131,8 +131,7 @@ const UseFaceRegistration = (
         requestAnimationFrame(drawOverlay);
         return;
       }
-      const { videoRect, scaleX, scaleY, predictions } =
-        detectionDataRef.current;
+      const { videoRect, scaleX, scaleY, predictions } = detectionDataRef.current;
       const dpr = window.devicePixelRatio || 1;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, videoRect.width, videoRect.height);
@@ -180,11 +179,9 @@ const UseFaceRegistration = (
 
           // 얼굴 landmark 시각화
           if (prediction.landmarks) {
-            const landmarksArray: number[][] = Array.isArray(
-              prediction.landmarks,
-            )
+            const landmarksArray: number[][] = Array.isArray(prediction.landmarks)
               ? (prediction.landmarks as number[][])
-              : ((prediction.landmarks as tf.Tensor).arraySync() as number[][]);
+              : (prediction.landmarks as tf.Tensor).arraySync() as number[][];
             landmarksArray.forEach((landmark) => {
               const [lx, ly] = landmark;
               const adjustedLX = isMirrored
@@ -217,11 +214,14 @@ const UseFaceRegistration = (
     onRegistrationComplete: () => void,
   ) {
     try {
-      const response = await fetch('http://127.0.0.1:5000/user/face-regist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ therapist_id, therapist_name }),
-      });
+      const response = await fetch(
+        'http://192.168.30.189:5000/user/face-regist',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ therapist_id, therapist_name }),
+        },
+      );
       const data = await response.json();
       if (Number(data?.status) === 201) {
         alert('얼굴 등록이 성공했습니다!');
