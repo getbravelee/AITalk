@@ -3,7 +3,9 @@ import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 interface LoginResponse {
-  message: string;
+  // 필요한 경우, 로그인 응답 인터페이스를 업데이트하세요.
+  // 서버에서 반환되는 therapistId는 본문에 있으므로 아래와 같이 타입을 지정할 수 있습니다.
+  therapistId: number;
 }
 
 export const useLogin = () => {
@@ -14,19 +16,27 @@ export const useLogin = () => {
 
   const handleLogin = async (): Promise<void> => {
     try {
-      const response = await axios.post<LoginResponse>('http://localhost:7001/user/login', { id, password });
+      const response = await axios.post<LoginResponse>(
+        'http://localhost:7001/user/login',
+        { id, password },
+      );
 
-      console.log('응답 헤더:', response.headers); // 응답 헤더 확인
+      console.log('응답 헤더:', response.headers);
 
       if (response.status === 200) {
-        const token = response.headers['authorization']; // Authorization 헤더에서 토큰 가져오기
+        const token = response.headers['authorization']; // 헤더에서 토큰 추출
 
         if (token) {
-          localStorage.setItem('token', token); // 로컬스토리지에 저장
+          localStorage.setItem('token', token); // 토큰 저장
           console.log('토큰 저장 완료:', token);
         } else {
           console.warn('토큰이 응답 헤더에 없습니다.');
         }
+
+        const therapistId = response.data; // response.data는 숫자입니다.
+        localStorage.setItem('therapistId', therapistId.toString());
+
+        console.log('therapistId 저장 완료:', therapistId);
 
         navigate('/main/home');
       }
@@ -36,7 +46,7 @@ export const useLogin = () => {
         if (axiosError.response?.status === 401) {
           setErrorMessage(axiosError.response.data.message);
         } else {
-          console.log(error);
+          console.error(error);
           setErrorMessage('로그인 중 오류가 발생했습니다.');
         }
       } else {
