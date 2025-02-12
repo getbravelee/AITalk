@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { IoHomeOutline } from 'react-icons/io5'; // 🏠 홈 아이콘 추가
+import { IoHomeOutline } from 'react-icons/io5'; // 🏠 홈 아이콘
 
 import './BackPlaySelectButton.css';
 
