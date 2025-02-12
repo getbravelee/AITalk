@@ -6,8 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import '../components/Common/BackgroundContainer.css';
 import BackButton from '../components/Common/BackButton';
 import '../components/Texts/TextFontFromGoogle.css';
+import { RootState } from '../../feature/store';
+import { useSelector } from 'react-redux';
+import CurrentUserText from '../components/Texts/CurrentUserText';
+import LogoutButton from '../components/Buttons/LogoutButton';
+import HomeButton from '../components/Common/HomeButton';
 
 export default function TherapistFaceLoginPage() {
+  const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const navigate = useNavigate();
   const [isCameraOpen, setIsCameraOpen] = useState(false);
 
@@ -22,7 +28,17 @@ export default function TherapistFaceLoginPage() {
   return (
     <div className="BackgroundContainer">
       <NavbarContainer>
-        <BackButton />
+        <HStack gap={370} pt={1}>
+          <BackButton />
+          {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
+          {currentUser && (
+            <HStack>
+              <CurrentUserText />
+              <LogoutButton />
+              <HomeButton />
+            </HStack>
+          )}
+        </HStack>
       </NavbarContainer>
       <Flex direction="column" align="center" gap={5} pt={3}>
         <HStack className="font">

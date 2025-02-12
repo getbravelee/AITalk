@@ -67,7 +67,6 @@ export function UseCardTagLogin() {
         credentials: 'include',
       });
       clearTimeout(timeoutId);
-      console.log('여기까지 옴?');
 
       // 404 응답 시, 실패 횟수를 증가시키고 3회 이상이면 메인 페이지로 이동
       if (response.status === 404) {
