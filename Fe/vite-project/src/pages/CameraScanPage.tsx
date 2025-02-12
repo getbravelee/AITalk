@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import NavbarContainer from '../components/Common/NavbarContainer';
 import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import * as cocoSsd from '@tensorflow-models/coco-ssd';
@@ -14,6 +16,8 @@ type DetectedObject = {
 };
 
 export default function CameraScanPage() {
+  const navigate = useNavigate();
+
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [model, setModel] = useState<ReturnType<typeof cocoSsd.load> | null>(
@@ -68,7 +72,6 @@ export default function CameraScanPage() {
 
       const video = videoRef.current;
 
-      // ✅ 비디오가 아직 준비되지 않았다면 대기
       if (video.readyState !== 4) {
         console.warn('⏳ 비디오가 아직 준비되지 않았습니다.');
         requestAnimationFrame(detectObjects);
@@ -77,57 +80,33 @@ export default function CameraScanPage() {
 
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
-
       if (!ctx) return;
 
-      // ✅ detectObjects() 함수 내에서 추가!
       canvas.width = video.videoWidth || video.clientWidth;
       canvas.height = video.videoHeight || video.clientHeight;
-
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const predictions: DetectedObject[] = await model.detect(video);
-      // console.log(`🔎 감지된 객체 개수: ${predictions.length}`);
-      // console.log(predictions);
 
-      setIsDetecting(predictions.length > 0);
+      // 🎯 특정 객체(person) 제외
+      const filteredPredictions = predictions.filter(
+        (prediction) => prediction.class !== 'person',
+      );
 
-      predictions.forEach((prediction: DetectedObject) => {
+      setIsDetecting(filteredPredictions.length > 0);
+
+      filteredPredictions.forEach((prediction) => {
         const [x, y, width, height] = prediction.bbox;
 
-        // console.log(
-        // `🟢 감지된 객체: ${prediction.class} (확률: ${prediction.score})`,
-        // );
-        // console.log(`📍 좌표: x=${x}, y=${y}, w=${width}, h=${height}`);
-
-        ctx.strokeStyle = 'rgba(0, 255, 0, 0.8)';
+        // ✅ 박스만 표시 (이름과 확률 제거)
+        ctx.strokeStyle = 'rgba(0, 255, 0, 0.8)'; // 초록색 테두리
         ctx.lineWidth = 7;
-        // console.log(
-        // `📍 박스 그리기: x=${x}, y=${y}, width=${width}, height=${height}`,
-        // );
         ctx.strokeRect(x, y, width, height);
-
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
-        ctx.fillRect(
-          x,
-          y - 24,
-          ctx.measureText(prediction.class).width + 10,
-          20,
-        );
-
-        ctx.fillStyle = '#00FF00';
-        ctx.font = '16px Arial';
-        ctx.fillText(
-          `${prediction.class} (${Math.round(prediction.score * 100)}%)`,
-          x + 5,
-          y - 5,
-        );
       });
 
       animationId = requestAnimationFrame(detectObjects);
     };
 
-    // ✅ 비디오가 로드될 때 감지 시작
     if (videoRef.current) {
       videoRef.current.onloadedmetadata = () => {
         console.log('🎥 비디오 메타데이터 로드 완료! 객체 감지 시작.');
@@ -144,7 +123,10 @@ export default function CameraScanPage() {
         <BackPlaySelectButton />
       </NavbarContainer>
       <div className="CameraScanContainer">
-        <div className="WebCamContainer">
+        <div
+          className="WebCamContainer"
+          onClick={() => navigate('/camera-img-generate')}
+        >
           <p>
             물건을 화면의 <span className="highlight">중앙에</span> 맞춰서
             보여주세요 !
