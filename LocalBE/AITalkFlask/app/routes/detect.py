@@ -1,12 +1,16 @@
-from flask import Blueprint, jsonify, Response
+from flask import Blueprint, jsonify, Response, request
 import app.services.detect_objects as detect_objects  # 감지 모듈 import
 
 detect_bp = Blueprint('detect', __name__)  # Blueprint 등록
 
-@detect_bp.route("/detect")
+@detect_bp.route("/detect", methods=['POST'])
 def detect():
     """ 감지된 객체 정보를 JSON으로 반환 """
-    detected_objects = detect_objects.get_detected_objects()
+    data = request.get_json()
+    schedule_id = data.get('scheduleId')
+    detected_objects = detect_objects.get_detected_objects(schedule_id)
+
+
 
     if not detected_objects:
         return jsonify({"status": "no_object", "data": []}), 200 # 감지되지 않음
