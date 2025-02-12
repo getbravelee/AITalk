@@ -3,9 +3,12 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from .extensions import db, socketio
 from .routes import register_routes
+<<<<<<< HEAD
 from .routes.child_face import child_face_bp
 from .routes.user_face import user_face_bp
 from .routes.detect import detect_bp  # 새로 추가한 detect Blueprintfrom app.services.sync_service import sync_server_to_local, sync_local_to_server
+=======
+>>>>>>> feature/fe/mvp_1
 from app.services.sync_service import sync_server_to_local, sync_local_to_server
 import atexit  # 서버 종료 시 동기화를 위해 추가
 
@@ -34,7 +37,7 @@ def create_app():
     db.init_app(app)
     socketio.init_app(app)
 
-    # 라우트 등록 (추가적인 Blueprint는 register_routes()에서 처리할 수도 있음)
+    # 라우트 등록
     register_routes(app)
 
     # ✅ 앱 시작 시 데이터 동기화 (앱 컨텍스트 활성화)
@@ -48,19 +51,5 @@ def create_app():
         print("서버 종료 시 최종 데이터 동기화 중...")
         with app.app_context():  # 애플리케이션 컨텍스트 추가
             sync_local_to_server()
-
-    # CORS 설정 추가
-    CORS(app, resources={r"/*": {"origins": "*"}})
-
-    # Blueprint 등록 (중복 등록 방지)
-    if "child_face" not in app.blueprints:
-        app.register_blueprint(child_face_bp)
-
-    if "user_face" not in app.blueprints:
-        app.register_blueprint(user_face_bp)
-
-    # 새 detect Blueprint 등록
-    if "detect" not in app.blueprints:
-        app.register_blueprint(detect_bp)
 
     return app
