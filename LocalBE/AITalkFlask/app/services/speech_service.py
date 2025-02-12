@@ -11,10 +11,9 @@ import base64
 from io import BytesIO
 
 from app.extensions import socketio, db
-from app.models import Child
+from app.models import Child, Schedule
 from dotenv import load_dotenv
-from app.models import Schedule  # ✅ 추가
-from sqlalchemy.orm.attributes import flag_modified  # ✅ 변경 사항 감지용 추가
+from sqlalchemy.orm.attributes import flag_modified
 
 load_dotenv()
 
@@ -35,10 +34,10 @@ def load_model():
 # 음성 인식 및 TTS, GPT 처리 상태 관리 전역 변수
 is_recognizing = False
 recognition_lock = Lock()
-keep_listening = True      # 음성 인식을 계속할지 여부
-gpt_processing = False     # GPT 요청 처리 중 여부
-is_tts_playing = True     # TTS 재생 중임을 나타내는 플래그
-current_child_id = None    # 현재 대화 중인 아동의 ID
+keep_listening = True
+gpt_processing = False
+is_tts_playing = True
+current_child_id = None
 
 # OpenAI API 설정
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -95,9 +94,16 @@ def recognize_audio(child_id):
     p = pyaudio.PyAudio()
     stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=CHUNK)
 
+    # ✅ 스트림 초기화
+    for _ in range(5):
+        stream.read(CHUNK, exception_on_overflow=False)
+
+    stream.stop_stream()
+    stream.start_stream()
+
     audio_buffer = []
-    silence_threshold = 0.005  # 소음 임계치
-    silence_duration = 1.0     # 침묵으로 간주할 시간
+    silence_threshold = 0.01  # ✅ 민감도 조절
+    silence_duration = 1.5    # ✅ 말 중단 시간 증가
     last_speech_time = time.time()
 
     logging.info("🎙 음성 인식 시작")
@@ -115,23 +121,18 @@ def recognize_audio(child_id):
 
         if np.abs(audio_np).mean() > silence_threshold:
             logging.debug("🍗 음성 감지 중...")
-            
-            # ✅ 음성이 감지되었을 때 클라이언트에 이벤트 전송
             socketio.emit('speech_detected', {'status': 'speaking'}, namespace='/')
-
             audio_buffer.append(audio_data)
             last_speech_time = time.time()
 
         elif time.time() - last_speech_time > silence_duration and audio_buffer:
             if not gpt_processing:
                 logging.info("🔁 말 중단 감지 → 텍스트 변환 시도")
-                
-                # ✅ 음성이 멈췄을 때 클라이언트에 이벤트 전송
                 socketio.emit('speech_stopped', {'status': 'silent'}, namespace='/')
 
                 is_tts_playing = True
                 full_audio = b''.join(audio_buffer)
-                audio_buffer = []
+                audio_buffer = []  # ✅ 버퍼 새로 초기화
 
                 try:
                     audio_np_full = np.frombuffer(full_audio, dtype=np.int16).astype(np.float32) / 32768.0
@@ -145,8 +146,8 @@ def recognize_audio(child_id):
                 except Exception as e:
                     logging.error(f"❌ 텍스트 변환 중 오류: {e}")
             else:
-                audio_buffer = []
-        
+                audio_buffer = []  # ✅ GPT 처리 중일 때도 버퍼 비우기
+
         time.sleep(0.01)
 
     stream.stop_stream()
@@ -160,6 +161,11 @@ def get_gpt_response(user_input, child_id, is_summary=False):
     global gpt_processing, conversation_history, is_tts_playing
     try:
         conversation_history.append({"role": "user", "content": user_input})
+
+        # ✅ 대화 이력 10개까지만 유지
+        if len(conversation_history) > 10:
+            conversation_history = conversation_history[-10:]
+
         logging.info(f"🤝 GPT에 질문: {user_input}")
         response = openai.ChatCompletion.create(
             model="gpt-4o",
@@ -171,18 +177,19 @@ def get_gpt_response(user_input, child_id, is_summary=False):
         logging.info(f"🤖 GPT 응답: {gpt_reply}")
         conversation_history.append({"role": "assistant", "content": gpt_reply})
 
-        if not is_summary:  # 일반 대화 응답
+        if not is_summary:
             is_tts_playing = True
             audio_base64 = text_to_speech(gpt_reply)
             socketio.emit('gpt_response', {'response': gpt_reply, 'audio': audio_base64}, namespace='/')
         else:
             logging.info("✅ 요약 완료 (클라이언트로 전송하지 않음)")
-            return gpt_reply  # ✅ 요약된 내용 반환
+            return gpt_reply
 
     except Exception as e:
         logging.error(f"❌ GPT 요청 중 오류: {e}")
     finally:
         gpt_processing = False
+        socketio.emit('gpt_ready', {'status': 'ready'}, namespace='/')
 
 def stop_recognition(child_id, schedule_id=None):
     global keep_listening, conversation_history
@@ -217,10 +224,6 @@ def stop_recognition(child_id, schedule_id=None):
 
 @socketio.on('tts_finished', namespace='/')
 def handle_tts_finished():
-    """
-    클라이언트에서 TTS 재생 완료 후 호출하는 이벤트 핸들러.
-    TTS 재생 플래그(is_tts  q_playing)를 해제하고, 음성 인식이 실행 중이 아니면 재시작합니다.
-    """
     global is_tts_playing, current_child_id, is_recognizing, keep_listening
     is_tts_playing = False
     logging.info("TTS 재생 완료 이벤트 수신: 음성 인식 재개됨")
