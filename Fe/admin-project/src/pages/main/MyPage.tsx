@@ -50,11 +50,9 @@ export default function MyPage() {
       <h1>회원정보 수정</h1>
       <form onSubmit={handleSubmit}>
         <label>이름</label>
-        <input type="text" name="name" value={formData.name} readOnly /> {/* ✅ 수정 불가 */}
-
+        <input type="text" name="name" value={formData.name} readOnly /> 
         <label>아이디</label>
-        <input type="text" name="username" value={formData.username} readOnly /> {/* ✅ 수정 불가 */}
-
+        <input type="text" name="username" value={formData.username} readOnly /> 
         <label>비밀번호</label>
         <input type="password" name="password" value={formData.password} onChange={handleChange} required />
 

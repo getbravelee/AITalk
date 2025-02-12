@@ -51,13 +51,17 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(Arrays.asList("*"));  // 모든 출처 허용 (배포 시 변경 권장)
+        configuration.setAllowedOriginPatterns(Arrays.asList("*")); // 모든 출처 허용 (배포 시 도메인으로 변경 권장)
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setAllowCredentials(true);
+
+        configuration.setExposedHeaders(Arrays.asList("Authorization")); // 프론트에서 접근 가능하도록 설정
+
+        configuration.setAllowCredentials(true); // 자격 증명 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 }
