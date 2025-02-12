@@ -6,16 +6,11 @@ from .speech_route import speech_bp
 from .card_routes import card_bp
 from .session_routes import  session_bp
 from .therapist_login import login_bp
-<<<<<<< HEAD
 from .detect import detect_bp
 from flask import Flask
 from .user_face import user_face_bp
 from .child_face import child_face_bp
 from .play_start_route import play_start_bp
-
-=======
->>>>>>> feature/fe/mvp_1
-
 # 라우트 블루프린트 연결
 def register_routes(app):
     app.register_blueprint(card_bp)
