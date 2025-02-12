@@ -18,7 +18,6 @@ def register_routes(app):
     app.register_blueprint(login_bp)
     app.register_blueprint(child_bp)
     app.register_blueprint(speech_bp)
-<<<<<<< HEAD
     app.register_blueprint(sentence_bp)
     app.register_blueprint(detect_bp)
     app.register_blueprint(child_face_bp)
@@ -30,6 +29,3 @@ def register_routes(app):
     if "child_face" not in app.blueprints:
         app.register_blueprint(child_face_bp)
     app.register_blueprint(play_start_bp)
-=======
-    app.register_blueprint(sentence_bp)
->>>>>>> feature/fe/mvp_1
