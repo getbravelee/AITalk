@@ -3,7 +3,7 @@ monkey.patch_all()
 from app import create_app, socketio
 
 
-app = create_app()
+app = create_app()  # Flask 앱 생성
 
 if __name__ == '__main__':
     print("실행")

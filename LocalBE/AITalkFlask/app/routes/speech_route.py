@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, session
 import threading
 from app.services.speech_service import (
     recognize_audio,
@@ -9,6 +9,9 @@ from app.services.speech_service import (
     keep_listening,
     is_tts_playing
 )
+from app.models import Schedule  # ✅ 추가
+from app.extensions import db
+from sqlalchemy.orm.attributes import flag_modified  # ✅ 변경 사항 감지용 추가
 from gtts import gTTS
 import base64
 from io import BytesIO
@@ -37,32 +40,27 @@ def start_recognition_route():
     if not child_info:
         return jsonify({"error": "Child not found"}), 404
 
-    # 처음 대화 시작 시, 인사말(TTS) 전송 후 음성 인식은 클라이언트의 tts_finished 이벤트 후 시작
     if not conversation_started:
         conversation_started = True
         initialize_conversation(child_id)
 
-        is_tts_playing = True      # 인사말 TTS 재생 중임을 표시
-        current_child_id = child_id # 현재 아동 ID 저장
+        is_tts_playing = True
+        current_child_id = child_id
 
         greeting_message = f"{child_info['child_name']}아, 안녕! 준비가 되면 말을 시작해봐."
         audio_base64 = text_to_speech(greeting_message)
 
-        # 클라이언트는 인사말 재생 후 tts_finished 이벤트를 통해 음성 인식을 재개합니다.
         return jsonify({
             "message": greeting_message,
             "audio": audio_base64,
         }), 200
 
-    # 대화가 이미 시작된 경우, TTS 재생 중이면 음성 인식 시작을 막음
     if is_tts_playing:
         return jsonify({"status": "TTS 재생 중, 음성 인식 대기중"}), 200
 
-    # 음성 인식이 이미 실행 중이면 중복 실행 방지
     if is_recognizing:
         return jsonify({"status": "already running"}), 409
 
-    # TTS 재생이 완료된 상태에서 대화가 이미 시작된 경우에만 음성 인식을 시작
     keep_listening = True
     threading.Thread(target=recognize_audio, args=(child_id,), daemon=True).start()
     return jsonify({"status": "recognition started"}), 200
@@ -72,11 +70,13 @@ def stop_recognition_route():
     global conversation_started
     data = request.get_json()
     child_id = data.get('childId')
+    schedule_id = data.get('scheduleId')  # ✅ schedule_id 받기
+
     child_info = get_child_info(child_id)
 
     if not child_info:
         return jsonify({"error": "Child not found"}), 404
 
-    stop_recognition(child_id)
-    conversation_started = False  # 대화 종료 시 상태 초기화
+    stop_recognition(child_id, schedule_id)  # ✅ schedule_id 전달
+    conversation_started = False
     return jsonify({"status": "recognition stopped"}), 200
