@@ -3,9 +3,12 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from .extensions import db, socketio
 from .routes import register_routes
+<<<<<<< HEAD
 from .routes.child_face import child_face_bp
 from .routes.user_face import user_face_bp
 from .routes.detect import detect_bp  # 새로 추가한 detect Blueprintfrom app.services.sync_service import sync_server_to_local, sync_local_to_server
+=======
+>>>>>>> feature/fe/mvp_2
 from app.services.sync_service import sync_server_to_local, sync_local_to_server
 import atexit  # 서버 종료 시 동기화를 위해 추가
 
