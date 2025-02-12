@@ -24,7 +24,11 @@ def login():
         return jsonify({
             'message': '로그인 성공',
             'therapistId': user.therapist_id,
+<<<<<<< HEAD
             'therapistName': user.name  # 이름 필드 추가
+=======
+            'therapistName': user.therapist_name  # 이름 필드 추가
+>>>>>>> feature/fe/mvp_2
         }), 200
     else:
         return jsonify({'message': 'ID 또는 비밀번호가 올바르지 않습니다.'}), 401
