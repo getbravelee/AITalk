@@ -36,6 +36,7 @@
 }
 
 .email-verification {
+  width: 105%;
   display: flex;
 }
 
@@ -45,7 +46,7 @@
 
 .verify-button {
   margin-left: 10px;
-  width: auto;
+  width: 60px;
   height: 45px;
   background-color: #ffcc00;
   border: none;
