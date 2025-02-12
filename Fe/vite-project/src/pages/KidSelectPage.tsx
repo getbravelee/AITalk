@@ -10,7 +10,7 @@ import { ChildData } from '../utils/ChunkArray'; // 혹은 types/child.ts에서 
 
 export default function KidSelectPage() {
   // useFetch 훅을 통해 API 데이터를 받아옴
-  const { data: children, loading, error } = UseFetch<ChildData[]>('http://localhost:5000/child/list');
+  const { data: children, loading, error } = UseFetch<ChildData[]>('http://192.168.30.189:5000/child/list');
   
   // children 데이터가 있을 경우 그룹핑, 없으면 빈 배열 사용
   const groupedChildren = children ? ChunkArray(children, 2) : [];
