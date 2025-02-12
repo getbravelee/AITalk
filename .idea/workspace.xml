@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="21ae9208-eb71-43d6-9fa2-63e70b6182e8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/LocalBE/AITalkFlask/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/LocalBE/AITalkFlask/app/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LocalBE/AITalkFlask/app/routes/user_face.py" beforeDir="false" afterPath="$PROJECT_DIR$/LocalBE/AITalkFlask/app/routes/user_face.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LocalBE/AITalkFlask/app/services/detect_objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/LocalBE/AITalkFlask/app/services/detect_objects.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LocalBE/AITalkFlask/child_face_db.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/LocalBE/AITalkFlask/config.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/LocalBE/AITalkFlask/data.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/LocalBE/AITalkFlask/face_db.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,9 +15,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2sr3xODSH0NTMDzEnkCjIRwY8X1" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -34,7 +28,7 @@
     "Python.detect_objects.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/be/camera__scan"
+    "git-widget-placeholder": "feature/be/user"
   }
 }]]></component>
   <component name="SharedIndexes">
