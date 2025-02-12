@@ -1,7 +1,6 @@
 package com.ssafy.aitalk.user.service;
 
 import com.ssafy.aitalk.user.dto.*;
-import com.ssafy.aitalk.user.entity.User;
 import jakarta.validation.Valid;
 
 public interface UserService {
@@ -16,7 +15,7 @@ public interface UserService {
 
 //    void updateUserInfo(User user);
 
-    void updateUserInfo(int id, @Valid UpdateInfoRequest request);
+    UserUpdateResponse updateUserInfo(int id, @Valid UpdateInfoRequest request);
 
     void deleteUser(int id);
 
@@ -25,5 +24,7 @@ public interface UserService {
     void sendVerificationCode(String id);
     boolean verifyCode(String id, String code);
     void updatePassword(ChangePasswordRequest request);
+
+    void changePassword(int id, String newPassword);
 
 }

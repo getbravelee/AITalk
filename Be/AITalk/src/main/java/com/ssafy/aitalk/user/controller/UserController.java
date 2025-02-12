@@ -85,26 +85,26 @@ public class UserController {
 
     // 회원정보 수정
     @PutMapping("/info")
-    public ResponseEntity<UpdateInfoResponse> updateUserInfo(@RequestBody @Valid UpdateInfoRequest request, BindingResult bindingResult) {
+    public ResponseEntity<UserUpdateResponse> updateUserInfo(@RequestBody @Valid UpdateInfoRequest request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // 첫 번째 오류 메시지만 반환
             String errorMessage = bindingResult.getFieldErrors().get(0).getDefaultMessage();
-            return ResponseEntity.status(400).body(new UpdateInfoResponse("회원가입 실패 : " + errorMessage));
+            return ResponseEntity.status(400).body(new UserUpdateResponse("회원정보 수정 실패: " + errorMessage, null));
         }
 
         try {
             int id = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getName());
             System.out.println("로그인한 사용자 ID: " + id);
 
-            userService.updateUserInfo(id, request);
+            // 변경된 정보를 반환하는 메서드 호출
+            UserUpdateResponse response = userService.updateUserInfo(id, request);
 
-
-            // JSON 응답
-            return ResponseEntity.ok(new UpdateInfoResponse("수정되었습니다."));
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new UpdateInfoResponse("회원정보 수정 실패: " + e.getMessage()));
+            return ResponseEntity.badRequest().body(new UserUpdateResponse("회원정보 수정 실패: " + e.getMessage(), null));
         }
     }
+
 
     // 회원정보 삭제
     @DeleteMapping("/info")

@@ -106,16 +106,52 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void updateUserInfo(int id, @Valid UpdateInfoRequest request) {
+    public UserUpdateResponse updateUserInfo(int id, @Valid UpdateInfoRequest request) {
         // 사용자 정보 조회
         User user = userMapper.findInfoById(id);
         if (user == null) {
             throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
         }
 
-        // 사용자 정보 업데이트
-        userMapper.updateUserInfo(id, request.getEmail(), request.getPhoneNumber());
+        // 변경된 필드를 추적할 Map 생성
+        Map<String, Object> updatedFields = new HashMap<>();
+
+        // 이메일 업데이트
+        if (request.getEmail() != null && !request.getEmail().equals(user.getEmail())) {
+            userMapper.updateUserInfo(id, request.getEmail(), user.getPhoneNumber());
+            updatedFields.put("email", request.getEmail());
+        }
+
+        // 전화번호 업데이트
+        if (request.getPhoneNumber() != null && !request.getPhoneNumber().equals(user.getPhoneNumber())) {
+            userMapper.updateUserInfo(id, user.getEmail(), request.getPhoneNumber());
+            updatedFields.put("phoneNumber", request.getPhoneNumber());
+        }
+
+        // 비밀번호 변경
+        if (request.getNewPassword() != null && request.getConfirmPassword() != null) {
+            if (!request.getNewPassword().equals(request.getConfirmPassword())) {
+                throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            }
+            if (!isValidPassword(request.getNewPassword())) {
+                throw new IllegalArgumentException("비밀번호는 영문, 숫자, 특수문자를 포함하여 8~20자로 입력해야 합니다.");
+            }
+
+            String encryptedPassword = passwordEncoder.encode(request.getNewPassword());
+            userMapper.updatePasswordById(user.getId(), encryptedPassword);
+            updatedFields.put("password", "비밀번호 변경됨");
+        }
+
+        // 변경된 필드가 없다면 메시지만 반환
+        if (updatedFields.isEmpty()) {
+            return new UserUpdateResponse("변경된 정보가 없습니다.", updatedFields);
+        }
+
+        return new UserUpdateResponse("회원정보가 수정되었습니다.", updatedFields);
     }
+
+
+
 
     @Override
     public void deleteUser(int id) {
@@ -205,17 +241,17 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("비밀번호 변경을 위해 먼저 인증을 완료해야 합니다.");
         }
 
-        // ✅ 1. 비밀번호 & confirmPassword 검증
+        // 1. 비밀번호 & confirmPassword 검증
         if (!request.getPassword().equals(request.getConfirmPassword())) {
             throw new IllegalArgumentException("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
         }
 
-        // ✅ 2. 비밀번호 유효성 검사
+        // 2. 비밀번호 유효성 검사
         if (!isValidPassword(request.getPassword())) {
             throw new IllegalArgumentException("비밀번호는 영문, 숫자, 특수문자를 포함하여 8~20자로 입력해야 합니다.");
         }
 
-        // ✅ 3. 비밀번호 암호화 후 저장
+        // 3. 비밀번호 암호화 후 저장
         String encryptedPassword = passwordEncoder.encode(request.getPassword());
 
         try {
@@ -224,9 +260,14 @@ public class UserServiceImpl implements UserService {
                 throw new IllegalArgumentException("비밀번호 변경 실패: 아이디를 확인하세요.");
             }
         } finally {
-            // ✅ 4. 인증 완료 상태 제거 (성공/실패 관계없이 무조건 실행)
+            // 4. 인증 완료 상태 제거 (성공/실패 관계없이 무조건 실행)
             verifiedUsers.remove(request.getId());
         }
+    }
+
+    @Override
+    public void changePassword(int id, String newPassword) {
+
     }
 
 
