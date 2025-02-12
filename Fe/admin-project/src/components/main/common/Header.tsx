@@ -18,9 +18,6 @@ const Header = () => {
         <Link to="/main/schedule" className="nav-item">
           예약 관리
         </Link>
-        <Link to="/main/schedule" className="nav-item">
-          예약 관리
-        </Link>
         <Link to="/main/child/list" className="nav-item">
           치료 아동 관리
         </Link>
