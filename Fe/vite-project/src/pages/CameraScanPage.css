@@ -51,7 +51,7 @@
   top: 50;
   left: 50;
   width: 50%;
-  height: 50%;
+  height: 70%;
   pointer-events: none;
   opacity: 1; /* 👈 투명도 1로 설정 (보이게) */
   transition: opacity 0.3s ease-in-out;
@@ -64,7 +64,7 @@
   top: 50;
   left: 50;
   width: 50%;
-  height: 50%;
+  height: 70%;
   pointer-events: none; /* 캔버스 위에서 클릭이 가능하도록 설정 */
   z-index: 10; /* 비디오 위에 표시되도록 설정 */
 }
