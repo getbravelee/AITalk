@@ -38,8 +38,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 String userId = jwtUtil.extractId(token); // 토큰에서 사용자 정보 추출 - 사용자의 아이디 (pk 아님)
 
 
-
-
                 // 2. 인증 정보 생성
                 UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(userId, null, null);

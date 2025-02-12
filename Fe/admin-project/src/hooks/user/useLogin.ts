@@ -14,10 +14,20 @@ export const useLogin = () => {
 
   const handleLogin = async (): Promise<void> => {
     try {
-      const response = await axios.post<LoginResponse>('http://3.38.106.51:7001/user/login', { id, password });
+      const response = await axios.post<LoginResponse>('http://localhost:7001/user/login', { id, password });
+
+      console.log('응답 헤더:', response.headers); // 응답 헤더 확인
 
       if (response.status === 200) {
-        console.log(response.data.message);
+        const token = response.headers['authorization']; // Authorization 헤더에서 토큰 가져오기
+
+        if (token) {
+          localStorage.setItem('token', token); // 로컬스토리지에 저장
+          console.log('토큰 저장 완료:', token);
+        } else {
+          console.warn('토큰이 응답 헤더에 없습니다.');
+        }
+
         navigate('/main/home');
       }
     } catch (error) {
@@ -26,7 +36,7 @@ export const useLogin = () => {
         if (axiosError.response?.status === 401) {
           setErrorMessage(axiosError.response.data.message);
         } else {
-          console.log(error)
+          console.log(error);
           setErrorMessage('로그인 중 오류가 발생했습니다.');
         }
       } else {
@@ -41,6 +51,6 @@ export const useLogin = () => {
     password,
     setPassword,
     errorMessage,
-    handleLogin
+    handleLogin,
   };
 };

@@ -16,7 +16,7 @@
   
 
   .care-child img, .schedule img {
-    width: 400px;  
+    width: 500px;  
     height: auto;/* 클릭 가능하게 */
     transition: transform 0.3s ease; 
   }
