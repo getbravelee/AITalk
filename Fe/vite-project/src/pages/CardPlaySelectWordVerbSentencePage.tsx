@@ -4,7 +4,6 @@ import NavbarContainer from '../components/Common/NavbarContainer';
 import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import CardInfoContainer from '../components/Common/CardInfoContainer';
 
-import './CardPlaySelectWordVerbPage.css';
 import './CardPlaySelectWordVerbSentencePage.css';
 
 // ✅ 받침이 있는지 확인하는 함수
