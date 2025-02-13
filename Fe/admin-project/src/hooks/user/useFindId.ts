@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 interface FindIdResponse {
   message: string;
@@ -23,7 +22,7 @@ export const useFindId = () => {
         // 성공 시 서버에서 userId를 email로 보내주기 때문에
         // 별도의 alert로 보여주지 않고, 필요 시 로그로 확인할 수 있음
         console.log(response.data.message);
-        alert('회원님의 이메일로 ID를 전송했습니다.')
+
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
