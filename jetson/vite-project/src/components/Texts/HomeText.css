@@ -11,6 +11,7 @@
 .Title {
   font-size: 6.5rem; /* 큰 제목 크기 */
   font-weight: bold; /* 두꺼운 글씨 */
+  animation: floating 2s infinite ease-in-out;
 }
 
 .SubTitle {
@@ -21,4 +22,23 @@
 .Explain {
   font-size: 1rem; /* 설명 문구 크기 */
   font-weight: 400; /* 기본 글씨 두께 */
+}
+
+/* 부드러운 흔들림 (둥둥 떠 있는 듯한 효과) */
+@keyframes floating {
+  0% {
+    transform: translateY(0) rotate(0);
+  }
+  25% {
+    transform: translateY(-5px) rotate(-0.5deg);
+  }
+  50% {
+    transform: translateY(5px) rotate(0.5deg);
+  }
+  75% {
+    transform: translateY(-5px) rotate(-0.5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0);
+  }
 }
