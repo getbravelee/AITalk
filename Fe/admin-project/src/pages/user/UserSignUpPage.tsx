@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './UserSignupPage.css';
+import './UserSignUpPage.css';
 import LogoSVG from '../../assets/User/AiTalkLogo.svg';
 import { InputField } from '../../components/user/common/InputComponent';
 import EmailAuthComponent from '../../components/user/common/EmailAuthComponent';
