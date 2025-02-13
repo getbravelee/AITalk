@@ -1,6 +1,9 @@
 import cv2
 import numpy as np
 from ultralytics import YOLO
+from app.models.schedule_model import Schedule  # SQLAlchemy 모델 임포트
+from app.extensions import db    # SQLAlchemy 인스턴스 임포트
+from sqlalchemy.orm.attributes import flag_modified
 
 # YOLO 모델 로드 및 웹캠 초기화
 model = YOLO("yolov8n.pt")
@@ -14,8 +17,21 @@ print(model.names)
 # 원하지 않는 클래스가 있으면 리스트에 추가 (예: ['person', 'bottle'])
 unwanted_classes = ['person']
 
+def save_detected_object(schedule_id, detected_name):
+    treatment = Schedule.query.filter_by(treatment_id=schedule_id).first()
+    if treatment:
+        existing_words = treatment.words if treatment.words else []
+        if detected_name not in existing_words:
+            existing_words.append(detected_name)
+            treatment.words = existing_words
+            flag_modified(treatment, "words")
+            db.session.commit()
+            print(f"treatment_id {schedule_id}의 words 업데이트 완료: {treatment.words}")
+    else:
+        print(f"treatment_id {schedule_id}에 해당하는 치료 정보를 찾을 수 없습니다.")
 
-def detect_objects(mode="largest"):
+
+def detect_objects(schedule_id, mode="largest"):
     """
     YOLO를 이용하여 객체를 감지하는 함수.
 
@@ -70,6 +86,9 @@ def detect_objects(mode="largest"):
                     candidate = label
     else:
         candidate = None
+
+    if candidate:
+        save_detected_object(schedule_id, candidate)
 
     return candidate, frame
 
