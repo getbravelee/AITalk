@@ -10,6 +10,8 @@ import CardPlaySelectWordPage from './pages/CardPlaySelectWordPage';
 import CardPlaySelectWordVerbPage from './pages/CardPlaySelectWordVerbPage';
 import CardPlaySelectWordVerbSentencePage from './pages/CardPlaySelectWordVerbSentencePage';
 
+//
+import CameraPlayPage from './pages/CameraPlayPage';
 import CameraScanPage from './pages/CameraScanPage';
 import CameraImageGeneratePage from './pages/CameraImageGeneratePage';
 import CameraPlaySelectPage from './pages/CameraPlaySelectPage';
@@ -92,6 +94,10 @@ function MainRoutes() {
       <Route
         path="/TherapistFaceResisterCompletePage"
         element={<TherapistFaceResisterCompletePage />}
+      />
+      <Route
+        path="/CameraPlayPage"
+        element={<CameraPlayPage />}
       />
       <Route path="/HomeAfterLoginPage" element={<HomeAfterLoginPage />} />
       <Route path="/KidSelectPage" element={<KidSelectPage />} />
