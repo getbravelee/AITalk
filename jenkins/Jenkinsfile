@@ -1,0 +1,85 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = "suhwany/aitalk"  // ✅ 하나의 Docker Hub 레포지토리
+        IMAGE_TAG_BACKEND = "backend-latest"  // 백엔드 태그
+        MATTERMOST_WEBHOOK = "https://meeting.ssafy.com/hooks/9p1665jgnjdn3msh9piyg1zpme"  // ✅ Mattermost 웹훅 URL
+    }
+
+    stages {
+        stage('Notify GitLab') {
+            steps {
+                echo 'Notify GitLab'
+                updateGitlabCommitStatus name: 'build', state: 'pending'
+            }
+        }
+
+        stage('Checkout') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'gitlabId', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_TOKEN')]) {
+                        git branch: 'develop', url: "https://${GIT_USERNAME}:${GIT_TOKEN}@lab.ssafy.com/s12-webmobile3-sub1/S12P11E102.git"
+                    }
+                }
+            }
+        }
+
+        stage('Build Backend') {
+            steps {
+                sh '''
+                cd Be/AITalk
+                chmod +x ./gradlew
+                ./gradlew clean build -x test
+                '''
+            }
+        }
+
+        stage('Docker Build & Push Backend') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'DockerId', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh '''
+                        cd Be/AITalk
+                        docker build -t ${IMAGE_NAME}:${IMAGE_TAG_BACKEND} .
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker push ${IMAGE_NAME}:${IMAGE_TAG_BACKEND}
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to EC2') {
+            steps {
+                sh '''
+                chmod +x jenkins/scripts/deploy_backend.sh
+                ./jenkins/scripts/deploy_backend.sh
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            script {
+                sh '''
+                curl -X POST -H 'Content-Type: application/json' --data '{
+                    "text": "✅ Jenkins Build & Deployment Success! 🎉"
+                }' ${MATTERMOST_WEBHOOK}
+                '''
+            }
+            updateGitlabCommitStatus name: 'build', state: 'success'
+        }
+        failure {
+            script {
+                sh '''
+                curl -X POST -H 'Content-Type: application/json' --data '{
+                    "text": "❌ Jenkins Build Failed! 🔥"
+                }' ${MATTERMOST_WEBHOOK}
+                '''
+            }
+            updateGitlabCommitStatus name: 'build', state: 'failed'
+        }
+    }
+}
