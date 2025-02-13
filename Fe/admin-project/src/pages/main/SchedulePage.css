@@ -1,0 +1,50 @@
+/* ✅ 캘린더 전체 컨테이너 */
+.calendar-container {
+  width: 100%;
+  height: 700px;
+  overflow: hidden;
+  background-color: #fff;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* ✅ 셀 높이 고정 */
+.fc-daygrid-day-frame {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 100px;
+  padding: 5px;
+  overflow: hidden;
+}
+
+/* ✅ 일정 바 스타일 */
+.fc-event {
+  background-color: #ff6b6b !important;
+  color: white !important;
+  padding: 3px 5px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ✅ "더보기" 버튼 스타일 */
+.fc-more-link {
+  color: #007bff !important;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-top: 3px;
+}
+
+/* ✅ 반응형 디자인 */
+@media (max-width: 768px) {
+  .fc-daygrid-day-frame {
+    min-height: 80px; /* 모바일에서는 조금 더 작게 */
+  }
+}

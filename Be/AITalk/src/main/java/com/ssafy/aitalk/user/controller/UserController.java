@@ -1,18 +1,22 @@
 package com.ssafy.aitalk.user.controller;
 
-import com.ssafy.aitalk.user.dto.RegisterRequest;
-import com.ssafy.aitalk.user.dto.RegisterResponse;
+import com.ssafy.aitalk.user.dto.*;
+import com.ssafy.aitalk.user.entity.User;
 import com.ssafy.aitalk.user.service.UserService;
 import jakarta.validation.Valid;
+import org.mybatis.logging.Logger;
+import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import com.ssafy.aitalk.user.dto.LoginRequest;
-import com.ssafy.aitalk.user.dto.LoginResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -40,7 +44,6 @@ public class UserController {
         }
     }
 
-
     // 로그인
     @PostMapping("/login")
     public ResponseEntity<Integer> loginUser(@RequestBody LoginRequest request) {
@@ -63,4 +66,121 @@ public class UserController {
         return ResponseEntity.ok("🎉 인증 성공! 이 메시지는 JWT 토큰이 유효할 때만 볼 수 있습니다.");
     }
 
+
+    // 회원정보 불러오기
+    @GetMapping("/info")
+    public ResponseEntity<?> getUserInfo() {
+//        System.out.println("테스트");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        int id = Integer.parseInt(authentication.getName());  // 현재 로그인한 사용자의 이름(name)
+//        System.out.println("테스트" + id);
+
+        try {
+            UserResponse userResponse = userService.getUserInfo(id);
+            return ResponseEntity.ok(userResponse);
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
+        }
+    }
+
+    // 회원정보 수정
+    @PutMapping("/info")
+    public ResponseEntity<UserUpdateResponse> updateUserInfo(@RequestBody @Valid UpdateInfoRequest request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            // 첫 번째 오류 메시지만 반환
+            String errorMessage = bindingResult.getFieldErrors().get(0).getDefaultMessage();
+            return ResponseEntity.status(400).body(new UserUpdateResponse("회원정보 수정 실패: " + errorMessage, null));
+        }
+
+        try {
+            int id = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getName());
+            System.out.println("로그인한 사용자 ID: " + id);
+
+            // 변경된 정보를 반환하는 메서드 호출
+            UserUpdateResponse response = userService.updateUserInfo(id, request);
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new UserUpdateResponse("회원정보 수정 실패: " + e.getMessage(), null));
+        }
+    }
+
+
+    // 회원정보 삭제
+    @DeleteMapping("/info")
+    public ResponseEntity<UpdateInfoResponse> deleteUser() {
+        try {
+            // 현재 로그인한 사용자의 ID 가져오기
+            int id = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getName());
+
+            // 회원 탈퇴 실행
+            userService.deleteUser(id);
+
+            return ResponseEntity.ok(new UpdateInfoResponse("회원 탈퇴가 완료되었습니다."));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new UpdateInfoResponse("회원 탈퇴 실패: " + e.getMessage()));
+        }
+    }
+
+
+    // 아이디 찾기
+    @PostMapping("/find-id")
+    public ResponseEntity<UpdateInfoResponse> findUserId(@RequestBody Map<String, String> request) {
+        try {
+            String email = request.get("email");
+            userService.sendUserIdByEmail(email);
+            return ResponseEntity.ok(new UpdateInfoResponse("아이디가 이메일로 전송되었습니다."));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new UpdateInfoResponse("올바른 이메일 주소를 입력해주세요"));
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new UpdateInfoResponse("해당 이메일을 사용하는 계정을 찾을 수 없습니다."));
+        }
+    }
+
+
+    // 비밀번호 찾기
+    // 1️⃣ 인증코드 발송 (아이디 입력)
+    @PostMapping("/send-verification-code")
+    public ResponseEntity<PasswordResponse> sendVerificationCode(@RequestBody SendVerificationCodeRequest request) {
+        userService.sendVerificationCode(request.getId());
+        return ResponseEntity.ok(new PasswordResponse("인증코드가 이메일로 전송되었습니다."));
+    }
+
+    // 2️⃣ 인증코드 확인
+    @PostMapping("/verify-code")
+    public ResponseEntity<PasswordResponse> verifyCode(@RequestBody VerifyCodeRequest request) {
+        boolean isVerified = userService.verifyCode(request.getId(), request.getCode());
+
+        if (isVerified) {
+            return ResponseEntity.ok(new PasswordResponse("인증 성공"));
+        } else {
+            return ResponseEntity.badRequest().body(new PasswordResponse("인증코드가 일치하지 않습니다."));
+        }
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<PasswordResponse> changePassword(@RequestBody @Valid ChangePasswordRequest request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            // 첫 번째 오류 메시지만 반환
+            String errorMessage = bindingResult.getFieldErrors().get(0).getDefaultMessage();
+            return ResponseEntity.status(400).body(new PasswordResponse("회원가입 실패 : " + errorMessage));
+        }
+        try{
+            userService.updatePassword(request);
+            return ResponseEntity.ok(new PasswordResponse("비밀번호가 성공적으로 변경되었습니다."));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(new PasswordResponse(e.getMessage()));
+        }
+
+    }
+
+
+
+
+
 }
+
+
+
+
+

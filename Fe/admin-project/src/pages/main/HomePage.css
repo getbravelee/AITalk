@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    justify-content: space-around; 
+    align-items: center; 
+    height: 100vh; 
+    background-color: #ffffff; /
+  }
+  
+
+  .care-child, .schedule {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    gap: 10px; 
+  }
+  
+
+  .care-child img, .schedule img {
+    width: 500px;  
+    height: auto;/* 클릭 가능하게 */
+    transition: transform 0.3s ease; 
+  }
+
+  .care-child img:hover, .schedule img:hover {
+    transform: scale(1.05); 
+  }
+  
+  .care-child h1, .schedule h1 {
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+    font-weight: bolder;
+    margin: 0;
+  }
+  

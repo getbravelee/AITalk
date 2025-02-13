@@ -7,17 +7,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
   font-family: 'Dongle', serif;
 }
 
 .CardPlaySelectInnerContainer {
   display: flex;
-  gap: 2rem; /* 각 요소 사이 간격 */
-  margin-top: 2rem; /* 전체 간격 조정 */
+  gap: 4rem; /* 각 요소 사이 간격 */
+  margin-top: 3rem; /* 전체 간격 조정 */
 }
 
 .ButtonContainer {
   display: flex;
+  flex-direction: row;
   gap: 1rem; /* 버튼 간 간격 설정 */
+  position: relative;
+  top: 10%;
 }

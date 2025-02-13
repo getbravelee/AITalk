@@ -20,7 +20,15 @@ export const useLogin = () => {
       );
 
       if (response.status === 200) {
-        console.log(response.data.message);
+        const token = response.headers['authorization']; // Authorization 헤더에서 토큰 가져오기
+
+        if (token) {
+          localStorage.setItem('token', token); // 로컬스토리지에 저장
+          console.log('토큰 저장 완료:', token);
+        } else {
+          console.warn('토큰이 응답 헤더에 없습니다.');
+        }
+
         navigate('/main/home');
       }
     } catch (error) {

@@ -7,9 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @RestController
@@ -22,7 +24,13 @@ public class ChildController {
 
     // 치료 아동 등록
     @PostMapping("/register")
-    public ResponseEntity<ChildMessageResponse> registerSchedule(@RequestBody ChildRegisterRequest request){
+    public ResponseEntity<ChildMessageResponse> registerSchedule(@RequestBody ChildRegisterRequest request, BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()) {
+            String errorMessage = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
+            return ResponseEntity.status(400).body(new ChildMessageResponse("아동 등록 실패 : " + errorMessage));
+        }
+
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             int therapistId = Integer.parseInt(auth.getName());
@@ -80,7 +88,14 @@ public class ChildController {
 
     // 아동 수정
     @PutMapping("/{childId}")
-    public ResponseEntity<?> updateChild(@PathVariable("childId") int childId, @RequestBody ChildUpdateRequest request){
+    public ResponseEntity<?> updateChild(@PathVariable("childId") int childId, @RequestBody ChildUpdateRequest request,  BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()) {
+            String errorMessage = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
+            return ResponseEntity.status(400).body(new ChildMessageResponse("수정 실패 : " + errorMessage));
+        }
+
+
         try {
             childService.updateChild(childId, request);
             return ResponseEntity.ok(new ChildMessageResponse("아동 수정 완료"));
