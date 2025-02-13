@@ -12,7 +12,7 @@ docker rm manage-children-front || true
 chmod +x node_modules/.bin/tsc || true
 
 # 새 컨테이너 실행 (Vite preview 모드)
-docker run -d --name manage-children-front -p 3000:4173 suhwany/aitalk:frontend-latest
+docker run -d --name manage-children-front -p 4173:4173 suhwany/aitalk:frontend-latest
 
 # 사용하지 않는 Docker 이미지 정리
 docker image prune -a -f
