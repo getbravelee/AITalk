@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './UserSignupPage.css';
+import './UserSignUpPage.css';
 import LogoSVG from '../../assets/User/AiTalkLogo.svg';
 
 const UserSignupPage: React.FC = () => {
