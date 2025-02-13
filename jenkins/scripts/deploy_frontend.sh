@@ -8,8 +8,11 @@ docker pull suhwany/aitalk:frontend-latest
 docker stop manage-children-front || true
 docker rm manage-children-front || true
 
-# 새 컨테이너 실행 (3000번 포트에서 실행)
-docker run -d --name manage-children-front -p 3000:3000 suhwany/aitalk:frontend-latest
+# 실행 권한 문제 해결
+chmod +x node_modules/.bin/tsc || true
+
+# 새 컨테이너 실행 (Vite preview 모드)
+docker run -d --name manage-children-front -p 3000:4173 suhwany/aitalk:frontend-latest
 
 # 사용하지 않는 Docker 이미지 정리
 docker image prune -a -f
