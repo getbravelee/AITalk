@@ -2,13 +2,14 @@ import { useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
-import { EventInput } from '@fullcalendar/core'; // ✅ FullCalendar의 EventInput 사용
+import { EventInput } from '@fullcalendar/core'; 
 import ScheduleRegisterComponent from '../../components/main/schedule/ScheduleRegisterComponent';
+import '../main/SchedulePage.css'
 
 const SchedulePage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [events, setEvents] = useState<EventInput[]>([]); // ✅ EventInput 사용
+  const [events, setEvents] = useState<EventInput[]>([]); 
 
   const handleDateClick = (arg: DateClickArg) => {
     setSelectedDate(arg.date);
@@ -16,18 +17,19 @@ const SchedulePage = () => {
   };
 
   const handleAddSchedule = (newEvent: EventInput) => {
-    // ✅ EventInput 타입 그대로 사용
     setEvents((prevEvents) => [...prevEvents, newEvent]);
   };
 
   return (
-    <div>
+    <div className="calendar-container">
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         events={events}
         dateClick={handleDateClick}
+        height="auto" 
       />
+
 
       {isModalOpen && selectedDate && (
         <ScheduleRegisterComponent

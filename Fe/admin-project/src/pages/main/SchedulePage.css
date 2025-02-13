@@ -1,45 +1,34 @@
 .calendar-container {
-  width: 100%;
-  height: 700px;
-  overflow: hidden;
+  width: 90%;
+  max-width: 800px;
+  height: auto; 
   background-color: #fff;
   padding: 10px;
   box-sizing: border-box;
+  margin: auto;
+  border-radius: 10px;
+  overflow: hidden; 
+}
+
+
+.fc {
+  max-height: 100%;
+  overflow: hidden !important;
+}
+
+
+.fc-scrollgrid {
+  max-height: 100%;
+  overflow: hidden !important;
 }
 
 .fc-daygrid-day-frame {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  min-height: 100px;
+  min-height: 80px; 
   padding: 5px;
   overflow: hidden;
 }
 
-.fc-event {
-  background-color: #ff6b6b !important;
-  color: white !important;
-  padding: 3px 5px;
-  border-radius: 4px;
-  font-weight: bold;
-  font-size: 12px;
-  cursor: pointer;
-  text-align: center;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
 
-.fc-more-link {
-  color: #007bff !important;
-  font-weight: bold;
-  cursor: pointer;
-  text-decoration: underline;
-  margin-top: 3px;
-}
-
-@media (max-width: 768px) {
-  .fc-daygrid-day-frame {
-    min-height: 80px;
-  }
-}
