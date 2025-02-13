@@ -29,7 +29,7 @@ export default function CardPlaySelectPage() {
         <div className="CardPlaySelectInnerContainer">
           {/* 1️⃣ "펑!" 애니메이션 (처음 한 번만 실행) */}
           <motion.div
-            animate={{ scale: [0, 1.5, 1], opacity: 1 }} // 펑! 하고 커짐
+            animate={{ scale: [0, 1.2, 1], opacity: 1 }} // 펑! 하고 커짐
             transition={{ duration: 2, ease: 'easeOut' }}
           >
             {/* 2️⃣ 둥둥 떠다니는 애니메이션 (펑! 이후 실행) */}
