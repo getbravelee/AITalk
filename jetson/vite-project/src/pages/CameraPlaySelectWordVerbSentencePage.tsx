@@ -5,8 +5,7 @@ import NavbarContainer from '../components/Common/NavbarContainer';
 import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import CardInfoContainer from '../components/Common/CardInfoContainer';
 
-import './CardPlaySelectWordVerbPage.css';
-import './CardPlaySelectWordVerbSentencePage.css';
+import './CameraPlaySelectWordVerbSentencePage.css';
 
 // ✅ 받침이 있는지 확인하는 함수
 const hasFinalConsonant = (word: string): boolean => {
@@ -21,7 +20,7 @@ const hasFinalConsonant = (word: string): boolean => {
   return finalConsonantIndex !== 0;
 };
 
-export default function CardPlaySelectWordVerbSentencePage() {
+export default function CameraPlaySelectWordVerbSentencePage() {
   const location = useLocation();
 
   const firstCard = location.state?.firstCard || {
@@ -45,7 +44,7 @@ export default function CardPlaySelectWordVerbSentencePage() {
       <NavbarContainer>
         <BackPlaySelectButton />
       </NavbarContainer>
-      <div className="CardPlaySelectWordVerbSentenceContainer">
+      <div className="CameraPlaySelectWordVerbSentenceContainer">
         {/* ✅ 등장은 기존처럼 유지, 이후 자연스럽게 움직이도록 설정 */}
         <motion.div
           initial={{ opacity: 0, scale: 0.5, rotate: 50 }} // 처음엔 작고 회전

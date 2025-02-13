@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
@@ -18,8 +19,6 @@ export default function CardPlaySelectPage() {
   // 이미지 경로 설정
   const imageSrc = `/src/assets/card/${parsedCardData.image}.png`;
 
-  console.log('🔍 Received Data:', location.state);
-
   return (
     <div>
       <NavbarContainer>
@@ -28,14 +27,32 @@ export default function CardPlaySelectPage() {
       <div className="CardPlaySelectContainer">
         <DetailPlaySelectText />
         <div className="CardPlaySelectInnerContainer">
-          <div>
-            <CardInfoContainer
-              imageSrc={imageSrc}
-              cardName={parsedCardData.name}
-            />
-          </div>
+          {/* 1️⃣ "펑!" 애니메이션 (처음 한 번만 실행) */}
+          <motion.div
+            animate={{ scale: [0, 1.2, 1], opacity: 1 }} // 펑! 하고 커짐
+            transition={{ duration: 2, ease: 'easeOut' }}
+          >
+            {/* 2️⃣ 둥둥 떠다니는 애니메이션 (펑! 이후 실행) */}
+            <motion.div
+              animate={{
+                y: [0, -5, 0, 5, 0], // 위아래 둥둥 떠다니기
+                rotate: [0, 1, -1, 0], // 살짝 흔들리기
+              }}
+              transition={{
+                duration: 5,
+                ease: 'easeInOut',
+                repeat: Infinity, // 무한 반복
+                repeatType: 'reverse',
+              }}
+            >
+              <CardInfoContainer
+                imageSrc={imageSrc}
+                cardName={parsedCardData.name}
+              />
+            </motion.div>
+          </motion.div>
+
           <div className="ButtonContainer">
-            {/* CardPlaySelectPage 전용 경로 설정 */}
             <WordButton targetPath="/card-play-select/word" />
             <ThreeSentenceButton targetPath="/card-play-select/three-sentence" />
           </div>

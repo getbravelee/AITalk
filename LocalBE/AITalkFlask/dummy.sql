@@ -16,6 +16,11 @@ VALUES
 INSERT INTO card (card_id, name, image)
 VALUES
     (1001, '과일', 'fruit'),
+    (1002, '동물', 'animal'),
     (2001, '먹다', 'eat'),
+    (2002, '잡다', 'catch'),
+    (2003, '담다', 'contain'),
     (3001, '빵', 'bread'),
-    (4001, '빵을 먹다', 'eatBread');
+    (3002, '자동차', 'car'),
+    (3003, '공', 'ball'),
+    (3004, '꽃', 'flower')

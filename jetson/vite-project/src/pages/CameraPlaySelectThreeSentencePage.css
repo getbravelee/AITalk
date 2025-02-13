@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
 
-.CardPlaySelectWordVerbSentenceContainer {
+.CameraPlaySelectThreeSentenceContainer {
   background-image: url('/src/assets/background/background_3.png');
   background-size: cover;
   height: 90vh;
@@ -15,7 +15,6 @@
   width: 400px;
   height: 200px;
   margin-bottom: 20px;
-  /* animation: floating 2s infinite ease-in-out; */
 }
 
 .LargeCardInfoContainer .CardImage {
@@ -24,29 +23,10 @@
 }
 
 /* 카드 이름 (text) 스타일 조정 */
-.CardPlaySelectWordVerbSentenceContainer .CardInfoContainer p {
+.CameraPlaySelectThreeSentenceContainer .CardInfoContainer p {
   font-family: 'Dongle', serif;
-  font-size: 3.5rem; /* 텍스트 크기 */
+  font-size: 3rem; /* 텍스트 크기 */
   font-weight: bold; /* 텍스트 굵기 */
   text-align: center; /* 중앙 정렬 */
   color: #333; /* 글자 색 */
-}
-
-/* 부드러운 흔들림 (둥둥 떠 있는 듯한 효과) */
-@keyframes floating {
-  0% {
-    transform: translateY(0) rotate(0);
-  }
-  25% {
-    transform: translateY(-5px) rotate(-0.5deg);
-  }
-  50% {
-    transform: translateY(5px) rotate(0.5deg);
-  }
-  75% {
-    transform: translateY(-5px) rotate(-0.5deg);
-  }
-  100% {
-    transform: translateY(0) rotate(0);
-  }
 }

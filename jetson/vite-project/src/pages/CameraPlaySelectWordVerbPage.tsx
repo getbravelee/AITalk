@@ -6,9 +6,9 @@ import NavbarContainer from '../components/Common/NavbarContainer';
 import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import CardInfoContainer from '../components/Common/CardInfoContainer';
 
-import './CardPlaySelectWordVerbPage.css';
+import './CameraPlaySelectWordVerbPage.css';
 
-export default function CardPlaySelectWordVerbPage() {
+export default function CameraPlaySelectWordVerbPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -21,15 +21,12 @@ export default function CardPlaySelectWordVerbPage() {
     image: 'default',
   };
 
-  console.log('🔍 First NFC Card:', firstCard);
-  console.log('🔍 Second NFC Card:', secondCard);
-
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate('/card-play-select/word/verb/sentence', {
+      navigate('/camera-play-select/word/verb/sentence', {
         state: { firstCard, secondCard },
       });
-    }, 7000);
+    }, 7000); //
 
     return () => clearTimeout(timer);
   }, [navigate, firstCard, secondCard]);
@@ -40,8 +37,7 @@ export default function CardPlaySelectWordVerbPage() {
         <BackPlaySelectButton />
       </NavbarContainer>
 
-      <div className="CardPlaySelectWordVerbContainer">
-        {/* 1️⃣ 1번 카드 (firstCard) */}
+      <div className="CameraPlaySelectWordVerbContainer">
         <motion.div
           initial={{ opacity: 0, y: -100 }}
           animate={{ opacity: 1, y: 0 }}
@@ -53,7 +49,6 @@ export default function CardPlaySelectWordVerbPage() {
           />
         </motion.div>
 
-        {/* 2️⃣ "+" 기호, 1번 카드 등장 후 2초 뒤 나타남 */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -63,7 +58,6 @@ export default function CardPlaySelectWordVerbPage() {
           <p>+</p>
         </motion.div>
 
-        {/* 3️⃣ 2번 카드 (secondCard) */}
         <motion.div
           initial={{ opacity: 0, y: -100 }}
           animate={{ opacity: 1, y: 0 }}

@@ -10,6 +10,7 @@ export default function CardTagButton() {
 
     try {
       const response = await fetch('http://127.0.0.1:5000/play/card-scan', {
+        method: 'POST', // ✅ POST 요청으로 변경
         credentials: 'include',
       });
 

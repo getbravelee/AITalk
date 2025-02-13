@@ -6,3 +6,8 @@
   padding: 10px 20px; /* 내부 여백 */
   display: inline-block; /* 텍스트 길이에 따라 크기 조정 */
 }
+
+.WaveText {
+  display: inline-block;
+  padding: 0 2px; /* 글자 간격 */
+}

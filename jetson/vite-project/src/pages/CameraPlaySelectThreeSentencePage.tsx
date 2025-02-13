@@ -1,51 +1,18 @@
-import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 import NavbarContainer from '../components/Common/NavbarContainer';
 import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import CardInfoContainer from '../components/Common/CardInfoContainer';
 
-import './CardPlaySelectWordVerbPage.css';
-import './CardPlaySelectWordVerbSentencePage.css';
+import './CameraPlaySelectThreeSentencePage.css';
 
-// ✅ 받침이 있는지 확인하는 함수
-const hasFinalConsonant = (word: string): boolean => {
-  if (!word) return false;
-
-  const lastChar = word[word.length - 1];
-  const lastCharCode = lastChar.charCodeAt(0);
-
-  if (lastCharCode < 0xac00 || lastCharCode > 0xd7a3) return false;
-
-  const finalConsonantIndex = (lastCharCode - 0xac00) % 28;
-  return finalConsonantIndex !== 0;
-};
-
-export default function CardPlaySelectWordVerbSentencePage() {
-  const location = useLocation();
-
-  const firstCard = location.state?.firstCard || {
-    name: 'Unknown',
-    image: 'default',
-  };
-  const secondCard = location.state?.secondCard || {
-    name: 'Unknown',
-    image: 'default',
-  };
-
-  console.log('🔍 First NFC Card:', firstCard);
-  console.log('🔍 Second NFC Card:', secondCard);
-
-  const combinedImageSrc = `/src/assets/card/${secondCard.image}${firstCard.image}.png`;
-  const particle = hasFinalConsonant(firstCard.name) ? '을' : '를';
-  const combinedCardName = `${firstCard.name}${particle} ${secondCard.name}`;
-
+export default function CameraPlaySelectThreeSentencePage() {
   return (
     <div>
       <NavbarContainer>
         <BackPlaySelectButton />
       </NavbarContainer>
-      <div className="CardPlaySelectWordVerbSentenceContainer">
+      <div className="CameraPlaySelectThreeSentenceContainer">
         {/* ✅ 등장은 기존처럼 유지, 이후 자연스럽게 움직이도록 설정 */}
         <motion.div
           initial={{ opacity: 0, scale: 0.5, rotate: 50 }} // 처음엔 작고 회전
@@ -72,8 +39,8 @@ export default function CardPlaySelectWordVerbSentencePage() {
           >
             <CardInfoContainer
               className="LargeCardInfoContainer"
-              imageSrc={combinedImageSrc}
-              cardName={combinedCardName}
+              imageSrc={'3어문 이미지 들어갈 곳'}
+              cardName={'3어문 텍스트 들어갈 곳'}
             />
           </motion.div>
         </motion.div>
