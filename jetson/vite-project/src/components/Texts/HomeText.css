@@ -1,7 +1,7 @@
 .HomeTextContainer {
   text-align: center; /* 텍스트 중앙 정렬 */
   color: white; /* 글자 색상 */
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* 가독성을 위한 그림자 효과 */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* 그림자 효과 */
   position: absolute; /* HomeContainer 내부에서 중앙 정렬 */
   top: 40%;
   left: 50%;
