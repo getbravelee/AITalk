@@ -1,11 +1,8 @@
 package com.ssafy.aitalk.user.controller;
 
 import com.ssafy.aitalk.user.dto.*;
-import com.ssafy.aitalk.user.entity.User;
 import com.ssafy.aitalk.user.service.UserService;
 import jakarta.validation.Valid;
-import org.mybatis.logging.Logger;
-import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -17,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
 
 import java.util.Map;
-
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -25,24 +21,43 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
     // 회원가입
     @PostMapping("/signup")
     public ResponseEntity<RegisterResponse> registerUser(@Valid @RequestBody RegisterRequest request, BindingResult bindingResult) {
-
         if (bindingResult.hasErrors()) {
-            // 첫 번째 오류 메시지만 반환
             String errorMessage = bindingResult.getFieldErrors().get(0).getDefaultMessage();
             return ResponseEntity.status(400).body(new RegisterResponse("회원가입 실패 : " + errorMessage));
         }
-
         try {
             userService.registerUser(request);
-
             return ResponseEntity.status(201).body(new RegisterResponse("회원가입 완료"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(new RegisterResponse("회원가입 실패 : " + e.getMessage()));
         }
     }
+
+    @PostMapping("/send-email-verification")
+    public ResponseEntity<String> sendEmailVerification(@RequestBody EmailVerificationRequest request) {
+        try {
+            userService.sendEmailVerification(request.getEmail());
+            return ResponseEntity.ok("이메일 인증 코드가 전송되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("이메일 전송 실패");
+        }
+    }
+
+
+    @PostMapping("/verify-email")
+    public ResponseEntity<String> verifyEmail(@RequestBody EmailVerificationConfirmRequest request) {
+        if (userService.verifyEmail(request.getEmail(), request.getCode())) {
+            return ResponseEntity.ok("이메일 인증 성공");
+        } else {
+            return ResponseEntity.status(400).body("인증 코드가 올바르지 않거나 만료되었습니다.");
+        }
+    }
+
+
 
     // 로그인
     @PostMapping("/login")

@@ -27,4 +27,6 @@ public interface UserService {
 
     void changePassword(int id, String newPassword);
 
+    void sendEmailVerification(String email); // 이메일 인증 코드 전송
+    boolean verifyEmail(String email, String code); // 이메일 인증 코드 확인
 }
