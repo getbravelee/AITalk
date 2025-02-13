@@ -29,25 +29,29 @@ def text_to_speech(text):
     audio_data.seek(0)
     return base64.b64encode(audio_data.read()).decode('utf-8')
 
+
 @speech_bp.route('/play/talk-start', methods=['POST'])
 def start_recognition_route():
     global conversation_started, keep_listening, is_tts_playing, current_child_id
 
     data = request.get_json()
     child_id = data.get('childId')
-    child_info = get_child_info(child_id)
 
-    if not child_info:
-        return jsonify({"error": "Child not found"}), 404
+    if child_id:
+        child_info = get_child_info(child_id)
+        if not child_info:
+            return jsonify({"error": "Child not found"}), 404
+        greeting_message = f"{child_info['child_name']}아, 안녕! 준비가 되면 말을 시작해봐."
+    else:
+        greeting_message = "안녕! 준비가 되면 말을 시작해봐."
 
     if not conversation_started:
         conversation_started = True
-        initialize_conversation(child_id)
+        if child_id:
+            initialize_conversation(child_id)
+            current_child_id = child_id
 
         is_tts_playing = True
-        current_child_id = child_id
-
-        greeting_message = f"{child_info['child_name']}아, 안녕! 준비가 되면 말을 시작해봐."
         audio_base64 = text_to_speech(greeting_message)
 
         return jsonify({
@@ -62,8 +66,11 @@ def start_recognition_route():
         return jsonify({"status": "already running"}), 409
 
     keep_listening = True
-    threading.Thread(target=recognize_audio, args=(child_id,), daemon=True).start()
+    if child_id:
+        threading.Thread(target=recognize_audio, args=(child_id,), daemon=True).start()
+
     return jsonify({"status": "recognition started"}), 200
+
 
 @speech_bp.route('/play/talk-stop', methods=['POST'])
 def stop_recognition_route():

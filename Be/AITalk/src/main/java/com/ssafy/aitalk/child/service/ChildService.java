@@ -24,5 +24,5 @@ public interface ChildService {
     // 아동 삭제
     void deleteChild(Integer childId);
 
-    //
+
 }

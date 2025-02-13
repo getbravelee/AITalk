@@ -42,6 +42,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/user/signup",
+                                "/user/send-email-verification",
+                                "/user/verify-email",
                                 "/user/login",
                                 "/user/find-id",
                                 "/user/send-verification-code",
