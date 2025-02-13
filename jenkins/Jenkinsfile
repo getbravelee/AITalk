@@ -4,6 +4,8 @@ pipeline {
     environment {
         IMAGE_NAME = "suhwany/aitalk"  // ✅ 하나의 Docker Hub 레포지토리
         IMAGE_TAG_BACKEND = "backend-latest"  // 백엔드 태그
+        IMAGE_TAG_FRONTEND = "frontend-latest"  // 프론트엔드 태그
+
         MATTERMOST_WEBHOOK = "https://meeting.ssafy.com/hooks/9p1665jgnjdn3msh9piyg1zpme"  // ✅ Mattermost 웹훅 URL
     }
 
@@ -50,11 +52,45 @@ pipeline {
             }
         }
 
-        stage('Deploy to EC2') {
+        stage('Build Frontend') {
+            steps {
+                sh '''
+                cd frontend/admin-project
+                npm install
+                npm run build
+                '''
+            }
+        }
+
+        stage('Docker Build & Push Frontend') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'DockerId', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh '''
+                        cd Fe/admin-project
+                        docker build -t ${IMAGE_NAME}:${IMAGE_TAG_FRONTEND} .
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker push ${IMAGE_NAME}:${IMAGE_TAG_FRONTEND}
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to EC2 (Backend)') {
             steps {
                 sh '''
                 chmod +x jenkins/scripts/deploy_backend.sh
                 ./jenkins/scripts/deploy_backend.sh
+                '''
+            }
+        }
+
+        stage('Deploy to EC2 (Frontend)') {
+            steps {
+                sh '''
+                chmod +x jenkins/scripts/deploy_frontend.sh
+                ./jenkins/scripts/deploy_frontend.sh
                 '''
             }
         }
