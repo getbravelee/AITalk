@@ -36,7 +36,10 @@ const Modal: React.FC<ModalProps> = ({
   // 외부 클릭 감지
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
         onClose();
       }
     };
@@ -82,6 +85,24 @@ const Modal: React.FC<ModalProps> = ({
           overflowY: 'auto',
         }}
       >
+        {/* 모달 오른쪽 상단에 close 버튼 추가 */}
+        <button
+          onClick={onClose}
+          style={{
+            position: 'absolute',
+            top: '5px',
+            right: '1px',
+            background: 'transparent',
+            border: 'none',
+            fontSize: '20px',
+            cursor: 'pointer',
+            lineHeight: '1',
+            color: 'black'
+          }}
+          aria-label="Close modal"
+        >
+          &times;
+        </button>
         {children}
       </div>
     </div>

@@ -5,9 +5,9 @@ import { InputField } from '../../components/user/common/InputComponent';
 import ConfirmButton from '../../components/user/common/ConfirmButton';
 import EmailAuthComponent from '../../components/user/common/EmailAuthComponent';
 import { useEmailVerify } from '../../hooks/user/useEmailAuth';
-import Modal from '../../components/common/Modal';
+// import Modal from '../../components/common/Modal';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 const UserFindPwPage: React.FC = () => {
   const {
