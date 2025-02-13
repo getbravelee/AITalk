@@ -44,7 +44,6 @@ export function UseFetch<T>(url: string): State<T> {
   const therapist_id = useSelector((state: RootState) => state.user.currentUser?.therapist_id);
 
   useEffect(() => {
-    console.log(therapist_id)
     if (therapist_id === undefined || therapist_id === null) {
       console.log('아이디 어딨니!')
     }
@@ -56,7 +55,7 @@ export function UseFetch<T>(url: string): State<T> {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ therapist_id: therapist_id }), // Redux Persist에 저장된 therapist_id를 요청 본문에 포함
+          body: JSON.stringify({ therapistId: therapist_id }), // Redux Persist에 저장된 therapist_id를 요청 본문에 포함
         });
 
         if (!response.ok)
