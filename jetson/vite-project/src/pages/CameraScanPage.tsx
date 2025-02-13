@@ -99,7 +99,7 @@ export default function CameraScanPage() {
         const [x, y, width, height] = prediction.bbox;
 
         // ✅ 박스만 표시 (이름과 확률 제거)
-        ctx.strokeStyle = 'rgba(0, 255, 0, 0.8)'; // 초록색 테두리
+        ctx.strokeStyle = 'rgba(0, 255, 0, 0.8)'; // 테두리 색
         ctx.lineWidth = 7;
         ctx.strokeRect(x, y, width, height);
       });
