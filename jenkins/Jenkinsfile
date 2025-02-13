@@ -55,7 +55,7 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 sh '''
-                cd frontend
+                cd frontend/admin-project
                 npm install
                 npm run build
                 '''
