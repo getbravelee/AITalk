@@ -57,6 +57,7 @@ pipeline {
                 sh '''
                 cd Fe/admin-project
                 npm install
+                chmod +x node_modules/.bin/tsc
                 chmod +x node_modules/.bin/vite  # 실행 권한 추가
                 npm run build
                 '''
