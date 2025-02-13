@@ -3,6 +3,7 @@ import ConfirmButton from './ConfirmButton';
 import Modal from '../../../components/common/Modal';
 import { useState } from 'react';
 import { InputField } from '../../../components/user/common/InputComponent';
+import './EmailAuthComponent.css';
 
 interface EmailAuthComponentProps {
   email: string;
@@ -39,15 +40,18 @@ const EmailAuthComponent: React.FC<EmailAuthComponentProps> = ({
       >
         {loading ? '인증 중...' : '인증'}
       </ConfirmButton>
-      <Modal isOpen={modalVisible} onClose={() => setModalVisible(false)}>
-        <h2>이메일이 발송 되었습니다!</h2>
-        <InputField
-          type="text"
-          placeholder="인증번호"
-          value={verifyNumber}
-          onChange={(e) => setverifyNumber(e.target.value)}
-        />
-      </Modal>
+      <div className='modal-box'>
+        <Modal isOpen={modalVisible} onClose={() => setModalVisible(false)}>
+          <h2>이메일이 발송 되었습니다!</h2>
+          <InputField
+            type="text"
+            placeholder="인증번호"
+            value={verifyNumber}
+            onChange={(e) => setverifyNumber(e.target.value)}
+          />
+          <ConfirmButton>인증</ConfirmButton>
+        </Modal>
+      </div>
       {error && <div className="error">{error}</div>}
     </div>
   );

@@ -82,21 +82,6 @@ const Modal: React.FC<ModalProps> = ({
           overflowY: 'auto',
         }}
       >
-        {/* 닫기 버튼 */}
-        <button
-          onClick={onClose}
-          style={{
-            position: 'absolute',
-            top: '10px',
-            right: '10px',
-            background: 'none',
-            border: 'none',
-            fontSize: '18px',
-            cursor: 'pointer',
-          }}
-        >
-          ×
-        </button>
         {children}
       </div>
     </div>
