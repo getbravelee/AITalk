@@ -14,9 +14,10 @@ export const useLogin = () => {
 
   const handleLogin = async (): Promise<void> => {
     try {
-      const response = await axios.post<LoginResponse>('http://localhost:7001/user/login', { id, password });
-
-      console.log('응답 헤더:', response.headers); // 응답 헤더 확인
+      const response = await axios.post<LoginResponse>(
+        'http://3.38.106.51:7001/user/login',
+        { id, password },
+      );
 
       if (response.status === 200) {
         const token = response.headers['authorization']; // Authorization 헤더에서 토큰 가져오기
@@ -35,12 +36,11 @@ export const useLogin = () => {
         const axiosError = error as AxiosError<{ message: string }>;
         if (axiosError.response?.status === 401) {
           setErrorMessage(axiosError.response.data.message);
+        } else if (axiosError.response?.status === 403) {
+          setErrorMessage('접근이 거부되었습니다. 권한을 확인해 보세요.');
         } else {
-          console.log(error);
           setErrorMessage('로그인 중 오류가 발생했습니다.');
         }
-      } else {
-        setErrorMessage('네트워크 오류가 발생했습니다.');
       }
     }
   };
