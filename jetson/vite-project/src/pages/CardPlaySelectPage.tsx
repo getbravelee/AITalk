@@ -19,8 +19,6 @@ export default function CardPlaySelectPage() {
   // 이미지 경로 설정
   const imageSrc = `/src/assets/card/${parsedCardData.image}.png`;
 
-  console.log('🔍 Received Data:', location.state);
-
   return (
     <div>
       <NavbarContainer>
