@@ -29,7 +29,7 @@ export default function CardPlaySelectWordVerbPage() {
       navigate('/card-play-select/word/verb/sentence', {
         state: { firstCard, secondCard },
       });
-    }, 8500); // ⬅ 1코드의 애니메이션 속도에 맞게 8500ms로 설정
+    }, 7000);
 
     return () => clearTimeout(timer);
   }, [navigate, firstCard, secondCard]);
@@ -41,7 +41,7 @@ export default function CardPlaySelectWordVerbPage() {
       </NavbarContainer>
 
       <div className="CardPlaySelectWordVerbContainer">
-        {/* 1️⃣ 1번 카드 (firstCard) 중앙에서 등장 후 이동 */}
+        {/* 1️⃣ 1번 카드 (firstCard) */}
         <motion.div
           initial={{ opacity: 0, y: -100 }}
           animate={{ opacity: 1, y: 0 }}
@@ -63,7 +63,7 @@ export default function CardPlaySelectWordVerbPage() {
           <p>+</p>
         </motion.div>
 
-        {/* 3️⃣ 2번 카드 (secondCard) 중앙에서 등장 후 이동 */}
+        {/* 3️⃣ 2번 카드 (secondCard) */}
         <motion.div
           initial={{ opacity: 0, y: -100 }}
           animate={{ opacity: 1, y: 0 }}
