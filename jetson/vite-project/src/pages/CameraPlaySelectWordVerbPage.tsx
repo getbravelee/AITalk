@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 import NavbarContainer from '../components/Common/NavbarContainer';
 import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
@@ -22,32 +23,51 @@ export default function CameraPlaySelectWordVerbPage() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      // ✅ `state`를 함께 넘겨줌
       navigate('/camera-play-select/word/verb/sentence', {
         state: { firstCard, secondCard },
       });
-    }, 5000);
+    }, 7000); //
 
     return () => clearTimeout(timer);
-  }, [navigate, firstCard, secondCard]); // ✅ firstCard, secondCard를 의존성 배열에 추가
+  }, [navigate, firstCard, secondCard]);
 
   return (
     <div>
       <NavbarContainer>
         <BackPlaySelectButton />
       </NavbarContainer>
+
       <div className="CameraPlaySelectWordVerbContainer">
-        <CardInfoContainer
-          imageSrc={`/src/assets/card/${firstCard.image}.png`}
-          cardName={firstCard.name}
-        />
-        <div className="Plus">
+        <motion.div
+          initial={{ opacity: 0, y: -100 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 2, ease: 'easeOut' }}
+        >
+          <CardInfoContainer
+            imageSrc={`/src/assets/card/${firstCard.image}.png`}
+            cardName={firstCard.name}
+          />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 2, delay: 2 }}
+          className="Plus"
+        >
           <p>+</p>
-        </div>
-        <CardInfoContainer
-          imageSrc={`/src/assets/card/${secondCard.image}.png`}
-          cardName={secondCard.name}
-        />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: -100 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 2, ease: 'easeOut', delay: 3.5 }}
+        >
+          <CardInfoContainer
+            imageSrc={`/src/assets/card/${secondCard.image}.png`}
+            cardName={secondCard.name}
+          />
+        </motion.div>
       </div>
     </div>
   );

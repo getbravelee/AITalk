@@ -43,3 +43,27 @@
 .SmallNfcTagText p {
   font-size: 1.7rem;
 }
+
+/* 카드 이미지 부드럽게 흔들리는 애니메이션 */
+.BigCardInfoContainer .CardInfoContainer {
+  animation: floating 2s infinite ease-in-out;
+}
+
+/* 부드러운 흔들림 (둥둥 떠 있는 듯한 효과) */
+@keyframes floating {
+  0% {
+    transform: translateY(0) rotate(0);
+  }
+  25% {
+    transform: translateY(-5px) rotate(-0.5deg);
+  }
+  50% {
+    transform: translateY(5px) rotate(0.5deg);
+  }
+  75% {
+    transform: translateY(-5px) rotate(-0.5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+}
