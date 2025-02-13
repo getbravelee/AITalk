@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { EventInput } from '@fullcalendar/core'; // ✅ FullCalendar EventInput 사용
+import { EventInput } from '@fullcalendar/core';
 import './ScheduleRegisterComponent.css';
 
 interface ScheduleRegisterProps {
   date: Date;
   onClose: () => void;
-  onAddSchedule: (newEvent: EventInput) => void; // ✅ EventInput으로 정의
+  onAddSchedule: (newEvent: EventInput) => void;
 }
 
 const ScheduleRegisterComponent = ({
@@ -18,13 +18,13 @@ const ScheduleRegisterComponent = ({
 
   const handleAddSchedule = () => {
     const newEvent: EventInput = {
-      id: `${Date.now()}`, // ✅ string으로 변환
+      id: `${Date.now()}`,
       title: isAllDay ? '종일' : startTime,
       start: `${date.toISOString().split('T')[0]}T${startTime}`,
       allDay: isAllDay,
     };
 
-    onAddSchedule(newEvent); // ✅ 타입 호환
+    onAddSchedule(newEvent);
     onClose();
   };
 
