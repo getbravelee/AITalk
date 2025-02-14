@@ -27,9 +27,13 @@ export default function WordButton({ targetPath }: WordButtonProps) {
     console.log('📡 Waiting for second NFC tag data...');
 
     try {
-      const response = await fetch(
-        'http://92.168.30.189:5000/play/card-scan', // ✅ 시간 제한 제거!
-      );
+      const response = await fetch('http://127.0.0.1:5000/play/card-scan', {
+        method: 'POST', // ✅ POST 요청으로 변경
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ scheduleId: 2 }), // ✅ 임시로 지정한 것
+      });
 
       if (!response.ok)
         throw new Error(`Failed to fetch data (Status: ${response.status})`);

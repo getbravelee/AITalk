@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import NavbarContainer from '../components/Common/NavbarContainer';
 import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
@@ -10,7 +10,6 @@ import NfcTagText from '../components/Texts/NfcTagText';
 import './CardPlaySelectWordPage.css';
 
 export default function CardPlaySelectWordPage() {
-  const navigate = useNavigate();
   const location = useLocation();
 
   // NFC 태그 정보를 받아옴
@@ -26,20 +25,13 @@ export default function CardPlaySelectWordPage() {
   console.log('🔍 First NFC Card:', firstCard);
   console.log('🔍 Second NFC Card:', secondCard);
 
-  // 두 번째 NFC 태그 이후 다음 페이지로 이동
-  const handleClick = (): void => {
-    navigate('/card-play-select/word/verb', {
-      state: { firstCard, secondCard },
-    });
-  };
-
   return (
     <div>
       <NavbarContainer>
         <BackPlaySelectButton />
       </NavbarContainer>
       <div className="CardPlaySelectWordContainer">
-        <div className="NfcLoadingWrapper" onClick={handleClick}>
+        <div className="NfcLoadingWrapper">
           <NfcImage className="NfcCentered" />
           <LoadingCircle className="LoadingCentered" />
           <NfcTagText className="SmallNfcTagText" />

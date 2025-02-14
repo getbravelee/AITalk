@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import './NfcImage.css';
 
 interface NfcImageProps {
@@ -6,19 +5,12 @@ interface NfcImageProps {
 }
 
 function NfcImage({ className = '' }: NfcImageProps) {
-  const navigate = useNavigate();
-
-  const handleClick = (): void => {
-    navigate('/card-play-select');
-  };
-
   return (
     <div className={`NfcImageContainer ${className}`.trim()}>
       <img
         src="/src/assets/common/nfc_tag.png"
         alt="NFC 태깅 이미지"
         className="NfcImage"
-        onClick={handleClick}
       />
     </div>
   );

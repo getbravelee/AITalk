@@ -54,7 +54,7 @@ export default function CardPlaySelectWordVerbSentencePage() {
             scale: [0, 1], // 점점 커짐
             rotate: 0, // 회전 정위치
           }}
-          transition={{ duration: 4, ease: 'easeOut' }}
+          transition={{ duration: 2, ease: 'easeOut' }}
         >
           {/* ✅ 등장이 끝난 후에는 계속 부드럽게 떠다니는 효과 */}
           <motion.div
@@ -64,7 +64,7 @@ export default function CardPlaySelectWordVerbSentencePage() {
             }}
             transition={{
               duration: 3,
-              delay: 5,
+              delay: 3,
               ease: 'easeInOut',
               repeat: Infinity, // 무한 반복
               repeatType: 'reverse',
