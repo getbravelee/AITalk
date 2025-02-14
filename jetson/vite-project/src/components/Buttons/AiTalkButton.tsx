@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAudio } from '../Common/AudioContext'; // 🎵 오디오 컨텍스트 추가
 import { io } from 'socket.io-client';
 
-const socket = io('http://127.0.0.1:5000');
+const socket = io('http://92.168.30.189:5000');
 
 export default function AiTalkButton() {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export default function AiTalkButton() {
     setTimeout(async () => {
       console.log('📡 Sending request to AI Talk API after delay...');
       try {
-        const response = await fetch('http://127.0.0.1:5000/play/talk-start', {
+        const response = await fetch('http://192.168.30.189:5000/play/talk-start', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ childId: 10001 }),

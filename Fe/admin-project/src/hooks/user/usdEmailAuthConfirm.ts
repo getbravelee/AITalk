@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import axios, { AxiosError } from 'axios';
+// import { useState } from 'react';
+// import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 
 interface EmailAuthResponse {
   message: string;

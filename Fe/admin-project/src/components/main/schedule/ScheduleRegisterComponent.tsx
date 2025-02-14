@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { EventInput } from '@fullcalendar/core';
 import './ScheduleRegisterComponent.css';
 
