@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { EventInput } from '@fullcalendar/core';
 import './ScheduleRegisterComponent.css';
 
@@ -14,7 +14,7 @@ const ScheduleRegisterComponent = ({
   onAddSchedule,
 }: ScheduleRegisterProps) => {
   const [startTime, setStartTime] = useState('00:00');
-  const [isAllDay, setIsAllDay] = useState(false);
+  const [isAllDay] = useState(false);
 
   const handleAddSchedule = () => {
     const newEvent: EventInput = {
@@ -51,14 +51,14 @@ const ScheduleRegisterComponent = ({
             disabled={isAllDay}
           />
         </label>
-
         <label>
+          아동 선택
           <input
-            type="checkbox"
-            checked={isAllDay}
-            onChange={() => setIsAllDay(!isAllDay)}
+            type="text"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
+            disabled={isAllDay}
           />
-          종일
         </label>
 
         <div className="modal-buttons">

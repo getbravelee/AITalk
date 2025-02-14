@@ -7,12 +7,18 @@ import axiosInstance from '../../utils/axiosInstance';
 import DayScheduleComponent from '../../components/main/schedule/DayScheduleComponent';
 import './SchedulePage.css';
 
+
+
+
 const SchedulePage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
   const [dayEvents, setDayEvents] = useState<{ id: string; title: string; startTime: string; endTime: string }[]>([]);
   const [events, setEvents] = useState<EventInput[]>([]);
   const [currentDate, setCurrentDate] = useState(new Date()); 
+
+
 
   const fetchEvents = async (year: number, month: number) => {
     console.log("📡 GET 요청 보냄: /schedule/list/" + year + "/" + month);
@@ -68,7 +74,6 @@ const SchedulePage = () => {
     setDayEvents([]);
   
 
-
     // ✅ YYYY-MM-DD 형식 변환 (UTC 영향 없음)
     const formattedDate = formatDate(clickedDate);
     console.log("📡 날짜별 GET 요청 보냄:", `/schedule/list/${formattedDate}`);
@@ -94,6 +99,10 @@ const SchedulePage = () => {
     } catch (error) {
       console.error("❌ 개별 날짜 API 호출 실패:", error);
     }
+
+  const handleAddSchedule = (newEvent: EventInput) => {
+    setEvents((prevEvents) => [...prevEvents, newEvent]);
+
   };
   
 
@@ -108,7 +117,9 @@ const SchedulePage = () => {
         dayMaxEvents={3}
         fixedWeekCount={false}
         height="auto"
+
       />
+
 
       {isModalOpen && selectedDate && (
         <DayScheduleComponent
@@ -119,6 +130,7 @@ const SchedulePage = () => {
       )}
     </div>
   );
+};
 };
 
 export default SchedulePage;

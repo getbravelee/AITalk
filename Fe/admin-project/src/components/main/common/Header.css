@@ -4,6 +4,7 @@
     padding: 10px 20px;
   }
   
+
   .nav-bar {
     display: flex;
     align-items: center;
@@ -23,6 +24,7 @@
   .nav-item:hover {
     color: #007bff; 
   }
+
 
   .profile-section {
     display: flex;

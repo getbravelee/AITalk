@@ -8,4 +8,5 @@
   justify-content: center; /* 세로 중앙 정렬 */
   align-items: center; /* 가로 중앙 정렬 */
   position: relative; /* 컨테이너 내부 요소들의 위치 기준 */
+  background-attachment: fixed;
 }

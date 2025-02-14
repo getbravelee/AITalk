@@ -1,4 +1,3 @@
-import React from 'react';
 import { Dialog, DialogTitle, DialogContent, Button } from '@mui/material';
 
 interface ScheduleDialogProps {

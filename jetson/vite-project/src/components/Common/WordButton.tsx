@@ -1,4 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../feature/store';
 import './WordButton.css';
 
 interface WordButtonProps {
@@ -9,7 +11,20 @@ export default function WordButton({ targetPath }: WordButtonProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // ✅ Redux에서 treatmentId 가져옴 (scheduleId와 동일)
+  const treatmentId = useSelector(
+    (state: RootState) => state.treatment.treatmentId,
+  );
+
+  // ✅ `location.state`에서도 scheduleId 가져오기
+  const scheduleId = treatmentId || location.state?.treatmentId;
+
   const handleClick = async (): Promise<void> => {
+    if (!scheduleId) {
+      console.error('❌ scheduleId is missing.');
+      return;
+    }
+
     console.log(`🔄 Navigating to ${targetPath}...`);
 
     // ✅ 첫 번째 NFC 태그 데이터를 유지
@@ -27,9 +42,13 @@ export default function WordButton({ targetPath }: WordButtonProps) {
     console.log('📡 Waiting for second NFC tag data...');
 
     try {
-      const response = await fetch(
-        'http://127.0.0.1:5000/play/card-scan', // ✅ 시간 제한 제거!
-      );
+      const response = await fetch('http://127.0.0.1:5000/play/card-scan', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ scheduleId }), // ✅ 자동으로 받은 scheduleId 사용
+      });
 
       if (!response.ok)
         throw new Error(`Failed to fetch data (Status: ${response.status})`);
@@ -47,7 +66,7 @@ export default function WordButton({ targetPath }: WordButtonProps) {
   };
 
   return (
-    <button className="WordButton" onClick={handleClick}>
+    <button className="WordButton" onClick={handleClick} disabled={!scheduleId}>
       <span>단어</span>
     </button>
   );

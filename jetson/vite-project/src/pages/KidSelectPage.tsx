@@ -7,7 +7,7 @@ import '../components/Texts/TextFontFromGoogle.css';
 import { UseFetch } from '../hooks/UseFetch';
 import { ChunkArray } from '../utils/ChunkArray';
 import { ChildData } from '../utils/ChunkArray'; // 혹은 types/child.ts에서 import
-import { RootState } from '../../feature/store';
+import { RootState } from '../feature/store';
 import { useSelector } from 'react-redux';
 import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
