@@ -21,6 +21,7 @@ export function UseCardTagLogin() {
           'Content-Type': 'application/json',
         },
       });
+      console.log(response)
 
       if (response.status === 404) {
         setFailedAttempts((prev) => {

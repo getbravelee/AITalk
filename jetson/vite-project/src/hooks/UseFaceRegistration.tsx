@@ -215,7 +215,7 @@ const UseFaceRegistration = (
   ) {
     try {
       const response = await fetch(
-        'http://192.168.30.189:5000/user/face-regist',
+        'http://localhost:5000/user/face-regist',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

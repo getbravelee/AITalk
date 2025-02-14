@@ -23,7 +23,7 @@ interface ResistCameraDialogProps {
   message: string;
   from: string;
   isSmall: boolean;
-  cardData: { therapist_id: number; name: string }; // NFC 카드에서 읽은 사용자 정보
+  cardData: { therapist_id: number; therapist_name: string }; // NFC 카드에서 읽은 사용자 정보
 }
 
 export default function ResistCameraDialog({
@@ -67,7 +67,7 @@ export default function ResistCameraDialog({
           mirrored={true}
         />
         {/* 캔버스: 얼굴 검출 결과(박스/랜드마크) 오버레이 */}
-        <canvas
+        <canvas 
           ref={canvasRef}
           style={{
             position: 'absolute',
@@ -91,6 +91,7 @@ export default function ResistCameraDialog({
                   navigate('/KidFaceLoginPage');
                 } else {
                   alert("아이 얼굴 등록 완료");
+                  navigate('/play-select');
                 }
               }}
             >

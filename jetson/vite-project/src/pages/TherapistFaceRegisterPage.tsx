@@ -16,6 +16,7 @@ import HomeButton from '../components/Common/HomeButton';
 export default function TherapistFaceResisterPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const location = useLocation();
+  console.log(location.state)
   const cardDataFromNFC = location.state || { id: 0, name: 'Unknown' };
   const [isCameraOpen, setIsCameraOpen] = useState(false);
 

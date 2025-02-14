@@ -44,8 +44,8 @@ export function UseFetch<T>(url: string): State<T> {
   const therapist_id = useSelector((state: RootState) => state.user.currentUser?.therapist_id);
 
   useEffect(() => {
+    console.log(therapist_id)
     if (therapist_id === undefined || therapist_id === null) {
-      console.log('아이디 어딨니!')
     }
     const fetchData = async () => {
       dispatch({ type: 'FETCH_INIT' });
