@@ -43,7 +43,6 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
           } catch (error) {
             console.error('플레이 시작 요청 실패:', error);
           }
-          navigate('/play-select');
         }}
       >
         <Image
