@@ -6,7 +6,8 @@ import EmailAuthComponent from '../../components/user/common/EmailAuthComponent'
 import ConfirmButton from '../../components/user/common/ConfirmButton';
 import { useEmailVerify } from '../../hooks/user/useEmailAuth';
 import { useEmailAuthConfirm } from '../../hooks/user/usdEmailAuthConfirm';
-
+import useSignUp from '../../hooks/user/useSignUp';
+import { useNavigate } from 'react-router-dom';
 
 const UserSignupPage: React.FC = () => {
   const [name, setName] = useState('');
@@ -15,19 +16,21 @@ const UserSignupPage: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [phoneNumber, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const {handleEmailVerify} = useEmailVerify();
-  const {confirmEmail} = useEmailAuthConfirm();
+  const { handleEmailVerify } = useEmailVerify();
+  const { confirmEmail } = useEmailAuthConfirm();
+  const { signUp } = useSignUp();
 
-  const handleSignup = () => {
-    // 회원가입 로직 처리
-    console.log({
+
+  const handleSignup = async () => {
+    const signupData = {
       name,
       id,
       password,
       confirmPassword,
       phoneNumber,
       email,
-    });
+    };
+    signUp(signupData);
   };
 
   return (

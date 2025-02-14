@@ -32,7 +32,6 @@ const EmailAuthComponent: React.FC<EmailAuthComponentProps> = ({
       setModalVisible(false);
     } catch (error) {
       console.error('인증 실패:', error);
-      // 에러 처리 로직 추가 가능
     }
   };
   return (
