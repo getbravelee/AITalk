@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     private ScheduleMapper scheduleMapper;
 
     @Override
-    public ArrayList<MonthlyScheduleResponse> getMonthSchedule(int year,int month) {
+    public ArrayList<MonthlyScheduleResponse> getMonthSchedule(int year, int month) {
         List<Schedule> list = scheduleMapper.selectMonthlySchedules(year, month);
         System.out.println(list);
         ArrayList<MonthlyScheduleResponse> responseDTOs = new ArrayList<>();
@@ -27,7 +29,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             MonthlyScheduleResponse responseDTO = MonthlyScheduleResponse.builder()
                     .treatmentId(schedule.getTreatmentId())
                     .childName(childName)
-                    .treatmentDate(schedule.getTreatmentDate())
+                    .treatmentDate(schedule.getTreatmentDate().toLocalDate())
                     .startTime(schedule.getStartTime())
                     .endTime(schedule.getEndTime())
                     .build();
@@ -39,7 +41,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public List<DailyScheduleResponse> getDailySchedule(LocalDate date) {
-        List<Schedule> list = scheduleMapper.selectDailySchedules(date);
+        LocalDateTime startOfDay = date.atStartOfDay(ZoneOffset.UTC).toLocalDateTime();
+        List<Schedule> list = scheduleMapper.selectDailySchedules(startOfDay);
         List<DailyScheduleResponse> responseDTOs = new ArrayList<>();
         for (Schedule schedule : list) {
             String childName = scheduleMapper.findChildName(schedule.getChildId());
@@ -58,8 +61,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public void registerSchedule(ScheduleRegistRequest request, int therapistId) {
+        LocalDateTime treatmentDateTime = request.getTreatmentDate().atStartOfDay(ZoneOffset.UTC).toLocalDateTime();
 
-        if (scheduleMapper.isTimeSlotTaken(request.getTreatmentDate(), request.getStartTime(), request.getEndTime()) > 0) {
+        if (scheduleMapper.isTimeSlotTaken(treatmentDateTime, request.getStartTime(), request.getEndTime()) > 0) {
             throw new IllegalStateException("해당 시간은 이미 일정이 있습니다.");
         }
 
@@ -68,7 +72,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         Schedule schedule = Schedule.builder()
                 .therapistId(therapistId)
                 .childId(childId)
-                .treatmentDate(request.getTreatmentDate())
+                .treatmentDate(treatmentDateTime)
                 .startTime(request.getStartTime())
                 .endTime(request.getEndTime())
                 .build();
@@ -79,12 +83,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleDetailResponse getScheduleDetail(int id) {
         Schedule schedule = scheduleMapper.selectScheduleByScheduleId(id);
-
         String childName = scheduleMapper.findChildName(schedule.getChildId());
 
         return ScheduleDetailResponse.builder()
                 .childName(childName)
-                .treatmentDate(schedule.getTreatmentDate())
+                .treatmentDate(schedule.getTreatmentDate().toLocalDate())
                 .startTime(schedule.getStartTime())
                 .endTime(schedule.getEndTime())
                 .words(schedule.getWords())
@@ -94,14 +97,15 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     public void updateSchedule(Integer scheduleId, ScheduleUpdateRequest request) {
+        LocalDateTime treatmentDateTime = request.getTreatmentDate().atStartOfDay(ZoneOffset.UTC).toLocalDateTime();
 
-        if (scheduleMapper.isTimeSlotTaken(request.getTreatmentDate(), request.getStartTime(), request.getEndTime()) > 0) {
+        if (scheduleMapper.isTimeSlotTaken(treatmentDateTime, request.getStartTime(), request.getEndTime()) > 0) {
             throw new IllegalStateException("해당 시간은 이미 일정이 있습니다.");
         }
 
         Schedule schedule = Schedule.builder()
                 .treatmentId(scheduleId)
-                .treatmentDate(request.getTreatmentDate())
+                .treatmentDate(treatmentDateTime)
                 .startTime(request.getStartTime())
                 .endTime(request.getEndTime())
                 .conversation(request.getConversation())

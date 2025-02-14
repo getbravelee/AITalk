@@ -1,3 +1,4 @@
+// schedulepage.tsx
 import { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -128,3 +129,4 @@ const SchedulePage = () => {
 };
 
 export default SchedulePage;
+

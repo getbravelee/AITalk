@@ -11,8 +11,8 @@ def create_treatment(therapist_id, child_id):
         child_id=child_id,
         treatment_date=current_date,
         start_time=start_time,
-        words={},
-        sentence={},
+        words=[],
+        sentence=[],
         conversation=""
     )
 
