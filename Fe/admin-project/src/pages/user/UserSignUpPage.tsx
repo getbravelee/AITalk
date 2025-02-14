@@ -5,6 +5,8 @@ import { InputField } from '../../components/user/common/InputComponent';
 import EmailAuthComponent from '../../components/user/common/EmailAuthComponent';
 import ConfirmButton from '../../components/user/common/ConfirmButton';
 import { useEmailVerify } from '../../hooks/user/useEmailAuth';
+import { useEmailAuthConfirm } from '../../hooks/user/usdEmailAuthConfirm';
+
 
 const UserSignupPage: React.FC = () => {
   const [name, setName] = useState('');
@@ -13,7 +15,8 @@ const UserSignupPage: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [phoneNumber, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const { handleEmailVerify, loading, error } = useEmailVerify();
+  const {handleEmailVerify} = useEmailVerify();
+  const {confirmEmail} = useEmailAuthConfirm();
 
   const handleSignup = () => {
     // 회원가입 로직 처리
@@ -60,6 +63,7 @@ const UserSignupPage: React.FC = () => {
           email={email}
           onEmailChange={(e) => setEmail(e.target.value)}
           onVerify={handleEmailVerify}
+          onConfirm={confirmEmail}
         />
         <InputField
           type="text"

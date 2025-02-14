@@ -3,7 +3,6 @@ from app.services.child_choice_service import get_all_children
 
 child_bp = Blueprint('child_bp', __name__)
 
-
 # 아동 목록 조회 API
 @child_bp.route('/child/list', methods=['POST'])
 def list_children():

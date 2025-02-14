@@ -7,10 +7,16 @@ import '../components/Texts/TextFontFromGoogle.css';
 import { UseFetch } from '../hooks/UseFetch';
 import { ChunkArray } from '../utils/ChunkArray';
 import { ChildData } from '../utils/ChunkArray'; // 혹은 types/child.ts에서 import
+import { RootState } from '../feature/store';
+import { useSelector } from 'react-redux';
+import CurrentUserText from '../components/Texts/CurrentUserText';
+import LogoutButton from '../components/Buttons/LogoutButton';
+import HomeButton from '../components/Common/HomeButton';
 
 export default function KidSelectPage() {
+  const currentUser = useSelector((state: RootState) => state.user.currentUser);
   // useFetch 훅을 통해 API 데이터를 받아옴
-  const { data: children, loading, error } = UseFetch<ChildData[]>('http://192.168.30.189:5000/child/list');
+  const { data: children, loading, error } = UseFetch<ChildData[]>('http://localhost:5000/child/list');
   
   // children 데이터가 있을 경우 그룹핑, 없으면 빈 배열 사용
   const groupedChildren = children ? ChunkArray(children, 2) : [];
@@ -18,7 +24,17 @@ export default function KidSelectPage() {
   return (
     <div>
       <NavbarContainer>
-        <BackButton />
+        <HStack gap={370} pt={1}>
+          <BackButton />
+          {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
+          {currentUser && (
+            <HStack>
+              <CurrentUserText />
+              <LogoutButton />
+              <HomeButton />
+            </HStack>
+          )}
+        </HStack>
       </NavbarContainer>
       <div className="BackgroundContainer">
         <Text fontSize={30} pt={1} pl={3} className="font">

@@ -180,12 +180,13 @@ const UseFaceVerification = (
   const verifyFace = async () => {
     try {
       const response = await fetch(
-        'http://192.168.30.189:5000/user/face-login',
+        'http://localhost:5000/user/face-login',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
         }
       );
+      // 응답값으로 {therapist_id: xx, therapist_name: xx} 라는 Json 값을 받음
       const data = await response.json();
       if (Number(data?.status) === 200) {
         alert(`안녕하세요 ${data.therapist_name}님!`);
