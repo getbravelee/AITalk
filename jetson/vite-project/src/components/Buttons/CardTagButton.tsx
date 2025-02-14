@@ -14,7 +14,7 @@ export default function CardTagButton() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ scheduleId: 2 }), // ✅ 임시로 scheduleId를 1로 설정
+        body: JSON.stringify({ scheduleId: 2 }), // ✅ 임시로 지정한 것
       });
 
       if (!response.ok)
