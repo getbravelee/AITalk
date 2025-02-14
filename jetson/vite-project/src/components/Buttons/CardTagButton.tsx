@@ -9,12 +9,9 @@ export default function CardTagButton() {
     navigate('/nfc-tag');
 
     try {
-<<<<<<< HEAD
       const response = await fetch('http://127.0.0.1:5000/play/card-scan', {
         method: 'POST', // ✅ POST 요청으로 변경
-=======
-      const response = await fetch('http://192.168.30.189:5000/play/card-scan', {
->>>>>>> cbdeee8f (:sparkles: [feat] aitalk button)
+
         credentials: 'include',
       });
 
