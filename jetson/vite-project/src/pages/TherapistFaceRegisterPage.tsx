@@ -6,8 +6,15 @@ import ResistCameraDialog from '../components/Dialogs/ResistCameraDialog';
 import '../components/Common/BackgroundContainer.css';
 import BackButton from '../components/Common/BackButton';
 import '../components/Texts/TextFontFromGoogle.css';
+import { RootState } from '../../feature/store';
+import { useSelector } from 'react-redux';
+import CurrentUserText from '../components/Texts/CurrentUserText';
+import LogoutButton from '../components/Buttons/LogoutButton';
+import HomeButton from '../components/Common/HomeButton';
+
 
 export default function TherapistFaceResisterPage() {
+  const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const location = useLocation();
   const cardDataFromNFC = location.state || { id: 0, name: 'Unknown' };
   const [isCameraOpen, setIsCameraOpen] = useState(false);
@@ -23,7 +30,17 @@ export default function TherapistFaceResisterPage() {
   return (
     <div className="BackgroundContainer">
       <NavbarContainer>
-        <BackButton />
+        <HStack gap={370} pt={1}>
+          <BackButton />
+          {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
+          {currentUser && (
+            <HStack>
+              <CurrentUserText />
+              <LogoutButton />
+              <HomeButton />
+            </HStack>
+          )}
+        </HStack>
       </NavbarContainer>
       <Flex direction="column" align="center" pt={5} gap={7}>
         <HStack className="font">

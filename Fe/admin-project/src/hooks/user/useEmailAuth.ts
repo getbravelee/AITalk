@@ -15,8 +15,8 @@ export const useEmailVerify = () => {
 
     try {
       const response = await axios.post<EmailAuthResponse>(
-        'http://3.38.106.51:7001/user/send-verification-code',
-        { id: email }
+        'http://3.38.106.51:7001/user/send-email-verification',
+        { email: email }
       );
 
 
