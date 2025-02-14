@@ -180,7 +180,7 @@ const UseFaceVerification = (
   const verifyFace = async () => {
     try {
       const response = await fetch(
-        'http://192.168.30.189:5000/user/face-login',
+        'http://localhost:5000/user/face-login',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
