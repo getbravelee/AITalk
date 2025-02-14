@@ -7,37 +7,47 @@ import axiosInstance from '../../utils/axiosInstance';
 import DayScheduleComponent from '../../components/main/schedule/DayScheduleComponent';
 import './SchedulePage.css';
 
-
-
+// ✅ 일정 색상을 3개로 제한
+const eventColors = ["#4a90e2", "#ff6666", "#ffd700"];
 
 const SchedulePage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-
   const [dayEvents, setDayEvents] = useState<{ id: string; title: string; startTime: string; endTime: string }[]>([]);
   const [events, setEvents] = useState<EventInput[]>([]);
-  const [currentDate, setCurrentDate] = useState(new Date()); 
+  const [currentDate, setCurrentDate] = useState(new Date());
 
-
+  // ✅ `YYYY-MM-DD` 형식으로 변환하는 함수 추가
+  const formatDate = (date: Date) => {
+    return new Intl.DateTimeFormat('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    })
+      .format(date)
+      .replace(/. /g, '-')
+      .replace('.', '');
+  };
 
   const fetchEvents = async (year: number, month: number) => {
     console.log("📡 GET 요청 보냄: /schedule/list/" + year + "/" + month);
-
+  
     try {
       const response = await axiosInstance.get(`/schedule/list/${year}/${month}`);
       console.log("📥 API 응답:", response.data);
-
+  
       if (!response.data || !Array.isArray(response.data)) {
         throw new Error("Invalid response format");
       }
-
+  
       const formattedEvents: EventInput[] = response.data.map((item: any) => ({
-        id: item.treatmentId,
+        id: item.treatmentId.toString(), // ✅ ID를 문자열로 변환
         title: `${item.childName} 치료`,
+        childName: item.childName,
         start: `${item.treatmentDate}T${item.startTime}`,
         end: `${item.treatmentDate}T${item.endTime}`,
       }));
-
+  
       console.log("📅 캘린더에 적용할 데이터:", formattedEvents);
       setEvents(formattedEvents);
     } catch (error) {
@@ -45,36 +55,26 @@ const SchedulePage = () => {
     }
   };
 
-  // 📌 캘린더의 월이 변경될 때 실행되는 함수
-  const handleDateChange = (arg: any) => {
-    const newDate = new Date(arg.view.currentStart); // ✅ 변경된 달의 첫 날
-    setCurrentDate(newDate); // ✅ 현재 보고 있는 날짜 업데이트
-  };
-
-  // 📌 현재 보고 있는 연/월이 변경될 때마다 API 호출
   useEffect(() => {
     const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
+    const month = currentDate.getMonth() + 1; // ✅ 0-based 문제 해결
     fetchEvents(year, month);
   }, [currentDate]);
 
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    }).format(date).replace(/. /g, '-').replace('.', '');
+  // ✅ 변경된 달을 감지하고 `currentDate` 업데이트
+  const handleDateChange = (arg: any) => {
+    const newDate = new Date(arg.view.currentStart);
+    console.log("📆 변경된 달:", newDate); // ✅ 디버깅용 로그 추가
+    setCurrentDate(newDate);
   };
-
 
   const handleDayClick = async (arg: any) => {
     const clickedDate = new Date(arg.date);
     setSelectedDate(clickedDate);
     setIsModalOpen(true);
-    setDayEvents([]);
-  
 
-    // ✅ YYYY-MM-DD 형식 변환 (UTC 영향 없음)
+    setDayEvents([]); // ✅ 초기화
+
     const formattedDate = formatDate(clickedDate);
     console.log("📡 날짜별 GET 요청 보냄:", `/schedule/list/${formattedDate}`);
   
@@ -88,8 +88,9 @@ const SchedulePage = () => {
   
       const sortedEvents = response.data
         .map((item: any) => ({
-          id: item.treatmentId,
-          title: `${item.childName} 치료`,
+          id: item.treatmentId.toString(), // ✅ ID를 문자열로 변환
+          title: item.childName, // ✅ title 추가
+          childName: item.childName,
           startTime: item.startTime,
           endTime: item.endTime,
         }))
@@ -99,12 +100,7 @@ const SchedulePage = () => {
     } catch (error) {
       console.error("❌ 개별 날짜 API 호출 실패:", error);
     }
-
-  const handleAddSchedule = (newEvent: EventInput) => {
-    setEvents((prevEvents) => [...prevEvents, newEvent]);
-
   };
-  
 
   return (
     <div className="calendar-container">
@@ -112,25 +108,23 @@ const SchedulePage = () => {
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         events={events}
-        dateClick={handleDayClick} 
-        datesSet={handleDateChange} // ✅ 달이 변경될 때 실행됨
-        dayMaxEvents={3}
-        fixedWeekCount={false}
+        locale="ko"
+        dateClick={handleDayClick}
+        datesSet={handleDateChange}
         height="auto"
-
+        dayMaxEvents={3} // ✅ 하루 최대 3개 일정 표시
+        eventDidMount={(info) => {
+          // ✅ 일정별 색상을 3가지 중 하나로 설정
+          const eventIndex = parseInt(info.event.id, 10) % 3;
+          info.el.style.backgroundColor = eventColors[eventIndex];
+        }}
       />
 
-
       {isModalOpen && selectedDate && (
-        <DayScheduleComponent
-          date={selectedDate}
-          events={dayEvents}
-          onClose={() => setIsModalOpen(false)}
-        />
+        <DayScheduleComponent date={selectedDate} events={dayEvents} onClose={() => setIsModalOpen(false)} />
       )}
     </div>
   );
-};
 };
 
 export default SchedulePage;
