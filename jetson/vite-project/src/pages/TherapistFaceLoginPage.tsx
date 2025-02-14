@@ -1,7 +1,5 @@
 import { Text, HStack, Flex, Button, VStack } from '@chakra-ui/react';
-import { useState } from 'react';
 import NavbarContainer from '../components/Common/NavbarContainer';
-import CameraDialog from '../components/Dialogs/CameraDialog';
 import { useNavigate } from 'react-router-dom';
 import '../components/Common/BackgroundContainer.css';
 import BackButton from '../components/Common/BackButton';
@@ -12,25 +10,20 @@ import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
 import HomeButton from '../components/Common/HomeButton';
 
+import UseFaceVerification from '../hooks/UseFaceVerification';
+
 export default function TherapistFaceLoginPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
+  const faceIdImageSmall: string = 'src/assets/Login/FaceID_small.svg';
   const navigate = useNavigate();
-  const [isCameraOpen, setIsCameraOpen] = useState(false);
-
-  const handleOpenCamera = () => {
-    setIsCameraOpen(true);
-  };
-
-  const handleCloseCamera = () => {
-    setIsCameraOpen(false);
-  };
+  const { verifyFace } = UseFaceVerification();
 
   return (
     <div className="BackgroundContainer">
       <NavbarContainer>
         <HStack gap={370} pt={1}>
           <BackButton />
-          {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
+          {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함 */}
           {currentUser && (
             <HStack>
               <CurrentUserText />
@@ -48,13 +41,10 @@ export default function TherapistFaceLoginPage() {
           <Text fontSize={30}> 님의 얼굴을 인식해 주세요</Text>
         </HStack>
         <VStack gap={10}>
-          <CameraDialog
-            isOpen={isCameraOpen}
-            onClose={handleCloseCamera}
-            title="얼굴 인식"
-            message="카메라로 이동합니다."
-            from="thera_face"
-          />
+          {/* 페이지 첫 마운트 시 얼굴인증 요청, 이후 아래의 버튼을 눌러 얼굴인증 재요청 */}
+          <Button onClick={verifyFace}>
+            <img src={faceIdImageSmall} alt="FaceID" />
+          </Button>
           <Button
             bg="blue.400"
             color="white"
