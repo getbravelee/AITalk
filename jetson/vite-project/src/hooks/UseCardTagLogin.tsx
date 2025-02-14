@@ -44,6 +44,7 @@ export function UseCardTagLogin() {
 
       const cardData = await response.json();
       console.log('✅ 서버 응답 데이터:', cardData);
+      // 카드의 정보를 redux-persist에 저장
       dispatch(setUser(cardData));
       setFailedAttempts(0);
       alert(`${cardData.therapist_name}님 안녕하세요!`);

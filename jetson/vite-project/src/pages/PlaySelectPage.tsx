@@ -10,10 +10,15 @@ import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
 import HomeButton from '../components/Common/HomeButton';
 import { HStack } from '@chakra-ui/react';
+import { useLocation } from 'react-router-dom';
 
 import './PlaySelectPage.css';
 
 export default function PlaySelectPage() {
+  const location = useLocation()
+  console.log(location.state.treatmentId)
+  // 넘겨받은 treatmentId입니다. 
+  const treatmentId: number = location.state.treatmentId
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   return (
     <div>
