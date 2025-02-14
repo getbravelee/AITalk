@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import '../components/Common/BackgroundContainer.css';
 import BackButton from '../components/Common/BackButton';
 import '../components/Texts/TextFontFromGoogle.css';
-import { RootState } from '../../feature/store';
+import { RootState } from '../feature/store';
 import { useSelector } from 'react-redux';
 import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
