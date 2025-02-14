@@ -4,7 +4,7 @@ import CardTagButton from '../components/Buttons/CardTagButton';
 import CameraButton from '../components/Buttons/CameraButton';
 import AiTalkButton from '../components/Buttons/AiTalkButton';
 import PlaySelectText from '../components/Texts/PlaySelectText';
-import { RootState } from '../../feature/store';
+import { RootState } from '../feature/store';
 import { useSelector } from 'react-redux';
 import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';

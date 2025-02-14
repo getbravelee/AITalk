@@ -192,6 +192,7 @@ const UseFaceVerification = (
         alert(`안녕하세요 ${data.therapist_name}님!`);
         navigate('/KidFaceLoginPage');
       } else {
+        console.log(data.status)
         console.error('인증 실패');
       }
     } catch (error) {
