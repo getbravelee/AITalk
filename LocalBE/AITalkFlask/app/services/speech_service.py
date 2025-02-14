@@ -10,6 +10,10 @@ import base64
 from io import BytesIO
 import wave
 import tempfile
+import json
+import requests
+from pydub import AudioSegment  # 🔥 추가 라이브러리 필요
+from flask import jsonify
 
 from app.extensions import socketio, db
 from app.models import Child, Schedule
@@ -31,6 +35,8 @@ current_child_id = None
 
 # OpenAI API 설정
 openai.api_key = os.getenv("OPENAI_API_KEY")
+TYPECAST_API_KEY = os.getenv("TYPECAST_API_KEY")
+TYPECAST_ACTOR_ID = os.getenv("TYPECAST_VOICE_ID")
 
 # 대화 내역 (초기 시스템 프롬프트 포함)
 conversation_history = []
@@ -47,12 +53,62 @@ def get_child_info(child_id):
     return None
 
 
+import requests
+import json
+import base64
+import logging
+
+TYPECAST_API_KEY = os.getenv("TYPECAST_API_KEY")
+TYPECAST_ACTOR_ID = os.getenv("TYPECAST_VOICE_ID")
+
+
 def text_to_speech(text):
-    tts = gTTS(text, lang='ko')
-    audio_data = BytesIO()
-    tts.write_to_fp(audio_data)
-    audio_data.seek(0)
-    return base64.b64encode(audio_data.read()).decode('utf-8')
+    """
+    Typecast API를 사용하여 텍스트를 음성으로 변환한 후, Base64 MP3로 변환하여 반환.
+    """
+    if not TYPECAST_API_KEY or not TYPECAST_ACTOR_ID:
+        logging.error("❌ Typecast API Key 또는 Actor ID가 설정되지 않았습니다.")
+        return None
+
+    api_url = "https://typecast.ai/api/speak"
+    headers = {
+        "Authorization": f"Bearer {TYPECAST_API_KEY}",
+        "Content-Type": "application/json"
+    }
+    payload = json.dumps({
+        "actor_id": TYPECAST_ACTOR_ID,
+        "text": text,
+        "lang": "auto",
+        "xapi_audio_format": "mp3"
+    })
+
+    try:
+        # ✅ Typecast API 요청 (음성 생성)
+        response = requests.post(api_url, headers=headers, data=payload)
+        if response.status_code != 200:
+            logging.error(f"❌ Typecast API 오류: {response.status_code} - {response.text}")
+            return None
+
+        # ✅ 응답에서 오디오 다운로드 URL 추출
+        result = response.json()
+        audio_url = result["result"]["speak_url"]
+        logging.info(f"📢 음성 파일 다운로드 중... URL: {audio_url}")
+
+        # ✅ 오디오 파일 다운로드
+        audio_response = requests.get(audio_url, headers=headers)
+        if audio_response.status_code != 200:
+            logging.error(f"❌ 음성 파일 다운로드 실패: {audio_response.status_code}")
+            return None
+
+        # ✅ Base64로 변환 후 반환
+        audio_base64 = base64.b64encode(audio_response.content).decode('utf-8')
+        return audio_base64
+
+    except Exception as e:
+        logging.error(f"❌ Typecast API 요청 중 오류 발생: {e}")
+        return None
+
+
 
 
 def initialize_conversation(child_id):
