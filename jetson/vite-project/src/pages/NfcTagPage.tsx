@@ -3,7 +3,7 @@ import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import LoadingCircle from '../components/Common/LoadingCircle';
 import NfcImage from '../components/Images/NfcImage';
 import NfcTagText from '../components/Texts/NfcTagText';
-import { RootState } from '../../feature/store';
+import { RootState } from '../feature/store';
 import { useSelector } from 'react-redux';
 import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
