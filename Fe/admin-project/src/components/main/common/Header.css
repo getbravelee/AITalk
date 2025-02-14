@@ -5,12 +5,35 @@
   }
   
 
-  .nav-bar {
+  /* ✅ 로고 스타일 추가 */
+.logo-container {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.logo {
+  height: 70px; /* 로고 크기 조정 */
+  width: auto;
+  cursor: pointer;
+}
+
+
+.header-line {
+  width: 100%;
+  border: none;
+  height: 2px;
+  background-color: #ddd; /* 회색 계열 라인 */
+}
+
+.nav-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     max-width: 1200px;
     margin: 0 auto;
+    height: 50px;
+    font-size: 20px;
   }
 
   .nav-item {

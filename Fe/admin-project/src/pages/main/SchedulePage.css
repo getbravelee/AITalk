@@ -22,16 +22,30 @@
 
 /* 일정 스타일 */
 .fc-daygrid-event {
-  background-color: #4a90e2;
+  background-color: azure;
   color: white;
   border: none;
 }
 
 /* 더보기(+more) 버튼 스타일 */
 .fc-daygrid-more-link {
-  color: #007bff;
+  color: azure;
   font-weight: bold;
   cursor: pointer;
+}
+
+.fc-event-title {
+  font-size: 11.5px;
+  color: black;
+}
+
+.fc-daygrid-event-dot {
+  color: azure;
+}
+
+.fc-event-time {
+  font-size: 11.5px;
+  color: black;
 }
 
 /* 모달 창 스타일 */
@@ -57,7 +71,6 @@
   z-index: 999;
 }
 
-/* 일정 추가 버튼 */
 .add-schedule-btn {
   display: inline-block;
   padding: 8px 12px;

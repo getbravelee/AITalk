@@ -15,7 +15,7 @@
     background: white;
     padding: 20px;
     border-radius: 8px;
-    width: 400px;
+    width: 480px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   }
   
@@ -68,10 +68,16 @@
     margin: 5px 0;
     border-radius: 4px;
   }
+
+  .child-name {
+    font-weight: bold;
+    color: #4A90E2;
+    margin-left: 5px;
+  }
   
   .event-time {
     font-weight: bold;
-    margin-right: 5px;
+    margin-right: 8px;
   }
   
   .no-events {
