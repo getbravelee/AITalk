@@ -1,21 +1,37 @@
 import { Button } from '@chakra-ui/react';
 import '../Texts/TextFontFromGoogle.css';
 import UseCardTagForFaceResist from '../../hooks/UseCardTagForFaceResist';
-/**
-CardTagButtonForFaceResist 컴포넌트
-이 컴포넌트는 "Face ID 등록하기" 버튼을 렌더링하며,
-버튼 클릭 시 UseCardTagForFaceResist 제공하는 핸들러 함수가 실행되어
-서버에서 카드 데이터를 받아온 후 지정된 페이지로 이동하는 처리를 합니다.
-*/
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../feature/user/userSlice'; // 실제 경로에 맞게 수정
 export default function CardTagButtonForFaceResist() {
   // custom hook을 사용하여 카드 태깅 관련 비즈니스 로직 핸들러를 가져옵니다.
   const handleCardTagForFaceResist = UseCardTagForFaceResist();
+  const dispatch = useDispatch();
+  const handleTest = () => {
+    // 테스트를 위한 유저 생성
+    const testUser = {
+      id: 1,
+      name: '테스트유저',
+      therapist_id: 1,
+      therapist_name: '테스트유저'
+    };
+    dispatch(setUser(testUser));
+  }
+
+
   return (
+    <div>
     <Button
       className="FaceIdRegistrationButton"
       onClick={handleCardTagForFaceResist}
     >
       Face ID 등록하기
     </Button>
+    <Button
+      className="FaceIdRegistrationButton"
+      onClick={handleTest}>
+        테스트
+    </Button>
+    </div>
   );
 }

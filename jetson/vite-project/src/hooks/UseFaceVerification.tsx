@@ -19,6 +19,7 @@ const UseFaceVerification = () => {
       } else {
         console.log(data.status);
         console.error('인증 실패');
+        alert('인증이 실패했습니다! 다시 시도해주세요!')
       }
     } catch (error) {
       console.error('서버 요청 중 에러 발생:', error);
