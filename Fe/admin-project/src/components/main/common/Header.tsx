@@ -13,7 +13,7 @@ const Header = () => {
   return (
     <header className="header-container">
       <nav className="nav-bar">
-        {/* ✅ 로고 추가 */}
+       
         <Link to="/main/home" className="logo-container">
           <img src={logo} alt="AiTalk 로고" className="logo" />
         </Link>

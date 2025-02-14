@@ -11,7 +11,7 @@ const DayScheduleComponent = ({ date, events, onClose }: DayScheduleProps) => {
   console.log("🖥️ DayScheduleComponent 렌더링됨, 날짜:", date);
   console.log("📅 받은 일정 데이터:", events);
 
-  // ✅ 날짜를 한글로 변환
+  
   const formattedDate = date.toLocaleDateString('ko-KR', {
     year: 'numeric',
     month: 'long',
