@@ -1,7 +1,6 @@
 import logging
 import pyaudio
 import numpy as np
-import whisper
 import time
 import openai
 from threading import Lock, Thread
@@ -9,6 +8,8 @@ import os
 from gtts import gTTS
 import base64
 from io import BytesIO
+import wave
+import tempfile
 
 from app.extensions import socketio, db
 from app.models import Child, Schedule
@@ -19,17 +20,6 @@ load_dotenv()
 
 # 로깅 설정
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
-
-# Whisper 모델 지연 로딩용 전역 변수
-model = None
-
-def load_model():
-    global model
-    if model is None:
-        logging.info("🔍 Whisper 모델 로딩 중...")
-        model = whisper.load_model("small")
-        logging.info("✅ Whisper 모델 로드 완료")
-    return model
 
 # 음성 인식 및 TTS, GPT 처리 상태 관리 전역 변수
 is_recognizing = False
@@ -45,6 +35,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 # 대화 내역 (초기 시스템 프롬프트 포함)
 conversation_history = []
 
+
 def get_child_info(child_id):
     child = Child.query.filter_by(child_id=child_id).first()
     if child:
@@ -55,12 +46,14 @@ def get_child_info(child_id):
         }
     return None
 
+
 def text_to_speech(text):
     tts = gTTS(text, lang='ko')
     audio_data = BytesIO()
     tts.write_to_fp(audio_data)
     audio_data.seek(0)
     return base64.b64encode(audio_data.read()).decode('utf-8')
+
 
 def initialize_conversation(child_id):
     child_info = get_child_info(child_id)
@@ -70,14 +63,13 @@ def initialize_conversation(child_id):
     initial_system_prompt = f"""
     You are a language therapy chatbot designed for a child who is {child_info['child_age']} years old and has {child_info['disability_type']}.
     Your goal is to encourage the child to speak more by asking **simple, closed-ended questions** (yes/no questions or offering simple choices), but do **not** instruct the child to answer only with "yes" or "no." Allow natural, flexible responses from the child.
-    Since the child may have speech difficulties and might not pronounce words clearly, try to understand the meaning based on **context** even if the words sound incorrect. If the child's speech recognition is inaccurate, interpret it in the closest possible way to what they might have intended.
-    Keep the questions simple and age-appropriate. Make sure to respond **in Korean**.
+    Since the child may have speech difficulties and might not pronounce words clearly, try to understand the meaning based on **context** even if the words sound incorrect. Keep the questions simple and age-appropriate. Make sure to respond **in Korean**.
     Start with the first question: "오늘 기분이 좋아요?" (Are you feeling good today?)
     """
     logging.info(f"초기 프롬프트: {initial_system_prompt}")
     conversation_history.clear()
     conversation_history.append({"role": "system", "content": initial_system_prompt})
-    model = load_model()
+
 
 def recognize_audio(child_id):
     global is_recognizing, keep_listening, gpt_processing, is_tts_playing
@@ -89,12 +81,12 @@ def recognize_audio(child_id):
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
     RATE = 16000
-    RECORD_SECONDS = 0.5
+    RECORD_SECONDS = 1.5
 
     p = pyaudio.PyAudio()
     stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=CHUNK)
 
-    # ✅ 스트림 초기화
+    # 스트림 초기화
     for _ in range(5):
         stream.read(CHUNK, exception_on_overflow=False)
 
@@ -102,15 +94,23 @@ def recognize_audio(child_id):
     stream.start_stream()
 
     audio_buffer = []
-    silence_threshold = 0.01  # ✅ 민감도 조절
-    silence_duration = 1.5    # ✅ 말 중단 시간 증가
+    silence_threshold = 0.01  # RMS 민감도 조절 (필요시 조정)
+    silence_duration = 1.5  # 말 중단 감지 시간
     last_speech_time = time.time()
+
+    # 버퍼가 너무 커지는 것을 방지하기 위한 최대 버퍼 길이 (초 단위)
+    max_buffer_duration = 10  # 예: 10초
+    max_buffer_count = int(max_buffer_duration / RECORD_SECONDS)
 
     logging.info("🎙 음성 인식 시작")
     socketio.emit("speech_ready")
 
     while keep_listening:
+        # TTS 재생 중이면 잔여 오디오 데이터를 초기화하고 새 데이터를 받지 않음
         if is_tts_playing:
+            if audio_buffer:
+                logging.debug("TTS 재생 중: audio_buffer 초기화")
+                audio_buffer.clear()
             time.sleep(0.1)
             continue
 
@@ -119,12 +119,20 @@ def recognize_audio(child_id):
         audio_data = b''.join(frames)
         audio_np = np.frombuffer(audio_data, dtype=np.int16).astype(np.float32) / 32768.0
 
-        if np.abs(audio_np).mean() > silence_threshold:
+        # RMS 계산
+        rms = np.sqrt(np.mean(np.square(audio_np)))
+        logging.debug(f"RMS 값: {rms:.4f}, 버퍼 길이: {len(audio_buffer)}")
+
+        if rms > silence_threshold:
             logging.debug("🍗 음성 감지 중...")
             socketio.emit('speech_detected', {'status': 'speaking'}, namespace='/')
             audio_buffer.append(audio_data)
             last_speech_time = time.time()
 
+            # 버퍼가 너무 길어지면 강제로 처리
+            if len(audio_buffer) >= max_buffer_count:
+                logging.info("버퍼 길이가 너무 깁니다. 강제로 텍스트 변환 시도")
+                last_speech_time = time.time() - silence_duration - 1
         elif time.time() - last_speech_time > silence_duration and audio_buffer:
             if not gpt_processing:
                 logging.info("🔁 말 중단 감지 → 텍스트 변환 시도")
@@ -132,21 +140,37 @@ def recognize_audio(child_id):
 
                 is_tts_playing = True
                 full_audio = b''.join(audio_buffer)
-                audio_buffer = []  # ✅ 버퍼 새로 초기화
+                audio_buffer.clear()  # 버퍼 초기화
 
                 try:
-                    audio_np_full = np.frombuffer(full_audio, dtype=np.int16).astype(np.float32) / 32768.0
-                    result = model.transcribe(audio_np_full, language="korean", temperature=0)
+                    # raw PCM 데이터를 WAV 파일 형식으로 변환
+                    wav_io = BytesIO()
+                    with wave.open(wav_io, "wb") as wf:
+                        wf.setnchannels(CHANNELS)
+                        wf.setsampwidth(p.get_sample_size(FORMAT))
+                        wf.setframerate(RATE)
+                        wf.writeframes(full_audio)
+                    wav_io.seek(0)
+
+                    # 임시 파일 생성: API가 파일 객체의 name 속성을 참조하므로 NamedTemporaryFile 사용
+                    with tempfile.NamedTemporaryFile(suffix=".wav") as tmp:
+                        tmp.write(wav_io.getvalue())
+                        tmp.seek(0)
+                        result = openai.Audio.transcribe("whisper-1", tmp, language="ko", temperature=0)
                     text = result["text"].strip()
 
                     if text:
                         logging.info(f"📝 텍스트 변환 완료: {text}")
                         gpt_processing = True
                         Thread(target=get_gpt_response, args=(text, child_id), daemon=True).start()
+                    else:
+                        logging.info("⚠️ 음성에서 텍스트를 추출하지 못했습니다. 인식을 재개합니다.")
+                        is_tts_playing = False
                 except Exception as e:
                     logging.error(f"❌ 텍스트 변환 중 오류: {e}")
+                    is_tts_playing = False
             else:
-                audio_buffer = []  # ✅ GPT 처리 중일 때도 버퍼 비우기
+                audio_buffer.clear()  # GPT 처리 중일 때도 버퍼 비우기
 
         time.sleep(0.01)
 
@@ -157,12 +181,13 @@ def recognize_audio(child_id):
     with recognition_lock:
         is_recognizing = False
 
+
 def get_gpt_response(user_input, child_id, is_summary=False):
     global gpt_processing, conversation_history, is_tts_playing
     try:
         conversation_history.append({"role": "user", "content": user_input})
 
-        # ✅ 대화 이력 10개까지만 유지
+        # 대화 이력 10개까지만 유지
         if len(conversation_history) > 10:
             conversation_history = conversation_history[-10:]
 
@@ -191,6 +216,7 @@ def get_gpt_response(user_input, child_id, is_summary=False):
         gpt_processing = False
         socketio.emit('gpt_ready', {'status': 'ready'}, namespace='/')
 
+
 def stop_recognition(child_id, schedule_id=None):
     global keep_listening, conversation_history
     keep_listening = False
@@ -204,10 +230,10 @@ def stop_recognition(child_id, schedule_id=None):
                 Provide the summary in **Korean**, and keep the summary within **100 characters**.
                 """
 
-        # ✅ 요약 생성 및 저장
+        # 요약 생성 및 저장
         summary = get_gpt_response(summary_prompt, child_id, is_summary=True)
 
-        # ✅ schedule_id가 있는 경우 treatment 테이블에 저장
+        # schedule_id가 있는 경우 treatment 테이블에 저장
         if schedule_id:
             treatment = Schedule.query.filter_by(treatment_id=schedule_id).first()
             if treatment:
@@ -221,6 +247,7 @@ def stop_recognition(child_id, schedule_id=None):
     socketio.emit('session_end', {'message': '대화가 종료되었습니다.'}, namespace='/')
     initialize_conversation(child_id)
     logging.info("✅ 대화 종료 후 리소스 정리 완료.")
+
 
 @socketio.on('tts_finished', namespace='/')
 def handle_tts_finished():

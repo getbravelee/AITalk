@@ -69,13 +69,15 @@ def sync_local_to_server():
         local_schedules = Schedule.query.all()
 
         for schedule in local_schedules:
-            server_schedule = ServerSchedule.query.filter(
-                and_(
-                    ServerSchedule.treatment_date == schedule.treatment_date,
-                    ServerSchedule.start_time <= schedule.start_time,
-                    ServerSchedule.end_time >= schedule.start_time
-                )
-            ).first()
+            server_schedule_query = ServerSchedule.query.filter(ServerSchedule.treatment_date == schedule.treatment_date)
+
+            if schedule.start_time is not None:
+                server_schedule_query = server_schedule_query.filter(ServerSchedule.start_time <= schedule.start_time)
+
+            if schedule.end_time is not None:
+                server_schedule_query = server_schedule_query.filter(ServerSchedule.end_time >= schedule.start_time)
+
+            server_schedule = server_schedule_query.first()
 
             if server_schedule:
                 # 서버에 이미 존재하면 업데이트
@@ -107,3 +109,4 @@ def sync_local_to_server():
     except Exception as e:
         db.session.rollback()
         print(f"로컬에서 서버로 데이터 동기화 실패: {e}")
+
