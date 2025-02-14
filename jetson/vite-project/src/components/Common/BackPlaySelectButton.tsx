@@ -11,9 +11,17 @@ export default function BackPlaySelectButton() {
     try {
       console.log('📡 Back 버튼 클릭됨! 현재 경로:', location.pathname);
 
+<<<<<<< HEAD
       // ✅ "/ai-talk" 페이지에서만 API 호출
       if (location.pathname === '/ai-talk') {
         console.log('📡 대화 종료 API 요청 보내는 중...');
+=======
+      const response = await fetch('http://92.168.30.189:5000/play/talk-stop', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ childId: 10001 }), // 필요한 경우 childId 변경 가능
+      });
+>>>>>>> cbdeee8f (:sparkles: [feat] aitalk button)
 
         const response = await fetch('http://127.0.0.1:5000/play/talk-stop', {
           method: 'POST',

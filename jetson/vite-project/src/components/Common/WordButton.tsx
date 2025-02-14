@@ -28,7 +28,7 @@ export default function WordButton({ targetPath }: WordButtonProps) {
 
     try {
       const response = await fetch(
-        'http://127.0.0.1:5000/play/card-scan', // ✅ 시간 제한 제거!
+        'http://92.168.30.189:5000/play/card-scan', // ✅ 시간 제한 제거!
       );
 
       if (!response.ok)
