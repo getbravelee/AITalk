@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import './UserLoginPage.css';
 import LogoSVG from '../../assets/User/AiTalkLogo.svg';
 import { useLogin } from '../../hooks/user/useLogin';
+import { InputField } from '../../components/user/common/InputComponent';
+import ConfirmButton from '../../components/user/common/ConfirmButton';
 
 const UserLoginPage: React.FC = () => {
   const { id, setId, password, setPassword, errorMessage, handleLogin } = useLogin();
@@ -11,19 +13,19 @@ const UserLoginPage: React.FC = () => {
       <div className="login-box">
         <img src={LogoSVG} alt="logoImage" className='logo-image'/>
         <h1>로그인</h1>
-        <input 
+        <InputField 
           type="text" 
           placeholder="아이디" 
           value={id} 
           onChange={(e) => setId(e.target.value)} 
         />
-        <input 
+        <InputField 
           type="password" 
           placeholder="비밀번호" 
           value={password} 
           onChange={(e) => setPassword(e.target.value)} 
         />
-        <button onClick={handleLogin}>로그인</button>
+        <ConfirmButton onClick={handleLogin}>로그인</ConfirmButton>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <div className="links">
           <Link to="/user/find-id">아이디 찾기</Link>

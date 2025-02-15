@@ -1,6 +1,7 @@
 from app.models import Therapist, Child, ServerTherapist, ServerChild, Schedule, ServerSchedule
 from app.extensions import db
-from sqlalchemy import text
+from sqlalchemy import text, and_
+from datetime import datetime
 
 def sync_server_to_local():
     try:
@@ -47,28 +48,46 @@ def sync_server_to_local():
         db.session.rollback()
         print(f"서버에서 로컬로 데이터 동기화 실패: {e}")
 
+def update_local_end_time():
+    try:
+        # treatment_id가 가장 높은 로컬 스케줄 찾기
+        max_treatment_schedule = Schedule.query.order_by(Schedule.treatment_id.desc()).first()
+        if max_treatment_schedule:
+            max_treatment_schedule.end_time = datetime.now()
+            db.session.commit()
+            print(f"로컬의 최고 treatment_id({max_treatment_schedule.treatment_id})의 end_time을 현재 시간으로 업데이트 완료")
+    except Exception as e:
+        db.session.rollback()
+        print(f"로컬 end_time 업데이트 실패: {e}")
+
 def sync_local_to_server():
     try:
+        # 로컬 DB의 end_time을 먼저 갱신
+        update_local_end_time()
+
         # 로컬 DB에서 데이터 가져오기
         local_schedules = Schedule.query.all()
 
         for schedule in local_schedules:
-            server_schedule = ServerSchedule.query.filter_by(treatment_id=schedule.treatment_id).first()
+            server_schedule_query = ServerSchedule.query.filter(ServerSchedule.treatment_date == schedule.treatment_date)
+
+            if schedule.start_time is not None:
+                server_schedule_query = server_schedule_query.filter(ServerSchedule.start_time <= schedule.start_time)
+
+            if schedule.end_time is not None:
+                server_schedule_query = server_schedule_query.filter(ServerSchedule.end_time >= schedule.start_time)
+
+            server_schedule = server_schedule_query.first()
 
             if server_schedule:
                 # 서버에 이미 존재하면 업데이트
-                server_schedule.therapist_id = schedule.therapist_id
-                server_schedule.child_id = schedule.child_id
-                server_schedule.treatment_date = schedule.treatment_date
-                server_schedule.start_time = schedule.start_time
-                server_schedule.end_time = schedule.end_time
                 server_schedule.words = schedule.words
                 server_schedule.sentence = schedule.sentence
                 server_schedule.conversation = schedule.conversation
+                print(f"업데이트 완료: {schedule.treatment_id}")
             else:
                 # 서버에 없으면 새로 추가
                 new_schedule = ServerSchedule(
-                    treatment_id=schedule.treatment_id,
                     therapist_id=schedule.therapist_id,
                     child_id=schedule.child_id,
                     treatment_date=schedule.treatment_date,
@@ -79,6 +98,10 @@ def sync_local_to_server():
                     conversation=schedule.conversation
                 )
                 db.session.add(new_schedule)
+                print(f"새로운 스케줄 추가: {schedule.treatment_id}")
+
+            # 서버로 동기화 후 로컬 데이터 삭제
+            db.session.delete(schedule)
 
         db.session.commit()
         print("로컬에서 서버로 데이터 동기화 완료")
@@ -86,3 +109,4 @@ def sync_local_to_server():
     except Exception as e:
         db.session.rollback()
         print(f"로컬에서 서버로 데이터 동기화 실패: {e}")
+

@@ -1,0 +1,6 @@
+.BackgroundContainer {
+  background-image: url('src/assets/Background/background_3.png');
+  background-size: cover; /* 화면 채우기 */
+  /* 스크롤 해도 변함없는 백그라운드 이미지 유지 */
+  background-attachment: fixed;
+}

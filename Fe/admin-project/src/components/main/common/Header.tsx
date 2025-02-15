@@ -1,34 +1,39 @@
 import { Link, useNavigate } from 'react-router-dom';
+import './Header.css';
+import { FaUserCircle } from 'react-icons/fa';
+import logo from '../../../assets/User/AiTalkLogo.svg';
 
-export default function Header() {
+const Header = () => {
   const navigate = useNavigate();
 
-
-  const handleLogout = () => {
-    navigate('/user/login');
+  const handleProfileClick = () => {
+    navigate('/main/mypage'); // 마이페이지로 이동
   };
 
   return (
-    <header style={{  padding: '30px' }}>
-      <nav>
-        <Link to="/main/home" style={{ margin: '0 10px' }}>
-          🏠 Home
+    <header className="header-container">
+      <nav className="nav-bar">
+       
+        <Link to="/main/home" className="logo-container">
+          <img src={logo} alt="AiTalk 로고" className="logo" />
         </Link>
-        <Link to="/main/mypage" style={{ margin: '0 10px' }}>
-          📄 MyPage
+        <Link to="/main/schedule" className="nav-item">
+          예약 관리
         </Link>
-        <Link to="/main/schedule" style={{ margin: '0 10px' }}>
-          🗓️ Schedule
+        <Link to="/main/child/list" className="nav-item">
+          치료 아동 관리
         </Link>
-        <Link to="/main/child/list" style={{ margin: '0 10px' }}>
-          👶 Child List
-        </Link>
-
-        <button type="button" onClick={handleLogout}>
-          🚪 로그아웃
-        </button>
+        
+        <div className="profile-section" onClick={handleProfileClick}>
+          <span>치료사님 안녕하세요!</span>
+          <FaUserCircle className="profile-icon" />
+        </div>
       </nav>
-      <hr />
-    </header> 
+
+      {/* ✅ 헤더 아래에 전체 너비를 차지하는 라인 추가 */}
+      <hr className="header-line" />
+    </header>
   );
-}
+};
+
+export default Header;

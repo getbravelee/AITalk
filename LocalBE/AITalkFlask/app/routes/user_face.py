@@ -10,6 +10,7 @@ CORS(user_face_bp)  # ✅ Blueprint 전체에 CORS 적용
 def user_face_regist():
     """ React에서 therapist_id와 therapist_name을 받아 Face ID 등록 """
 
+    print("[DEBUG] 요청 받음")  # 요청 도착 여부 확인
     data = request.get_json()
 
     # ✅ 요청 데이터 디버깅 로그 추가

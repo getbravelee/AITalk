@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
+
+.CameraScanContainer {
+  background-image: url('/src/assets/background/background_3.png');
+  background-size: cover;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-family: 'Dongle', serif;
+}
+
+/* ✅ 카메라 컨테이너 */
+.WebCamContainer {
+  background-image: url('/src/assets/common/camera_background.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 70%;
+  height: 295px;
+  border-radius: 0px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+/* ✅ "중앙에" 강조 */
+.highlight {
+  color: #0077ff;
+  font-weight: bold;
+}
+
+/* ✅ 카메라 화면 */
+.CameraFeed {
+  width: 70%;
+  border-radius: 30px;
+  margin-bottom: 15px;
+  border: 1px solid grey;
+  position: relative;
+}
+
+/* ✅ 객체 감지 캔버스 */
+.ObjectDetectionCanvas {
+  position: absolute;
+  top: 50;
+  left: 50;
+  width: 50%;
+  height: 70%;
+  pointer-events: none;
+  opacity: 1; /* 👈 투명도 1로 설정 (보이게) */
+  transition: opacity 0.3s ease-in-out;
+  z-index: 20; /* 👈 비디오 위로 배치 */
+}
+
+/* ✅ 감지 활성화 시 테두리 효과 */
+.ObjectDetectionCanvas.active {
+  position: absolute;
+  top: 50;
+  left: 50;
+  width: 50%;
+  height: 70%;
+  pointer-events: none; /* 캔버스 위에서 클릭이 가능하도록 설정 */
+  z-index: 10; /* 비디오 위에 표시되도록 설정 */
+}

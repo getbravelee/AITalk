@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
+
+/* 카드 정보 컨테이너 크기 조정 */
+.CameraPlaySelectWordVerbContainer {
+  background-image: url('/src/assets/background/background_3.png');
+  background-size: cover;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* 내부 요소의 절대 위치 기준 */
+  gap: 40px;
+}
+
+.Plus {
+  font-size: 50px;
+  font-weight: bold;
+}
+
+/* 카드 이름 (text) 스타일 조정 */
+.CameraPlaySelectWordVerbContainer .CardInfoContainer p {
+  font-family: 'Dongle', serif;
+  font-size: 2rem; /* 텍스트 크기 */
+  font-weight: bold; /* 텍스트 굵기 */
+  text-align: center; /* 중앙 정렬 */
+  color: #333; /* 글자 색 */
+}

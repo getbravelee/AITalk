@@ -1,0 +1,16 @@
+.BackButton {
+  display: flex;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+}
+
+.BackButton:hover {
+  opacity: 0.8;
+}
+
+.BackIcon {
+  margin-left: 0.2rem;
+  font-size: 8vh;
+  color: white;
+}

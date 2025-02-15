@@ -1,25 +1,36 @@
 import React, { useState } from 'react';
 import './UserSignUpPage.css';
 import LogoSVG from '../../assets/User/AiTalkLogo.svg';
+import { InputField } from '../../components/user/common/InputComponent';
+import EmailAuthComponent from '../../components/user/common/EmailAuthComponent';
+import ConfirmButton from '../../components/user/common/ConfirmButton';
+import { useEmailVerify } from '../../hooks/user/useEmailAuth';
+import { useEmailAuthConfirm } from '../../hooks/user/usdEmailAuthConfirm';
+import useSignUp from '../../hooks/user/useSignUp';
+import { useNavigate } from 'react-router-dom';
 
 const UserSignupPage: React.FC = () => {
   const [name, setName] = useState('');
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [phone, setPhone] = useState('');
+  const [phoneNumber, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  const { handleEmailVerify } = useEmailVerify();
+  const { confirmEmail } = useEmailAuthConfirm();
+  const { signUp } = useSignUp();
 
-  const handleSignup = () => {
-    // 회원가입 로직 처리
-    console.log({
+
+  const handleSignup = async () => {
+    const signupData = {
       name,
       id,
       password,
       confirmPassword,
-      phone,
+      phoneNumber,
       email,
-    });
+    };
+    signUp(signupData);
   };
 
   return (
@@ -27,48 +38,45 @@ const UserSignupPage: React.FC = () => {
       <div className="signup-box">
         <img src={LogoSVG} alt="logoImage" className="logo-image" />
         <h1>회원가입</h1>
-        <input
+        <InputField
           type="text"
           placeholder="이름"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <input
+        <InputField
           type="text"
           placeholder="아이디"
           value={id}
           onChange={(e) => setId(e.target.value)}
         />
-        <input
+        <InputField
           type="password"
           placeholder="비밀번호"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <input
+        <InputField
           type="password"
           placeholder="비밀번호 확인"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        <div className="email-verification">
-          <input
-            type="text"
-            placeholder="이메일 인증"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <button className="verify-button">인증</button>
-        </div>
-        <input
+        <EmailAuthComponent
+          email={email}
+          onEmailChange={(e) => setEmail(e.target.value)}
+          onVerify={handleEmailVerify}
+          onConfirm={confirmEmail}
+        />
+        <InputField
           type="text"
           placeholder="휴대폰 번호"
-          value={phone}
-          onChange={(e) => setEmail(e.target.value)}
+          value={phoneNumber}
+          onChange={(e) => setPhone(e.target.value)}
         />
-        <button className="signup-button" onClick={handleSignup}>
+        <ConfirmButton onClick={handleSignup} className="signup-button">
           회원가입
-        </button>
+        </ConfirmButton>
       </div>
     </div>
   );

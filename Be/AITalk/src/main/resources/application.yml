@@ -3,9 +3,11 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://3.38.106.51:3306/aitalk_web?useSSL=false&serverTimezone=UTC
+
+    url: jdbc:mysql://3.38.106.51:3306/aitalk_web?useSSL=false&serverTimezone=Asia/Seoul
     username: dongsil
     password: dongsil
+
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -13,7 +15,7 @@ spring:
       ddl-auto: none  # MyBatis를 사용하므로 JPA 자동 테이블 생성 비활성화
     show-sql: true
 
-  mail:  # ✉️ 이메일 설정 추가 ✉️
+  mail:  # ✉️ 이메일 설정 추가
     host: smtp.gmail.com
     port: 587
     username: kimtest7001@gmail.com  # 📌 본인의 Gmail 주소 입력

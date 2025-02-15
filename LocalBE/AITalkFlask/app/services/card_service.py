@@ -3,8 +3,8 @@ from app.models.card_model import Card
 from app.models.schedule_model import Schedule  # treatment 테이블 모델
 from app.utils.nfc_reader import read_nfc_tag
 from app.extensions import db
+from sqlalchemy.orm.attributes import flag_modified  # 추가
 import time
-import json
 
 
 def get_card_by_id(card_id):
@@ -60,6 +60,10 @@ def get_card_info_after_tagging(schedule_id=None, timeout=600):
                         if card_info.get('name') not in existing_words:
                             existing_words.append(card_info.get('name'))
                             treatment.words = existing_words
+
+                            # 변경 사항 강제 감지
+                            flag_modified(treatment, "words")
+
                             db.session.commit()
                             print(f"treatment_id {schedule_id}의 words 업데이트 완료: {treatment.words}")
                     else:

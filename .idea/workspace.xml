@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="21ae9208-eb71-43d6-9fa2-63e70b6182e8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/LocalBE/AITalkFlask/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/LocalBE/AITalkFlask/app/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LocalBE/AITalkFlask/app/routes/user_face.py" beforeDir="false" afterPath="$PROJECT_DIR$/LocalBE/AITalkFlask/app/routes/user_face.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LocalBE/AITalkFlask/app/services/detect_objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/LocalBE/AITalkFlask/app/services/detect_objects.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LocalBE/AITalkFlask/child_face_db.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/LocalBE/AITalkFlask/config.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/LocalBE/AITalkFlask/data.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/LocalBE/AITalkFlask/face_db.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/S12P11E102.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/S12P11E102.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,9 +17,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2sr3xODSH0NTMDzEnkCjIRwY8X1" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -31,16 +27,29 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Gradle.C:/Users/SSAFY/Desktop/S12P11E102/Be/AITalk/build.gradle.executor": "Run",
     "Python.detect_objects.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/be/camera__scan"
+    "git-widget-placeholder": "feature/be/user",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Global Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-495700d161d3-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.22562.220" />
+        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.23654.189" />
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-IU-243.23654.189" />
       </set>
     </attachedChunks>
   </component>
@@ -52,7 +61,19 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1739200113253</updated>
+      <workItem from="1739361114819" duration="135000" />
+      <workItem from="1739361260024" duration="70000" />
+      <workItem from="1739361781194" duration="2294000" />
+      <workItem from="1739364217147" duration="578000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/Fe/admin-project/vite.config.js" />
+      </list>
+    </option>
   </component>
 </project>

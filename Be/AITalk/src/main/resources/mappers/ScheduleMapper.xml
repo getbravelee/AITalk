@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.aitalk.schedule.mapper.ScheduleMapper">
+    <resultMap id="Schedule" type="com.ssafy.aitalk.schedule.entity.Schedule">
+        <id property="treatmentId" column="treatment_id"/>
+        <result property="therapistId" column="therapist_id"/>
+        <result property="childId" column="child_id"/>
+        <result property="treatmentDate" column="treatment_date"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="words" column="words" typeHandler="com.ssafy.aitalk.schedule.typehandler.JsonTypeHandler"/>
+        <result property="sentence" column="sentence" typeHandler="com.ssafy.aitalk.schedule.typehandler.JsonTypeHandler"/>
+        <result property="conversation" column="conversation"/>
+    </resultMap>
+
+    <select id="selectMonthlySchedules" resultMap="Schedule">
+        SELECT
+            treatment_id,
+            child_id,
+            treatment_date,
+            start_time,
+            end_time
+        FROM
+            treatment
+        WHERE
+            YEAR(treatment_date) = #{year}
+          AND MONTH(treatment_date) = #{month}
+    </select>
+
+    <select id="findChildName" resultType="String">
+        select
+            child_name
+        from
+            care_children
+        where
+            child_id = #{id}
+    </select>
+
+    <select id="findChildId" resultType="Integer">
+        select
+            child_id
+        from
+            care_children
+        where
+            child_name = #{name}
+    </select>
+
+    <select id="selectDailySchedules" resultMap="Schedule">
+        select
+        *
+        from
+        treatment
+        WHERE treatment_date >= #{date}
+        AND treatment_date &lt; DATE_ADD(#{date}, INTERVAL 1 DAY)
+    </select>
+
+    <select id="selectScheduleByScheduleId" resultMap="Schedule">
+        select
+            *
+        from
+            treatment
+        where
+            treatment_id = #{id}
+    </select>
+
+    <insert id="registerSchedule" parameterType="com.ssafy.aitalk.schedule.entity.Schedule">
+        INSERT INTO treatment (therapist_id, child_id, treatment_date, start_time, end_time)
+        VALUES (#{therapistId}, #{childId}, #{treatmentDate}, #{startTime}, #{endTime})
+    </insert>
+
+    <select id="isTimeSlotTaken" resultType="Integer">
+        SELECT COUNT(*) FROM treatment
+        WHERE treatment_date = #{date}
+        AND ((start_time &lt; #{endTime} AND end_time > #{startTime}))
+    </select>
+
+    <update id="updateSchedule" parameterType="com.ssafy.aitalk.schedule.entity.Schedule">
+        UPDATE treatment
+        SET treatment_date = #{treatmentDate},
+            start_time = #{startTime},
+            end_time = #{endTime},
+            conversation = #{conversation}
+        WHERE treatment_id = #{treatmentId}
+    </update>
+
+    <delete id="deleteSchedule" parameterType="int">
+        DELETE FROM treatment WHERE treatment_id = #{scheduleId}
+    </delete>
+
+</mapper>

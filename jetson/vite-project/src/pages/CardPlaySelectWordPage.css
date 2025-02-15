@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
+
+.CardPlaySelectWordContainer {
+  background-image: url('/src/assets/background/background_3.png');
+  background-size: cover;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* 내부 요소의 절대 위치 기준 */
+  font-family: 'Dongle', serif;
+}
+
+/* NFC 로딩 컨테이너 (우측 상단 고정) */
+.NfcLoadingWrapper {
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.3); /* 크기 축소 */
+  cursor: pointer;
+}
+
+/* NFC 이미지 조정 */
+.NfcCentered {
+  position: absolute;
+  z-index: 2;
+  margin-bottom: -40px;
+  margin-right: 10px;
+}
+
+/* 카드 이름 (text) 스타일 조정 */
+.CardPlaySelectWordContainer .BigCardInfoContainer .CardInfoContainer p {
+  font-family: 'Dongle', serif;
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+}
+
+.SmallNfcTagText p {
+  font-size: 1.7rem;
+}
+
+/* 카드 이미지 부드럽게 흔들리는 애니메이션 */
+.BigCardInfoContainer .CardInfoContainer {
+  animation: floating 2s infinite ease-in-out;
+}
+
+/* 부드러운 흔들림 (둥둥 떠 있는 듯한 효과) */
+@keyframes floating {
+  0% {
+    transform: translateY(0) rotate(0);
+  }
+  25% {
+    transform: translateY(-5px) rotate(-0.5deg);
+  }
+  50% {
+    transform: translateY(5px) rotate(0.5deg);
+  }
+  75% {
+    transform: translateY(-5px) rotate(-0.5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+}

@@ -3,7 +3,7 @@ import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 interface LoginResponse {
-  message: string;
+  therapistId: number;
 }
 
 export const useLogin = () => {
@@ -14,10 +14,28 @@ export const useLogin = () => {
 
   const handleLogin = async (): Promise<void> => {
     try {
-      const response = await axios.post<LoginResponse>('http://3.38.106.51:7001/user/login', { id, password });
+      const response = await axios.post<LoginResponse>(
+
+        'http://3.38.106.51:7001/user/login',
+        { id, password },
+      );
+
 
       if (response.status === 200) {
-        console.log(response.data.message);
+        const token = response.headers['authorization']; // 헤더에서 토큰 추출
+
+        if (token) {
+          localStorage.setItem('token', token); // 토큰 저장
+          console.log('토큰 저장 완료:', token);
+        } else {
+          console.warn('토큰이 응답 헤더에 없습니다.');
+        }
+
+        const therapistId = response.data; // response.data는 숫자입니다.
+        localStorage.setItem('therapistId', therapistId.toString());
+
+        console.log('therapistId 저장 완료:', therapistId);
+
         navigate('/main/home');
       }
     } catch (error) {
@@ -25,12 +43,11 @@ export const useLogin = () => {
         const axiosError = error as AxiosError<{ message: string }>;
         if (axiosError.response?.status === 401) {
           setErrorMessage(axiosError.response.data.message);
+        } else if (axiosError.response?.status === 403) {
+          setErrorMessage('접근이 거부되었습니다. 권한을 확인해 보세요.');
         } else {
-          console.log(error)
           setErrorMessage('로그인 중 오류가 발생했습니다.');
         }
-      } else {
-        setErrorMessage('네트워크 오류가 발생했습니다.');
       }
     }
   };
@@ -41,6 +58,6 @@ export const useLogin = () => {
     password,
     setPassword,
     errorMessage,
-    handleLogin
+    handleLogin,
   };
 };
