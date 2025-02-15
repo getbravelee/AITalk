@@ -1,20 +1,41 @@
-/* ✅ 헤더 전체 레이아웃 */
+
 .header-container {
     background-color: white;
     padding: 10px 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
-  /* ✅ 네비게이션 바 스타일 */
-  .nav-bar {
+
+  /* ✅ 로고 스타일 추가 */
+.logo-container {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.logo {
+  height: 70px; /* 로고 크기 조정 */
+  width: auto;
+  cursor: pointer;
+}
+
+
+.header-line {
+  width: 100%;
+  border: none;
+  height: 2px;
+  background-color: #ddd; /* 회색 계열 라인 */
+}
+
+.nav-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     max-width: 1200px;
     margin: 0 auto;
+    height: 50px;
+    font-size: 20px;
   }
-  
-  /* ✅ 메뉴 아이템 스타일 */
+
   .nav-item {
     margin: 0 20px;
     text-decoration: none;
@@ -24,10 +45,10 @@
   }
   
   .nav-item:hover {
-    color: #007bff; /* 호버 시 색상 변경 */
+    color: #007bff; 
   }
-  
-  /* ✅ 오른쪽 프로필 섹션 */
+
+
   .profile-section {
     display: flex;
     align-items: center;
@@ -46,10 +67,10 @@
   }
   
   .profile-icon:hover {
-    color: #007bff; /* 아이콘 호버 효과 */
+    color: #007bff; 
   }
   
-  /* ✅ 화면 전체를 가로지르는 라인 */
+  
   .divider {
     border: none;
     height: 1px;

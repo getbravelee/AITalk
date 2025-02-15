@@ -50,11 +50,11 @@
 
     <select id="selectDailySchedules" resultMap="Schedule">
         select
-            *
+        *
         from
-            treatment
-        where
-            treatment_date = #{date}
+        treatment
+        WHERE treatment_date >= #{date}
+        AND treatment_date &lt; DATE_ADD(#{date}, INTERVAL 1 DAY)
     </select>
 
     <select id="selectScheduleByScheduleId" resultMap="Schedule">
@@ -74,7 +74,7 @@
     <select id="isTimeSlotTaken" resultType="Integer">
         SELECT COUNT(*) FROM treatment
         WHERE treatment_date = #{date}
-          AND ((start_time &lt; #{endTime} AND end_time &gt; #{startTime}))
+        AND ((start_time &lt; #{endTime} AND end_time > #{startTime}))
     </select>
 
     <update id="updateSchedule" parameterType="com.ssafy.aitalk.schedule.entity.Schedule">

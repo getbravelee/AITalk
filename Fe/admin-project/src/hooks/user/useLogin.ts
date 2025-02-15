@@ -3,8 +3,6 @@ import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 interface LoginResponse {
-  // 필요한 경우, 로그인 응답 인터페이스를 업데이트하세요.
-  // 서버에서 반환되는 therapistId는 본문에 있으므로 아래와 같이 타입을 지정할 수 있습니다.
   therapistId: number;
 }
 

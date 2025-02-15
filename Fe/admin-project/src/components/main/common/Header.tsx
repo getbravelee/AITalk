@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
-import { FaUserCircle } from 'react-icons/fa'; // 아이콘 라이브러리 사용 (react-icons)
+import { FaUserCircle } from 'react-icons/fa';
+import logo from '../../../assets/User/AiTalkLogo.svg';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -12,8 +13,9 @@ const Header = () => {
   return (
     <header className="header-container">
       <nav className="nav-bar">
-        <Link to="/main/home" className="nav-item">
-          홈
+       
+        <Link to="/main/home" className="logo-container">
+          <img src={logo} alt="AiTalk 로고" className="logo" />
         </Link>
         <Link to="/main/schedule" className="nav-item">
           예약 관리
@@ -21,12 +23,15 @@ const Header = () => {
         <Link to="/main/child/list" className="nav-item">
           치료 아동 관리
         </Link>
+        
         <div className="profile-section" onClick={handleProfileClick}>
           <span>치료사님 안녕하세요!</span>
           <FaUserCircle className="profile-icon" />
         </div>
       </nav>
-      <hr className="divider" />
+
+      {/* ✅ 헤더 아래에 전체 너비를 차지하는 라인 추가 */}
+      <hr className="header-line" />
     </header>
   );
 };

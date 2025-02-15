@@ -1,18 +1,18 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';  // ✅ 추가
+import { useNavigate } from 'react-router-dom'; 
 import axiosInstance from '../../../utils/axiosInstance';
 import './ChildRegisterPage.css';
 
 export default function ChildRegisterPage() {
-  const navigate = useNavigate();  // ✅ 네비게이션 훅 사용
+  const navigate = useNavigate();  
 
   const [formData, setFormData] = useState({
     centerId: '',
     childName: '',
-    protectorNumber: '',
     profileImage: '',
     disabilityType: '',
-    age: ''
+    age: '',
+    protectorNumber: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -26,10 +26,10 @@ export default function ChildRegisterPage() {
     const requestBody = {
       centerId: Number(formData.centerId),
       childName: formData.childName,
-      protectorNumber: formData.protectorNumber,
       profileImage: formData.profileImage,
       disabilityType: formData.disabilityType,
       age: Number(formData.age),
+      protectorNumber: formData.protectorNumber,
     };
 
     try {
@@ -41,10 +41,10 @@ export default function ChildRegisterPage() {
         },
       });
 
-      if (response.status === 201) {  // ✅ 201 Created일 때만 처리
+      if (response.status === 201) {  
         console.log('아동 등록 성공:', response.data);
         alert('아동 등록이 완료되었습니다!');
-        navigate('/main/child/list');  // ✅ 등록 성공 후 ChildListPage로 이동
+        navigate('/main/child/list');  
       }
     } catch (error) {
       console.error('등록 실패:', error);
@@ -62,8 +62,6 @@ export default function ChildRegisterPage() {
         <label>센터 ID:</label>
         <input type="number" name="centerId" value={formData.centerId} onChange={handleChange} required />
 
-        <label>보호자 연락처:</label>
-        <input type="tel" name="protectorNumber" value={formData.protectorNumber} onChange={handleChange} required />
 
         <label>프로필 이미지 URL:</label>
         <input type="text" name="profileImage" value={formData.profileImage} onChange={handleChange} />
@@ -77,10 +75,10 @@ export default function ChildRegisterPage() {
           <option value="자폐 스펙트럼">자폐 스펙트럼</option>
           <option value="청각 장애">청각 장애</option>
         </select>
-
         <label>나이:</label>
         <input type="number" name="age" value={formData.age} onChange={handleChange} required />
-
+        <label>보호자 연락처:</label>
+        <input type="tel" name="protectorNumber" value={formData.protectorNumber} onChange={handleChange} required />
         <button type="submit">등록하기</button>
       </form>
     </div>
