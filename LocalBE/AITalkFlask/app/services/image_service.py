@@ -47,7 +47,7 @@ def save_image_to_db(prompt, image_path):
     conn.close()
 
 def download_image(image_url):
-    """EC2(Spring)에서 생성된 이미지를 다운로드"""
+    """EC2(Spring)에서 이미지를 다운로드"""
     response = requests.get(image_url, stream=True)
     if response.status_code == 200:
         filename = os.path.basename(image_url)
@@ -59,12 +59,10 @@ def download_image(image_url):
 
         print(f"✅ 이미지 다운로드 완료: {filepath}")
         return filepath
-    else:
-        print("❌ 이미지 다운로드 실패:", response.text)
-        return None
+    return None
 
 def request_image(prompt):
-    """이미지를 요청하고, 생성 완료 후 Jetson에 저장"""
+    """이미지를 요청하고 생성 완료될 때까지 기다렸다가 다운로드 후 표시"""
     existing_image = get_image_from_db(prompt)
     if existing_image:
         print(f"✅ 기존 이미지 발견: {existing_image}")
@@ -86,7 +84,7 @@ def request_image(prompt):
 
         if status and status.startswith("http"):
             print(f"✅ 이미지 생성 완료: {status}")
-            downloaded_image = download_image(status)
+            downloaded_image = download_image(f"http://3.38.106.51:7260/api/images/{prompt}.png")
             if downloaded_image:
                 save_image_to_db(prompt, downloaded_image)
                 Image.open(downloaded_image).show()
