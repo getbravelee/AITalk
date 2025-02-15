@@ -1,5 +1,6 @@
 package com.ssafy.aitalk.test;
 
+import java.net.MalformedURLException;
 import java.nio.file.Path;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -67,15 +68,20 @@ public class ImageController {
 
     // 🚀 추가된 부분: Jetson이 EC2에서 이미지를 다운로드할 수 있도록 설정
     @GetMapping("/images/{filename}")
-    public ResponseEntity<Resource> getImage(@PathVariable String filename) {
+    public ResponseEntity<Resource> serveImage(@PathVariable String filename) {
         try {
-            Path filePath = Paths.get(IMAGE_SAVE_PATH).resolve(filename).normalize();
-            Resource resource = new UrlResource(filePath.toUri());
-            return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_PNG)
-                    .body(resource);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
+            Path imagePath = Paths.get(IMAGE_SAVE_PATH).resolve(filename);
+            Resource resource = new UrlResource(imagePath.toUri());
+
+            if (resource.exists() && resource.isReadable()) {
+                return ResponseEntity.ok()
+                        .contentType(MediaType.IMAGE_PNG)
+                        .body(resource);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (MalformedURLException e) {
+            return ResponseEntity.badRequest().build();
         }
     }
 
