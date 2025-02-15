@@ -27,7 +27,7 @@ def generate_prompt(user_input):
 
 # 이미지 생성 함수
 def generate_image(prompt):
-    filename = f"{prompt.replace(' ', '_')}_{datetime.now().strftime('%Y%m%d%H%M%S')}.png"
+    filename = f"{prompt}.png"
     filepath = os.path.join(IMAGE_DIR, filename)
 
     try:
