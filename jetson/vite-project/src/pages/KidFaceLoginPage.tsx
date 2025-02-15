@@ -11,20 +11,13 @@ import { useSelector } from 'react-redux';
 import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
 import HomeButton from '../components/Common/HomeButton';
+import UseFaceVerification from '../hooks/UseFaceVerification';
 
 export default function KidFaceLoginPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const navigate = useNavigate();
-  const [isCameraOpen, setIsCameraOpen] = useState(false);
-
-  const handleOpenCamera = () => {
-    setIsCameraOpen(true);
-  };
-
-  const handleCloseCamera = () => {
-    setIsCameraOpen(false);
-  };
-
+  const faceIdImageSmall: string = 'src/assets/Login/FaceID_small.svg';
+  const { verifyFace } = UseFaceVerification();
   return (
     <div className="BackgroundContainer">
       <NavbarContainer>
@@ -48,13 +41,10 @@ export default function KidFaceLoginPage() {
           <Text fontSize={30}> 의 얼굴을 인식해 주세요</Text>
         </HStack>
         <VStack className="font" gap={10}>
-          <CameraDialog
-            isOpen={isCameraOpen}
-            onClose={handleCloseCamera}
-            title="아이 얼굴 인식"
-            message="카메라로 이동합니다."
-            from="kid_face"
-          />
+          {/* 페이지 첫 마운트 시 얼굴인증 요청, 이후 아래의 버튼을 눌러 얼굴인증 재요청 */}
+          <Button onClick={async () => await verifyFace('k')}>
+            <img src={faceIdImageSmall} alt="FaceID" />
+          </Button>
           <Button
             bg="blue.400"
             color="white"

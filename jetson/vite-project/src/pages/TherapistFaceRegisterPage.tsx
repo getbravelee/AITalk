@@ -14,15 +14,21 @@ import UseFaceRegistration from '../hooks/UseFaceRegistration';
 
 export default function TherapistFaceResisterPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
-  const location = useLocation();
-  console.log(location.state);
-  const cardDataFromNFC = location.state || { id: 0, name: 'Unknown' };
+  // const location = useLocation();
+  // console.log(location.state);
+  // card로 로그인 후 얼굴 등록 절차는 추후 테스트 예정
+  // const cardDataFromNFC = location.state || { id: 0, name: 'Unknown' };
+
   const faceIdImageSmall: string = 'src/assets/Login/FaceID_small.svg';
-  const { registrationComplete } = UseFaceRegistration( {
+  const { registerFace } = UseFaceRegistration({
     therapist_id: currentUser.therapist_id,
-    therapist_name:  currentUser.therapist_name,
+    therapist_name: currentUser.therapist_name,
   });
-  
+
+  const handleRegisterClick = () => {
+    registerFace(currentUser.therapist_id, currentUser.therapist_name);
+  };
+
   return (
     <div className="BackgroundContainer">
       <NavbarContainer>
@@ -44,7 +50,7 @@ export default function TherapistFaceResisterPage() {
           <Text fontSize={30}> 님의 얼굴을 등록해 주세요</Text>
         </HStack>
         <VStack>
-          <Button onClick={alert('hello')}>
+          <Button onClick={handleRegisterClick}>
             <img src={faceIdImageSmall} alt="FaceID" />
           </Button>
         </VStack>

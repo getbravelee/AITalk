@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const UseFaceVerification = () => {
   const navigate = useNavigate();
   const [isVerifying, setIsVerifying] = useState(false);
-  const verifyFace = async () => {
+  const verifyFace = async (from: string) => {
     try {
       const response = await fetch('http://localhost:5000/user/face-login', {
         method: 'POST',
@@ -15,7 +15,12 @@ const UseFaceVerification = () => {
 
       if (Number(data?.status) === 200) {
         alert(`안녕하세요 ${data.therapist_name}님!`);
-        navigate('/KidFaceLoginPage');
+        if (from === 't') {
+          navigate('/KidFaceLoginPage');
+        } else {
+          navigate('/play-select');
+        }
+        
       } else {
         console.log(data.status);
         console.error('인증 실패');
@@ -31,7 +36,7 @@ const UseFaceVerification = () => {
   useEffect(() => {
     setIsVerifying(true);
     // 첫 페이지 이동 시 곧바로 얼굴인증 요청
-    verifyFace();
+    verifyFace(''); // or any appropriate argument
   }, []);
 
   return { isVerifying, verifyFace };
