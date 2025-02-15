@@ -84,6 +84,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     public ScheduleDetailResponse getScheduleDetail(int id) {
         Schedule schedule = scheduleMapper.selectScheduleByScheduleId(id);
         String childName = scheduleMapper.findChildName(schedule.getChildId());
+        String centerName = scheduleMapper.findCenterName(schedule.getChildId());
 
         return ScheduleDetailResponse.builder()
                 .childName(childName)
@@ -93,6 +94,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .words(schedule.getWords())
                 .sentence(schedule.getSentence())
                 .conversation(schedule.getConversation())
+                .centerName(centerName)
                 .build();
     }
 

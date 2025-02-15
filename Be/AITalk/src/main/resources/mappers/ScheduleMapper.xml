@@ -39,6 +39,17 @@
             child_id = #{id}
     </select>
 
+    <select id="findCenterName" resultType="String">
+        SELECT
+            cc.center_name
+        FROM
+            care_center cc
+                JOIN
+            care_children cch ON cc.center_id = cch.center_id
+        WHERE
+            cch.child_id = #{id}
+    </select>
+
     <select id="findChildId" resultType="Integer">
         select
             child_id

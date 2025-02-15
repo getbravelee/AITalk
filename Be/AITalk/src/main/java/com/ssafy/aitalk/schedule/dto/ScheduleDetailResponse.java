@@ -21,4 +21,5 @@ public class ScheduleDetailResponse {
     private List<String> words;
     private List<String> sentence;
     private String conversation;
+    private String centerName;
 }

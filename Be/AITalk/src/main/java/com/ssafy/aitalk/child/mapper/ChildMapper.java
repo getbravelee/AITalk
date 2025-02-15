@@ -3,6 +3,7 @@ package com.ssafy.aitalk.child.mapper;
 import com.ssafy.aitalk.child.dto.ChildDetailResponse;
 import com.ssafy.aitalk.child.dto.ChildScheduleResponse;
 import com.ssafy.aitalk.child.dto.ChildrenListResponse;
+import com.ssafy.aitalk.child.entity.Center;
 import com.ssafy.aitalk.child.entity.Child;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -39,4 +40,6 @@ public interface ChildMapper {
 
     // 일지 삭제
     void deleteTreatmentsByChildId(Integer childId);
+
+    List<Center> findCenter();
 }
