@@ -28,6 +28,9 @@ export const useEmailAuthConfirm = ({onSuccess, onError}: UseEmailAuthConfirmPro
     } catch (error) {
       console.error('인증 실패', error);
       onError && onError(error);
+      alert('인증 코드가 올바르지 않거나 만료되었습니다! 올바른 코드를 입력해 주세요!')
+      throw error;
+      
     }
   };
 

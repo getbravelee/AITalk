@@ -29,8 +29,8 @@ export default function AiTalkPage() {
   }, [location.state]);
 
   useEffect(() => {
-    const socket = io('http://92.168.30.189:5000');
-
+    const socket = io('http://localhost:5000'); // Flask 서버 주소
+    // ✅ "음성 인식이 시작됨" 상태 감지 (사용자가 말할 준비 상태)
     socket.on('speech_ready', () => {
       console.log('🎙 음성 인식이 시작됨! (아직 말하지 않음)');
       setSpeechStatus('🟢 지금 말할 수 있어요 !');

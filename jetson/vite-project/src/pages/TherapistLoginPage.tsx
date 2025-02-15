@@ -14,7 +14,7 @@ import BackButton from '../components/Common/BackButton';
 import '../components/Common/BackgroundContainer.css';
 import '../components/Texts/TextFontFromGoogle.css';
 import UseTherapistLogin from '../hooks/UseTherapistLogin';
-import { RootState } from '../../feature/store';
+import { RootState } from '../feature/store';
 import { useSelector } from 'react-redux';
 import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
@@ -53,7 +53,7 @@ export default function TherapistLoginPage() {
       <NavbarContainer>
         <HStack gap={370} pt={1}>
           <BackButton />
-          {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
+          {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함 */}
           {currentUser && (
             <HStack>
               <CurrentUserText />

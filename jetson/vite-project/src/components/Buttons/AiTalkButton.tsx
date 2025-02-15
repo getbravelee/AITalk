@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAudio } from '../Common/AudioContext';
 import { io } from 'socket.io-client';
 
-const socket = io('http://127.0.0.1:5000');
+const socket = io('http://localhost:5000');
 
 export default function AiTalkButton({ childId }: { childId: string }) {
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ export default function AiTalkButton({ childId }: { childId: string }) {
     setTimeout(async () => {
       console.log('📡 Sending request to AI Talk API after delay...');
       try {
-        const response = await fetch('http://127.0.0.1:5000/play/talk-start', {
+        const response = await fetch('http://1localhost:5000/play/talk-start', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ childId }),
