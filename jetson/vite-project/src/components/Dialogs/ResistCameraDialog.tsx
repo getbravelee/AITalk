@@ -47,7 +47,13 @@ export default function ResistCameraDialog({
   const [isVerifying, setIsVerifying] = useState(false);
 
   // useFaceRegistration hook을 호출하여 얼굴 인식 및 등록 로직 실행
-  UseFaceResistration(webcamRef, canvasRef, isVerifying, setIsVerifying, cardData);
+  UseFaceResistration(
+    webcamRef,
+    canvasRef,
+    isVerifying,
+    setIsVerifying,
+    cardData,
+  );
 
   return (
     <DialogRoot size={'xs'} placement="center">
@@ -67,7 +73,7 @@ export default function ResistCameraDialog({
           mirrored={true}
         />
         {/* 캔버스: 얼굴 검출 결과(박스/랜드마크) 오버레이 */}
-        <canvas 
+        <canvas
           ref={canvasRef}
           style={{
             position: 'absolute',
@@ -90,7 +96,7 @@ export default function ResistCameraDialog({
                 if (from === 'thera_face') {
                   navigate('/KidFaceLoginPage');
                 } else {
-                  alert("아이 얼굴 등록 완료");
+                  alert('아이 얼굴 등록 완료');
                   navigate('/play-select');
                 }
               }}
