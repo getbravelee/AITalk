@@ -59,7 +59,7 @@ function UseTherapistLogin() {
     const payload = { id, password };
 
     try {
-      const response = await fetch('http://192.168.30.146:5000/user/login', {
+      const response = await fetch('http://localhost:5000/user/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

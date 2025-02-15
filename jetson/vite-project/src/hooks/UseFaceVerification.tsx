@@ -6,11 +6,13 @@ const UseFaceVerification = () => {
   const [isVerifying, setIsVerifying] = useState(false);
   const verifyFace = async (from: string) => {
     try {
-      const response = await fetch('http://localhost:5000/user/face-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      });
-      // 응답값으로 {therapist_id: xx, therapist_name: xx} 라는 Json 값을 받음
+      const response = await fetch(
+        'http://1localhost:5000/user/face-login',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
       const data = await response.json();
 
       if (Number(data?.status) === 200) {

@@ -12,11 +12,14 @@ const UseFaceRegistration = (cardData: CardData) => {
 
   async function registerFace(therapist_id: number, therapist_name: string) {
     try {
-      const response = await fetch('http://localhost:5000/user/face-regist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ therapist_id, therapist_name }),
-      });
+      const response = await fetch(
+        'http://1localhost:5000/user/face-regist',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ therapist_id, therapist_name }),
+        },
+      );
       const data = await response.json();
 
       if (Number(data?.status) === 201) {

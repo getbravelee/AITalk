@@ -16,7 +16,8 @@ const UseCardTagForFaceResist = () => {
     navigate('/nfc-tag');
 
     try {
-      const response = await fetch('http://localhost:5000/user/card-login', {
+      // 3. POST 요청 실행: 예시 데이터(tagInfo)를 서버로 전송하여 카드 데이터를 요청합니다.
+      const response = await fetch('http://localhost:5000/user/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
       });
