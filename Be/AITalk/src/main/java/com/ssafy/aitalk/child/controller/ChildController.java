@@ -119,4 +119,10 @@ public class ChildController {
         }
     }
 
+    @GetMapping("/center-list")
+    public ResponseEntity<List<CenterListResponse>> getChildCenterList() {
+        List<CenterListResponse> list = childService.getCenterList();
+        return ResponseEntity.status(200).body(list);
+    }
+
 }

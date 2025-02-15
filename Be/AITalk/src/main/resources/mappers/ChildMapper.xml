@@ -17,6 +17,13 @@
         <result property="age" column="age"/>
     </resultMap>
 
+    <resultMap id="Center" type="com.ssafy.aitalk.child.entity.Center">
+        <id property="centerId" column="center_id"/>
+        <result property="centerName" column="center_name"/>
+        <result property="centerNumber" column="center_number"/>
+        <result property="centerAddress" column="center_address"/>
+    </resultMap>
+
     <!--아동 스케줄 데이터 매핑-->
     <resultMap id="ChildScheduleResultMap" type="com.ssafy.aitalk.child.dto.ChildScheduleResponse">
         <result property="treatmentDate" column="treatment_date"/>
@@ -138,6 +145,13 @@
     <delete id="deleteChild">
         DELETE FROM care_children WHERE child_id = #{childId}
     </delete>
+
+    <select id="findCenter" resultMap="Center">
+        select
+            *
+        from
+            care_center
+    </select>
 
 
 </mapper>

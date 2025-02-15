@@ -20,6 +20,8 @@ public interface ScheduleMapper {
 
     String findChildName(@Param("id") int id);
 
+    String findCenterName(@Param("id") int id);
+
     Integer findChildId(@Param("name") String name);
 
     Integer isTimeSlotTaken(LocalDateTime date, LocalTime startTime, LocalTime endTime);
