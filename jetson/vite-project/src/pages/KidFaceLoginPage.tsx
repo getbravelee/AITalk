@@ -1,7 +1,5 @@
 import { Text, HStack, Flex, Button, VStack } from '@chakra-ui/react';
-import { useState } from 'react';
 import NavbarContainer from '../components/Common/NavbarContainer';
-import CameraDialog from '../components/Dialogs/CameraDialog';
 import { useNavigate } from 'react-router-dom';
 import '../components/Common/BackgroundContainer.css';
 import BackButton from '../components/Common/BackButton';
@@ -42,7 +40,7 @@ export default function KidFaceLoginPage() {
         </HStack>
         <VStack className="font" gap={10}>
           {/* 페이지 첫 마운트 시 얼굴인증 요청, 이후 아래의 버튼을 눌러 얼굴인증 재요청 */}
-          <Button onClick={async () => await verifyFace('k')}>
+          <Button backgroundColor='transparent' onClick={async () => await verifyFace('k')}>
             <img src={faceIdImageSmall} alt="FaceID" />
           </Button>
           <Button

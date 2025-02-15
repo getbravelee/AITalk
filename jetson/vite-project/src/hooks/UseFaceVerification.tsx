@@ -4,22 +4,27 @@ import { useNavigate } from 'react-router-dom';
 const UseFaceVerification = () => {
   const navigate = useNavigate();
   const [isVerifying, setIsVerifying] = useState(false);
+  
   const verifyFace = async (from: string) => {
+    const who = from === 't' ? 'user/face-login' : 'child/face-choice'
     try {
       const response = await fetch(
-        'http://1localhost:5000/user/face-login',
+        `http://localhost:5000/${who}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
         }
       );
       const data = await response.json();
+      console.log(data)
 
       if (Number(data?.status) === 200) {
-        alert(`안녕하세요 ${data.therapist_name}님!`);
         if (from === 't') {
-          navigate('/KidFaceLoginPage');
-        } else {
+          alert(`안녕하세요 ${data.therapist_name}님!`);
+          navigate('/KidFaceLoginPage');  
+        }
+        else {
+          alert(`안녕! ${data.child_name}야!`);
           navigate('/play-select');
         }
         

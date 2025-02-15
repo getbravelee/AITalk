@@ -1,10 +1,17 @@
 import ChildData from '../../pages/KidSelectPage';
-import { HStack, Card, Image, Box, Badge, Text } from '@chakra-ui/react';
-import ResistCameraDialog from '../Dialogs/ResistCameraDialog';
-import { useNavigate } from 'react-router-dom';
+import {
+  HStack,
+  Card,
+  Image,
+  Box,
+  Badge,
+  Text,
+  Button,
+} from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setChildId } from '../../feature/child/childSlice';
 import { usePlayStart } from '../../hooks/UsePlayStart';
+import UseFaceRegistration from '../../hooks/UseFaceRegistration';
 import { RootState } from '../../feature/store';
 
 interface ChildCardProps {
@@ -14,8 +21,22 @@ interface ChildCardProps {
 export default function ChildCard({ data }: ChildCardProps): JSX.Element {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const playStart = usePlayStart();
+  const faceIdImageSmall: string = 'src/assets/Login/FaceID_small.svg';
   const childDefaultImage = 'src/assets/ChildDummyImage/child_default.png';
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const { registerFace } = UseFaceRegistration({
+    therapist_id: currentUser.therapist_id,
+    therapist_name: currentUser.therapist_name,
+  });
+  const handleRegisterClick = () => {
+    registerFace(
+      currentUser.therapist_id,
+      currentUser.therapist_name,
+      'k',
+      data.child_id,
+      data.child_name,
+    );
+  };
   const dispatch = useDispatch();
   return (
     <div>
@@ -61,11 +82,12 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
             </Card.Description>
             <HStack onClick={(e) => e.stopPropagation()}>
               <Badge fontSize={10}>{data.disability_type}</Badge>
-              <ResistCameraDialog
-                title="아이 얼굴 등록"
-                message="카메라를 인식합니다."
-                isSmall={true}
-              />
+              <Button
+                backgroundColor="transparent"
+                onClick={handleRegisterClick}
+              >
+                <img src={faceIdImageSmall} alt="FaceID" />
+              </Button>
             </HStack>
           </Card.Body>
         </Box>

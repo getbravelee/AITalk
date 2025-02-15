@@ -26,7 +26,13 @@ export default function TherapistFaceResisterPage() {
   });
 
   const handleRegisterClick = () => {
-    registerFace(currentUser.therapist_id, currentUser.therapist_name);
+    registerFace(
+      currentUser.therapist_id,
+      currentUser.therapist_name,
+      't',
+      0,
+      '',
+    );
   };
 
   return (
@@ -50,7 +56,7 @@ export default function TherapistFaceResisterPage() {
           <Text fontSize={30}> 님의 얼굴을 등록해 주세요</Text>
         </HStack>
         <VStack>
-          <Button onClick={handleRegisterClick}>
+          <Button backgroundColor="transparent" onClick={handleRegisterClick}>
             <img src={faceIdImageSmall} alt="FaceID" />
           </Button>
         </VStack>
