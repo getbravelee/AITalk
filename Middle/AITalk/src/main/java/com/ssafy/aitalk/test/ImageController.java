@@ -1,18 +1,17 @@
 package com.ssafy.aitalk.test;
 
-import java.net.MalformedURLException;
-import java.nio.file.Path;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +21,7 @@ public class ImageController {
 
     private static final String GPU_SERVER_URL = "http://175.209.203.185:5220/generate";
     private static final String IMAGE_SAVE_PATH = "/home/ubuntu/images/";
-    private static final String EC2_IMAGE_BASE_URL = "http://3.38.106.51:7260/images/";
+    private static final String EC2_IMAGE_BASE_URL = "http://3.38.106.51:7260/api/images/";
 
     private final Map<String, String> imageStatus = new HashMap<>();
 
@@ -33,8 +32,9 @@ public class ImageController {
             return ResponseEntity.badRequest().body(Map.of("error", "Prompt is required"));
         }
 
-        // 상태 초기화 (생성 중)
-        imageStatus.put(prompt, "pending");
+        // ✅ 상태 초기화 (생성 중)
+        imageStatus.put(prompt, "processing");
+        System.out.println("🟡 이미지 생성 요청 수신: " + prompt);
 
         // GPU 서버로 요청 보내기
         RestTemplate restTemplate = new RestTemplate();
@@ -42,17 +42,26 @@ public class ImageController {
         gpuRequest.put("prompt", prompt);
 
         new Thread(() -> {
-            ResponseEntity<Map> response = restTemplate.postForEntity(GPU_SERVER_URL, gpuRequest, Map.class);
-            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-                String imageUrl = (String) response.getBody().get("image_url");
+            try {
+                ResponseEntity<Map> response = restTemplate.postForEntity(GPU_SERVER_URL, gpuRequest, Map.class);
+                if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                    String imageUrl = (String) response.getBody().get("image_url");
+                    System.out.println("🟢 GPU 서버에서 이미지 URL 수신: " + imageUrl);
 
-                // GPU에서 전송된 이미지 다운로드 및 EC2에 저장
-                String savedFilePath = downloadImage(imageUrl, prompt);
-                if (savedFilePath != null) {
-                    String ec2ImageUrl = EC2_IMAGE_BASE_URL + new File(savedFilePath).getName();
-                    imageStatus.put(prompt, ec2ImageUrl);
+                    // ✅ GPU에서 전송된 이미지 다운로드 및 EC2에 저장
+                    String savedFilePath = downloadImage(imageUrl, prompt);
+                    if (savedFilePath != null) {
+                        String ec2ImageUrl = EC2_IMAGE_BASE_URL + prompt + ".png";
+                        imageStatus.put(prompt, ec2ImageUrl);
+                        System.out.println("✅ EC2에 저장 완료: " + savedFilePath);
+                    } else {
+                        imageStatus.put(prompt, "failed");
+                    }
+                } else {
+                    imageStatus.put(prompt, "failed");
                 }
-            } else {
+            } catch (Exception e) {
+                e.printStackTrace();
                 imageStatus.put(prompt, "failed");
             }
         }).start();
@@ -63,10 +72,11 @@ public class ImageController {
     @GetMapping("/status")
     public ResponseEntity<?> getImageStatus(@RequestParam String prompt) {
         String status = imageStatus.getOrDefault(prompt, "not_found");
+        System.out.println("🔍 상태 확인 요청: " + prompt + " -> " + status);
         return ResponseEntity.ok(Map.of("status", status));
     }
 
-    // 🚀 추가된 부분: Jetson이 EC2에서 이미지를 다운로드할 수 있도록 설정
+    // ✅ EC2에서 이미지 제공 (Jetson이 가져갈 수 있도록)
     @GetMapping("/images/{filename}")
     public ResponseEntity<Resource> serveImage(@PathVariable String filename) {
         try {
@@ -74,13 +84,17 @@ public class ImageController {
             Resource resource = new UrlResource(imagePath.toUri());
 
             if (resource.exists() && resource.isReadable()) {
+                System.out.println("📤 이미지 제공 요청: " + filename);
                 return ResponseEntity.ok()
                         .contentType(MediaType.IMAGE_PNG)
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=" + filename)
                         .body(resource);
             } else {
+                System.out.println("❌ 이미지 찾을 수 없음: " + filename);
                 return ResponseEntity.notFound().build();
             }
         } catch (MalformedURLException e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
@@ -88,11 +102,10 @@ public class ImageController {
     private String downloadImage(String imageUrl, String prompt) {
         try {
             System.out.println("🔄 GPU에서 이미지 다운로드 시도: " + imageUrl);
-
             URL url = new URL(imageUrl);
             InputStream in = url.openStream();
 
-            // 파일 저장 경로 수정: 프롬프트명으로 저장
+            // ✅ 프롬프트명으로 저장 (예: cat.png)
             String filename = IMAGE_SAVE_PATH + prompt + ".png";
             Files.copy(in, Paths.get(filename), StandardCopyOption.REPLACE_EXISTING);
 
