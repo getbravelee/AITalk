@@ -19,12 +19,15 @@ import java.util.Map;
 @RequestMapping("/api")
 public class ImageController {
 
-    private static final String GPU_SERVER_URL = "http://175.209.203.185:5220/generate";
-    private static final String IMAGE_SAVE_PATH = "/home/ubuntu/images/";
-    private static final String EC2_IMAGE_BASE_URL = "http://3.38.106.51:7260/api/images/";
+    private static final String GPU_SERVER_URL = "http://175.209.203.185:5220/generate"; // GPU 서버 API
+    private static final String IMAGE_SAVE_PATH = "/home/ubuntu/images/"; // EC2에서 저장할 이미지 경로
+    private static final String EC2_IMAGE_BASE_URL = "http://3.38.106.51:7260/api/images/"; // EC2에서 제공할 이미지 URL
 
     private final Map<String, String> imageStatus = new HashMap<>();
 
+    /**
+     * Jetson에서 이미지 생성 요청 시, GPU 서버로 요청을 전달하고 결과를 저장하는 비동기 처리
+     */
     @PostMapping("/generate")
     public ResponseEntity<?> generateImage(@RequestBody Map<String, String> request) {
         String prompt = request.get("prompt");
@@ -32,7 +35,7 @@ public class ImageController {
             return ResponseEntity.badRequest().body(Map.of("error", "Prompt is required"));
         }
 
-        // ✅ 상태 초기화 (생성 중)
+        // ✅ 상태 초기화 (처리 중)
         imageStatus.put(prompt, "processing");
         System.out.println("🟡 이미지 생성 요청 수신: " + prompt);
 
@@ -43,15 +46,18 @@ public class ImageController {
 
         new Thread(() -> {
             try {
+                // 🚀 GPU 서버로 요청 전송
                 ResponseEntity<Map> response = restTemplate.postForEntity(GPU_SERVER_URL, gpuRequest, Map.class);
                 if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-                    String imageUrl = (String) response.getBody().get("image_url");
-                    System.out.println("🟢 GPU 서버에서 이미지 URL 수신: " + imageUrl);
+                    // ✅ GPU에서 이미지 생성 후 URL을 받아옴
+                    String filename = prompt + ".png";
+                    String gpuImageUrl = "http://175.209.203.185:5220/images/" + filename;
+                    System.out.println("🟢 GPU 서버에서 이미지 URL 수신: " + gpuImageUrl);
 
-                    // ✅ GPU에서 전송된 이미지 다운로드 및 EC2에 저장
-                    String savedFilePath = downloadImage(imageUrl, prompt);
+                    // ✅ GPU에서 이미지를 다운로드하여 EC2에 저장
+                    String savedFilePath = downloadImage(gpuImageUrl, prompt);
                     if (savedFilePath != null) {
-                        String ec2ImageUrl = EC2_IMAGE_BASE_URL + prompt + ".png";
+                        String ec2ImageUrl = EC2_IMAGE_BASE_URL + filename;
                         imageStatus.put(prompt, ec2ImageUrl);
                         System.out.println("✅ EC2에 저장 완료: " + savedFilePath);
                     } else {
@@ -69,6 +75,9 @@ public class ImageController {
         return ResponseEntity.ok(Map.of("status", "processing"));
     }
 
+    /**
+     * 이미지 생성 상태를 확인하는 API
+     */
     @GetMapping("/status")
     public ResponseEntity<?> getImageStatus(@RequestParam String prompt) {
         String status = imageStatus.getOrDefault(prompt, "not_found");
@@ -76,7 +85,9 @@ public class ImageController {
         return ResponseEntity.ok(Map.of("status", status));
     }
 
-    // ✅ EC2에서 이미지 제공 (Jetson이 가져갈 수 있도록)
+    /**
+     * ✅ EC2에서 저장된 이미지를 제공 (Jetson이 가져갈 수 있도록)
+     */
     @GetMapping("/images/{filename}")
     public ResponseEntity<Resource> serveImage(@PathVariable String filename) {
         try {
@@ -99,6 +110,9 @@ public class ImageController {
         }
     }
 
+    /**
+     * ✅ GPU에서 이미지를 다운로드하여 EC2에 저장하는 메서드
+     */
     private String downloadImage(String imageUrl, String prompt) {
         try {
             System.out.println("🔄 GPU에서 이미지 다운로드 시도: " + imageUrl);
