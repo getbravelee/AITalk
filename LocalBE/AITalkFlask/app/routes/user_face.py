@@ -1,11 +1,11 @@
 from flask import Blueprint, jsonify, request
 # from app.services.user_face_recognition import register_user_face, verify_user_face
 from flask_cors import CORS  # ✅ CORS 전체 적용
-from app.services.user_face_recognition import FaceAuthSystem
-
-face_auth = FaceAuthSystem()
-res_reg = face_auth.register_user_face(1, "Dr. Kim")
-res_ver = face_auth.verify_user_face()
+# from app.services.user_face_recognition import FaceAuthSystem
+#
+# face_auth = FaceAuthSystem()
+# res_reg = face_auth.register_user_face(1, "Dr. Kim")
+# res_ver = face_auth.verify_user_face()
 
 user_face_bp = Blueprint("user_face", __name__)
 CORS(user_face_bp)  # ✅ Blueprint 전체에 CORS 적용
@@ -34,7 +34,7 @@ def user_face_regist():
 
     therapist_id = data.get("therapist_id")
     therapist_name = data.get("therapist_name")  # ✅ therapist_name으로 변경
-    
+
     # ✅ therapist_id와 therapist_name 값이 제대로 들어왔는지 확인
     if therapist_id is None or not isinstance(therapist_id, int):
         print(f"[ERROR] therapist_id가 올바르지 않음: {therapist_id}")
