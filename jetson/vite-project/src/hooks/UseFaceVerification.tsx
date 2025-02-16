@@ -42,8 +42,6 @@ const UseFaceVerification = () => {
 
   useEffect(() => {
     setIsVerifying(true);
-    // 첫 페이지 이동 시 곧바로 얼굴인증 요청
-    verifyFace(''); // or any appropriate argument
   }, []);
 
   return { isVerifying, verifyFace };
