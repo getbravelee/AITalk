@@ -8,13 +8,22 @@ interface UseEmailAuthConfirmProps {
   onError?: (error: any) => void;
 }
 
-export const useEmailAuthConfirm = ({onSuccess, onError}: UseEmailAuthConfirmProps = {}) => {
-  const confirmEmail = async (email: string, code: string) => {
+export const useEmailAuthConfirm = ({
+  onSuccess,
+  onError,
+}: UseEmailAuthConfirmProps = {}) => {
+  const confirmEmail = async (
+    from: string,
+    email: string,
+    code: string,
+    id: string,
+  ) => {
+    const url: string = from === 'signUp' ? 'verify-email' : 'verify-code';
+    const payload = from === 'signUp' ? { email, code } : { id, code };
     try {
-      console.log(email, code);
       const response = await axios.post<EmailAuthResponse>(
-        'http://3.38.106.51:7001/user/verify-email',
-        { email, code }
+        `http://3.38.106.51:7001/user/${url}`,
+        payload,
       );
 
       if (response.status === 200) {
@@ -26,9 +35,10 @@ export const useEmailAuthConfirm = ({onSuccess, onError}: UseEmailAuthConfirmPro
     } catch (error) {
       console.error('인증 실패', error);
       onError && onError(error);
-      alert('인증 코드가 올바르지 않거나 만료되었습니다! 올바른 코드를 입력해 주세요!')
+      alert(
+        '인증 코드가 올바르지 않거나 만료되었습니다! 올바른 코드를 입력해 주세요!',
+      );
       throw error;
-      
     }
   };
 

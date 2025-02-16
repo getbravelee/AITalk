@@ -63,11 +63,12 @@ const UserSignupPage: React.FC = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
         <EmailAuthComponent
+          id={id}
           email={email}
           onEmailChange={(e) => setEmail(e.target.value)}
           onVerify={handleEmailVerify}
           onConfirm={confirmEmail}
-          from='signUp'
+          from="signUp"
         />
         <InputField
           type="text"

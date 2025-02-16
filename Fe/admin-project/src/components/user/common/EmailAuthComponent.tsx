@@ -7,16 +7,18 @@ import './EmailAuthComponent.css';
 import { useNavigate } from 'react-router-dom';
 
 interface EmailAuthComponentProps {
+  id: string
   email: string;
   onEmailChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onVerify: (email: string) => void;
-  onConfirm: (email: string, code: string) => Promise<any>;
+  onVerify: (from: string, email: string, id: string) => void;
+  onConfirm: (from: string, email: string, code: string,  id: string) => Promise<any>;
   loading?: boolean;
   error?: string;
   from: string;
 }
 
 const EmailAuthComponent: React.FC<EmailAuthComponentProps> = ({
+  id,
   email,
   onEmailChange,
   onVerify,
@@ -45,16 +47,24 @@ const EmailAuthComponent: React.FC<EmailAuthComponentProps> = ({
       return;
     }
     setModalVisible(true);
-    onVerify(email);
+    if (from === 'signUp') {
+      onVerify(from, email, id);
+    }
+    else {
+      onVerify(from, email, id);
+    }
+    
   };
   // 모달 내의 버튼 클릭 시, onConfirm을 호출하고 Promise resolve 시 모달 닫기
   const handleConfirm = async () => {
     try {
-      await onConfirm(email, verifyCode);
+      
       if (from === 'signUp') {
+        await onConfirm(from, email, verifyCode, id);
         // 인증 성공 시 모달 닫기
         setModalVisible(false);
       } else {
+        await onConfirm(from, email, verifyCode, id);
         navigate('/user/find-pw-reset');
       }
     } catch (error) {

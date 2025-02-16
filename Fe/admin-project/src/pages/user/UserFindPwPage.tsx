@@ -16,9 +16,8 @@ const UserFindPwPage: React.FC = () => {
     setEmail,
     errorMessage,
   } = useFindPw();
-  const { confirmEmail } = useEmailAuthConfirm();
-
   const { handleEmailVerify } = useEmailVerify();
+  const { confirmEmail } = useEmailAuthConfirm();
 
   return (
     <div className="user-signup-container">
@@ -38,6 +37,7 @@ const UserFindPwPage: React.FC = () => {
           onChange={(e) => setId(e.target.value)}
         />
         <EmailAuthComponent
+          id={id}
           email={email}
           onEmailChange={(e) => setEmail(e.target.value)}
           onVerify={handleEmailVerify}
