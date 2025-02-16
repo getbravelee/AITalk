@@ -4,6 +4,7 @@ import Modal from '../../../components/common/Modal';
 import { useState } from 'react';
 import { InputField } from '../../../components/user/common/InputComponent';
 import './EmailAuthComponent.css';
+import { useNavigate } from 'react-router-dom';
 
 interface EmailAuthComponentProps {
   email: string;
@@ -12,6 +13,7 @@ interface EmailAuthComponentProps {
   onConfirm: (email: string, code: string) => Promise<any>;
   loading?: boolean;
   error?: string;
+  from: string;
 }
 
 const EmailAuthComponent: React.FC<EmailAuthComponentProps> = ({
@@ -21,15 +23,40 @@ const EmailAuthComponent: React.FC<EmailAuthComponentProps> = ({
   onConfirm,
   loading = false,
   error,
+  from,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [verifyCode, setverifyCode] = useState('');
+  const navigate = useNavigate();
+  // 이메일 형식 검증 함수
+  const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return emailRegex.test(email);
+  };
+
+  // 인증 버튼 클릭 시 동작하는 핸들러, 이메일 값 검증 후 동작합니다.
+  const handleVerifyClick = () => {
+    if (!email.trim()) {
+      alert('이메일을 입력해주세요.');
+      return;
+    }
+    if (!isValidEmail(email)) {
+      alert('적절한 이메일 형식을 입력해주세요.');
+      return;
+    }
+    setModalVisible(true);
+    onVerify(email);
+  };
   // 모달 내의 버튼 클릭 시, onConfirm을 호출하고 Promise resolve 시 모달 닫기
   const handleConfirm = async () => {
     try {
       await onConfirm(email, verifyCode);
-      // 인증 성공 시 모달 닫기
-      setModalVisible(false);
+      if (from === 'signUp') {
+        // 인증 성공 시 모달 닫기
+        setModalVisible(false);
+      } else {
+        navigate('/user/find-pw-reset');
+      }
     } catch (error) {
       console.error('인증 실패:', error);
     }
@@ -43,12 +70,7 @@ const EmailAuthComponent: React.FC<EmailAuthComponentProps> = ({
         onChange={onEmailChange}
       />
       <ConfirmButton
-        onClick={() => {
-          setModalVisible(true);
-          // 이 아래에 이메일 인증 코드를 전송해 달라는 api 요청 로직이 들어갑니다.
-          onVerify(email);
-          // 이후 유저는 이메일을 확인하고 인증 코드를 복사 후 아래 Modal의 Input 태그에 값을 입력합니다.
-        }}
+        onClick={handleVerifyClick}
         className="verify-button"
       >
         {loading ? '인증 중...' : '인증'}

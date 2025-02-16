@@ -28,14 +28,14 @@ const UserFindPwPage: React.FC = () => {
           onChange={(e) => setId(e.target.value)}
         />
         <InputField
-          type="text"
+          type="password"
           placeholder="새로운 비밀번호"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <div className='email-verification'>
           <InputField
-            type="text"
+            type="password"
             placeholder="새로운 비밀번호 확인"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
