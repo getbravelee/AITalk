@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
-import { useLocation } from 'react-router-dom';
 import './TalkTalkPage.css';
 
 export default function TalkTalkPage() {
-  const location = useLocation();
   const [backgroundImage, setBackgroundImage] = useState(
     '/src/assets/mascot/Smile.png',
   );
@@ -89,8 +87,6 @@ export default function TalkTalkPage() {
     <div
       className="TalkContainer"
       style={{ backgroundImage: `url(${backgroundImage})` }}
-    >
-      {/* 배경만 바뀌고 텍스트 없음 */}
-    </div>
+    />
   );
 }
