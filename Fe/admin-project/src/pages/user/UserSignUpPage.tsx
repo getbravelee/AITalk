@@ -7,7 +7,6 @@ import ConfirmButton from '../../components/user/common/ConfirmButton';
 import { useEmailVerify } from '../../hooks/user/useEmailAuth';
 import { useEmailAuthConfirm } from '../../hooks/user/usdEmailAuthConfirm';
 import useSignUp from '../../hooks/user/useSignUp';
-import { useNavigate } from 'react-router-dom';
 
 const UserSignupPage: React.FC = () => {
   const [name, setName] = useState('');
@@ -19,7 +18,6 @@ const UserSignupPage: React.FC = () => {
   const { handleEmailVerify } = useEmailVerify();
   const { confirmEmail } = useEmailAuthConfirm();
   const { signUp } = useSignUp();
-
 
   const handleSignup = async () => {
     const signupData = {
