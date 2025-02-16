@@ -23,6 +23,7 @@ export default function AiTalkButton({ childId }: { childId: string }) {
       toggleAudio();
     }
 
+    // talk-talk로 하면 캐릭터가 말하는 화면으로
     navigate('/ai-talk', {
       state: {
         aiText: '톡톡이가 너와 대화할 준비 중이야...',
@@ -80,6 +81,7 @@ export default function AiTalkButton({ childId }: { childId: string }) {
           .play()
           .catch((err) => console.error('❌ Audio playback failed:', err));
 
+        // talk-talk로 하면 캐릭터가 말하는 화면으로
         navigate('/ai-talk', {
           state: { aiText: data.message, childId: childId }, // ✅ childId 유지
           replace: true,

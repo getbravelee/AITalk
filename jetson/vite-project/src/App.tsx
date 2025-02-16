@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AudioProvider, useAudio } from './components/Common/AudioContext';
 
+import TalkTalkPage from './pages/TalkTalkPage';
+
 import HomePage from './pages/HomePage';
 import PlaySelectPage from './pages/PlaySelectPage';
 import NfcTagPage from './pages/NfcTagPage';
@@ -10,6 +12,7 @@ import CardPlaySelectWordPage from './pages/CardPlaySelectWordPage';
 import CardPlaySelectWordVerbPage from './pages/CardPlaySelectWordVerbPage';
 import CardPlaySelectWordVerbSentencePage from './pages/CardPlaySelectWordVerbSentencePage';
 import CardPlaySelectThreeSentencePage from './pages/CardPlaySelectThreeSentencePage';
+import CategoryCardPlaySelectPage from './pages/CategoryCardPlaySelectPage';
 
 import CameraPlayPage from './pages/CameraPlayPage';
 import CameraScanPage from './pages/CameraScanPage';
@@ -55,6 +58,8 @@ function MainRoutes() {
 
   return (
     <Routes>
+      <Route path="talk-talk" element={<TalkTalkPage />} />
+
       <Route path="/" element={<HomePage />} />
       <Route path="/play-select" element={<PlaySelectPage />} />
       <Route path="/nfc-tag" element={<NfcTagPage />} />
@@ -74,6 +79,10 @@ function MainRoutes() {
       <Route
         path="/card-play-select/three-sentence"
         element={<CardPlaySelectThreeSentencePage />}
+      />
+      <Route
+        path="/category-card-play-select"
+        element={<CategoryCardPlaySelectPage />}
       />
       <Route path="/camera-scan" element={<CameraScanPage />}></Route>
       <Route
