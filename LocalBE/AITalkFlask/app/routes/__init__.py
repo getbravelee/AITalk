@@ -12,6 +12,7 @@ from .user_face import user_face_bp
 from .child_face import child_face_bp
 from .play_start_route import play_start_bp
 from .image_route import image_bp
+from .camera_sentence_route import camera_sentence_bp
 
 
 # 라우트 블루프린트 연결
@@ -26,6 +27,7 @@ def register_routes(app):
     app.register_blueprint(child_face_bp)
     app.register_blueprint(user_face_bp)
     app.register_blueprint(image_bp)
+    app.register_blueprint(camera_sentence_bp)
 
     if "user_face" not in app.blueprints:
         app.register_blueprint(user_face_bp)
