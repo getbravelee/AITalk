@@ -3,7 +3,7 @@ import requests
 from utils.sqlite_handler import get_image_from_db, save_image_to_db
 
 # Jetson과 EC2 서버 정보
-JETSON_SAVE_DIR = "C:/images"
+JETSON_SAVE_DIR = "C:/images/"
 EC2_GENERATE_URL = "http://3.38.106.51:7260/api/generate"
 EC2_STATUS_URL = "http://3.38.106.51:7260/api/status"
 
@@ -24,7 +24,7 @@ def download_image(image_url, filename):
 
 def generate_image(word, word2):
     """명사와 동사를 조합하여 EC2에 이미지 생성 요청"""
-    prompt = f"{word} {word2}"  # 예: "cup break"
+    prompt = f"{word}_{word2}"  # 예: "cup break"
 
     # ✅ DB에서 기존 이미지 확인
     existing_image = get_image_from_db(prompt)

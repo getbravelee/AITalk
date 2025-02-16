@@ -5,7 +5,7 @@ from utils.sqlite_handler import get_image_from_db, save_image_to_db
 from app.models.schedule_model import db, Schedule
 from sqlalchemy.orm.attributes import flag_modified
 
-JETSON_SAVE_DIR = "C:/images"
+JETSON_SAVE_DIR = "C:/images/"
 EC2_GENERATE_URL = "http://3.38.106.51:7260/api/generate"
 EC2_STATUS_URL = "http://3.38.106.51:7260/api/status"
 
@@ -30,9 +30,6 @@ def generate_three_word_sentence(prompt, schedule_id=None):  # ✅ schedule_id �
     """3어절 문장 생성 (한국어 & 영어) + 이미지 요청 + DB 업데이트"""
     prompt_ko = f"'{prompt}'를 포함하는 정확히 3어절로 된 한국어 문장을 만들어주세요. 마침표 사용하지 마. 문장에 공백을 사용하지 말고 _ 으로 대체해서 문장 만들어줘"
 
-
-
-
     try:
         # ✅ 한국어 문장 생성
         response_ko = openai.ChatCompletion.create(
@@ -42,7 +39,7 @@ def generate_three_word_sentence(prompt, schedule_id=None):  # ✅ schedule_id �
         )
         sentence_ko = response_ko["choices"][0]["message"]["content"].strip()
 
-        prompt_en = f"Translate the following Korean sentence into a natural and meaningful English sentence: '{sentence_ko}'. Ensure the translation accurately reflects the meaning without adding extra descriptions. Do not use a period at the end. Do not include any Korean text in the response."
+        prompt_en = f"Translate the following Korean sentence into a natural and meaningful English sentence: '{sentence_ko}'. Ensure the translation accurately reflects the meaning without adding extra descriptions. Do not use a period at the end. Do not include any Korean text in the response. Replace all spaces in the translated sentence with underscores (_)."
 
 
 
@@ -56,10 +53,6 @@ def generate_three_word_sentence(prompt, schedule_id=None):  # ✅ schedule_id �
 
         print(f"✅ 생성된 문장: 한국어 - {sentence_ko} / 영어 - {sentence_en}")
 
-        # ✅ EC2에 보낼 영어 문장 확인
-        if not sentence_en or len(sentence_en.split()) < 2:
-            print("❌ 영어 문장이 생성되지 않음. 기본 프롬프트 사용")
-            sentence_en = prompt.replace("_", " ")
 
         # ✅ DB에서 기존 이미지 확인
         existing_image = get_image_from_db(sentence_en)
@@ -82,7 +75,7 @@ def generate_three_word_sentence(prompt, schedule_id=None):  # ✅ schedule_id �
             status = status_data.get("status")
 
             if status and status.startswith("http"):
-                downloaded_image = download_image(status, sentence_en)
+                downloaded_image = download_image(status, sentence_ko)
                 if downloaded_image:
                     save_image_to_db(sentence_en, downloaded_image)
                     return {"ko": sentence_ko, "en": sentence_en, "image_url": f"http://localhost:5000/images/{sentence_en}.png"}

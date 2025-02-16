@@ -1,7 +1,7 @@
 import sqlite3
 import os
 
-DB_PATH = "/home/su/image_db.sqlite"
+DB_PATH = "C:/Sqllite/image_db.sqlite"
 
 def init_db():
 # DB_PATH의 부모 디렉토리 존재 여부 확인 및 없으면 생성
