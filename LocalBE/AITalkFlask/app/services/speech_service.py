@@ -52,19 +52,10 @@ def get_child_info(child_id):
         }
     return None
 
-
-import requests
-import json
-import base64
-import logging
-
-TYPECAST_API_KEY = os.getenv("TYPECAST_API_KEY")
-TYPECAST_ACTOR_ID = os.getenv("TYPECAST_VOICE_ID")
-
-
 def text_to_speech(text):
     """
     Typecast API를 사용하여 텍스트를 음성으로 변환한 후, Base64 MP3로 변환하여 반환.
+    Polling 방식을 이용하여 음성 합성이 완료될 때까지 대기한 후, 결과를 다운로드한다.
     """
     if not TYPECAST_API_KEY or not TYPECAST_ACTOR_ID:
         logging.error("❌ Typecast API Key 또는 Actor ID가 설정되지 않았습니다.")
@@ -89,13 +80,29 @@ def text_to_speech(text):
             logging.error(f"❌ Typecast API 오류: {response.status_code} - {response.text}")
             return None
 
-        # ✅ 응답에서 오디오 다운로드 URL 추출
+        # ✅ 응답에서 Polling URL 추출
         result = response.json()
-        audio_url = result["result"]["speak_url"]
-        logging.info(f"📢 음성 파일 다운로드 중... URL: {audio_url}")
+        speak_v2_url = result["result"]["speak_v2_url"]
+        logging.info(f"📢 Polling 시작... URL: {speak_v2_url}")
+
+        # ✅ Polling (최대 60초 동안 대기)
+        for _ in range(60):
+            time.sleep(1)  # 1초 간격으로 상태 확인
+            poll_response = requests.get(speak_v2_url, headers=headers)
+            poll_result = poll_response.json()["result"]
+
+            if poll_result["status"] == "done":
+                audio_download_url = poll_result["audio_download_url"]
+                logging.info(f"🎉 음성 합성 완료! 다운로드 URL: {audio_download_url}")
+                break
+            else:
+                logging.info(f"⌛ 음성 처리 중... (현재 상태: {poll_result['status']})")
+        else:
+            logging.error("❌ 음성 합성 시간이 초과되었습니다.")
+            return None
 
         # ✅ 오디오 파일 다운로드
-        audio_response = requests.get(audio_url, headers=headers)
+        audio_response = requests.get(audio_download_url)
         if audio_response.status_code != 200:
             logging.error(f"❌ 음성 파일 다운로드 실패: {audio_response.status_code}")
             return None
@@ -110,17 +117,22 @@ def text_to_speech(text):
 
 
 
-
 def initialize_conversation(child_id):
     child_info = get_child_info(child_id)
     if not child_info:
         return
 
     initial_system_prompt = f"""
-    You are a language therapy chatbot designed for a child who is {child_info['child_age']} years old and has {child_info['disability_type']}.
-    Your goal is to encourage the child to speak more by asking **simple, closed-ended questions** (yes/no questions or offering simple choices), but do **not** instruct the child to answer only with "yes" or "no." Allow natural, flexible responses from the child.
-    Since the child may have speech difficulties and might not pronounce words clearly, try to understand the meaning based on **context** even if the words sound incorrect. Keep the questions simple and age-appropriate. Make sure to respond **in Korean**.
-    Start with the first question: "오늘 기분이 좋아요?" (Are you feeling good today?)
+    You are a language therapy chatbot designed for a child who is {child_info['child_age']} years old and has {child_info['disability_type']}.  
+    Your goal is to encourage the child to speak more by asking **simple, closed-ended questions** (yes/no questions or offering simple choices), but do **not** instruct the child to answer only with "yes" or "no." Allow natural, flexible responses from the child.  
+
+    Since the child may have speech difficulties and might not pronounce words clearly, try to understand the meaning based on **context** even if the words sound incorrect.  
+    If the child's response is similar to one of the given choices but slightly incorrect (e.g., "룸머리" instead of "블록놀이," or "그리미" instead of "그림그리기"), interpret it as the closest intended word.  
+    However, if the response is completely unrelated (e.g., "밥 먹었어요"), acknowledge the response but gently guide the child to choose between the given options.  
+
+    Keep the questions simple and age-appropriate. Make sure to respond **in Korean**.  
+    If the child successfully chooses an option, provide a follow-up question or encouragement to continue the conversation.  
+
     """
     logging.info(f"초기 프롬프트: {initial_system_prompt}")
     conversation_history.clear()
@@ -137,7 +149,7 @@ def recognize_audio(child_id):
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
     RATE = 16000
-    RECORD_SECONDS = 1.5
+    RECORD_SECONDS = 2.0  # 🔥 녹음 시간 조정
 
     p = pyaudio.PyAudio()
     stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=CHUNK)
@@ -150,19 +162,16 @@ def recognize_audio(child_id):
     stream.start_stream()
 
     audio_buffer = []
-    silence_threshold = 0.01  # RMS 민감도 조절 (필요시 조정)
-    silence_duration = 1.5  # 말 중단 감지 시간
-    last_speech_time = time.time()
+    silence_threshold = 0.0003  # 🔥 더 작은 소리도 감지 가능하도록 조정
+    silence_duration = 1.0  # 🔥 침묵 감지 시간 유지
 
-    # 버퍼가 너무 커지는 것을 방지하기 위한 최대 버퍼 길이 (초 단위)
-    max_buffer_duration = 10  # 예: 10초
-    max_buffer_count = int(max_buffer_duration / RECORD_SECONDS)
+    last_speech_time = time.time()
+    last_rms = 0
 
     logging.info("🎙 음성 인식 시작")
     socketio.emit("speech_ready")
 
     while keep_listening:
-        # TTS 재생 중이면 잔여 오디오 데이터를 초기화하고 새 데이터를 받지 않음
         if is_tts_playing:
             if audio_buffer:
                 logging.debug("TTS 재생 중: audio_buffer 초기화")
@@ -172,34 +181,31 @@ def recognize_audio(child_id):
 
         frames = [stream.read(CHUNK, exception_on_overflow=False)
                   for _ in range(0, int(RATE / CHUNK * RECORD_SECONDS))]
+
         audio_data = b''.join(frames)
         audio_np = np.frombuffer(audio_data, dtype=np.int16).astype(np.float32) / 32768.0
 
         # RMS 계산
         rms = np.sqrt(np.mean(np.square(audio_np)))
-        logging.debug(f"RMS 값: {rms:.4f}, 버퍼 길이: {len(audio_buffer)}")
+        logging.debug(f"🔊 RMS 값: {rms:.4f}, 버퍼 길이: {len(audio_buffer)}")
 
         if rms > silence_threshold:
-            logging.debug("🍗 음성 감지 중...")
+            logging.debug("🎤 음성 감지 중...")
             socketio.emit('speech_detected', {'status': 'speaking'}, namespace='/')
             audio_buffer.append(audio_data)
             last_speech_time = time.time()
-
-            # 버퍼가 너무 길어지면 강제로 처리
-            if len(audio_buffer) >= max_buffer_count:
-                logging.info("버퍼 길이가 너무 깁니다. 강제로 텍스트 변환 시도")
-                last_speech_time = time.time() - silence_duration - 1
-        elif time.time() - last_speech_time > silence_duration and audio_buffer:
-            if not gpt_processing:
-                logging.info("🔁 말 중단 감지 → 텍스트 변환 시도")
+            last_rms = rms  # 🔥 마지막 음성 RMS 값 저장
+        else:
+            # 🔥 버퍼 길이가 1 이상이면 즉시 변환
+            if len(audio_buffer) > 0 and (time.time() - last_speech_time > silence_duration):
+                logging.info("🔁 말 멈춤 감지 → 즉시 텍스트 변환 시도")
                 socketio.emit('speech_stopped', {'status': 'silent'}, namespace='/')
 
                 is_tts_playing = True
                 full_audio = b''.join(audio_buffer)
-                audio_buffer.clear()  # 버퍼 초기화
+                audio_buffer.clear()
 
                 try:
-                    # raw PCM 데이터를 WAV 파일 형식으로 변환
                     wav_io = BytesIO()
                     with wave.open(wav_io, "wb") as wf:
                         wf.setnchannels(CHANNELS)
@@ -208,11 +214,12 @@ def recognize_audio(child_id):
                         wf.writeframes(full_audio)
                     wav_io.seek(0)
 
-                    # 임시 파일 생성: API가 파일 객체의 name 속성을 참조하므로 NamedTemporaryFile 사용
                     with tempfile.NamedTemporaryFile(suffix=".wav") as tmp:
                         tmp.write(wav_io.getvalue())
                         tmp.seek(0)
-                        result = openai.Audio.transcribe("whisper-1", tmp, language="ko", temperature=0)
+                        result = openai.Audio.transcribe(
+                            "whisper-1", tmp, language="ko", temperature=0.2
+                        )
                     text = result["text"].strip()
 
                     if text:
@@ -220,13 +227,14 @@ def recognize_audio(child_id):
                         gpt_processing = True
                         Thread(target=get_gpt_response, args=(text, child_id), daemon=True).start()
                     else:
-                        logging.info("⚠️ 음성에서 텍스트를 추출하지 못했습니다. 인식을 재개합니다.")
+                        logging.warning("⚠️ 음성에서 텍스트를 추출하지 못함")
                         is_tts_playing = False
                 except Exception as e:
-                    logging.error(f"❌ 텍스트 변환 중 오류: {e}")
+                    logging.error(f"❌ 텍스트 변환 오류: {e}")
                     is_tts_playing = False
+                last_rms = 0  # 🔥 마지막 RMS 초기화
             else:
-                audio_buffer.clear()  # GPT 처리 중일 때도 버퍼 비우기
+                logging.debug("🤫 침묵 중...")
 
         time.sleep(0.01)
 
@@ -236,6 +244,9 @@ def recognize_audio(child_id):
     logging.info("🔁 음성 인식 종료")
     with recognition_lock:
         is_recognizing = False
+
+
+
 
 
 def get_gpt_response(user_input, child_id, is_summary=False):

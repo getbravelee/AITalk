@@ -1,4 +1,4 @@
-drop schema aitalk;
+-- drop schema aitalk;
 create schema aitalk;
 
 USE aitalk;
