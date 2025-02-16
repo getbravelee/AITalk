@@ -46,8 +46,8 @@ export default function CardTagButton() {
       if (cardId >= 3000 && cardId <= 3999) {
         // ✅ 3000~3999: /card-play-select 이동
         navigate('/card-play-select', { state: cardData });
-      } else if (cardId >= 4000 && cardId <= 4999) {
-        // ✅ 4000~4999: /category-card-play-select 이동
+      } else if (cardId >= 1000 && cardId <= 1999) {
+        // ✅ 1000~1999: /category-card-play-select 이동
         navigate('/category-card-play-select', { state: cardData });
       } else {
         console.log('🚫 Unsupported cardId range:', cardId);

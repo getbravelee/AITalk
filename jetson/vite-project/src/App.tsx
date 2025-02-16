@@ -10,6 +10,7 @@ import CardPlaySelectWordPage from './pages/CardPlaySelectWordPage';
 import CardPlaySelectWordVerbPage from './pages/CardPlaySelectWordVerbPage';
 import CardPlaySelectWordVerbSentencePage from './pages/CardPlaySelectWordVerbSentencePage';
 import CardPlaySelectThreeSentencePage from './pages/CardPlaySelectThreeSentencePage';
+import CategoryCardPlaySelectPage from './pages/CategoryCardPlaySelectPage';
 
 import CameraPlayPage from './pages/CameraPlayPage';
 import CameraScanPage from './pages/CameraScanPage';
@@ -74,6 +75,10 @@ function MainRoutes() {
       <Route
         path="/card-play-select/three-sentence"
         element={<CardPlaySelectThreeSentencePage />}
+      />
+      <Route
+        path="/category-card-play-select"
+        element={<CategoryCardPlaySelectPage />}
       />
       <Route path="/camera-scan" element={<CameraScanPage />}></Route>
       <Route
