@@ -50,12 +50,18 @@
     padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
+    visibility: visible !important; /* ✅ X 버튼 항상 보이도록 */
+    opacity: 1 !important; /* ✅ X 버튼 항상 보이도록 */
   }
   
   .close-button:hover {
     background: #c82333;
   }
-  
+  .always-visible {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
   .event-list {
     list-style: none;
     padding: 0;
