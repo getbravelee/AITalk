@@ -233,13 +233,3 @@ def verify_user_face():
         }
     return {"status": 401, "message": "❌ 인증 실패. 등록된 얼굴과 일치하지 않습니다."}
 
-
-# 예시 사용
-if __name__ == "__main__":
-    # 등록 테스트
-    res_reg = register_user_face(1, "Dr. Kim")
-    print("등록 결과:", res_reg)
-
-    # 인증 테스트
-    res_ver = verify_user_face()
-    print("인증 결과:", res_ver)
