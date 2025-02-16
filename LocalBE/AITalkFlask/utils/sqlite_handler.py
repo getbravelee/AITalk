@@ -1,7 +1,7 @@
 import sqlite3
 import os
 
-DB_PATH = "/home/su/image_db.sqlite"
+DB_PATH = "C:/Sqlite/image_db.sqlite"
 
 def init_db():
     """이미지 저장용 SQLite 데이터베이스 초기화"""
