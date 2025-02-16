@@ -8,28 +8,39 @@ interface FindPwResponse {
 }
 
 export const useFindPw = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [name, setName] = useState<string>('');
   const [id, setId] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleFindPw = async (): Promise<void> => {
+    // 입력값이 빈 값인 경우 에러 메시지 설정 후 API 호출 중단
+    if (!name.trim() || !id.trim() || !email.trim()) {
+      setErrorMessage('모든 필드를 입력해주세요.');
+      return;
+    }
+    // 이메일 형식 검증: 영문 대소문자, 숫자 및 일부 특수문자가 포함될 수 있는 일반적인 패턴입니다.
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    if (!emailRegex.test(email)) {
+      setErrorMessage('정상적인 이메일 형식을 입력해주세요.');
+      return;
+    }
     try {
       // API 엔드포인트에 name, id, phone을 payload로 전달합니다.
       const response = await axios.post<FindPwResponse>(
-        'http://3.38.106.51:7001/user/find-pw',
+        'http://3.38.106.51:7001/user/change-password',
         {
           name,
           id,
           email,
-        }
+        },
       );
 
       if (response.status === 200) {
         // 서버 응답 성공 시 콘솔에 메시지를 출력하고, 필요에 따라 상태값 초기화
         console.log(response.data.message);
-        navigate('/find-pw-reset')
+        navigate('/find-pw-reset');
         setErrorMessage('');
       }
     } catch (error) {

@@ -8,6 +8,7 @@ import { useEmailVerify } from '../../hooks/user/useEmailAuth';
 // import Modal from '../../components/common/Modal';
 import { useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
+import { useEmailAuthConfirm } from '../../hooks/user/useEmailAuthConfirm';
 
 const UserFindPwPage: React.FC = () => {
   const {
@@ -20,20 +21,10 @@ const UserFindPwPage: React.FC = () => {
     errorMessage,
     handleFindPw,
   } = useFindPw();
+  const { confirmEmail } = useEmailAuthConfirm();
 
-  const [modalVisible, setModalVisible] = useState(false);
+  const { handleEmailVerify } = useEmailVerify();
 
-  const handleButtonClick = async () => {
-    setModalVisible(true); // 모달 열기
-    await handleFindId(); // ID 찾기 작업이 완료될 때까지 대기
-  };
-
-  const handleModalClose = () => {
-    setModalVisible(false); // 모달 닫기
-    navigate('/user/login'); // 모달이 닫히자마자 즉시 로그인 페이지로 이동
-  };
-  const { handleEmailVerify, loading, error } = useEmailVerify();
-  
   return (
     <div className="user-signup-container">
       <div className="signup-box">
@@ -55,10 +46,9 @@ const UserFindPwPage: React.FC = () => {
           email={email}
           onEmailChange={(e) => setEmail(e.target.value)}
           onVerify={handleEmailVerify}
+          onConfirm={confirmEmail}
+          from='findPw'
         />
-        <ConfirmButton onClick={handleFindPw} className="signup-button">
-          비밀번호 찾기
-        </ConfirmButton>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
       </div>
     </div>

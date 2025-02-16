@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 interface FindPwResponse {
   message: string;
@@ -11,28 +12,34 @@ export const useResetPw = () => {
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const navigate = useNavigate();
 
   const handleResetPw = async (): Promise<void> => {
+    if (!id || !password || !confirmPassword) {
+      setErrorMessage('모든 필드를 입력해주세요.');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setErrorMessage('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+      return;
+    }
+
     try {
-      // API 엔드포인트에 name, id, phone을 payload로 전달합니다.
       const response = await axios.post<FindPwResponse>(
         'http://3.38.106.51:7001/user/change-password',
-        {
-          password,
-          confirmpassword: confirmPassword,
-        },
+        { id, password, confirmPassword },
       );
 
       if (response.status === 200) {
-        // 서버 응답 성공 시 콘솔에 메시지를 출력하고, 필요에 따라 상태값 초기화
         console.log(response.data.message);
-        alert('비밀번호 재설정이 완료되었습니다.')
+        alert('비밀번호 재설정이 완료되었습니다.');
         setErrorMessage('');
+        navigate('/user/login');
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError<{ message: string }>;
-        // 404 에러를 예시로 처리 (서버에서 해당 조건에 맞춰 다른 에러코드를 반환할 경우 조건 수정)
         if (axiosError.response?.status === 404) {
           setErrorMessage(axiosError.response.data.message);
         } else {
