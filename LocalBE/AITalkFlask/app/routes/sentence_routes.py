@@ -1,22 +1,20 @@
 from flask import Blueprint, request, jsonify
 from app.services.sentence_service import generate_three_word_sentence
 
-# Blueprint 생성
 sentence_bp = Blueprint('sentence_bp', __name__)
 
-# 3어절 문장 생성 API
 @sentence_bp.route('/generate-sentence', methods=['POST'])
 def generate_sentence():
     data = request.get_json()
-    word = data.get('word')
-    schedule_id = data.get('scheduleId')
+    prompt = data.get('word')
+    schedule_id = data.get('scheduleId')  # 스케줄 ID 추가
 
-    if not word:
+    if not prompt:
         return jsonify({"error": "word is required"}), 400
 
-    sentence = generate_three_word_sentence(schedule_id, word)
+    sentence_data = generate_three_word_sentence(prompt, schedule_id)
 
-    if sentence:
-        return jsonify({"sentence": sentence}), 200
+    if sentence_data:
+        return jsonify(sentence_data), 200
     else:
         return jsonify({"error": "Failed to generate sentence"}), 500
