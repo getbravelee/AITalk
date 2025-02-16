@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import './DayScheduleComponent.css';
 
 interface DayScheduleProps {

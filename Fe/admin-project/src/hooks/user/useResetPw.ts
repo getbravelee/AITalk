@@ -30,7 +30,6 @@ export const useResetPw = () => {
         'http://3.38.106.51:7001/user/change-password',
         { id, password, confirmPassword },
       );
-
       if (response.status === 200) {
         console.log(response.data.message);
         alert('비밀번호 재설정이 완료되었습니다.');

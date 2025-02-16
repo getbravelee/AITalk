@@ -27,7 +27,6 @@ export const useFindPw = () => {
       return;
     }
     try {
-      // API 엔드포인트에 name, id, phone을 payload로 전달합니다.
       const response = await axios.post<FindPwResponse>(
         'http://3.38.106.51:7001/user/change-password',
         {
