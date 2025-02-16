@@ -67,11 +67,9 @@ public class ScheduleServiceImpl implements ScheduleService {
             throw new IllegalStateException("해당 시간은 이미 일정이 있습니다.");
         }
 
-        Integer childId = scheduleMapper.findChildId(request.getChildName());
-
         Schedule schedule = Schedule.builder()
                 .therapistId(therapistId)
-                .childId(childId)
+                .childId(request.getChildId())
                 .treatmentDate(treatmentDateTime)
                 .startTime(request.getStartTime())
                 .endTime(request.getEndTime())
