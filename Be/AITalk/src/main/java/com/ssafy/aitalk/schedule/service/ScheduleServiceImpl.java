@@ -63,7 +63,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     public void registerSchedule(ScheduleRegistRequest request, int therapistId) {
         LocalDateTime treatmentDateTime = request.getTreatmentDate().atStartOfDay(ZoneOffset.UTC).toLocalDateTime();
 
-        if (scheduleMapper.isTimeSlotTaken(treatmentDateTime, request.getStartTime(), request.getEndTime()) > 0) {
+        if (scheduleMapper.isTimeSlotTaken(treatmentDateTime, request.getStartTime(), request.getEndTime()) != null) {
             throw new IllegalStateException("해당 시간은 이미 일정이 있습니다.");
         }
 
@@ -100,8 +100,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     public void updateSchedule(Integer scheduleId, ScheduleUpdateRequest request) {
         LocalDateTime treatmentDateTime = request.getTreatmentDate().atStartOfDay(ZoneOffset.UTC).toLocalDateTime();
-
-        if (scheduleMapper.isTimeSlotTaken(treatmentDateTime, request.getStartTime(), request.getEndTime()) > 0) {
+        Schedule check = scheduleMapper.isTimeSlotTaken(treatmentDateTime, request.getStartTime(), request.getEndTime());
+        if (check != null && !check.getTreatmentId().equals(scheduleId)) {
             throw new IllegalStateException("해당 시간은 이미 일정이 있습니다.");
         }
 

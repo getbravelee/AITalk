@@ -82,8 +82,8 @@
         VALUES (#{therapistId}, #{childId}, #{treatmentDate}, #{startTime}, #{endTime})
     </insert>
 
-    <select id="isTimeSlotTaken" resultType="Integer">
-        SELECT COUNT(*) FROM treatment
+    <select id="isTimeSlotTaken" resultMap="Schedule">
+        SELECT * FROM treatment
         WHERE treatment_date = #{date}
         AND ((start_time &lt; #{endTime} AND end_time > #{startTime}))
     </select>

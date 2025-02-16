@@ -24,7 +24,7 @@ public interface ScheduleMapper {
 
     Integer findChildId(@Param("name") String name);
 
-    Integer isTimeSlotTaken(LocalDateTime date, LocalTime startTime, LocalTime endTime);
+    Schedule isTimeSlotTaken(LocalDateTime date, LocalTime startTime, LocalTime endTime);
 
     void updateSchedule(Schedule schedule);
 
