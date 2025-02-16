@@ -48,7 +48,7 @@ export default function PlaySelectPage() {
       <div className="PlaySelectContainer">
         <div className="PlaySelectInnerContainer">
           <CardTagButton />
-          <CameraButton />
+          <CameraButton scheduleId={treatmentId} />
           <AiTalkButton childId={childId} />
         </div>
         <PlaySelectText />

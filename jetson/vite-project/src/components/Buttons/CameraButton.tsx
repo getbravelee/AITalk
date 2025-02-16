@@ -1,10 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 
-export default function CameraButton() {
+interface CameraButtonProps {
+  scheduleId: number;
+}
+
+export default function CameraButton({ scheduleId }: CameraButtonProps) {
   const navigate = useNavigate();
 
   const handleClick = (): void => {
-    navigate('/camera-scan');
+    if (!scheduleId) {
+      console.error('❌ scheduleId가 없습니다.');
+      return;
+    }
+
+    navigate('/camera-scan', { state: { scheduleId } });
   };
 
   return (
