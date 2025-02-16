@@ -41,7 +41,6 @@ export default function TherapistFaceLoginPage() {
           <Text fontSize={30}> 님의 얼굴을 인식해 주세요</Text>
         </HStack>
         <VStack gap={10}>
-          {/* 페이지 첫 마운트 시 얼굴인증 요청, 이후 아래의 버튼을 눌러 얼굴인증 재요청 */}
           <Button backgroundColor='transparent' onClick={async () => await verifyFace('t')}>
             <img src={faceIdImageSmall} alt="FaceID" />
           </Button>

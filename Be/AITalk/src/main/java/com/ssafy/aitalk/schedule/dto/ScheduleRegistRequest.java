@@ -16,7 +16,7 @@ import java.time.LocalTime;
 @Builder
 public class ScheduleRegistRequest {
 
-    private String childName;
+    private Integer childId;
 
     private LocalDate treatmentDate;
 

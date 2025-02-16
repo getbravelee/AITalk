@@ -32,7 +32,7 @@ pipeline {
                 sh '''
                 cd Be/AITalk
                 chmod +x ./gradlew
-                ./gradlew clean build -x test
+                ./gradlew clean build -x test "-Dorg.gradle.jvmargs=-Xmx2g"
                 '''
             }
         }

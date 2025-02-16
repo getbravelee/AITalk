@@ -178,7 +178,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             // 첫 번째 오류 메시지만 반환
             String errorMessage = bindingResult.getFieldErrors().get(0).getDefaultMessage();
-            return ResponseEntity.status(400).body(new PasswordResponse("회원가입 실패 : " + errorMessage));
+            return ResponseEntity.status(400).body(new PasswordResponse("비밀번호 변경 실패 : " + errorMessage));
         }
         try{
             userService.updatePassword(request);

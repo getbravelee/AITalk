@@ -22,7 +22,6 @@ const SchedulePage = () => {
       childName: string;
     }[]
   >([]);
-
   const [events, setEvents] = useState<EventInput[]>([]);
   const [currentDate, setCurrentDate] = useState(new Date());
 
