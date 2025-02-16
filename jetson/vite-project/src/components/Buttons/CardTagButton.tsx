@@ -41,10 +41,20 @@ export default function CardTagButton() {
       const cardData = await response.json();
       console.log('✅ Server Response Data:', cardData);
 
-      // ✅ NFC 태깅이 완료되면 즉시 `card-play-select`로 이동
-      navigate('/card-play-select', { state: cardData[0] });
+      const cardId = cardData.cardId;
+
+      if (cardId >= 3000 && cardId <= 3999) {
+        // ✅ 3000~3999: /card-play-select 이동
+        navigate('/card-play-select', { state: cardData });
+      } else if (cardId >= 4000 && cardId <= 4999) {
+        // ✅ 4000~4999: /category-card-play-select 이동
+        navigate('/category-card-play-select', { state: cardData });
+      } else {
+        console.log('🚫 Unsupported cardId range:', cardId);
+      }
     } catch (error) {
       console.error('❌ Error fetching card data:', error);
+      alert('명사 카드를 태깅해주세요!');
     }
   };
 
