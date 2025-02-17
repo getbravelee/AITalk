@@ -10,14 +10,14 @@ RUN npm run build
 FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
 
-# ✅ 기본 Nginx 설정 제거
+# ✅ 기존 Nginx 기본 설정 제거
 RUN rm -rf /usr/share/nginx/html/*
 
-# ✅ 빌드된 파일만 복사
+# ✅ 빌드된 정적 파일 복사
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# ✅ Nginx 설정 복사
-COPY nginx.conf /etc/nginx/nginx.conf
+# ✅ Nginx 설정 복사 (파일이 존재하는지 확인 필요)
+COPY ./nginx.conf /etc/nginx/nginx.conf
 
 # ✅ 포트 개방
 EXPOSE 80
