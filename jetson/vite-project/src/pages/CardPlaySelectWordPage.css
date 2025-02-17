@@ -12,7 +12,7 @@
 }
 
 /* NFC 로딩 컨테이너 (우측 상단 고정) */
-.NfcLoadingWrapper {
+.NfcLoadingsWrapper {
   position: absolute;
   top: -50px;
   right: -50px;
@@ -20,15 +20,15 @@
   align-items: center;
   justify-content: center;
   transform: scale(0.3); /* 크기 축소 */
-  cursor: pointer;
 }
 
 /* NFC 이미지 조정 */
-.NfcCentered {
+.SmallNfcCentered {
   position: absolute;
   z-index: 2;
-  margin-bottom: -40px;
-  margin-right: 10px;
+  width: 60%;
+  height: auto;
+  margin-bottom: -25px;
 }
 
 /* 카드 이름 (text) 스타일 조정 */
@@ -37,7 +37,7 @@
   font-size: 3rem;
   font-weight: bold;
   text-align: center;
-  color: #333;
+  color: #5a3e2b;
 }
 
 .SmallNfcTagText p {
