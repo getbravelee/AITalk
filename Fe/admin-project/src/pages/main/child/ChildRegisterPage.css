@@ -4,7 +4,7 @@
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
   }
   
   .register-container h1 {
@@ -31,7 +31,7 @@
     font-size: 14px;
   }
   
-  .regist-button {
+  .child-register-button {
     background-color: #007bff;
     color: white;
     border: none;
