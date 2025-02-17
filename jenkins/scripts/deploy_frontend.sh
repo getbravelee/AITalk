@@ -10,6 +10,7 @@ docker rm manage-children-front || true
 
 # ✅ 새 컨테이너 실행 (Nginx 사용)
 docker run -d --name manage-children-front \
+  --network my_network \
   -p 80:80 -p 443:443 \
   -v /etc/letsencrypt:/etc/letsencrypt:ro \
   suhwany/aitalk:frontend-latest
