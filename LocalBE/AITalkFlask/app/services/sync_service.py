@@ -35,7 +35,6 @@ def sync_server_to_local():
                 child_id=child.child_id,
                 therapist_id=child.therapist_id,
                 child_name=child.child_name,
-                profile_image=child.profile_image,
                 disability_type=child.disability_type,
                 age=child.age
             )
