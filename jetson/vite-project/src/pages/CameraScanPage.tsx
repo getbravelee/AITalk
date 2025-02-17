@@ -175,7 +175,7 @@ export default function CameraScanPage() {
     console.log('📤 백엔드로 데이터 전송:', data);
 
     try {
-      const response = await fetch('/play/camera-scan', {
+      const response = await fetch('http://localhost:5000/play/camera-scan', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -207,12 +207,6 @@ export default function CameraScanPage() {
             물건을 화면의 <span className="highlight">중앙에</span> 맞춰서
             보여주세요 !
           </p>
-
-          {/* ✅ 감지 상태 표시 */}
-          {isDetecting && (
-            <p className="detection-status">🔍 객체 감지 중...</p>
-          )}
-
           {/* ✅ 웹캠 화면 출력 */}
           <video
             ref={videoRef}
