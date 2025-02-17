@@ -9,8 +9,10 @@ docker stop manage-children-front || true
 docker rm manage-children-front || true
 
 # ✅ 새 컨테이너 실행 (Nginx 사용)
-docker run -d --name manage-children-front -p 8080:80 suhwany/aitalk:frontend-latest
-
+docker run -d --name manage-children-front \
+  -p 80:80 -p 443:443 \
+  -v /etc/letsencrypt:/etc/letsencrypt:ro \
+  suhwany/aitalk:frontend-latest
 # 사용하지 않는 Docker 이미지 정리
 docker image prune -a -f
 
