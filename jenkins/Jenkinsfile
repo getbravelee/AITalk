@@ -59,7 +59,6 @@ pipeline {
                 rm -rf node_modules package-lock.json dist
                 npm install
                 chmod +x node_modules/.bin/tsc  # TypeScript 실행 권한 추가
-                chmod +x node_modules/.bin/vite  # Vite 실행 권한 추가
                 npm run build
                 '''
             }
@@ -71,8 +70,11 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'DockerId', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         sh '''
                         cd Fe/admin-project
-                        docker build --build-arg VITE_HOST=0.0.0.0 -t ${IMAGE_NAME}:${IMAGE_TAG_FRONTEND} .
 
+                        # ✅ Vite 빌드 후 dist 폴더를 Nginx 컨테이너에 포함
+                        docker build -t ${IMAGE_NAME}:${IMAGE_TAG_FRONTEND} .
+
+                        # ✅ Docker Hub 로그인 후 푸시
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                         docker push ${IMAGE_NAME}:${IMAGE_TAG_FRONTEND}
                         '''
@@ -80,6 +82,7 @@ pipeline {
                 }
             }
         }
+
 
         stage('Deploy to EC2 (Backend)') {
             steps {
