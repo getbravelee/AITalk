@@ -11,7 +11,7 @@
 }
 
 .fc-daygrid-day {
-  height: 120px !important; /* ✅ 일정 칸 높이 고정 */
+  height: 120px !important; 
   overflow: hidden;
 }
 .fc-daygrid-event {
