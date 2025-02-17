@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-# from app.services.user_face_recognition import register_user_face, verify_user_face
+from app.services.user_face_recognition import register_user_face, verify_user_face
 from flask_cors import CORS  # ✅ CORS 전체 적용
 # from app.services.user_face_recognition import FaceAuthSystem
 #

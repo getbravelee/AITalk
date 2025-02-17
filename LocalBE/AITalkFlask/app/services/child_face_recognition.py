@@ -140,7 +140,7 @@ def register_child_face(child_id: int, child_name: str):
         new_data = pd.DataFrame(samples, columns=df.columns)
         df = pd.concat([df, new_data], ignore_index=True)
         df.to_csv(DB_PATH, index=False, float_format='%.6f')
-        return {"status": 201, "message": f"✅ 얼굴 등록 완료! child_id: {child_id}, 이름: {child_name}"}
+        return {"status": 201, "message": f"✅ 얼굴 등록 완료!", "data": {"child_id": child_id, "child_name": child_name}}
     return {"status": 400, "message": "❌ 얼굴 등록 실패. 다시 시도해주세요."}
 
 

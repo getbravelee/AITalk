@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { Flex, HStack, Text, VStack, Button } from '@chakra-ui/react';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import '../components/Common/BackgroundContainer.css';
@@ -11,24 +9,20 @@ import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
 import HomeButton from '../components/Common/HomeButton';
 import UseFaceRegistration from '../hooks/UseFaceRegistration';
+import {
+  FaceIdAnimationLoading,
+  FaceIdAnimationCheck,
+} from '../components/FaceID/FaceIdAnimationLoading';
 
 export default function TherapistFaceResisterPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
-  // const location = useLocation();
-  // console.log(location.state);
-  // card로 로그인 후 얼굴 등록 절차는 추후 테스트 예정
-  // const cardDataFromNFC = location.state || { id: 0, name: 'Unknown' };
-
   const faceIdImageSmall: string = 'src/assets/Login/FaceID_small.svg';
-  const { registerFace } = UseFaceRegistration({
-    therapist_id: currentUser.therapist_id,
-    therapist_name: currentUser.therapist_name,
-  });
+  const { isRegisting, isCompleted, registerFace } = UseFaceRegistration();
 
   const handleRegisterClick = () => {
     registerFace(
-      currentUser.therapist_id,
-      currentUser.therapist_name,
+      currentUser?.therapist_id,
+      currentUser?.therapist_name,
       't',
       0,
       '',
@@ -56,9 +50,22 @@ export default function TherapistFaceResisterPage() {
           <Text fontSize={30}> 님의 얼굴을 등록해 주세요</Text>
         </HStack>
         <VStack>
-          <Button backgroundColor="transparent" onClick={handleRegisterClick}>
-            <img src={faceIdImageSmall} alt="FaceID" />
-          </Button>
+          {isRegisting ? (
+            // 인증 진행 중에는 로딩 애니메이션(faceid_animation_1)을 보여줌
+            <Flex direction="column" align="center">
+              <FaceIdAnimationLoading />
+            </Flex>
+          ) : isCompleted ? (
+            // 인증 완료 후에는 체크 애니메이션(faceid_animation_2)을 보여줌
+            <Flex direction="column" align="center">
+              <FaceIdAnimationCheck />
+            </Flex>
+          ) : (
+            // 초기 상태 - 인증 시작 전 UI
+            <Button backgroundColor="transparent" onClick={handleRegisterClick}>
+              <img src={faceIdImageSmall} alt="FaceID" />
+            </Button>
+          )}
         </VStack>
       </Flex>
     </div>

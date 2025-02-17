@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { setUser } from '../feature/user/userSlice';
 const UseTherapistLogin = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const [isVerifying, setIsVerifying] = useState(false);
 
@@ -19,9 +21,9 @@ const UseTherapistLogin = () => {
 
       if (Number(data?.status) === 200) {
         alert(`안녕하세요 ${data.therapist_name}님!`);
+        dispatch(setUser(data));
         navigate('/KidFaceLoginPage');
       } else {
-        console.log(data.status);
         console.error('인증 실패');
         alert('인증이 실패했습니다! 다시 시도해주세요!');
       }

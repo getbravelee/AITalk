@@ -9,14 +9,18 @@ import { useSelector } from 'react-redux';
 import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
 import HomeButton from '../components/Common/HomeButton';
-
 import UseFaceVerification from '../hooks/UseFaceVerification';
+import {
+  FaceIdAnimationLoading,
+  FaceIdAnimationCheck,
+} from '../components/FaceID/FaceIdAnimationLoading';
 
 export default function TherapistFaceLoginPage() {
+  const { isVerifying, isVerified, verifyFace } = UseFaceVerification();
+
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const faceIdImageSmall: string = 'src/assets/Login/FaceID_small.svg';
   const navigate = useNavigate();
-  const { verifyFace } = UseFaceVerification();
 
   return (
     <div className="BackgroundContainer">
@@ -41,23 +45,39 @@ export default function TherapistFaceLoginPage() {
           <Text fontSize={30}> 님의 얼굴을 인식해 주세요</Text>
         </HStack>
         <VStack gap={10}>
-          <Button backgroundColor='transparent' onClick={async () => await verifyFace('t')}>
-            <img src={faceIdImageSmall} alt="FaceID" />
-          </Button>
-          <Button
-            bg="blue.400"
-            color="white"
-            _hover={{ bg: 'blue.500' }}
-            _active={{ bg: 'blue.600' }}
-            fontSize={20}
-            rounded="l3"
-            onClick={() => {
-              navigate('/TherapistLoginPage');
-            }}
-            className="font"
-          >
-            ID/PW로 로그인 하기
-          </Button>
+          {isVerifying ? (
+            // 인증 진행 중에는 로딩 애니메이션(faceid_animation_1)을 보여줌
+            <Flex direction="column" align="center">
+              <FaceIdAnimationLoading />
+            </Flex>
+          ) : isVerified ? (
+            // 인증 완료 후에는 체크 애니메이션(faceid_animation_2)을 보여줌
+            <Flex direction="column" align="center">
+              <FaceIdAnimationCheck />
+            </Flex>
+          ) : (
+            // 초기 상태 - 인증 시작 전 UI
+            <>
+              <Button
+                backgroundColor="transparent"
+                onClick={async () => await verifyFace('t')}
+              >
+                <img src={faceIdImageSmall} alt="FaceID" />
+              </Button>
+              <Button
+                bg="blue.400"
+                color="white"
+                _hover={{ bg: 'blue.500' }}
+                _active={{ bg: 'blue.600' }}
+                fontSize={20}
+                rounded="l3"
+                onClick={() => navigate('/TherapistLoginPage')}
+                className="font"
+              >
+                ID/PW로 로그인 하기
+              </Button>
+            </>
+          )}
         </VStack>
       </Flex>
     </div>
