@@ -14,12 +14,10 @@ const UseTherapistLogin = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({id, password}),
       });
-      console.log(id,password)
 
       const data = await response.json();
-      console.log(data);
 
-      if (Number(data?.status) === 200) {
+      if (Number(response.status) === 200) {
         alert(`안녕하세요 ${data.therapist_name}님!`);
         dispatch(setUser(data));
         navigate('/KidFaceLoginPage');
