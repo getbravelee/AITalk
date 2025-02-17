@@ -1,51 +1,33 @@
 // src/pages/TherapistLoginPage.tsx
 import { useState } from 'react';
-import {
-  Flex,
-  HStack,
-  Text,
-  Input,
-  VStack,
-  Button,
-} from '@chakra-ui/react';
+import { Flex, HStack, Text, Input, VStack, Button } from '@chakra-ui/react';
 import NavbarContainer from '../components/Common/NavbarContainer';
-import CameraDialog from '../components/Dialogs/CameraDialog';
 import BackButton from '../components/Common/BackButton';
 import '../components/Common/BackgroundContainer.css';
 import '../components/Texts/TextFontFromGoogle.css';
-import UseTherapistLogin from '../hooks/UseTherapistLogin';
 import { RootState } from '../feature/store';
 import { useSelector } from 'react-redux';
 import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
 import HomeButton from '../components/Common/HomeButton';
+import UseFaceVerification from '../hooks/UseFaceVerification';
+import UseTherapistLogin from '../hooks/UseTherapistLogin';
 
 export default function TherapistLoginPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
+  const faceIdImageSmall: string = 'src/assets/Login/FaceID_small.svg';
+  const { verifyFace } = UseFaceVerification();
+  const { verifyLogin } = UseTherapistLogin();
+
   // 로그인 폼 관련 상태
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
 
-  // 커스텀 훅으로 로그인 API 호출 로직 분리
-  const { login, loginLoading, loginError } = UseTherapistLogin();
-
-  // 얼굴 인식 및 등록 다이얼로그 제어 상태
-  const [isFaceLoginCameraOpen, setFaceLoginCameraOpen] = useState(false);
-  const [isFaceRegisterCameraOpen, setFaceRegisterCameraOpen] = useState(false);
-
   // 로그인 폼 제출 핸들러
   const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await login(id, password);
+    await verifyLogin(id, password);
   };
-
-  // 얼굴 인식 다이얼로그 오픈/클로즈 핸들러
-  const handleOpenFaceLoginCamera = () => setFaceLoginCameraOpen(true);
-  const handleCloseFaceLoginCamera = () => setFaceLoginCameraOpen(false);
-
-  // 얼굴 등록 다이얼로그 오픈/클로즈 핸들러
-  const handleOpenFaceRegisterCamera = () => setFaceRegisterCameraOpen(true);
-  const handleCloseFaceRegisterCamera = () => setFaceRegisterCameraOpen(false);
 
   return (
     <div className="BackgroundContainer">
@@ -95,11 +77,6 @@ export default function TherapistLoginPage() {
                 required
               />
             </VStack>
-            {loginError && (
-              <Text color="red.500" fontSize={14} className="font">
-                {loginError}
-              </Text>
-            )}
             <Button
               type="submit"
               colorScheme="teal"
@@ -109,30 +86,21 @@ export default function TherapistLoginPage() {
               rounded="2xl"
               className="font"
               fontSize={30}
-              isLoading={loginLoading}
             >
               Login
             </Button>
           </VStack>
         </form>
-        {/* 얼굴 인식 및 등록 옵션 */}
         <HStack>
-          <Text
-            fontSize={20}
-            className="font"
-            onClick={handleOpenFaceLoginCamera}
-            cursor="pointer"
-          >
+          <Text fontSize={20} className="font" cursor="pointer">
             Face ID로 로그인 하기
           </Text>
-          <CameraDialog
-            isOpen={isFaceLoginCameraOpen}
-            onClose={handleCloseFaceLoginCamera}
-            title="얼굴 인식"
-            message="카메라로 이동합니다."
-            isSmall={true}
-            from="thera_face"
-          />
+          <Button
+            backgroundColor="transparent"
+            onClick={async () => await verifyFace('t')}
+          >
+            <img src={faceIdImageSmall} alt="FaceID" />
+          </Button>
         </HStack>
       </Flex>
     </div>

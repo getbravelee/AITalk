@@ -9,16 +9,23 @@ export const useEmailVerify = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const handleEmailVerify = async (email: string): Promise<void> => {
+  const handleEmailVerify = async (
+    from: string,
+    email: string,
+    id: string,
+  ): Promise<void> => {
+    const url: string =
+      from === 'signUp' ? 'send-email-verification' : 'send-verification-code';
+    const payload = from === 'signUp' ? { email } : { id };
     setLoading(true);
     setErrorMessage('');
+    console.log(payload);
 
     try {
       const response = await axios.post<EmailAuthResponse>(
-        'http://3.38.106.51:7001/user/send-email-verification',
-        { email: email }
+        `http://3.38.106.51:7001/user/${url}`,
+        payload,
       );
-
 
       if (response.status === 200) {
         console.log(response.data.message);

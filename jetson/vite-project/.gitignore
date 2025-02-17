@@ -59,4 +59,7 @@ Temporary Items
 # iCloud generated files
 *.icloud
 
+# 추가
+requirements.txt
+
 # End of https://www.toptal.com/developers/gitignore/api/macos

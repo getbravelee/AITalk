@@ -57,6 +57,7 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
           // alert 닫기 버튼을 누르면 currentUser.therapist_id 와 data.child_id를
           // /play-start 주소로 api 요청 해야함
           try {
+            // 아이의 카드를 누르면 play-select 페이지로 이동
             await playStart({
               therapistId: currentUser.therapist_id,
               childId: data.child_id,

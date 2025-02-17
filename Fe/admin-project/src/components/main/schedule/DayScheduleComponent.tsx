@@ -5,7 +5,12 @@ import ScheduleRegisterComponent from "./ScheduleRegisterComponent";
 
 interface DayScheduleProps {
   date: Date;
-  events: { id: string; startTime: string; endTime: string; childName: string }[];
+  events: {
+    id: string;
+    startTime: string;
+    endTime: string;
+    childName: string;
+  }[];
   onClose: () => void;
 }
 

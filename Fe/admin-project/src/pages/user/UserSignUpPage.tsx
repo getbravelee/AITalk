@@ -5,9 +5,8 @@ import { InputField } from '../../components/user/common/InputComponent';
 import EmailAuthComponent from '../../components/user/common/EmailAuthComponent';
 import ConfirmButton from '../../components/user/common/ConfirmButton';
 import { useEmailVerify } from '../../hooks/user/useEmailAuth';
-import { useEmailAuthConfirm } from '../../hooks/user/usdEmailAuthConfirm';
+import { useEmailAuthConfirm } from '../../hooks/user/useEmailAuthConfirm';
 import useSignUp from '../../hooks/user/useSignUp';
-import { useNavigate } from 'react-router-dom';
 
 const UserSignupPage: React.FC = () => {
   const [name, setName] = useState('');
@@ -16,10 +15,11 @@ const UserSignupPage: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [phoneNumber, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  // 인증번호 보내줘!
   const { handleEmailVerify } = useEmailVerify();
+  // 유저가 입력한 인증번호가 맞는지 확인해줘!
   const { confirmEmail } = useEmailAuthConfirm();
   const { signUp } = useSignUp();
-
 
   const handleSignup = async () => {
     const signupData = {
@@ -63,10 +63,12 @@ const UserSignupPage: React.FC = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
         <EmailAuthComponent
+          id={id}
           email={email}
           onEmailChange={(e) => setEmail(e.target.value)}
           onVerify={handleEmailVerify}
           onConfirm={confirmEmail}
+          from="signUp"
         />
         <InputField
           type="text"

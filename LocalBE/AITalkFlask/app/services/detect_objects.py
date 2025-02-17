@@ -1,124 +1,81 @@
-import cv2
-import numpy as np
-from ultralytics import YOLO
-from app.models.schedule_model import Schedule  # SQLAlchemy 모델 임포트
-from app.extensions import db    # SQLAlchemy 인스턴스 임포트
+import os
+import requests
+from utils.sqlite_handler import get_image_from_db, save_image_to_db
+from app.models.schedule_model import Schedule  # Schedule 모델 임포트
 from sqlalchemy.orm.attributes import flag_modified
+from app.extensions import db  # SQLAlchemy 인스턴스 임포트
 
-# YOLO 모델 로드 및 웹캠 초기화
-model = YOLO("yolov8n.pt")
-cap = cv2.VideoCapture(0)
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
-
-print(model.names)
+# Jetson과 EC2 서버 정보
+JETSON_SAVE_DIR = "C:/images/"
+EC2_GENERATE_URL = "http://3.38.106.51:7260/api/generate"
+EC2_STATUS_URL = "http://3.38.106.51:7260/api/status"
 
 
-# 원하지 않는 클래스가 있으면 리스트에 추가 (예: ['person', 'bottle'])
-unwanted_classes = ['person']
+def download_image(image_url, filename):
+    """EC2에서 생성된 이미지를 Jetson에 저장"""
+    response = requests.get(image_url, stream=True)
+    if response.status_code == 200:
+        filepath = os.path.join(JETSON_SAVE_DIR, filename)
+        with open(filepath, "wb") as f:
+            for chunk in response.iter_content(1024):
+                f.write(chunk)
 
-def save_detected_object(schedule_id, detected_name):
-    treatment = Schedule.query.filter_by(treatment_id=schedule_id).first()
-    if treatment:
-        existing_words = treatment.words if treatment.words else []
-        if detected_name not in existing_words:
-            existing_words.append(detected_name)
-            treatment.words = existing_words
-            flag_modified(treatment, "words")
-            db.session.commit()
-            print(f"treatment_id {schedule_id}의 words 업데이트 완료: {treatment.words}")
-    else:
-        print(f"treatment_id {schedule_id}에 해당하는 치료 정보를 찾을 수 없습니다.")
+        print(f"✅ Jetson에 이미지 저장 완료: {filepath}")
+        return filepath
+    return None
 
 
-def detect_objects(schedule_id, mode="largest"):
-    """
-    YOLO를 이용하여 객체를 감지하는 함수.
+def generate_image(word, schedule_id):
+    """명사만 사용하여 EC2에 이미지 생성 요청"""
 
-    Args:
-        mode (str): "largest" 또는 "center"
-           - "largest": 면적 기준으로 가장 큰 객체의 라벨을 선택
-           - "center": 프레임 중앙과 가장 가까운 객체의 라벨을 선택
+    # ✅ DB에서 기존 이미지 확인
+    existing_image = get_image_from_db(word)
+    if existing_image:
+        print(f"✅ DB에서 기존 이미지 발견: {existing_image}")
+        return {"image": f"http://localhost:5000/images/{word}.png"}
 
-    Returns:
-        candidate (str or None): 선택된 객체의 영어 라벨 (없으면 None)
-        frame: 미러 모드(좌우 반전)가 적용된 프레임
-    """
-    ret, frame = cap.read()
-    if not ret:
-        return None, None
+    # ✅ EC2에 이미지 생성 요청
+    print(f"🟡 EC2에 이미지 생성 요청: {word}")
+    response = requests.post(EC2_GENERATE_URL, json={"prompt": word})
 
-    # 미러 모드 적용
-    frame = cv2.flip(frame, 1)
-    height, width = frame.shape[:2]
-    frame_center_x = width / 2
-    frame_center_y = height / 2
+    if response.status_code != 200:
+        print("❌ EC2 요청 실패")
+        return {"error": "EC2 요청 실패"}
 
-    results = model.predict(source=frame, stream=True)
-    candidate = None
-
-    if mode == "largest":
-        best_area = 0
-        for result in results:
-            for box in result.boxes:
-                label = model.names[int(box.cls[0])]
-                if label in unwanted_classes:
-                    continue
-                x1, y1, x2, y2 = map(int, box.xyxy[0])
-                area = (x2 - x1) * (y2 - y1)
-                if area > best_area:
-                    best_area = area
-                    candidate = label
-
-    elif mode == "center":
-        best_distance = float('inf')
-        for result in results:
-            for box in result.boxes:
-                label = model.names[int(box.cls[0])]
-                if label in unwanted_classes:
-                    continue
-                x1, y1, x2, y2 = map(int, box.xyxy[0])
-                box_center_x = (x1 + x2) / 2
-                box_center_y = (y1 + y2) / 2
-                distance = ((box_center_x - frame_center_x) ** 2 + (box_center_y - frame_center_y) ** 2) ** 0.5
-                if distance < best_distance:
-                    best_distance = distance
-                    candidate = label
-    else:
-        candidate = None
-
-    if candidate:
-        save_detected_object(schedule_id, candidate)
-
-    return candidate, frame
-
-
-def get_detected_objects():
-    """
-    YOLO를 사용하여 감지된 객체를 리스트로 반환하는 함수.
-    (예: React에 전달할 때 사용)
-    """
-    candidate, _ = detect_objects(mode="largest")
-    return [candidate] if candidate else []
-
-
-def generate_video_frames():
-    """
-    웹캠에서 읽은 프레임을 실시간 스트리밍으로 변환하며,
-    인식된 객체의 라벨을 영상 위에 오버레이하여 반환하는 함수.
-    """
+    # ✅ 이미지 생성 대기 후 다운로드
     while True:
-        # detect_objects()를 통해 매 프레임마다 객체 인식을 수행합니다.
-        candidate, frame = detect_objects(mode="largest")
-        if frame is None:
-            break
-        if candidate:
-            # 인식된 객체 라벨을 영상 좌측 상단에 표시합니다.
-            cv2.putText(frame, candidate, (10, 30),
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-        success, buffer = cv2.imencode('.jpg', frame)
-        if not success:
-            continue
-        frame_bytes = buffer.tobytes()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
+        status_response = requests.get(EC2_STATUS_URL, params={"prompt": word})
+        status_data = status_response.json()
+        status = status_data.get("status")
+
+        if status and status.startswith("http"):
+            downloaded_image = download_image(status, f"{word}.png")
+            if downloaded_image:
+                save_image_to_db(word, downloaded_image)
+
+                # ✅ 스케줄 정보 업데이트
+                if schedule_id:
+                    treatment = Schedule.query.filter_by(treatment_id=schedule_id).first()
+                    if treatment:
+                        # 기존 words가 존재하면 리스트로 변환, 없으면 빈 리스트 초기화
+                        existing_words = treatment.words if treatment.words else []
+
+                        # 카드 name 추가 (중복 방지)
+                        if word not in existing_words:
+                            existing_words.append(word)
+                            treatment.words = existing_words
+
+                            # 변경 사항 강제 감지
+                            flag_modified(treatment, "words")
+
+                            db.session.commit()
+                            print(f"treatment_id {schedule_id}의 words 업데이트 완료: {treatment.words}")
+                    else:
+                        print(f"treatment_id {schedule_id}에 해당하는 치료 정보를 찾을 수 없습니다.")
+                        return {"error": f"treatment_id {schedule_id}에 해당하는 치료 정보를 찾을 수 없습니다."}, 404
+
+                return {"image": f"http://localhost:5000/images/{word}.png"}
+            return {"error": "이미지 다운로드 실패"}
+
+        if status == "failed":
+            return {"error": "이미지 생성 실패"}

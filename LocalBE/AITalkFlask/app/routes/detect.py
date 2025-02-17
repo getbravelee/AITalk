@@ -1,24 +1,17 @@
-from flask import Blueprint, jsonify, Response, request
-import app.services.detect_objects as detect_objects  # 감지 모듈 import
+from flask import Blueprint, request, jsonify
+from app.services.detect_objects import generate_image
 
-detect_bp = Blueprint('detect', __name__)  # Blueprint 등록
+detect_bp = Blueprint('detect', __name__)
 
-@detect_bp.route("/detect", methods=['POST'])
-def detect():
-    """ 감지된 객체 정보를 JSON으로 반환 """
+@detect_bp.route('/play/camera-scan', methods=['POST'])
+def receive_detected_object():
     data = request.get_json()
-    schedule_id = data.get('scheduleId')
-    detected_objects = detect_objects.get_detected_objects(schedule_id)
+    schedule_id = data['scheduleId']
+    word = data.get("word")  # 명사 (예: cup)
 
+    sentence_data = generate_image(word,schedule_id)
 
-
-    if not detected_objects:
-        return jsonify({"status": "no_object", "data": []}), 200 # 감지되지 않음
-
-    return jsonify({"status": "success", "data": detected_objects}), 200
-
-@detect_bp.route("/video")
-def video_feed():
-    """ 웹캠 실시간 스트리밍 """
-    return Response(detect_objects.generate_video_frames(),
-                    mimetype="multipart/x-mixed-replace; boundary=frame")
+    if sentence_data:
+        return jsonify(sentence_data), 200
+    else:
+        return jsonify({"error": "이미지 생성 실패"}), 500
