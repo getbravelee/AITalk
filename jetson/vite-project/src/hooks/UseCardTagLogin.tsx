@@ -9,24 +9,18 @@ export function UseCardTagLogin() {
   const [failedAttempts, setFailedAttempts] = useState(0);
 
   const cardLogin = useCallback(async () => {
-    console.log('📡 (임시) 카드 데이터 가져오기...');
+    console.log('📡 서버로부터 카드 데이터를 가져옵니다...');
 
     // 로그인 진행 중 임시 페이지로 이동
     navigate('/nfc-tag');
 
     try {
-      // 백엔드 연동 없이 임시 데이터 반환
-      const response = {
-        ok: true,
-        status: 200,
-        json: async () => ({
-          id: 1,
-          name: '동실이',
-          therapist_id: 1,
-          therapist_name: '동실이',
-        }),
-      };
-
+      const response = await fetch('http://localhost:5000/user/card-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       console.log(response);
 
       if (response.status === 404) {
@@ -49,9 +43,8 @@ export function UseCardTagLogin() {
       }
 
       const cardData = await response.json();
-      console.log('✅ (임시) 서버 응답 데이터:', cardData);
-
-      // 카드 정보를 redux-persist에 저장
+      console.log('✅ 서버 응답 데이터:', cardData);
+      // 카드의 정보를 redux-persist에 저장
       dispatch(setUser(cardData));
       setFailedAttempts(0);
       alert(`${cardData.therapist_name}님 안녕하세요!`);
