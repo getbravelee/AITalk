@@ -7,12 +7,17 @@ import {
   Badge,
   Text,
   Button,
+  Flex,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setChildId } from '../../feature/child/childSlice';
 import { usePlayStart } from '../../hooks/UsePlayStart';
 import UseFaceRegistration from '../../hooks/UseFaceRegistration';
 import { RootState } from '../../feature/store';
+import {
+  FaceIdAnimationLoadingForKid,
+  FaceIdAnimationCheckForKid,
+} from '../FaceID/FaceIdAnimationLoading';
 
 interface ChildCardProps {
   data: typeof ChildData;
@@ -20,18 +25,14 @@ interface ChildCardProps {
 
 export default function ChildCard({ data }: ChildCardProps): JSX.Element {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
+  const { isRegisting, isCompleted, registerFace } = UseFaceRegistration();
   const playStart = usePlayStart();
   const faceIdImageSmall: string = 'src/assets/Login/FaceID_small.svg';
   const childDefaultImage = 'src/assets/ChildDummyImage/child_default.png';
-  // const navigate = useNavigate();
-  const { registerFace } = UseFaceRegistration({
-    therapist_id: currentUser.therapist_id,
-    therapist_name: currentUser.therapist_name,
-  });
   const handleRegisterClick = () => {
     registerFace(
-      currentUser.therapist_id,
-      currentUser.therapist_name,
+      currentUser?.therapist_id,
+      currentUser?.therapist_name,
       'k',
       data.child_id,
       data.child_name,
@@ -52,14 +53,14 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
           // 이후 치료가 완료되면 해당 child의 치료 정보를 서버에 전달할 수 있도록 함.
           dispatch(setChildId(data.child_id));
           alert(
-            `${currentUser.therapist_name}님! ${data.child_name}의 치료를 시작합니다!`,
+            `${currentUser?.therapist_name}님! ${data.child_name}의 치료를 시작합니다!`,
           );
           // alert 닫기 버튼을 누르면 currentUser.therapist_id 와 data.child_id를
           // /play-start 주소로 api 요청 해야함
           try {
             // 아이의 카드를 누르면 play-select 페이지로 이동
             await playStart({
-              therapistId: currentUser.therapist_id,
+              therapistId: currentUser?.therapist_id,
               childId: data.child_id,
             });
           } catch (error) {
@@ -83,12 +84,25 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
             </Card.Description>
             <HStack onClick={(e) => e.stopPropagation()}>
               <Badge fontSize={10}>{data.disability_type}</Badge>
-              <Button
-                backgroundColor="transparent"
-                onClick={handleRegisterClick}
-              >
-                <img src={faceIdImageSmall} alt="FaceID" />
-              </Button>
+              {isRegisting ? (
+                // 인증 진행 중에는 로딩 애니메이션(faceid_animation_1)을 보여줌
+                <Flex direction="column" align="center">
+                  <FaceIdAnimationLoadingForKid />
+                </Flex>
+              ) : isCompleted ? (
+                // 인증 완료 후에는 체크 애니메이션(faceid_animation_2)을 보여줌
+                <Flex direction="column" align="center">
+                  <FaceIdAnimationCheckForKid />
+                </Flex>
+              ) : (
+                // 초기 상태 - 인증 시작 전 UI
+                <Button
+                  backgroundColor="transparent"
+                  onClick={handleRegisterClick}
+                >
+                  <img src={faceIdImageSmall} alt="FaceID" />
+                </Button>
+              )}
             </HStack>
           </Card.Body>
         </Box>

@@ -10,12 +10,16 @@ import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
 import HomeButton from '../components/Common/HomeButton';
 import UseFaceVerification from '../hooks/UseFaceVerification';
+import {
+  FaceIdAnimationLoading,
+  FaceIdAnimationCheck,
+} from '../components/FaceID/FaceIdAnimationLoading';
 
 export default function KidFaceLoginPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const navigate = useNavigate();
   const faceIdImageSmall: string = 'src/assets/Login/FaceID_small.svg';
-  const { verifyFace } = UseFaceVerification();
+  const { isVerifying, isVerified, verifyFace } = UseFaceVerification();
   return (
     <div className="BackgroundContainer">
       <NavbarContainer>
@@ -39,10 +43,25 @@ export default function KidFaceLoginPage() {
           <Text fontSize={30}> 의 얼굴을 인식해 주세요</Text>
         </HStack>
         <VStack className="font" gap={10}>
-          {/* 페이지 첫 마운트 시 얼굴인증 요청, 이후 아래의 버튼을 눌러 얼굴인증 재요청 */}
-          <Button backgroundColor='transparent' onClick={async () => await verifyFace('k')}>
-            <img src={faceIdImageSmall} alt="FaceID" />
-          </Button>
+          {isVerifying ? (
+            // 인증 진행 중에는 로딩 애니메이션(faceid_animation_1)을 보여줌
+            <Flex direction="column" align="center">
+              <FaceIdAnimationLoading />
+            </Flex>
+          ) : isVerified ? (
+            // 인증 완료 후에는 체크 애니메이션(faceid_animation_2)을 보여줌
+            <Flex direction="column" align="center">
+              <FaceIdAnimationCheck />
+            </Flex>
+          ) : (
+            // 초기 상태 - 인증 시작 전 UI
+            <Button
+              backgroundColor="transparent"
+              onClick={async () => await verifyFace('k')}
+            >
+              <img src={faceIdImageSmall} alt="FaceID" />
+            </Button>
+          )}
           <Button
             bg="blue.400"
             color="white"
