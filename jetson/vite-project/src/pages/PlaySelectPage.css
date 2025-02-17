@@ -29,6 +29,7 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  background-color: #e8c48f; /* 배경과 조화로운 색상 */
   transition:
     transform 0.2s ease-in-out,
     background-color 0.2s ease-in-out; /* 버튼 애니메이션 */
@@ -42,14 +43,13 @@
 }
 
 .PlaySelectInnerContainer button:hover {
-  transform: scale(1.1); /* 호버 시 확대 효과 */
-  background-color: #a7ecaa; /* 호버 시 배경 색 변경 */
+  background-color: #d9ab6e; /* 호버 시 살짝 어두운 색상 */
 }
 
 .PlaySelectInnerContainer button span {
   font-size: 1.6rem; /* 텍스트 크기 줄이기 */
   font-weight: bold; /* 텍스트 굵기 */
-  color: #333; /* 텍스트 색상 */
+  color: #5a3e2b; /* 텍스트 색상 */
   text-align: center; /* 텍스트 중앙 정렬 */
   word-wrap: break-word; /* 텍스트 줄바꿈 */
 }
