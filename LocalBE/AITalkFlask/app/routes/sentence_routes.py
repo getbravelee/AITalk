@@ -12,7 +12,7 @@ def generate_sentence():
     if not prompt:
         return jsonify({"error": "word is required"}), 400
 
-    sentence_data = generate_three_word_sentence(prompt, schedule_id)
+    sentence_data = generate_three_word_sentence(schedule_id, prompt)
 
     if sentence_data:
         return jsonify(sentence_data), 200

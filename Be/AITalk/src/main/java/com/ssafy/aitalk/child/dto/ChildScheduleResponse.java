@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChildScheduleResponse {
+    private int treatmentId;
     private LocalDate treatmentDate;
     private LocalTime startTime;
     private LocalTime endTime;
