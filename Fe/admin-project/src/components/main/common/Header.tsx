@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import { FaUserCircle } from 'react-icons/fa';
-import logo from '../../../assets/User/AiTalkLogo.svg';
+import logo from '../../../assets/images/main/logo.png';
 
 const Header = () => {
   const navigate = useNavigate();

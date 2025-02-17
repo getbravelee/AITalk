@@ -77,7 +77,6 @@ export default function HomePage() {
               <li key={schedule.treatmentId} className="schedule-item">
                 <span className="time">{schedule.startTime}</span> {/* ✅ startTime만 표시 */}
                 <span className="child">{schedule.childName} 치료</span>
-                <span className="center">{schedule.centerName || "센터 정보 없음"}</span>
               </li>
             ))}
           </ul>

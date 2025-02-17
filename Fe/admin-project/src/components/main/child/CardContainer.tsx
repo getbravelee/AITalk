@@ -7,7 +7,7 @@ interface CardContainerProps {
   childName: string;
   age: number;
   disabilityType: string;
-  center: number; 
+  center: string
 }
 
 export default function CardContainer({ id, childName, age, disabilityType, center }: CardContainerProps) {
