@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
-import axiosInstance from "../../../utils/axiosInstance";
-import "./DetailScheduleComponent.css";
+import { useEffect, useState } from 'react';
+import axiosInstance from '../../../utils/axiosInstance';
+import './DetailScheduleComponent.css';
 
 interface DetailScheduleProps {
   scheduleId: string;
   onClose: () => void;
 }
 
-const DetailScheduleComponent = ({ scheduleId, onClose }: DetailScheduleProps) => {
+const DetailScheduleComponent = ({
+  scheduleId,
+  onClose,
+}: DetailScheduleProps) => {
   const [scheduleDetail, setScheduleDetail] = useState<{
     childName: string;
     treatmentDate: string;
@@ -20,7 +23,7 @@ const DetailScheduleComponent = ({ scheduleId, onClose }: DetailScheduleProps) =
   } | null>(null);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [updatedConversation, setUpdatedConversation] = useState("");
+  const [updatedConversation, setUpdatedConversation] = useState('');
 
   useEffect(() => {
     fetchScheduleDetail();
@@ -28,12 +31,14 @@ const DetailScheduleComponent = ({ scheduleId, onClose }: DetailScheduleProps) =
 
   const fetchScheduleDetail = async () => {
     try {
-      const response = await axiosInstance.get(`/schedule/detail/${scheduleId}`);
-      console.log("📥 상세 일정 데이터:", response.data);
+      const response = await axiosInstance.get(
+        `/api/schedule/detail/${scheduleId}`,
+      );
+      console.log('📥 상세 일정 데이터:', response.data);
       setScheduleDetail(response.data);
       setUpdatedConversation(response.data.conversation);
     } catch (error) {
-      console.error("❌ 일정 상세 정보 불러오기 실패:", error);
+      console.error('❌ 일정 상세 정보 불러오기 실패:', error);
     }
   };
 
@@ -52,14 +57,17 @@ const DetailScheduleComponent = ({ scheduleId, onClose }: DetailScheduleProps) =
     };
 
     try {
-      const response = await axiosInstance.put(`/schedule/detail/${scheduleId}`, updatedPayload);
+      const response = await axiosInstance.put(
+        `/api/schedule/detail/${scheduleId}`,
+        updatedPayload,
+      );
       if (response.status === 200) {
-        console.log("✅ 수정 성공:", updatedPayload);
+        console.log('✅ 수정 성공:', updatedPayload);
         setIsEditing(false);
         fetchScheduleDetail();
       }
     } catch (error) {
-      console.error("❌ 수정 요청 실패:", error);
+      console.error('❌ 수정 요청 실패:', error);
     }
   };
 
@@ -80,28 +88,42 @@ const DetailScheduleComponent = ({ scheduleId, onClose }: DetailScheduleProps) =
           <h2>{scheduleDetail.childName}</h2>
           <div className="modal-buttons">
             {isEditing ? (
-              <button className="save-button" onClick={handleSaveClick}>💾 저장</button>
+              <button className="save-button" onClick={handleSaveClick}>
+                💾 저장
+              </button>
             ) : (
-              <button className="edit-button" onClick={handleEditClick}>✏️ 수정</button>
+              <button className="edit-button" onClick={handleEditClick}>
+                ✏️ 수정
+              </button>
             )}
-            <button className="close-button" onClick={onClose}>✕</button>
+            <button className="close-button" onClick={onClose}>
+              ✕
+            </button>
           </div>
         </div>
 
         <div className="schedule-info">
-          <p>📅 일시: {scheduleDetail.treatmentDate} {scheduleDetail.startTime}</p>
+          <p>
+            📅 일시: {scheduleDetail.treatmentDate} {scheduleDetail.startTime}
+          </p>
           <p>🏥 센터: {scheduleDetail.centerName}</p>
         </div>
 
         <div className="schedule-section">
           <h3>치료 내용</h3>
-          <p>🗣 <strong>단어:</strong></p>
-          <p className="readonly">{scheduleDetail.words.join(", ")}</p>
+          <p>
+            🗣 <strong>단어:</strong>
+          </p>
+          <p className="readonly">{scheduleDetail.words.join(', ')}</p>
 
-          <p>📖 <strong>문장:</strong></p>
-          <p className="readonly">{scheduleDetail.sentence.join(", ")}</p>
+          <p>
+            📖 <strong>문장:</strong>
+          </p>
+          <p className="readonly">{scheduleDetail.sentence.join(', ')}</p>
 
-          <p>💬 <strong>대화 요약:</strong></p>
+          <p>
+            💬 <strong>대화 요약:</strong>
+          </p>
           {isEditing ? (
             <textarea
               value={updatedConversation}
