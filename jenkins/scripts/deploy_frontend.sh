@@ -14,7 +14,7 @@ docker run --rm suhwany/aitalk:frontend-latest sh -c "
 "
 
 # ✅ 새 컨테이너 실행 (Vite preview 모드, --host 0.0.0.0 추가)
-docker run -d --name manage-children-front -p 4173:4173 suhwany/aitalk:frontend-latest npm run preview -- --host 0.0.0.0
+docker run -d --name manage-children-front -p 4173:4173 suhwany/aitalk:frontend-latest
 
 # 사용하지 않는 Docker 이미지 정리
 docker image prune -a -f
