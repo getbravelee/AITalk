@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, HStack } from '@chakra-ui/react';
 import CardTagButtonForFaceResist from '../components/Buttons/CardTagButtonForFaceResist';
 import CardTagButtonForLogin from '../components/Buttons/CardTagButtonForLogin';
-import HomeText from '../components/Texts/HomeText';
-import './HomePage.css';
+import HomeLogo from '../components/logo/HomeLogo';
 import './CardPlaySelectWordPage.css';
 
 export default function HomePage() {
@@ -23,7 +22,7 @@ export default function HomePage() {
         {isPlaying ? '🔇 음악 끄기' : '🔊 음악 켜기'}
       </button>
 
-      <HomeText />
+      <HomeLogo />
       <div className="ButtonsContainer">
         <HStack>
           <Button
