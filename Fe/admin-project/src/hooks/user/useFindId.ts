@@ -14,15 +14,13 @@ export const useFindId = () => {
   const handleFindId = async (): Promise<void> => {
     try {
       // API 요청 시 email만 전달
-      const response = await axios.post<FindIdResponse>(
-        'http://3.38.106.51:7001/user/find-id',
-        { email }
-      );
+      const response = await axios.post<FindIdResponse>('/api/user/find-id', {
+        email,
+      });
       if (response.status === 200) {
         // 성공 시 서버에서 userId를 email로 보내주기 때문에
         // 별도의 alert로 보여주지 않고, 필요 시 로그로 확인할 수 있음
         console.log(response.data.message);
-
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {

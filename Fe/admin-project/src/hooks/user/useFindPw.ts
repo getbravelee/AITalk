@@ -28,7 +28,7 @@ export const useFindPw = () => {
     }
     try {
       const response = await axios.post<FindPwResponse>(
-        'http://3.38.106.51:7001/user/change-password',
+        '/api/user/change-password',
         {
           name,
           id,

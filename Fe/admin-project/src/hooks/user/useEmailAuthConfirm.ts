@@ -22,7 +22,7 @@ export const useEmailAuthConfirm = ({
     const payload = from === 'signUp' ? { email, code } : { id, code };
     try {
       const response = await axios.post<EmailAuthResponse>(
-        `http://3.38.106.51:7001/user/${url}`,
+        `/api/user/${url}`,
         payload,
       );
 
