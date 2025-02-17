@@ -26,6 +26,7 @@
 
     <!--아동 스케줄 데이터 매핑-->
     <resultMap id="ChildScheduleResultMap" type="com.ssafy.aitalk.child.dto.ChildScheduleResponse">
+        <result property="treatmentId" column="treatment_id"/>
         <result property="treatmentDate" column="treatment_date"/>
         <result property="startTime" column="start_time"/>
         <result property="endTime" column="end_time"/>
@@ -112,6 +113,7 @@
     <!--해당 아동 일지 조회-->
     <select id="findChildScheduleById" resultMap="ChildScheduleResultMap">
         SELECT
+            t.treatment_id,
             t.treatment_date,
             t.start_time,
             t.end_time,
