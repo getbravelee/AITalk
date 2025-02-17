@@ -10,6 +10,6 @@ export default defineConfig({
     },
     host: true,  // 컨테이너 포트 매핑 활성화
     strictPort: true,
-    port: 5173  // 기본 포트 지정
+    port: 4173  // 기본 포트 지정
   }
 })
