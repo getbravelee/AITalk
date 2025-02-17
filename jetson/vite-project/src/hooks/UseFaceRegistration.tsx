@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setChildId } from '../feature/child/childSlice';
 import { usePlayStart } from '../hooks/UsePlayStart';
 import { RootState } from '../feature/store';
 import { useSelector } from 'react-redux';
+
 
 const UseFaceRegistration = () => {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
@@ -13,6 +14,10 @@ const UseFaceRegistration = () => {
   const dispatch = useDispatch();
   const [isRegisting, setIsRegisted] = useState(false);
   const [isCompleted, setIsComplted] = useState(false);
+  
+  // AbortController를 저장할 ref 생성
+  // 이는 유저가 뒤로가기 할 경우 요청을 중단하기 위함
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   async function registerFace(
     therapist_id: number,
@@ -30,11 +35,17 @@ const UseFaceRegistration = () => {
         : { child_id, child_name };
 
     console.log(body);
+
+    // AbortController 생성 및 signal 전달
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+    
     try {
       const response = await fetch(`http://localhost:5000/${who}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
+        signal: controller.signal, // 요청 취소를 위한 signal 추가
       });
       console.log(`✅ 요청 주소 ${who}`);
 
@@ -76,6 +87,15 @@ const UseFaceRegistration = () => {
       setIsRegisted(false);
     }
   }
+    // 컴포넌트 언마운트 시 요청 취소
+    useEffect(() => {
+      return () => {
+        if (abortControllerRef.current) {
+          abortControllerRef.current.abort(); // 요청 취소
+          abortControllerRef.current = null; // ref 초기화
+        }
+      };
+    }, []);
 
   return { isRegisting, isCompleted, registerFace }; // registerFace를 반환
 };

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePlayStart } from '../hooks/UsePlayStart';
 import { RootState } from '../feature/store';
@@ -13,16 +13,23 @@ const UseFaceVerification = () => {
   const [isVerifying, setIsVerifying] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const dispatch = useDispatch();
-
+  // AbortController를 저장할 ref 생성 (컴포넌트 언마운트 시 요청 취소를 위해)
+  const abortControllerRef = useRef<AbortController | null>(null);
   const verifyFace = async (from: string) => {
     // 1. 얼굴 인식 요청과 동시에 setIsVerifying을 true로 변경 ->  animation_1
     setIsVerifying(true);
 
     const who = from === 't' ? 'user/face-login' : 'child/face-choice';
+
+    // AbortController 생성 및 ref에 저장
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
     try {
       const response = await fetch(`http://localhost:5000/${who}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal, // 요청 취소를 위한 signal 전달
       });
       const data = await response.json();
       console.log(data);
@@ -65,7 +72,15 @@ const UseFaceVerification = () => {
       setIsVerifying(false);
     }
   };
-
+  // 컴포넌트 언마운트 시 진행 중인 요청이 있다면 abort 처리
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+        abortControllerRef.current = null;
+      }
+    };
+  }, []);
   return { isVerifying, isVerified, verifyFace };
 };
 export default UseFaceVerification;
