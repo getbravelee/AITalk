@@ -6,7 +6,7 @@ detect_bp = Blueprint('detect', __name__)
 @detect_bp.route('/play/camera-scan', methods=['POST'])
 def receive_detected_object():
     data = request.get_json()
-    schedule_id = data.get('scheduleId')
+    schedule_id = data.get('schedule_id')
     word = data.get("word")  # 명사 (예: cup)
 
     sentence_data = generate_image(word,schedule_id)

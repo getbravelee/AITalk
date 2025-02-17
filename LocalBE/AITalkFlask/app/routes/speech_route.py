@@ -99,7 +99,7 @@ def start_recognition_route():
     global conversation_started, keep_listening, is_tts_playing, current_child_id
 
     data = request.get_json()
-    child_id = data.get('childId')
+    child_id = data.get('child_id')
 
     if child_id:
         child_info = get_child_info(child_id)
@@ -140,8 +140,8 @@ def start_recognition_route():
 def stop_recognition_route():
     global conversation_started
     data = request.get_json()
-    child_id = data.get('childId')
-    schedule_id = data.get('scheduleId')
+    child_id = data.get('child_id')
+    schedule_id = data.get('schedule_id')
 
     child_info = get_child_info(child_id)
 
@@ -150,4 +150,4 @@ def stop_recognition_route():
 
     stop_recognition(child_id, schedule_id)
     conversation_started = False
-    return jsonify({"status": "recognition stopped"}), 200
+    return jsonify({"message": "대화 종료"}), 200
