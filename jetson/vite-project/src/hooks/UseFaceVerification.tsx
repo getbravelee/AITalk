@@ -32,7 +32,7 @@ const UseFaceVerification = () => {
         }
         // 아이의 얼굴 로그인인 경우
         else {
-          alert(`안녕! ${data.child_name}야!`);
+          alert(`안녕! ${data.child_name}아아!`);
           dispatch(setChildId(data))
           try {
             // 아래 함수 동작으로 play-select 페이지로 이동

@@ -8,7 +8,7 @@ export default function CurrentUserText() {
   return (
     <div>
       <Text fontSize={13} color="white" className="font">
-        안녕하세요 {currentUser.therapist_name}님!
+        안녕하세요 {currentUser?.therapist_name}님!
       </Text>
     </div>
   );

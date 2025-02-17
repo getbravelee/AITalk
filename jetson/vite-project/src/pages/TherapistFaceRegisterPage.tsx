@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import { Flex, HStack, Text, VStack, Button } from '@chakra-ui/react';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import '../components/Common/BackgroundContainer.css';
@@ -14,11 +14,6 @@ import UseFaceRegistration from '../hooks/UseFaceRegistration';
 
 export default function TherapistFaceResisterPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
-  // const location = useLocation();
-  // console.log(location.state);
-  // card로 로그인 후 얼굴 등록 절차는 추후 테스트 예정
-  // const cardDataFromNFC = location.state || { id: 0, name: 'Unknown' };
-
   const faceIdImageSmall: string = 'src/assets/Login/FaceID_small.svg';
   const { registerFace } = UseFaceRegistration({
     therapist_id: currentUser.therapist_id,
