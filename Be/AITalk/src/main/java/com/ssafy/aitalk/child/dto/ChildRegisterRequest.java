@@ -23,8 +23,6 @@ public class ChildRegisterRequest {
     @Pattern(regexp = "^010-?\\d{4}-?\\d{4}$", message = "전화번호는 010-1234-5678 형식이어야 합니다.")
     private String protectorNumber;
 
-    private String profileImage;
-
     @NotBlank(message = "장애 유형은 필수 입력값입니다.")
     private String disabilityType;
 

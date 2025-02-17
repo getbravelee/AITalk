@@ -15,7 +15,6 @@ public class Child {
     private Integer centerId;
     private String childName;
     private String protectorNumber;
-    private String profileImage;
     private String disabilityType;
     private Integer age;
 }

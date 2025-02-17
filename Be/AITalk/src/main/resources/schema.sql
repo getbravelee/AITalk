@@ -30,7 +30,6 @@ CREATE TABLE care_children (
     center_id INT UNSIGNED,
     child_name VARCHAR(20) NOT NULL,
     protector_number VARCHAR(20),
-    profile_image BLOB,
     disability_type VARCHAR(20),
     age INT,
     FOREIGN KEY (therapist_id) REFERENCES speech_therapist(therapist_id)

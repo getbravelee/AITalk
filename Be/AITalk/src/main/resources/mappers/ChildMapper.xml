@@ -12,7 +12,6 @@
         <result property="centerId" column="center_id"/>
         <result property="childName" column="child_name"/>
         <result property="protectorNumber" column="protector_number"/>
-        <result property="profileImage" column="profile_image"/>
         <result property="disabilityType" column="disability_type"/>
         <result property="age" column="age"/>
     </resultMap>
@@ -42,7 +41,6 @@
             center_id,
             child_name,
             protector_number,
-            profile_image,
             disability_type,
             age
         )
@@ -51,7 +49,6 @@
                    #{centerId},
                    #{childName},
                    #{protectorNumber},
-                   #{profileImage},
                    #{disabilityType},
                    #{age}
                )
@@ -101,7 +98,6 @@
             c.center_name AS centerName,
             cc.child_name AS childName,
             cc.protector_number AS protectorNumber,
-            cc.profile_image AS profileImage,
             cc.disability_type AS disabilityType,
             cc.age AS age
         FROM care_children cc
@@ -132,7 +128,6 @@
             center_id = #{child.centerId},
             child_name = #{child.childName},
             protector_number = #{child.protectorNumber},
-            profile_image = #{child.profileImage},
             disability_type = #{child.disabilityType},
             age = #{child.age}
         WHERE child_id = #{child.childId}

@@ -29,7 +29,6 @@ public class ChildServiceImpl implements ChildService {
                 .centerId(request.getCenterId())
                 .childName(request.getChildName())
                 .protectorNumber(request.getProtectorNumber())
-                .profileImage(request.getProfileImage())
                 .disabilityType(request.getDisabilityType())
                 .age(request.getAge())
                 .build();
@@ -82,7 +81,6 @@ public class ChildServiceImpl implements ChildService {
                 .centerId(request.getCenterId())
                 .childName(request.getChildName())
                 .protectorNumber(request.getProtectorNumber())
-                .profileImage(request.getProfileImage())
                 .disabilityType(request.getDisabilityType())
                 .age(request.getAge())
                 .build();

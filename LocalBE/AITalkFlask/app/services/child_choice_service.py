@@ -6,7 +6,6 @@ def get_all_children(therapist_id):
         {
             "child_id": child.child_id,
             "child_name": child.child_name,
-            "profile_image": child.profile_image,
             "disability_type": child.disability_type,
             "age": child.age
         }

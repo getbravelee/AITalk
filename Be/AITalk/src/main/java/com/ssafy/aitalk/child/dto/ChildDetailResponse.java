@@ -13,7 +13,6 @@ public class ChildDetailResponse {
     private String centerName;
     private String childName;
     private String protectorNumber;
-    private String profileImage;
     private String disabilityType;
     private Integer age;
 
