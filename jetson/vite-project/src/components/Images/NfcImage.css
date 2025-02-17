@@ -1,10 +1,9 @@
 .NfcImageContainer {
-    position: absolute;
-    bottom: 45%;
-  }
-  
-  .NfcImage {
-    width: 50vh;
-    height: auto;
-  }
-  
+  position: absolute;
+  bottom: 30%;
+}
+
+.NfcImage {
+  width: 50vh;
+  height: auto;
+}
