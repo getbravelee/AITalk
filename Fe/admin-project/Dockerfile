@@ -1,26 +1,15 @@
-# 1️⃣ Node.js에서 Vite 빌드
-FROM node:22 AS builder
-WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm install
-COPY . .
-RUN npm run build
-
-# 2️⃣ Nginx를 사용하여 정적 파일 제공
+# 1️⃣ Nginx 기반 이미지 사용
 FROM nginx:alpine
+
+# 2️⃣ 작업 디렉터리 설정
 WORKDIR /usr/share/nginx/html
 
-# ✅ 기존 Nginx 기본 설정 제거
+# 3️⃣ 기존 HTML 파일 제거 후 빌드된 파일 복사
 RUN rm -rf /usr/share/nginx/html/*
-
-# ✅ 빌드된 정적 파일 복사
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# ✅ Nginx 설정 복사 (파일이 존재하는지 확인 필요)
-COPY ./nginx.conf /etc/nginx/nginx.conf
+# 4️⃣ Nginx 설정 복사 (nginx.conf를 올바른 위치에 배치)
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# ✅ 포트 개방
-EXPOSE 80
-
-# ✅ Nginx 실행
+# 5️⃣ Nginx 실행
 CMD ["nginx", "-g", "daemon off;"]
