@@ -4,10 +4,10 @@
   height: auto;
   top: 45%;
   left: 50%;
-  animation: floating 2s infinite ease-in-out;
+  animation: logofloating 2s infinite ease-in-out;
 }
 
-@keyframes floating {
+@keyframes logofloating {
   0% {
     transform: translate(-50%, -50%) translateY(0) rotate(0);
   }
