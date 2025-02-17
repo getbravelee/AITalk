@@ -1,35 +1,123 @@
-.container {
-    display: flex;
-    justify-content: space-around; 
-    align-items: center; 
-    height: 100vh; 
-    background-color: #ffffff; /
-  }
-  
+/* 홈 컨테이너 */
+.home-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
 
-  .care-child, .schedule {
-    display: flex;
-    flex-direction: column; 
-    align-items: center; 
-    gap: 10px; 
-  }
-  
+/* 오늘 일정 섹션 */
+.today-schedule {
+  flex: 1;
+  max-width: 33%;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  height: 650px;
+  overflow: hidden;
+}
 
-  .care-child img, .schedule img {
-    width: 500px;  
-    height: auto;/* 클릭 가능하게 */
-    transition: transform 0.3s ease; 
-  }
+.today-schedule h2 {
+  font-size: 20px;
+  font-weight: bold;
+}
 
-  .care-child img:hover, .schedule img:hover {
-    transform: scale(1.05); 
-  }
-  
-  .care-child h1, .schedule h1 {
-    font-size: 20px;
-    color: #333;
-    text-align: center;
-    font-weight: bolder;
-    margin: 0;
-  }
-  
+.today-schedule h3 {
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.refresh-icon {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.schedule-list {
+  margin-top: 10px;
+  overflow-y: auto;
+  max-height: calc(500px);
+  padding-right: 10px;
+}
+
+.schedule-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffecb3;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.schedule-item .time {
+  color: black;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.schedule-item .child {
+  flex: 1;
+  text-align: center;
+}
+
+.schedule-item .center {
+  font-size: 14px;
+  color: gray;
+  text-align: right;
+}
+
+/* 구분선 */
+.divider {
+  width: 2px;
+  background-color: #ccc;
+  margin: 0 20px;
+}
+
+/* 오른쪽 섹션 */
+.image-section {
+  flex: 2;
+  position: relative;
+  height: 400px;
+}
+
+.image-overlay {
+  position: relative;
+}
+
+.therapist-image {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.overlay-text {
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.overlay-text h1 {
+  font-size: 28px;
+}
+
+.overlay-text h2 {
+  font-size: 36px;
+}
+
+.check-schedule-btn {
+  background-color: yellow;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
