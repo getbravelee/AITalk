@@ -71,7 +71,8 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'DockerId', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         sh '''
                         cd Fe/admin-project
-                        docker build -t ${IMAGE_NAME}:${IMAGE_TAG_FRONTEND} .
+                        docker build --build-arg VITE_HOST=0.0.0.0 -t ${IMAGE_NAME}:${IMAGE_TAG_FRONTEND} .
+
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                         docker push ${IMAGE_NAME}:${IMAGE_TAG_FRONTEND}
                         '''
