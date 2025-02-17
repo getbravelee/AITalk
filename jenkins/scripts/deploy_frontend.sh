@@ -8,10 +8,7 @@ docker pull suhwany/aitalk:frontend-latest
 docker stop manage-children-front || true
 docker rm manage-children-front || true
 
-# 사용하지 않는 Docker 네트워크 정리
-docker network prune -f
-
-# 새 컨테이너 실행 (8080 포트에서 실행)
+# ✅ 새 컨테이너 실행 (Nginx 사용)
 docker run -d --name manage-children-front -p 80:80 suhwany/aitalk:frontend-latest
 
 # 사용하지 않는 Docker 이미지 정리
