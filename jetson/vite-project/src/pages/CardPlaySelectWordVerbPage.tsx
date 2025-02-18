@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import CardInfoContainer from '../components/Common/CardInfoContainer';
+import CateCardInfoContainer from '../components/Common/CateCardInfoContainer';
 
 import './CardPlaySelectWordVerbPage.css';
 
@@ -12,16 +13,22 @@ export default function CardPlaySelectWordVerbPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const firstCard = location.state?.firstCard || {
-    name: 'Unknown',
-    image: 'default',
-  };
+  const firstCard = Array.isArray(location.state?.firstCard)
+    ? location.state?.firstCard
+    : [
+        {
+          name: 'Unknown',
+          image: 'default',
+          categories: [] as string[],
+          card_id: 0,
+        },
+      ];
   const secondCard = location.state?.secondCard || {
     name: 'Unknown',
     image: 'default',
   };
 
-  console.log('🔍 First NFC Card:', firstCard);
+  console.log('🔍 First NFC Card:', firstCard[0]);
   console.log('🔍 Second NFC Card:', secondCard);
 
   useEffect(() => {
@@ -41,19 +48,40 @@ export default function CardPlaySelectWordVerbPage() {
       </NavbarContainer>
 
       <div className="CardPlaySelectWordVerbContainer">
-        {/* 1️⃣ 1번 카드 (firstCard) */}
-        <motion.div
-          initial={{ opacity: 0, y: -100 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 2, ease: 'easeOut' }}
-        >
-          <CardInfoContainer
-            imageSrc={`/src/assets/card/${firstCard[0].image}.png`}
-            cardName={firstCard[0].name}
-          />
-        </motion.div>
+        {/* ✅ 1000~1999번 카드일 경우 여러 개의 이미지 표시 + 이름 추가 */}
+        {firstCard[0].card_id >= 1000 && firstCard[0].card_id <= 1999 ? (
+          <div className="CategoryImagesWrapper">
+            <motion.div
+              initial={{ opacity: 0, y: -100 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 2, ease: 'easeOut' }}
+              className="CategoryImagesGrids"
+            >
+              {firstCard[0].categories.map((category: string) => (
+                <CateCardInfoContainer
+                  key={category}
+                  imageSrc={`/src/assets/card/${firstCard[0].image}/${category}.png`}
+                />
+              ))}
+            </motion.div>
+            {/* ✅ 이미지 아래에 카드 이름 추가 */}
+            <p className="CategoryCardTitles">{firstCard[0].name}</p>
+          </div>
+        ) : (
+          // ✅ 기존 3000~3999번 카드 로직 유지
+          <motion.div
+            initial={{ opacity: 0, y: -100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 2, ease: 'easeOut' }}
+          >
+            <CardInfoContainer
+              imageSrc={`/src/assets/card/${firstCard[0].image}.png`}
+              cardName={firstCard[0].name}
+            />
+          </motion.div>
+        )}
 
-        {/* 2️⃣ "+" 기호, 1번 카드 등장 후 2초 뒤 나타남 */}
+        {/* "+" 기호 */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -63,7 +91,7 @@ export default function CardPlaySelectWordVerbPage() {
           <p>+</p>
         </motion.div>
 
-        {/* 3️⃣ 2번 카드 (secondCard) */}
+        {/* ✅ 2번 카드 (secondCard) */}
         <motion.div
           initial={{ opacity: 0, y: -100 }}
           animate={{ opacity: 1, y: 0 }}

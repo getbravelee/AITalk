@@ -82,6 +82,7 @@
   justify-content: center;
   text-align: center;
   margin-top: 400px; /* 🔥 기존보다 더 아래로 내림 */
+  animation: floating 2s infinite ease-in-out;
 }
 
 /* ✅ 여러 이미지를 가로 정렬 + 한 줄에 3개씩 */

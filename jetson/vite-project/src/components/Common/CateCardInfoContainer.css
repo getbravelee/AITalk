@@ -3,8 +3,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 300px; /* 🔥 이미지 크기 줄이기 */
-  height: 300px;
+  width: 270px; /* 🔥 이미지 크기 줄이기 */
+  height: 270px;
 }
 
 /* ✅ 이미지 스타일 */

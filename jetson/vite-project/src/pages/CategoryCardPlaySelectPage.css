@@ -39,3 +39,13 @@
   border-radius: 30px;
   margin-left: 15px;
 }
+
+/* ✅ 카드 이름 스타일 */
+.CategoryCardTitle {
+  position: absolute;
+  font-size: 5rem; /* 🔥 글자 크기 키우기 */
+  font-weight: bold;
+  top: 85%;
+  left: 31%;
+  animation: floating 4s infinite ease-in-out;
+}
