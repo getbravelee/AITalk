@@ -30,6 +30,8 @@ export default function CameraScanPage() {
     null,
   );
   const [isDetecting, setIsDetecting] = useState(false);
+  const isDataSentRef = useRef(false); // ✅ 중복 실행 방지용 useRef
+  const isDetectingRef = useRef(true);
 
   // ✅ 추가된 변수 (객체 인식 유지 시간 체크)
   const CONFIDENCE_THRESHOLD = 0.7; // 최소 확률 임계값
@@ -82,6 +84,7 @@ export default function CameraScanPage() {
 
     const detectObjects = async () => {
       if (!model || !videoRef.current || !canvasRef.current) return;
+      if (isDataSentRef.current || !isDetectingRef.current) return; // ✅ 데이터가 전송되었거나 객체 인식이 비활성화되면 종료
 
       const video = videoRef.current;
       if (video.readyState !== 4) {
@@ -171,12 +174,20 @@ export default function CameraScanPage() {
       return;
     }
 
+    if (isDataSentRef.current) {
+      console.log('⚠️ 이미 데이터가 전송됨. 중복 전송 방지');
+      isDetectingRef.current = false;
+      return;
+    }
+
     const data = {
       scheduleId,
       word: objectName,
     };
 
     console.log('📤 백엔드로 데이터 전송:', data);
+    isDataSentRef.current = true;
+    isDetectingRef.current = false;
 
     try {
       const response = await fetch('http://localhost:5000/play/camera-scan', {
@@ -197,6 +208,8 @@ export default function CameraScanPage() {
       navigate('/camera-img-generate');
     } catch (error) {
       console.error('❌ 데이터 전송 실패:', error);
+      isDataSentRef.current = false; // ⚠️ 에러 발생 시 다시 감지 가능하도록 초기화
+      isDetectingRef.current = true;
     }
   };
 
@@ -205,20 +218,19 @@ export default function CameraScanPage() {
       <div className="BackgroundImage"></div>
       <NavbarContainer>
         <HStack gap={1120} pt={2}>
-        <BackPlaySelectButton />
-                  {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
-                  {currentUser && (
+          <BackPlaySelectButton />
+          {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
+          {currentUser && (
             <HStack gap={10}>
               <CurrentUserText />
               <LogoutButton />
             </HStack>
           )}
         </HStack>
-        
       </NavbarContainer>
       <div className="CameraScanContainer">
         <div className="WebCamContainer">
-          <p>
+          <p className="CameraScanTextContainer">
             물건을 화면의 <span className="highlight">중앙에</span> 맞춰서
             보여주세요 !
           </p>

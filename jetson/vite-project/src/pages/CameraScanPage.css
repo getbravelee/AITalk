@@ -3,17 +3,19 @@
 .CameraScanContainer {
   background-image: url('/src/assets/background/background_3.png');
   background-size: cover;
+  width: 100%;
   height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   font-family: 'Dongle', serif;
+  font-size: 95px;
 }
 
 /* ✅ 카메라 컨테이너 */
 .WebCamContainer {
-  background-image: url('/src/assets/common/camera_background.png');
+  background-image: url('/src/assets/common/camera_background_2.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -22,10 +24,7 @@
   justify-content: center;
   flex-direction: column;
   width: 70%;
-  height: 295px;
-  border-radius: 0px;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  height: auto;
   position: relative;
 }
 
@@ -39,7 +38,7 @@
 .CameraFeed {
   width: 70%;
   border-radius: 30px;
-  margin-bottom: 15px;
+  margin-bottom: 50px;
   border: 1px solid grey;
   position: relative;
 }
@@ -47,10 +46,9 @@
 /* ✅ 객체 감지 캔버스 */
 .ObjectDetectionCanvas {
   position: absolute;
-  top: 50;
-  left: 50;
-  width: 50%;
-  height: 70%;
+  top: 18%;
+  width: 68%;
+  height: 74%;
   pointer-events: none;
   opacity: 1; /* 👈 투명도 1로 설정 (보이게) */
   transition: opacity 0.3s ease-in-out;
