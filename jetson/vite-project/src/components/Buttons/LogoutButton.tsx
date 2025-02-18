@@ -21,12 +21,11 @@ function LogoutButton() {
 
   return (
     <Button
-      height="3"
-      width="2"
-      fontSize={10}
+      fontSize={35}
       onClick={handleLogout}
       className="font"
-      backgroundColor={'lightgrey'}
+      rounded='xl'
+      backgroundColor='#FFC100'
       color='black'
     >
       로그아웃

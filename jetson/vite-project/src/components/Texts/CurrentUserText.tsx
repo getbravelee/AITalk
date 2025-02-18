@@ -7,7 +7,7 @@ export default function CurrentUserText() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   return (
     <div>
-      <Text fontSize={13} color="white" className="font">
+      <Text fontSize={50} color="ivory" className="font">
         안녕하세요 {currentUser?.therapist_name}님!
       </Text>
     </div>

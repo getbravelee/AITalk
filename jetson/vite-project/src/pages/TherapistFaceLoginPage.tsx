@@ -1,4 +1,4 @@
-import { Text, HStack, Flex, Button, VStack } from '@chakra-ui/react';
+import { Text, HStack, Flex, Button, VStack, Box } from '@chakra-ui/react';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import { useNavigate } from 'react-router-dom';
 import '../components/Common/BackgroundContainer.css';
@@ -19,7 +19,7 @@ export default function TherapistFaceLoginPage() {
   const { isVerifying, isVerified, verifyFace } = UseFaceVerification();
 
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
-  const faceIdImageSmall: string = 'src/assets/Login/FaceID_small.svg';
+  const faceIdImage: string = 'src/assets/Login/FaceID.svg';
   const navigate = useNavigate();
 
   return (
@@ -37,14 +37,15 @@ export default function TherapistFaceLoginPage() {
           )}
         </HStack>
       </NavbarContainer>
-      <Flex direction="column" align="center" gap={5} pt={3}>
+      <Flex direction="column" align="center" pt={3}>
         <HStack className="font">
-          <Text fontSize={50} textAlign="center">
+          <Text fontSize={150} textAlign="center">
             치료사
           </Text>
-          <Text fontSize={30}> 님의 얼굴을 인식해 주세요</Text>
+          <Text fontSize={100}> 님의 얼굴을 인식해 주세요</Text>
         </HStack>
-        <VStack gap={10}>
+        <Box height="80px"/>
+        <VStack>
           {isVerifying ? (
             // 인증 진행 중에는 로딩 애니메이션(faceid_animation_1)을 보여줌
             <Flex direction="column" align="center">
@@ -62,15 +63,17 @@ export default function TherapistFaceLoginPage() {
                 backgroundColor="transparent"
                 onClick={async () => await verifyFace('t')}
               >
-                <img src={faceIdImageSmall} alt="FaceID" />
+                <img src={faceIdImage} alt="FaceID" width={200} />
               </Button>
+              <Box height='120px'/>
               <Button
                 bg="#b08b7a"
                 color="white"
+                height={20}
                 _hover={{ bg: '#9f7b69' }}
                 _active={{ bg: '#8d6b5a' }}
-                fontSize={20}
-                rounded="l3"
+                fontSize={75}
+                rounded="3xl"
                 onClick={() => navigate('/TherapistLoginPage')}
                 className="font"
               >

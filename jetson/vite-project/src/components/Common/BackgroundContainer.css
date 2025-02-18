@@ -1,4 +1,8 @@
 .BackgroundContainer {
+  /* height 를 100vh 로 줘야한다. 100% 주면 안됨. */
+  /* 100%는 부모 요소의 높이를 기준으로, 100vh는 viewport의 높이를 기준으로 함. */
+  /* 즉, vh를 사용하면 부모 요소의 높이와 관계없이 항상 화면의 높이 전체를 수정할 수 있음음 */
+  height: 100vh;
   background-image: url('src/assets/Background/background_3.png');
   background-size: cover; /* 화면 채우기 */
   /* 스크롤 해도 변함없는 백그라운드 이미지 유지 */

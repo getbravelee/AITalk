@@ -8,7 +8,6 @@ import { RootState } from '../feature/store';
 import { useSelector } from 'react-redux';
 import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
-import HomeButton from '../components/Common/HomeButton';
 import UseFaceVerification from '../hooks/UseFaceVerification';
 import {
   FaceIdAnimationLoading,
@@ -23,24 +22,23 @@ export default function KidFaceLoginPage() {
   return (
     <div className="BackgroundContainer">
       <NavbarContainer>
-        <HStack gap={370} pt={1}>
+        <HStack gap={1300} pt={2}>
           <BackButton />
           {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
           {currentUser && (
-            <HStack>
+            <HStack gap={10}>
               <CurrentUserText />
               <LogoutButton />
-              <HomeButton />
             </HStack>
-          )}
+          )}  
         </HStack>
       </NavbarContainer>
       <Flex direction="column" align="center" gap={5} pt={3}>
         <HStack className="font">
-          <Text fontSize={50} textAlign="center">
+          <Text fontSize={200} textAlign="center">
             아이
           </Text>
-          <Text fontSize={30}> 의 얼굴을 인식해 주세요</Text>
+          <Text fontSize={130}> 의 얼굴을 인식해 주세요</Text>
         </HStack>
         <VStack className="font" gap={10}>
           {isVerifying ? (
@@ -63,11 +61,11 @@ export default function KidFaceLoginPage() {
             </Button>
           )}
           <Button
-            bg="blue.400"
+            bg="#b08b7a"
             color="white"
             size={'sm'}
-            _hover={{ bg: 'blue.500' }}
-            _active={{ bg: 'blue.600' }}
+            _hover={{ bg: '#9f7b69' }}
+            _active={{ bg: '#8d6b5a' }}
             fontSize={20}
             rounded="l3"
             onClick={() => {
