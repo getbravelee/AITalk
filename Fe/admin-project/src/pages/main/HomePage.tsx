@@ -35,26 +35,36 @@ export default function HomePage() {
 
   // ✅ 오늘 일정 불러오기 (API 요청)
   useEffect(() => {
-    const today = formatDate(currentTime);
+    const today = formatDate(new Date()); // 🚀 현재 날짜만 사용
     const fetchTodaySchedules = async () => {
       try {
         const response = await axiosInstance.get(`/schedule/list/${today}`);
         console.log("📥 오늘의 일정 데이터:", response.data);
-
-        // ✅ 데이터가 배열인지 확인 후 저장
+  
         if (Array.isArray(response.data)) {
           setTodaySchedules(response.data);
         } else {
           console.error("❌ 잘못된 일정 데이터 형식:", response.data);
-          setTodaySchedules([]); // 데이터가 이상하면 빈 배열로 설정
+          setTodaySchedules([]);
         }
       } catch (error) {
         console.error("❌ 오늘의 일정 불러오기 실패:", error);
       }
     };
-
+  
     fetchTodaySchedules();
-  }, [currentTime]);
+  
+    // 🚀 하루가 바뀌는 순간 다시 요청 보내기
+    const now = new Date();
+    const millisUntilMidnight =
+      new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0).getTime() - now.getTime();
+  
+    const timeout = setTimeout(() => {
+      fetchTodaySchedules();
+    }, millisUntilMidnight);
+  
+    return () => clearTimeout(timeout);
+  }, []); // ✅ 빈 배열로 설정하여 하루에 한 번만 실행
 
   // ✅ 오늘 날짜 포맷 (예: 2025. 02. 16 Sunday)
   const formattedDate = currentTime.toLocaleDateString("ko-KR", {
