@@ -4,12 +4,16 @@ import { io } from 'socket.io-client';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import AiInfoContainer from '../components/Common/AiInfoContainer';
-
+import { HStack } from '@chakra-ui/react';
 import './AiTalkPage.css';
+import { useSelector } from 'react-redux';
+import { RootState } from '../feature/store';
+import CurrentUserText from '../components/Texts/CurrentUserText';
+import LogoutButton from '../components/Buttons/LogoutButton';
 
 export default function AiTalkPage() {
   const location = useLocation();
-
+  const currentUser = useSelector((state: RootState) => state.user.currentUser);
   // ✅ `childId` 확인
   const childId = location.state?.childId;
   console.log('📌 [AiTalkPage] 받은 childId:', childId);
@@ -89,7 +93,16 @@ export default function AiTalkPage() {
   return (
     <div>
       <NavbarContainer>
+        <HStack gap={1120} pt={2}>
         <BackPlaySelectButton />
+                  {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
+                  {currentUser && (
+            <HStack gap={10}>
+              <CurrentUserText />
+              <LogoutButton />
+            </HStack>
+          )}
+        </HStack>
       </NavbarContainer>
       <div className="AiTalkContainer">
         <AiInfoContainer
