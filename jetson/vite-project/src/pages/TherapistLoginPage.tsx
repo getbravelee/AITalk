@@ -11,11 +11,13 @@ import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
 import HomeButton from '../components/Common/HomeButton';
 import { useNavigate } from 'react-router-dom';
+import UseTherapistLogin from '../hooks/UseTherapistLogin';
 
 export default function TherapistLoginPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const faceIdImage: string = 'src/assets/Login/FaceID.svg';
   const navigate = useNavigate()
+  const {verifyLogin} = UseTherapistLogin()
 
   // 로그인 폼 관련 상태
   const [id, setId] = useState('');
