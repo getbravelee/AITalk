@@ -2,7 +2,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../feature/store';
 
-export default function CardTagButton() {
+interface CardTagButtonProps {
+  className?: string; // 👈 className을 props로 받을 수 있도록 추가
+}
+
+export default function CardTagButton({ className }: CardTagButtonProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -59,7 +63,11 @@ export default function CardTagButton() {
   };
 
   return (
-    <button onClick={handleClick} disabled={!scheduleId}>
+    <button
+      className={`CardTagButton ${className || ''}`}
+      onClick={handleClick}
+      disabled={!scheduleId}
+    >
       <img src="/src/assets/menu/nfc_card.png" alt="카드 태그 아이콘" />
       <span>카드 태그</span>
     </button>

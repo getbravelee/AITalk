@@ -47,9 +47,9 @@ export default function PlaySelectPage() {
       </NavbarContainer>
       <div className="PlaySelectContainer">
         <div className="PlaySelectInnerContainer">
-          <CardTagButton />
-          <CameraButton scheduleId={treatmentId} />
-          <AiTalkButton childId={childId} />
+          <CardTagButton className="PlayCardTagButton" />
+          <CameraButton className="PlayCameraButton" scheduleId={treatmentId} />
+          <AiTalkButton className="PlayAiTalkButton" childId={childId} />
         </div>
         <PlaySelectText />
       </div>
