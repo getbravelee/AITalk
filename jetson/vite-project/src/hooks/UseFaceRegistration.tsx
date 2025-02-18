@@ -67,8 +67,8 @@ const UseFaceRegistration = () => {
             try {
               // 아래 함수 동작으로 play-select 페이지로 이동
               await playStart({
-                therapistId: currentUser?.therapist_id,
-                childId: data.data.child_id,
+                therapist_id: currentUser?.therapist_id,
+                child_id: data.data.child_id,
               });
             } catch (error) {
               console.error('플레이 시작 요청 실패:', error);

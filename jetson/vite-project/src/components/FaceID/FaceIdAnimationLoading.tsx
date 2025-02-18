@@ -19,7 +19,7 @@ declare global {
 
 const FaceIdAnimationLoading = () => {
   return (
-    <div style={{ width: '150px', height: '150px' }}>
+    <div style={{ width: '250px', height: '250px' }}>
       <lottie-player
         src="/assets/Login/faceid_animation_1.json"
         background="transparent"
@@ -34,7 +34,7 @@ const FaceIdAnimationLoading = () => {
 
 const FaceIdAnimationCheck = () => {
   return (
-    <div style={{ width: '150px', height: '150px' }}>
+    <div style={{ width: '250px', height: '250px' }}>
       <lottie-player
         src="/assets/Login/faceid_animation_2.json"
         background="transparent"
