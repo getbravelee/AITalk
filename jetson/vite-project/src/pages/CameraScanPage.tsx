@@ -31,6 +31,7 @@ export default function CameraScanPage() {
   );
   const [isDetecting, setIsDetecting] = useState(false);
   const isDataSentRef = useRef(false); // ✅ 중복 실행 방지용 useRef
+  const isDetectingRef = useRef(true);
 
   // ✅ 추가된 변수 (객체 인식 유지 시간 체크)
   const CONFIDENCE_THRESHOLD = 0.7; // 최소 확률 임계값
@@ -83,6 +84,7 @@ export default function CameraScanPage() {
 
     const detectObjects = async () => {
       if (!model || !videoRef.current || !canvasRef.current) return;
+      if (isDataSentRef.current || !isDetectingRef.current) return; // ✅ 데이터가 전송되었거나 객체 인식이 비활성화되면 종료
 
       const video = videoRef.current;
       if (video.readyState !== 4) {
@@ -174,6 +176,7 @@ export default function CameraScanPage() {
 
     if (isDataSentRef.current) {
       console.log('⚠️ 이미 데이터가 전송됨. 중복 전송 방지');
+      isDetectingRef.current = false;
       return;
     }
 
@@ -184,6 +187,8 @@ export default function CameraScanPage() {
 
     console.log('📤 백엔드로 데이터 전송:', data);
     isDataSentRef.current = true;
+    isDetectingRef.current = false;
+    navigate('/camera-img-generate');
 
     try {
       const response = await fetch('http://localhost:5000/play/camera-scan', {
@@ -197,14 +202,10 @@ export default function CameraScanPage() {
       if (!response.ok) {
         throw new Error(`❌ 서버 응답 오류: ${response.status}`);
       }
-
-      console.log('✅ 데이터 전송 성공!');
-
-      // ✅ 백엔드로 데이터 전송 후 '/camera-img-generate'로 이동
-      navigate('/camera-img-generate');
     } catch (error) {
       console.error('❌ 데이터 전송 실패:', error);
       isDataSentRef.current = false; // ⚠️ 에러 발생 시 다시 감지 가능하도록 초기화
+      isDetectingRef.current = true; // ⚠️ 에러 발생 시 객체 감지 다시 활성화
     }
   };
 
