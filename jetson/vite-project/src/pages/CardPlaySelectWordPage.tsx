@@ -38,8 +38,8 @@ export default function CardPlaySelectWordPage() {
         </div>
         <div className="BigCardInfoContainer">
           <CardInfoContainer
-            imageSrc={`/src/assets/card/${firstCard.image}.png`}
-            cardName={firstCard.name}
+            imageSrc={`/src/assets/card/${firstCard[0].image}.png`}
+            cardName={firstCard[0].name}
           />
         </div>
       </div>

@@ -36,9 +36,9 @@ export default function CardPlaySelectWordVerbSentencePage() {
   console.log('🔍 First NFC Card:', firstCard);
   console.log('🔍 Second NFC Card:', secondCard);
 
-  const combinedImageSrc = `/src/assets/card/${secondCard.image}${firstCard.image}.png`;
-  const particle = hasFinalConsonant(firstCard.name) ? '을' : '를';
-  const combinedCardName = `${firstCard.name}${particle} ${secondCard.name}`;
+  const combinedImageSrc = `/src/assets/card/${secondCard.image}${firstCard[0].image}.png`;
+  const particle = hasFinalConsonant(firstCard[0].name) ? '을' : '를';
+  const combinedCardName = `${firstCard[0].name}${particle} ${secondCard.name}`;
 
   return (
     <div>

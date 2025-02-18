@@ -48,8 +48,8 @@ export default function CardPlaySelectWordVerbPage() {
           transition={{ duration: 2, ease: 'easeOut' }}
         >
           <CardInfoContainer
-            imageSrc={`/src/assets/card/${firstCard.image}.png`}
-            cardName={firstCard.name}
+            imageSrc={`/src/assets/card/${firstCard[0].image}.png`}
+            cardName={firstCard[0].name}
           />
         </motion.div>
 

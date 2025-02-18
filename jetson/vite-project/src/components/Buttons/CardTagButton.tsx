@@ -44,8 +44,7 @@ export default function CardTagButton({ className }: CardTagButtonProps) {
 
       const cardData = await response.json();
       console.log('✅ Server Response Data:', cardData);
-
-      const cardId = cardData.cardId;
+      const cardId = cardData[0].card_id;
 
       if (cardId >= 3000 && cardId <= 3999) {
         // ✅ 3000~3999: /card-play-select 이동
