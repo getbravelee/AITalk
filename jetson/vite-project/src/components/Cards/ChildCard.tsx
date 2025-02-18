@@ -1,4 +1,4 @@
-import ChildData from '../../pages/KidSelectPage';
+import { ChildData } from '../../utils/ChunkArray';
 import {
   HStack,
   Card,
@@ -21,7 +21,7 @@ import {
 } from '../FaceID/FaceIdAnimationLoading';
 
 interface ChildCardProps {
-  data: typeof ChildData;
+  data: ChildData;
 }
 
 export default function ChildCard({ data }: ChildCardProps): JSX.Element {
@@ -53,7 +53,7 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
         onClick={async () => {
           // Card.Root를 클릭하면 child_id를 전역 state (redux persist 포함)에 저장
           // 이후 치료가 완료되면 해당 child의 치료 정보를 서버에 전달할 수 있도록 함.
-          dispatch(setChildId(data.child_id));
+          dispatch(setChildId(data));
           alert(
             `${currentUser?.therapist_name}님! ${data.child_name}의 치료를 시작합니다!`,
           );

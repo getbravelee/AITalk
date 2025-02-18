@@ -1,4 +1,4 @@
-import { Text, HStack, Box } from '@chakra-ui/react';
+import { Text, HStack } from '@chakra-ui/react';
 import { RootState } from '../../feature/store';
 import { useSelector } from 'react-redux';
 import './TextFontFromGoogle.css';

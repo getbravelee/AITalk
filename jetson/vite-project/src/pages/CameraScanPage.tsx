@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-
+import CurrentUserText from '../components/Texts/CurrentUserText';
+import LogoutButton from '../components/Buttons/LogoutButton';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import * as cocoSsd from '@tensorflow-models/coco-ssd';
 import * as tf from '@tensorflow/tfjs';
-
+import { HStack } from '@chakra-ui/react';
 import './CameraScanPage.css';
+import { useSelector } from 'react-redux';
+import { RootState } from '../feature/store';
 
 // ✅ 직접 DetectedObject 타입 정의
 type DetectedObject = {
@@ -16,6 +19,7 @@ type DetectedObject = {
 };
 
 export default function CameraScanPage() {
+  const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const navigate = useNavigate();
   const location = useLocation();
   const scheduleId = location.state?.scheduleId; // PlaySelectPage에서 전달받은 값
@@ -197,9 +201,20 @@ export default function CameraScanPage() {
   };
 
   return (
-    <div>
+    <div className="BackgroundContainer">
+      <div className="BackgroundImage"></div>
       <NavbarContainer>
+        <HStack gap={1120} pt={2}>
         <BackPlaySelectButton />
+                  {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
+                  {currentUser && (
+            <HStack gap={10}>
+              <CurrentUserText />
+              <LogoutButton />
+            </HStack>
+          )}
+        </HStack>
+        
       </NavbarContainer>
       <div className="CameraScanContainer">
         <div className="WebCamContainer">

@@ -2,8 +2,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface Child {
-  id: number;
-  name: string;
+  child_id: number;
+  child_name: string;
   age: number;
   profileImage: string;
   center: string;

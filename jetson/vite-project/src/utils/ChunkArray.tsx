@@ -1,8 +1,8 @@
 
 // 필요시 ChildData 타입을 types/child.ts에서 import하거나 아래와 같이 정의할 수 있습니다.
 export interface ChildData {
-  id: number;
-  name: string;
+  child_id: number;
+  child_name: string;
   age: number;
   profileImage: string;
   center: string;

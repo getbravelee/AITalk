@@ -15,17 +15,17 @@ import './NfcTagPage.css';
 export default function NfcTagPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   return (
-    <div>
+    <div className="BackgroundContainer">
+      <div className="BackgroundImage"></div>
       {/* NavbarContainer 내부에 BackButton을 children으로 전달 */}
       <NavbarContainer>
-        <HStack gap={370} pt={1}>
+        <HStack gap={1120} pt={2}>
           <BackPlaySelectButton />
           {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
           {currentUser && (
-            <HStack>
+            <HStack gap={10}>
               <CurrentUserText />
               <LogoutButton />
-              <HomeButton />
             </HStack>
           )}
         </HStack>
