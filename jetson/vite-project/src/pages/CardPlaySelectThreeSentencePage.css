@@ -11,22 +11,42 @@
   font-family: 'Dongle', serif;
 }
 
-.LargeCardInfoContainer {
-  width: 400px;
-  height: 200px;
+.CardPlaySelectThreeSentenceContainer .LargeCardInfoContainer {
+  width: 800px;
+  height: 800px;
   margin-bottom: 20px;
+  animation: floating 2s infinite ease-in-out;
 }
 
-.LargeCardInfoContainer .CardImage {
-  width: 200px;
-  height: 200px;
+.CardPlaySelectThreeSentenceContainer .LargeCardInfoContainer .CardImage {
+  width: 600px;
+  height: 600px;
 }
 
 /* 카드 이름 (text) 스타일 조정 */
 .CardPlaySelectThreeSentenceContainer .CardInfoContainer p {
   font-family: 'Dongle', serif;
-  font-size: 3rem; /* 텍스트 크기 */
+  font-size: 8rem; /* 텍스트 크기 */
   font-weight: bold; /* 텍스트 굵기 */
   text-align: center; /* 중앙 정렬 */
-  color: #333; /* 글자 색 */
+  color: #5a3e2b;
+}
+
+/* 부드러운 흔들림 (둥둥 떠 있는 듯한 효과) */
+@keyframes floating {
+  0% {
+    transform: translateY(0) rotate(0);
+  }
+  25% {
+    transform: translateY(-5px) rotate(-0.5deg);
+  }
+  50% {
+    transform: translateY(5px) rotate(0.5deg);
+  }
+  75% {
+    transform: translateY(-5px) rotate(-0.5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0);
+  }
 }

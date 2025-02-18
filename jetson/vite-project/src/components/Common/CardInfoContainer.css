@@ -1,21 +1,21 @@
 .CardInfoContainer {
-  width: 150px;
-  height: 150px;
+  width: 800px;
+  height: 800px;
   text-align: center;
   background-color: hsla(93, 70%, 48%, 0); /* 배경 색상 및 투명도 */
-  margin-top: -40px; /* 위로 이동 */
+  margin-top: 25px; /* 위로 이동 */
 }
 
 .CardTexts {
-  font-size: 2rem;
+  font-size: 5rem;
   font-weight: bold;
   color: #5a3e2b;
 }
 
 .CardImage {
   margin: auto;
-  width: 150px;
-  height: 150px;
+  width: 300px;
+  height: 300px;
 }
 
 .BigCardInfoContainer {

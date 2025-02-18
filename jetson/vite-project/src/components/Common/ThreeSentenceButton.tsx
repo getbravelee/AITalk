@@ -2,11 +2,13 @@ import { useNavigate } from 'react-router-dom';
 import './ThreeSentenceButton.css';
 
 interface ThreeSentenceButtonProps {
-  targetPath: string; // 경로를 설정하는 prop
+  targetPath: string;
+  className?: string; // ✅ className을 받을 수 있도록 추가
 }
 
 export default function ThreeSentenceButton({
   targetPath,
+  className = '',
 }: ThreeSentenceButtonProps) {
   const navigate = useNavigate();
 
@@ -16,7 +18,10 @@ export default function ThreeSentenceButton({
   };
 
   return (
-    <button className="ThreeSentenceButton" onClick={handleClick}>
+    <button
+      className={`ThreeSentenceButton ${className}`}
+      onClick={handleClick}
+    >
       <span>3어문</span>
     </button>
   );
