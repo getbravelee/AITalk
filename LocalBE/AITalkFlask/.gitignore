@@ -13,3 +13,5 @@ __pycache__/
 
 # PyCharm 관련 파일
 .idea/
+
+requirements.txt

@@ -12,7 +12,6 @@
   z-index: 1000; /* 🔹 다른 요소 위에 배치 */
   background: none;
   border: none;
-  cursor: pointer;
   padding: 5px;
 }
 

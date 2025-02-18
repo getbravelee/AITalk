@@ -12,6 +12,7 @@ import LogoutButton from '../components/Buttons/LogoutButton';
 import HomeButton from '../components/Common/HomeButton';
 import { useNavigate } from 'react-router-dom';
 import UseTherapistLogin from '../hooks/UseTherapistLogin';
+
 export default function TherapistLoginPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const faceIdImage: string = 'src/assets/Login/FaceID.svg';
