@@ -43,13 +43,22 @@ export default function CategoryCardPlaySelectPage() {
               }}
             >
               {/* ✅ 카테고리 카드 전용 컨테이너 사용 */}
-              <CategoryCardInfoContainer category={parsedCardData.image} />
+              <CategoryCardInfoContainer
+                category={parsedCardData.image} // ✅ 'fruit'
+                categories={parsedCardData.categories} // ✅ ['apple', 'banana', 'grape', ...]
+              />
             </motion.div>
           </motion.div>
 
-          <div className="ButtonContainer">
-            <WordButton targetPath="/card-play-select/word" />
-            <ThreeSentenceButton targetPath="/card-play-select/three-sentence" />
+          <div className="ButtonContainers">
+            <WordButton
+              className="CategoryCardPlaySelectWordButtonStyle"
+              targetPath="/card-play-select/word"
+            />
+            <ThreeSentenceButton
+              className="CategoryCardPlaySelectThreeSentenceButtonStyle"
+              targetPath="/card-play-select/three-sentence"
+            />
           </div>
         </div>
       </div>

@@ -12,14 +12,30 @@
 
 .CategoryCardPlaySelectInnerContainer {
   display: flex;
-  gap: 4rem; /* 각 요소 사이 간격 */
+  gap: 5rem; /* 각 요소 사이 간격 */
   margin-top: 3rem; /* 전체 간격 조정 */
 }
 
-.ButtonContainer {
+.ButtonContainers {
   display: flex;
   flex-direction: row;
-  gap: 1rem; /* 버튼 간 간격 설정 */
+  gap: 1.5rem; /* 버튼 간 간격 설정 */
   position: relative;
-  top: 10%;
+  top: 20%;
+}
+
+.CategoryCardPlaySelectWordButtonStyle {
+  width: 250px;
+  height: 250px;
+  font-size: 7rem;
+  border-radius: 30px;
+  margin-right: 15px;
+}
+
+.CategoryCardPlaySelectThreeSentenceButtonStyle {
+  width: 250px;
+  height: 250px;
+  font-size: 7rem;
+  border-radius: 30px;
+  margin-left: 15px;
 }

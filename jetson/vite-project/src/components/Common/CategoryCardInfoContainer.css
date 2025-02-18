@@ -1,17 +1,17 @@
 /* 전체 컨테이너 스타일 */
 .CategoryCardInfoContainer {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개씩 */
+  gap: 30px; /* 이미지 간격 */
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap; /* 여러 줄 정렬 가능 */
-  gap: 15px; /* 이미지 사이 간격 */
-  margin-top: -40px; /* 위로 살짝 이동 */
+  margin-top: -10px; /* 위로 살짝 이동 */
 }
 
 /* 개별 카드 스타일 */
 .CategoryCardItem {
-  width: 120px;
-  height: 120px;
+  width: 250px; /* ✅ 이미지 크기 키움 */
+  height: 250px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,7 +27,7 @@
 
 /* 로딩 텍스트 */
 .LoadingText {
-  font-size: 1.5rem;
+  font-size: 3rem;
   font-weight: bold;
   color: black;
   text-align: center;

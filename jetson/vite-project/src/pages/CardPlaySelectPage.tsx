@@ -53,7 +53,7 @@ export default function CardPlaySelectPage() {
             </motion.div>
           </motion.div>
 
-          <div className="ButtonContainer">
+          <div className="ButtonsContainers">
             <WordButton
               className="CardPlaySelectWordButtonStyle"
               targetPath="/card-play-select/word"
