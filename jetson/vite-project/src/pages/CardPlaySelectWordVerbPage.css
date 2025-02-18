@@ -30,5 +30,33 @@
 
 .CardPlaySelectWordVerbContainer .CardInfoContainer img {
   width: 600px;
-  height: auto;
+  height: 500px;
+}
+
+/* ✅ 이미지 + 이름을 감싸는 컨테이너 */
+.CategoryImagesWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ✅ 여러 이미지를 가로 정렬 + 한 줄에 3개씩 */
+.CategoryImagesGrids {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개 */
+  gap: 0px;
+  align-items: center;
+  margin-top: 130px;
+  margin-left: 100px;
+}
+
+/* ✅ 카드 이름 스타일 */
+.CategoryCardTitles {
+  font-size: 9rem; /* 🔥 글자 크기 키우기 */
+  font-weight: bold;
+  text-align: center; /* ✅ 중앙 정렬 */
+  font-family: 'Dongle', serif;
+  margin-top: 0px; /* 🔥 이미지와 간격 조정 */
+  color: #5a3e2b;
 }

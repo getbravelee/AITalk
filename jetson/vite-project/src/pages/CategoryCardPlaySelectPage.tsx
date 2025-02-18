@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import DetailPlaySelectText from '../components/Texts/DetailPlaySelectText';
-import CategoryCardInfoContainer from '../components/Common/CategoryCardInfoContainer'; // ✅ 새 컨테이너
+import CategoryCardInfoContainer from '../components/Common/CategoryCardInfoContainer';
 import WordButton from '../components/Common/WordButton';
 import ThreeSentenceButton from '../components/Common/ThreeSentenceButton';
 
@@ -26,30 +26,42 @@ export default function CategoryCardPlaySelectPage() {
         <div className="CategoryCardPlaySelectInnerContainer">
           {/* 1️⃣ "펑!" 애니메이션 (처음 한 번만 실행) */}
           <motion.div
-            animate={{ scale: [0, 1.2, 1], opacity: 1 }} // 펑! 하고 커짐
+            animate={{ scale: [0, 1.2, 1], opacity: 1 }}
             transition={{ duration: 2, ease: 'easeOut' }}
           >
             {/* 2️⃣ 둥둥 떠다니는 애니메이션 (펑! 이후 실행) */}
             <motion.div
               animate={{
-                y: [0, -5, 0, 5, 0], // 위아래 둥둥 떠다니기
-                rotate: [0, 1, -1, 0], // 살짝 흔들리기
+                y: [0, -5, 0, 5, 0],
+                rotate: [0, 1, -1, 0],
               }}
               transition={{
                 duration: 5,
                 ease: 'easeInOut',
-                repeat: Infinity, // 무한 반복
+                repeat: Infinity,
                 repeatType: 'reverse',
               }}
             >
-              {/* ✅ 카테고리 카드 전용 컨테이너 사용 */}
-              <CategoryCardInfoContainer category={parsedCardData.image} />
+              {/* ✅ 카테고리 카드 전용 컨테이너 */}
+              <CategoryCardInfoContainer
+                category={parsedCardData.image}
+                categories={parsedCardData.categories}
+              />
             </motion.div>
           </motion.div>
 
-          <div className="ButtonContainer">
-            <WordButton targetPath="/card-play-select/word" />
-            <ThreeSentenceButton targetPath="/card-play-select/three-sentence" />
+          {/* ✅ 카드 이름 추가 */}
+          <p className="CategoryCardTitle">{parsedCardData.name}</p>
+
+          <div className="ButtonContainers">
+            <WordButton
+              className="CategoryCardPlaySelectWordButtonStyle"
+              targetPath="/card-play-select/word"
+            />
+            <ThreeSentenceButton
+              className="CategoryCardPlaySelectThreeSentenceButtonStyle"
+              targetPath="/card-play-select/three-sentence"
+            />
           </div>
         </div>
       </div>

@@ -73,3 +73,31 @@
     transform: translateY(0) rotate(0);
   }
 }
+
+/* ✅ 전체 컨테이너 (이미지 + 글자) */
+.CategoryImagesContainer {
+  display: flex;
+  flex-direction: column; /* ✅ 이미지 + 글자 세로 정렬 */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 400px; /* 🔥 기존보다 더 아래로 내림 */
+  animation: floating 2s infinite ease-in-out;
+}
+
+/* ✅ 여러 이미지를 가로 정렬 + 한 줄에 3개씩 */
+.CategoryImagesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개 */
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ✅ 단어 스타일 (이미지 아래) */
+.CategoryCardName {
+  font-size: 7rem; /* 🔥 글자 크기 키우기 */
+  font-weight: bold;
+  text-align: center; /* ✅ 글자를 중앙 정렬 */
+  margin-top: 30px; /* 🔥 글자를 더 아래로 배치 */
+}

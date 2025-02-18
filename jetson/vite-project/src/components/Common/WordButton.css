@@ -5,7 +5,7 @@
   border: none;
   border-radius: 5px;
   padding: 0.5rem 1rem;
-  background-color: #42be86; /* 버튼 색상 */
+  background-color: #ffc100; /* 버튼 색상 */
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
   transition:
     transform 0.2s ease-in-out,
