@@ -8,6 +8,7 @@ import {
   Text,
   Button,
   Flex,
+  VStack,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setChildId } from '../../feature/child/childSlice';
@@ -27,7 +28,7 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const { isRegisting, isCompleted, registerFace } = UseFaceRegistration();
   const playStart = usePlayStart();
-  const faceIdImageSmall: string = 'src/assets/Login/FaceID_small.svg';
+  const faceIdImage: string = 'src/assets/Login/FaceID.svg';
   const childDefaultImage = 'src/assets/ChildDummyImage/child_default.png';
   const handleRegisterClick = () => {
     registerFace(
@@ -44,9 +45,10 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
       <Card.Root
         flexDirection="row"
         overflow="hidden"
-        size="sm"
-        width="250px" // 전체 카드의 너비를 작게 지정
-        borderRadius="md"
+        // size='lg'
+        width="700px" // 전체 카드의 너비를 작게 지정
+        height="400px"
+        borderRadius="3xl"
         boxShadow="md"
         onClick={async () => {
           // Card.Root를 클릭하면 child_id를 전역 state (redux persist 포함)에 저장
@@ -60,8 +62,8 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
           try {
             // 아이의 카드를 누르면 play-select 페이지로 이동
             await playStart({
-              therapistId: currentUser?.therapist_id,
-              childId: data.child_id,
+              therapist_id: currentUser?.therapist_id,
+              child_id: data.child_id,
             });
           } catch (error) {
             console.error('플레이 시작 요청 실패:', error);
@@ -73,37 +75,47 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
           alt={data.child_name}
           className="card-image"
           backgroundColor="lightgrey"
-          boxSize="120px" // 이미지 크기를 작게 설정
+          boxSize="400px" // 이미지 크기를 작게 설정
           objectFit="cover"
         />
         <Box width="100%">
-          <Card.Body backgroundColor="lightgrey" height={'120px'}>
-            <Card.Title fontSize={20}>이름: {data.child_name}</Card.Title>
-            <Card.Description fontSize="xs">
-              <Text fontSize={15}>나이 : {data.age}</Text>
-            </Card.Description>
-            <HStack onClick={(e) => e.stopPropagation()}>
-              <Badge fontSize={10}>{data.disability_type}</Badge>
-              {isRegisting ? (
-                // 인증 진행 중에는 로딩 애니메이션(faceid_animation_1)을 보여줌
-                <Flex direction="column" align="center">
-                  <FaceIdAnimationLoadingForKid />
-                </Flex>
-              ) : isCompleted ? (
-                // 인증 완료 후에는 체크 애니메이션(faceid_animation_2)을 보여줌
-                <Flex direction="column" align="center">
-                  <FaceIdAnimationCheckForKid />
-                </Flex>
-              ) : (
-                // 초기 상태 - 인증 시작 전 UI
-                <Button
-                  backgroundColor="transparent"
-                  onClick={handleRegisterClick}
+          <Card.Body backgroundColor="#FF9A6C" height={'400px'} color='#FFFDD0'>
+            <VStack gap={10} pt={10}>
+              <Card.Title fontSize={80}>이름: {data.child_name}</Card.Title>
+              <Card.Description>
+                <Text fontSize={80} color='#FFFDD0'>나이 : {data.age}</Text>
+              </Card.Description>
+              <HStack onClick={(e) => e.stopPropagation()}>
+                <Badge
+                  fontSize={50}
+                  height="50px"
+                  rounded="3xl"
+                  backgroundColor="#FFD3B8"
+                  color="#333333"
                 >
-                  <img src={faceIdImageSmall} alt="FaceID" />
-                </Button>
-              )}
-            </HStack>
+                  {data.disability_type}
+                </Badge>
+                {isRegisting ? (
+                  // 인증 진행 중에는 로딩 애니메이션(faceid_animation_1)을 보여줌
+                  <Flex direction="column" align="center">
+                    <FaceIdAnimationLoadingForKid />
+                  </Flex>
+                ) : isCompleted ? (
+                  // 인증 완료 후에는 체크 애니메이션(faceid_animation_2)을 보여줌
+                  <Flex direction="column" align="center">
+                    <FaceIdAnimationCheckForKid />
+                  </Flex>
+                ) : (
+                  // 초기 상태 - 인증 시작 전 UI
+                  <Button
+                    backgroundColor="transparent"
+                    onClick={handleRegisterClick}
+                  >
+                    <img src={faceIdImage} alt="FaceID" />
+                  </Button>
+                )}
+              </HStack>
+            </VStack>
           </Card.Body>
         </Box>
       </Card.Root>
