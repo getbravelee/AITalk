@@ -188,7 +188,6 @@ export default function CameraScanPage() {
     console.log('📤 백엔드로 데이터 전송:', data);
     isDataSentRef.current = true;
     isDetectingRef.current = false;
-    navigate('/camera-img-generate');
 
     try {
       const response = await fetch('http://localhost:5000/play/camera-scan', {
@@ -202,10 +201,15 @@ export default function CameraScanPage() {
       if (!response.ok) {
         throw new Error(`❌ 서버 응답 오류: ${response.status}`);
       }
+
+      console.log('✅ 데이터 전송 성공!');
+
+      // ✅ 백엔드로 데이터 전송 후 '/camera-img-generate'로 이동
+      navigate('/camera-img-generate');
     } catch (error) {
       console.error('❌ 데이터 전송 실패:', error);
       isDataSentRef.current = false; // ⚠️ 에러 발생 시 다시 감지 가능하도록 초기화
-      isDetectingRef.current = true; // ⚠️ 에러 발생 시 객체 감지 다시 활성화
+      isDetectingRef.current = true;
     }
   };
 
@@ -226,7 +230,7 @@ export default function CameraScanPage() {
       </NavbarContainer>
       <div className="CameraScanContainer">
         <div className="WebCamContainer">
-          <p>
+          <p className="CameraScanTextContainer">
             물건을 화면의 <span className="highlight">중앙에</span> 맞춰서
             보여주세요 !
           </p>
