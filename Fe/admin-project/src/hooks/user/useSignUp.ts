@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../utils/axiosInstance';
+import {AxiosError} from 'axios';
 
 interface SignUpData {
   name: string;
