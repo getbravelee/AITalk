@@ -14,7 +14,6 @@ import CardPlaySelectWordVerbSentencePage from './pages/CardPlaySelectWordVerbSe
 import CardPlaySelectThreeSentencePage from './pages/CardPlaySelectThreeSentencePage';
 import CategoryCardPlaySelectPage from './pages/CategoryCardPlaySelectPage';
 
-import CameraPlayPage from './pages/CameraPlayPage';
 import CameraScanPage from './pages/CameraScanPage';
 import CameraImageGeneratePage from './pages/CameraImageGeneratePage';
 import CameraPlaySelectPage from './pages/CameraPlaySelectPage';
@@ -123,7 +122,6 @@ function MainRoutes() {
         path="/TherapistFaceResisterCompletePage"
         element={<TherapistFaceResisterCompletePage />}
       />
-      <Route path="/CameraPlayPage" element={<CameraPlayPage />} />
       <Route path="/HomeAfterLoginPage" element={<HomeAfterLoginPage />} />
       <Route path="/KidSelectPage" element={<KidSelectPage />} />
       <Route path="/KidFaceLoginPage" element={<KidFaceLoginPage />} />
