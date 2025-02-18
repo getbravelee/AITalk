@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
+import axiosInstance from '../../utils/axiosInstance';
 
 interface EmailAuthResponse {
   message: string;
@@ -22,7 +23,7 @@ export const useEmailVerify = () => {
     console.log(payload);
 
     try {
-      const response = await axios.post<EmailAuthResponse>(
+      const response = await axiosInstance.post<EmailAuthResponse>(
         `/user/${url}`,
         payload,
       );

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../../utils/axiosInstance';
 
 interface FindPwResponse {
   message: string;
@@ -27,7 +28,7 @@ export const useFindPw = () => {
       return;
     }
     try {
-      const response = await axios.post<FindPwResponse>(
+      const response = await axiosInstance.post<FindPwResponse>(
         '/user/change-password',
         {
           name,

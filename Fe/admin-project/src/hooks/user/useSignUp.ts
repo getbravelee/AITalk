@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../../utils/axiosInstance';
 
 interface SignUpData {
   name: string;
@@ -30,7 +31,7 @@ const useSignUp = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.post<SignUpResponse>(
+      const response = await axiosInstance.post<SignUpResponse>(
         '/user/signup',
         signupData,
       );

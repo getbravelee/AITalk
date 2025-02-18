@@ -1,4 +1,5 @@
 import axios from 'axios';
+import axiosInstance from '../../utils/axiosInstance';
 
 interface EmailAuthResponse {
   message: string;
@@ -21,7 +22,7 @@ export const useEmailAuthConfirm = ({
     const url: string = from === 'signUp' ? 'verify-email' : 'verify-code';
     const payload = from === 'signUp' ? { email, code } : { id, code };
     try {
-      const response = await axios.post<EmailAuthResponse>(
+      const response = await axiosInstance.post<EmailAuthResponse>(
         `/user/${url}`,
         payload,
       );
