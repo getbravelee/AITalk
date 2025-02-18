@@ -3,8 +3,8 @@ USE aitalk;
 
 INSERT INTO card (card_id, name, image, categories)
 VALUES
-    (1001, '과일', 'fruit', '["apple", "banana", "orange"]'),
-    (1002, '동물', 'animal', '["car", "bike", "bus"]');
+    (1001, '과일', 'fruit', '["apple", "banana", "grape", "orange", "strawberry", "watermelon"]'),
+    (1002, '동물', 'animal', '["cat", "dog", "giraffe", "monkey", "panda", "rabbit"]');
 
 INSERT INTO card (card_id, name, image)
 VALUES
