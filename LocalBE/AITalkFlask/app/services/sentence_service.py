@@ -8,7 +8,7 @@ from app.models.schedule_model import Schedule
 from sqlalchemy.orm.attributes import flag_modified
 from app.extensions import db
 
-JETSON_SAVE_DIR = "C:/images/"
+JETSON_SAVE_DIR = "/home/su/images/"
 EC2_GENERATE_URL = "http://3.38.106.51:7260/api/generate"
 EC2_STATUS_URL = "http://3.38.106.51:7260/api/status"
 

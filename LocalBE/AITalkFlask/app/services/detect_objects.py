@@ -6,7 +6,7 @@ from sqlalchemy.orm.attributes import flag_modified
 from app.extensions import db  # SQLAlchemy 인스턴스 임포트
 import openai
 # Jetson과 EC2 서버 정보
-JETSON_SAVE_DIR = "C:/images/"
+JETSON_SAVE_DIR = "/home/su/images/"
 EC2_GENERATE_URL = "http://3.38.106.51:7260/api/generate"
 EC2_STATUS_URL = "http://3.38.106.51:7260/api/status"
 

@@ -3,7 +3,7 @@ import requests
 from utils.sqlite_handler import get_image_from_db, save_image_to_db
 
 # Jetson과 EC2 서버 정보
-JETSON_SAVE_DIR = "C:/images/"
+JETSON_SAVE_DIR = "/home/su/images/"
 EC2_GENERATE_URL = "http://3.38.106.51:7260/api/generate"
 EC2_STATUS_URL = "http://3.38.106.51:7260/api/status"
 
