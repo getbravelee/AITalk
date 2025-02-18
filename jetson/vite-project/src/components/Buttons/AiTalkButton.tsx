@@ -45,7 +45,7 @@ export default function AiTalkButton({
         const response = await fetch('http://localhost:5000/play/talk-start', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ childId }),
+          body: JSON.stringify({ child_id: childId }),
         });
 
         if (!response.ok) {
