@@ -20,7 +20,7 @@ export default function MyPage() {
 
   useEffect(() => {
     axiosInstance
-      .get('/user/info')
+      .get('/api/user/info')
       .then((response) => {
         const { id, name, email, phoneNumber } = response.data;
 
@@ -63,7 +63,7 @@ export default function MyPage() {
     };
 
     axiosInstance
-      .put('/user/info', payload)
+      .put('/api/user/info', payload)
       .then((response) => {
         if (response.status === 200) {
           alert('회원정보 수정이 완료되었습니다!');

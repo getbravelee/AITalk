@@ -38,7 +38,7 @@ export default function HomePage() {
     const today = formatDate(currentTime);
     const fetchTodaySchedules = async () => {
       try {
-        const response = await axiosInstance.get(`/schedule/list/${today}`);
+        const response = await axiosInstance.get(`/api/schedule/list/${today}`);
         console.log("📥 오늘의 일정 데이터:", response.data);
 
         // ✅ 데이터가 배열인지 확인 후 저장

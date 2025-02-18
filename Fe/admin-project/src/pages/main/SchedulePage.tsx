@@ -42,7 +42,7 @@ const SchedulePage = () => {
 
     try {
       const response = await axiosInstance.get(
-        `/schedule/list/${year}/${month}`,
+        `/api/schedule/list/${year}/${month}`,
       );
       console.log('📥 API 응답:', response.data);
 
@@ -86,11 +86,11 @@ const SchedulePage = () => {
     setDayEvents([]); // ✅ 초기화
 
     const formattedDate = formatDate(clickedDate);
-    console.log('📡 날짜별 GET 요청 보냄:', `/schedule/list/${formattedDate}`);
+    console.log('📡 날짜별 GET 요청 보냄:', `/api/schedule/list/${formattedDate}`);
 
     try {
       const response = await axiosInstance.get(
-        `/schedule/list/${formattedDate}`,
+        `/api/schedule/list/${formattedDate}`,
       );
       console.log('📥 개별 날짜 API 응답:', response.data);
 
