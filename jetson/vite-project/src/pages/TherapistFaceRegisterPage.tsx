@@ -31,23 +31,23 @@ export default function TherapistFaceResisterPage() {
 
   return (
     <div className="BackgroundContainer">
+      <div className="BackgroundImage"></div>
       <NavbarContainer>
-        <HStack gap={370} pt={1}>
+        <HStack gap={1300} pt={2}>
           <BackButton />
-          {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함 */}
+          {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
           {currentUser && (
-            <HStack>
+            <HStack gap={10}>
               <CurrentUserText />
               <LogoutButton />
-              <HomeButton />
             </HStack>
           )}
         </HStack>
       </NavbarContainer>
-      <Flex direction="column" align="center" pt={5} gap={7}>
+      <Flex direction="column" align="center" pt='50px' gap='220px'>
         <HStack className="font">
-          <Text fontSize={50}>치료사</Text>
-          <Text fontSize={30}> 님의 얼굴을 등록해 주세요</Text>
+          <Text fontSize={150}>치료사</Text>
+          <Text fontSize={100}> 님의 얼굴을 등록해 주세요</Text>
         </HStack>
         <VStack>
           {isRegisting ? (
@@ -63,7 +63,7 @@ export default function TherapistFaceResisterPage() {
           ) : (
             // 초기 상태 - 인증 시작 전 UI
             <Button backgroundColor="transparent" onClick={handleRegisterClick}>
-              <img src={faceIdImageSmall} alt="FaceID" />
+              <img src={faceIdImageSmall} alt="FaceID" width={200}/>
             </Button>
           )}
         </VStack>

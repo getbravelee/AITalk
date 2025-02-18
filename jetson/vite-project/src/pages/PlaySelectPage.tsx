@@ -8,7 +8,6 @@ import { RootState } from '../feature/store';
 import { useSelector } from 'react-redux';
 import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
-import HomeButton from '../components/Common/HomeButton';
 import { HStack } from '@chakra-ui/react';
 import { useLocation } from 'react-router-dom';
 
@@ -33,14 +32,13 @@ export default function PlaySelectPage() {
   return (
     <div>
       <NavbarContainer>
-        <HStack gap={370} pt={1}>
+        <HStack gap={1300} pt={2}>
           <BackButton />
-          {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함 */}
+          {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
           {currentUser && (
-            <HStack>
+            <HStack gap={10}>
               <CurrentUserText />
               <LogoutButton />
-              <HomeButton />
             </HStack>
           )}
         </HStack>

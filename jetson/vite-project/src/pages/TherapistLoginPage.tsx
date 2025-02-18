@@ -11,12 +11,12 @@ import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
 import HomeButton from '../components/Common/HomeButton';
 import { useNavigate } from 'react-router-dom';
-
+import UseTherapistLogin from '../hooks/UseTherapistLogin';
 export default function TherapistLoginPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const faceIdImage: string = 'src/assets/Login/FaceID.svg';
   const navigate = useNavigate()
-
+  const { verifyLogin } = UseTherapistLogin()
   // 로그인 폼 관련 상태
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
@@ -29,25 +29,24 @@ export default function TherapistLoginPage() {
 
   return (
     <div className="BackgroundContainer">
-      {/* 네비게이션 바와 뒤로가기 버튼 */}
+      <div className="BackgroundImage"></div>
       <NavbarContainer>
-        <HStack gap={370} pt={1}>
+        <HStack gap={1120} pt={2}>
           <BackButton />
-          {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함 */}
+          {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
           {currentUser && (
-            <HStack>
+            <HStack gap={10}>
               <CurrentUserText />
               <LogoutButton />
-              <HomeButton />
             </HStack>
           )}
         </HStack>
       </NavbarContainer>
-      <Flex direction="column" align="center">
+      <Flex direction="column" align="center" pt='80px' gap={10}>
         {/* 상단 타이틀 */}
         <HStack className="font">
           <Text fontSize={150}>치료사</Text>
-          <Text fontSize={80}> 님의 ID, PW를 입력해 주세요</Text>
+          <Text fontSize={100}> 님의 ID, PW를 입력해 주세요</Text>
         </HStack>
         {/* 로그인 폼 */}
         <form onSubmit={handleLoginSubmit}>

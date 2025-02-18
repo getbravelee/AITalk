@@ -8,7 +8,6 @@ import { RootState } from '../feature/store';
 import { useSelector } from 'react-redux';
 import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
-import HomeButton from '../components/Common/HomeButton';
 import UseFaceVerification from '../hooks/UseFaceVerification';
 import {
   FaceIdAnimationLoading,
@@ -24,27 +23,27 @@ export default function TherapistFaceLoginPage() {
 
   return (
     <div className="BackgroundContainer">
+      <div className="BackgroundImage"></div>
       <NavbarContainer>
-        <HStack gap={370} pt={1}>
+        <HStack gap={1120} pt={2}>
           <BackButton />
-          {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함 */}
+          {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
           {currentUser && (
-            <HStack>
+            <HStack gap={10}>
               <CurrentUserText />
               <LogoutButton />
-              <HomeButton />
             </HStack>
           )}
         </HStack>
       </NavbarContainer>
-      <Flex direction="column" align="center" pt={3}>
+      <Flex direction="column" align="center" pt={10}>
         <HStack className="font">
           <Text fontSize={150} textAlign="center">
             치료사
           </Text>
           <Text fontSize={100}> 님의 얼굴을 인식해 주세요</Text>
         </HStack>
-        <Box height="80px"/>
+        <Box height="150px" />
         <VStack>
           {isVerifying ? (
             // 인증 진행 중에는 로딩 애니메이션(faceid_animation_1)을 보여줌
@@ -65,14 +64,14 @@ export default function TherapistFaceLoginPage() {
               >
                 <img src={faceIdImage} alt="FaceID" width={200} />
               </Button>
-              <Box height='120px'/>
+              <Box height="200px" />
               <Button
                 bg="#b08b7a"
                 color="white"
-                height={20}
+                height="80px"
                 _hover={{ bg: '#9f7b69' }}
                 _active={{ bg: '#8d6b5a' }}
-                fontSize={75}
+                fontSize={60}
                 rounded="3xl"
                 onClick={() => navigate('/TherapistLoginPage')}
                 className="font"
