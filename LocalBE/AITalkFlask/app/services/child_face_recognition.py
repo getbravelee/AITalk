@@ -13,7 +13,7 @@ THRESHOLD = 0.7  # 임계값 (테스트에 따라 조정)
 def get_available_camera():
     """사용 가능한 카메라 인덱스를 자동으로 찾는 함수"""
     for i in range(5):
-        cap = cv2.VideoCapture(i, cv2.CAP_DSHOW)
+        cap = cv2.VideoCapture(i, cv2.CAP_V4L2)
         if cap.isOpened():
             print(f"✅ 사용 가능한 카메라: {i}번")
             cap.release()
@@ -93,7 +93,7 @@ def register_child_face(child_id: int, child_name: str):
     if camera_index is None:
         return {"status": 503, "message": "사용 가능한 카메라가 없습니다."}
 
-    cap = cv2.VideoCapture(camera_index, cv2.CAP_DSHOW)
+    cap = cv2.VideoCapture(camera_index, cv2.CAP_V4L2)
     if not cap.isOpened():
         return {"status": 503, "message": "카메라 연결 오류."}
 
@@ -154,7 +154,7 @@ def verify_child_face():
     if camera_index is None:
         return {"status": 503, "message": "사용 가능한 카메라가 없습니다."}
 
-    cap = cv2.VideoCapture(camera_index, cv2.CAP_DSHOW)
+    cap = cv2.VideoCapture(camera_index, cv2.CAP_V4L2)
     if not cap.isOpened():
         return {"status": 503, "message": "카메라 연결 오류."}
 
