@@ -2,8 +2,9 @@
   position: absolute;
   width: 60%;
   height: auto;
-  top: 45%;
+  top: 40%;
   left: 50%;
+  transform: translate(-50%, -50%);
   animation: logofloating 2s infinite ease-in-out;
 }
 
