@@ -18,8 +18,16 @@ export default function HomePage() {
   return (
     <div className="HomeContainer">
       {/* 🎵 배경음악 토글 버튼 */}
-      <button className="MusicToggleButton" onClick={toggleAudio}>
-        {isPlaying ? '🔇 음악 끄기' : '🔊 음악 켜기'}
+      <button className="HomeMusicToggleButton" onClick={toggleAudio}>
+        <img
+          src={
+            isPlaying
+              ? '/src/assets/common/sound_off.png'
+              : '/src/assets/common/sound_on.png'
+          }
+          alt={isPlaying ? '음악 끄기' : '음악 켜기'}
+          className="HomeMusicToggleIcon"
+        />
       </button>
 
       <HomeLogo />
