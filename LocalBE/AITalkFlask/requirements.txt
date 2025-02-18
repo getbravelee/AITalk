@@ -105,7 +105,6 @@ tensorboard==2.18.0
 tensorboard-data-server==0.7.2
 tensorflow==2.18.0
 tensorflow-io-gcs-filesystem==0.31.0
-tensorflow_intel==2.18.0
 termcolor==2.5.0
 tf_keras==2.18.0
 tiktoken==0.8.0
@@ -146,3 +145,4 @@ ultralytics==8.3.75
 deepface==0.0.93
 tf-keras==2.18.0
 pymysql==1.1.1
+bcrypt==4.2.1
