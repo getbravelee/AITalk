@@ -18,7 +18,8 @@ def get_card_by_id(card_id):
             return {
                 'card_id': card.card_id,
                 'name': card.name,
-                'image': card.image
+                'image': card.image,
+                'categories': card.categories if card.categories else []
             }
         else:
             print(f"Card ID {card_id}에 해당하는 카드가 DB에 존재하지 않습니다.")

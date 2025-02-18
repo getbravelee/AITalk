@@ -1,4 +1,4 @@
--- drop schema aitalk;
+drop schema aitalk;
 create schema aitalk;
 
 USE aitalk;
@@ -41,5 +41,6 @@ CREATE TABLE treatment (
 CREATE TABLE card (
     card_id INT UNSIGNED PRIMARY KEY,
     name VARCHAR(20),
-    image VARCHAR(20)
+    image VARCHAR(20),
+    categories json default null
 );
