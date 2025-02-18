@@ -30,9 +30,10 @@ export default function PlaySelectPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
 
   return (
-    <div>
+    <div className="BackgroundContainer">
+      <div className="BackgroundImage"></div>
       <NavbarContainer>
-        <HStack gap={1300} pt={2}>
+        <HStack gap={1120} pt={2}>
           <BackButton />
           {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
           {currentUser && (

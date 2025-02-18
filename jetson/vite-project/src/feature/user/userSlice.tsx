@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface User {
-  id: number;
-  name: string;
+  therapist_id: number;
+  therapist_name: string;
   // 추가적인 사용자 속성들…
 }
 
