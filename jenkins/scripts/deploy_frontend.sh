@@ -8,8 +8,11 @@ docker pull suhwany/aitalk:frontend-latest
 docker stop manage-children-front || true
 docker rm manage-children-front || true
 
-# ✅ 네트워크 연결 확인
-docker network ls | grep my_network || docker network create my_network
+# ✅ 네트워크 존재 여부 확인 후 생성
+if ! docker network inspect my_network > /dev/null 2>&1; then
+  echo "🔗 my_network 네트워크 생성"
+  docker network create my_network
+fi
 
 # ✅ 프론트 컨테이너 실행 (Nginx 사용)
 docker run -d --name manage-children-front \
