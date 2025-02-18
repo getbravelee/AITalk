@@ -65,10 +65,10 @@ export default function TherapistFaceLoginPage() {
                 <img src={faceIdImageSmall} alt="FaceID" />
               </Button>
               <Button
-                bg="blue.400"
+                bg="#b08b7a"
                 color="white"
-                _hover={{ bg: 'blue.500' }}
-                _active={{ bg: 'blue.600' }}
+                _hover={{ bg: '#9f7b69' }}
+                _active={{ bg: '#8d6b5a' }}
                 fontSize={20}
                 rounded="l3"
                 onClick={() => navigate('/TherapistLoginPage')}
