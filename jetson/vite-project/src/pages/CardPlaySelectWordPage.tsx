@@ -31,8 +31,8 @@ export default function CardPlaySelectWordPage() {
         <BackPlaySelectButton />
       </NavbarContainer>
       <div className="CardPlaySelectWordContainer">
-        <div className="NfcLoadingWrapper">
-          <NfcImage className="NfcCentered" />
+        <div className="NfcLoadingsWrapper">
+          <NfcImage className="SmallNfcCentered" />
           <LoadingCircle className="LoadingCentered" />
           <NfcTagText className="SmallNfcTagText" />
         </div>

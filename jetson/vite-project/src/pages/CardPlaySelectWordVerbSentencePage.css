@@ -29,11 +29,7 @@
   font-size: 3.5rem; /* 텍스트 크기 */
   font-weight: bold; /* 텍스트 굵기 */
   text-align: center; /* 중앙 정렬 */
-  color: black;
-
-  /* 
-  color: white; 
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 그림자 효과*/
+  color: #5a3e2b;
 }
 
 /* 부드러운 흔들림 (둥둥 떠 있는 듯한 효과) */
