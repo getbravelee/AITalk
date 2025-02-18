@@ -14,7 +14,7 @@ export const useLogin = () => {
 
   const handleLogin = async (): Promise<void> => {
     try {
-      const response = await axios.post<LoginResponse>('/api/user/login', {
+      const response = await axios.post<LoginResponse>('/user/login', {
         id,
         password,
       });

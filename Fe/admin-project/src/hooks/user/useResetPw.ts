@@ -27,7 +27,7 @@ export const useResetPw = () => {
 
     try {
       const response = await axios.post<FindPwResponse>(
-        '/api/user/change-password',
+        '/user/change-password',
         { id, password, confirmPassword },
       );
       if (response.status === 200) {

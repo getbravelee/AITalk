@@ -14,7 +14,7 @@ export const useFindId = () => {
   const handleFindId = async (): Promise<void> => {
     try {
       // API 요청 시 email만 전달
-      const response = await axios.post<FindIdResponse>('/api/user/find-id', {
+      const response = await axios.post<FindIdResponse>('/user/find-id', {
         email,
       });
       if (response.status === 200) {

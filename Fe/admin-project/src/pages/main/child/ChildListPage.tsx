@@ -31,7 +31,7 @@ export default function ChildListPage() {
       setError(''); // 에러 초기화
       setNotFound(false); // 검색 결과 초기화
 
-      const response = await axiosInstance.get<Child[]>(`/api/child/list${query ? `?childName=${query}` : ''}`);
+      const response = await axiosInstance.get<Child[]>(`/child/list${query ? `?childName=${query}` : ''}`);
       if (response.data.length === 0) {
         setNotFound(true); // ❌ 검색 결과 없음 상태 업데이트
       } else {

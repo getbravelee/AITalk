@@ -23,7 +23,7 @@ export const useEmailVerify = () => {
 
     try {
       const response = await axios.post<EmailAuthResponse>(
-        `/api/user/${url}`,
+        `/user/${url}`,
         payload,
       );
 

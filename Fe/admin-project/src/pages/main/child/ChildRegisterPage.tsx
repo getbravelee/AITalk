@@ -20,7 +20,7 @@ export default function ChildRegisterPage() {
   useEffect(() => {
     const fetchCenters = async () => {
       try {
-        const response = await axiosInstance.get('/api/child/center-list');
+        const response = await axiosInstance.get('/child/center-list');
         console.log("📥 센터 목록 응답:", response.data);
         setCenters(response.data); // 센터 리스트 저장
       } catch (error) {
@@ -57,7 +57,7 @@ export default function ChildRegisterPage() {
     try {
       const token = localStorage.getItem('token');
 
-      const response = await axiosInstance.post('/api/child/register', requestBody, {
+      const response = await axiosInstance.post('/child/register', requestBody, {
         headers: {
           Authorization: token,
         },

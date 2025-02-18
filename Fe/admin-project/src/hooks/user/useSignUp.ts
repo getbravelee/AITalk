@@ -31,7 +31,7 @@ const useSignUp = () => {
     setError(null);
     try {
       const response = await axios.post<SignUpResponse>(
-        '/api/user/signup',
+        '/user/signup',
         signupData,
       );
 

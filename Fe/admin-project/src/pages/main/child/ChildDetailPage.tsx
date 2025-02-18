@@ -21,7 +21,7 @@ export default function ChildDetailPage() {
   useEffect(() => {
     const fetchTreatments = async () => {
       try {
-        const response = await axiosInstance.get(`/api/child/${id}/schedule-list`);
+        const response = await axiosInstance.get(`/child/${id}/schedule-list`);
         console.log("📥 치료 일정 데이터:", response.data);
         setTreatments(response.data);
       } catch (error) {

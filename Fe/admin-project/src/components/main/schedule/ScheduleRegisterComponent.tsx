@@ -35,7 +35,7 @@ const ScheduleRegisterComponent = ({
   useEffect(() => {
     const fetchChildren = async () => {
       try {
-        const response = await axiosInstance.get('/api/child/list');
+        const response = await axiosInstance.get('/child/list');
         console.log('📥 아동 목록 응답:', response.data);
         setChildren(response.data);
       } catch (error) {
@@ -73,7 +73,7 @@ const ScheduleRegisterComponent = ({
 
     try {
       const response = await axiosInstance.post(
-        '/api/schedule/register',
+        '/schedule/register',
         requestData,
       );
       console.log('일정 등록 성공:', response.data);

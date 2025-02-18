@@ -32,7 +32,7 @@ const DetailScheduleComponent = ({
   const fetchScheduleDetail = async () => {
     try {
       const response = await axiosInstance.get(
-        `/api/schedule/detail/${scheduleId}`,
+        `/schedule/detail/${scheduleId}`,
       );
       console.log('📥 상세 일정 데이터:', response.data);
       setScheduleDetail(response.data);
@@ -58,7 +58,7 @@ const DetailScheduleComponent = ({
 
     try {
       const response = await axiosInstance.put(
-        `/api/schedule/detail/${scheduleId}`,
+        `/schedule/detail/${scheduleId}`,
         updatedPayload,
       );
       if (response.status === 200) {
