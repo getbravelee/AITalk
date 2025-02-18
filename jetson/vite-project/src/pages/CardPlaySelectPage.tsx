@@ -46,6 +46,7 @@ export default function CardPlaySelectPage() {
               }}
             >
               <CardInfoContainer
+                className="CardPlaySelectInfoContainer"
                 imageSrc={imageSrc}
                 cardName={parsedCardData.name}
               />
@@ -53,8 +54,14 @@ export default function CardPlaySelectPage() {
           </motion.div>
 
           <div className="ButtonContainer">
-            <WordButton targetPath="/card-play-select/word" />
-            <ThreeSentenceButton targetPath="/card-play-select/three-sentence" />
+            <WordButton
+              className="CardPlaySelectWordButtonStyle"
+              targetPath="/card-play-select/word"
+            />
+            <ThreeSentenceButton
+              className="CardPlaySelectThreeSentenceButtonStyle"
+              targetPath="/card-play-select/three-sentence"
+            />
           </div>
         </div>
       </div>

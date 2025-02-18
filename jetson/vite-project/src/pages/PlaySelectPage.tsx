@@ -17,9 +17,9 @@ export default function PlaySelectPage() {
   const location = useLocation();
 
   // ✅ state로 전달받은 데이터
-  const treatmentId: number = location.state?.treatmentId;
-  const childId: string = location.state?.childId;
-  const therapistId: string = location.state?.therapistId;
+  const treatmentId: number = location.state?.treatment_id;
+  const childId: string = location.state?.child_id;
+  const therapistId: string = location.state?.therapist_id;
 
   // ✅ 콘솔에 데이터 출력
   console.log('📌 [PlaySelectPage] 전달받은 데이터');
@@ -45,9 +45,9 @@ export default function PlaySelectPage() {
       </NavbarContainer>
       <div className="PlaySelectContainer">
         <div className="PlaySelectInnerContainer">
-          <CardTagButton />
-          <CameraButton scheduleId={treatmentId} />
-          <AiTalkButton childId={childId} />
+          <CardTagButton className="PlayCardTagButton" />
+          <CameraButton className="PlayCameraButton" scheduleId={treatmentId} />
+          <AiTalkButton className="PlayAiTalkButton" childId={childId} />
         </div>
         <PlaySelectText />
       </div>

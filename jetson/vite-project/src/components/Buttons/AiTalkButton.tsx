@@ -4,7 +4,15 @@ import { io } from 'socket.io-client';
 
 const socket = io('http://localhost:5000');
 
-export default function AiTalkButton({ childId }: { childId: string }) {
+interface AiTalkButtonProps {
+  childId: string;
+  className?: string; // 👈 className을 props로 받도록 추가
+}
+
+export default function AiTalkButton({
+  childId,
+  className,
+}: AiTalkButtonProps) {
   const navigate = useNavigate();
   const { isPlaying, toggleAudio } = useAudio();
 
@@ -93,9 +101,9 @@ export default function AiTalkButton({ childId }: { childId: string }) {
   };
 
   return (
-    <button onClick={handleClick}>
+    <button className={`AiTalkButton ${className || ''}`} onClick={handleClick}>
       <img src="/src/assets/menu/symbol.png" alt="톡톡이 아이콘" />
-      <span>톡톡이와 이야기 하기</span>
+      <span>톡톡이</span>
     </button>
   );
 }

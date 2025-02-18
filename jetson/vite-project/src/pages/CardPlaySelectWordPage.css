@@ -5,21 +5,21 @@
   background-size: cover;
   height: 90vh;
   display: flex;
-  align-items: center;
   justify-content: center;
   position: relative; /* 내부 요소의 절대 위치 기준 */
   font-family: 'Dongle', serif;
+  padding-top: 70px;
 }
 
 /* NFC 로딩 컨테이너 (우측 상단 고정) */
 .NfcLoadingsWrapper {
   position: absolute;
-  top: -50px;
-  right: -50px;
+  top: -200px;
+  right: -160px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: scale(0.3); /* 크기 축소 */
+  transform: scale(0.35); /* 크기 축소 */
 }
 
 /* NFC 이미지 조정 */
@@ -34,14 +34,20 @@
 /* 카드 이름 (text) 스타일 조정 */
 .CardPlaySelectWordContainer .BigCardInfoContainer .CardInfoContainer p {
   font-family: 'Dongle', serif;
-  font-size: 3rem;
+  font-size: 10rem;
   font-weight: bold;
   text-align: center;
   color: #5a3e2b;
 }
 
-.SmallNfcTagText p {
-  font-size: 1.7rem;
+.CardPlaySelectWordContainer .BigCardInfoContainer .CardInfoContainer img {
+  width: 600px;
+  height: auto;
+  margin-left: 250px;
+}
+
+.NfcLoadingsWrapper .SmallNfcTagText p {
+  font-size: 4rem;
 }
 
 /* 카드 이미지 부드럽게 흔들리는 애니메이션 */
