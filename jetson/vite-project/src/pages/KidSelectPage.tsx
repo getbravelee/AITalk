@@ -28,8 +28,7 @@ export default function KidSelectPage() {
     <div className="BackgroundContainer">
       <div className="BackgroundImage"></div>
       <NavbarContainer>
-        <HStack gap={1120} pt={2}>
-          <BackButton />
+        <HStack pl={350} >
           {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
           {currentUser && (
             <HStack gap={10}>
@@ -41,7 +40,7 @@ export default function KidSelectPage() {
       </NavbarContainer>
       <div className="BackgroundContainer">
         <div className="BackgroundImage"></div>
-        <Text fontSize={100} pt={1} pl={8} className="font" color="#333333">
+        <Text fontSize={60} pt={1} pl={8} className="font" color="#333333">
           치료 아동 선택
         </Text>
         <Box height={3} />
