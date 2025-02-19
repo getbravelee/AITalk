@@ -181,7 +181,7 @@ export default function CameraScanPage() {
     }
 
     const data = {
-      scheduleId,
+      schedule_id: scheduleId,
       word: objectName,
     };
 
