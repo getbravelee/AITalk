@@ -6,13 +6,18 @@ import DetailPlaySelectText from '../components/Texts/DetailPlaySelectText';
 import CategoryCardInfoContainer from '../components/Common/CategoryCardInfoContainer';
 import WordButton from '../components/Common/WordButton';
 import ThreeSentenceButton from '../components/Common/ThreeSentenceButton';
-
+import { useSelector } from 'react-redux';
+import { RootState } from '../feature/store';
 import './CategoryCardPlaySelectPage.css';
 
 export default function CategoryCardPlaySelectPage() {
   const location = useLocation();
   const cardData = location.state || { name: 'Unknown', image: 'default' };
-
+  const currentScheduleId: number | null = useSelector((state: RootState) =>
+    state.treatment?.treatmentId
+      ? Number(state.treatment?.treatmentId) // 🔥 string을 number로 변환
+      : null,
+  );
   // 데이터가 배열이라면 첫 번째 요소 사용
   const parsedCardData = Array.isArray(cardData) ? cardData[0] : cardData;
 
@@ -61,6 +66,8 @@ export default function CategoryCardPlaySelectPage() {
             <ThreeSentenceButton
               className="CategoryCardPlaySelectThreeSentenceButtonStyle"
               targetPath="/card-play-select/three-sentence"
+              schedule_id={currentScheduleId ?? 0}
+              word={parsedCardData.image}
             />
           </div>
         </div>
