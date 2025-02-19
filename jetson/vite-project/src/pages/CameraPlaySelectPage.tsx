@@ -11,6 +11,7 @@ import './CameraPlaySelectPage.css';
 export default function CameraPlaySelectPage() {
   const location = useLocation();
   const imageSrc = location.state?.imageUrl;
+  const data = location.state?.data;
 
   console.log('📸 사용될 이미지:', imageSrc); // ✅ 콘솔에서 확인
 
@@ -49,6 +50,8 @@ export default function CameraPlaySelectPage() {
             <ThreeSentenceButton
               className="CameraPlaySelectThreeSentenceButtonStyle"
               targetPath="/camera-play-select/three-sentence"
+              schedule_id={data.schedule_id}
+              word={data.word}
             />
           </div>
         </div>
