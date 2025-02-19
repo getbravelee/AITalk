@@ -1,93 +1,68 @@
 @import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
 
 .PlaySelectContainer {
-  background-image: url('/src/assets/background/background_3.png'); /* 배경 이미지 */
-  background-size: cover; /* 화면 채우기 */
-  background-position: center; /* 이미지 중앙 정렬 */
-  height: 90vh; /* 전체 높이 */
+  background-image: url('/src/assets/background/background_3.png');
+  background-size: cover;
+  background-position: center;
+  height: 90vh; /* 화면 전체 높이 */
   display: flex;
-  flex-direction: column; /* 세로 방향 정렬 */
-  align-items: center; /* 가로 중앙 정렬 */
-  padding-top: 6vh; /* 요소를 위쪽으로 이동 */
+  flex-direction: column;
+  align-items: center;
+  padding-top: 4vh; /* 상단 여백 조정 */
   font-family: 'Dongle', serif;
 }
 
 .PlaySelectInnerContainer {
   display: flex;
-  gap: 40px; /* 버튼 간 간격 */
+  gap: 20px; /* 버튼 간격 축소 */
 }
 
+/* 버튼 크기 축소 */
 .PlaySelectInnerContainer button {
-  width: 500px; /* 버튼 가로 크기 고정 */
-  height: 550px; /* 버튼 세로 크기 고정 */
-  position: relative; /* span을 개별적으로 조정하기 위해 필요 */
-  border-radius: 30px; /* 둥근 모서리 */
+  width: 220px; /* 버튼 너비 */
+  height: 260px; /* 버튼 높이 */
+  position: relative;
+  border-radius: 15px; /* 둥근 모서리 조정 */
   display: flex;
-  flex-direction: column; /* 아이콘과 텍스트를 세로로 배치 */
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   background-color: rgba(255, 255, 255, 0.4);
 }
 
-/* 🔹 버튼별 개별 이미지 크기 설정 */
+/* 버튼별 이미지 크기 조정 */
 .PlayCardTagButton img {
-  width: 500px;
-  height: 500px;
-  margin-bottom: 110px;
+  width: 180px;
+  height: 180px;
+  margin-bottom: 40px;
 }
 
 .PlayCameraButton img {
-  width: 400px;
-  height: 500px;
-  margin-bottom: 110px;
+  width: 160px;
+  height: 180px;
+  margin-bottom: 40px;
 }
 
 .PlayAiTalkButton img {
-  width: 350px;
-  height: 400px;
-  margin-bottom: 120px;
+  width: 150px;
+  height: 160px;
+  margin-bottom: 40px;
 }
 
-/* 🔹 각 버튼의 span 위치 개별 조정 (이미지 위치 유지) */
-.PlayCardTagButton span {
-  position: absolute;
-  bottom: 0px; /* 카드 태그 버튼의 텍스트 위치 */
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 5rem;
-  font-weight: bold;
-  color: #5a3e2b;
-  text-align: center;
-  background-color: rgba(255, 193, 0, 0.5);
-  width: 495px;
-  border-radius: 0 0 30px 30px;
-}
-
-.PlayCameraButton span {
-  position: absolute;
-  bottom: 0px; /* 카메라 버튼의 텍스트 위치 */
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 5rem;
-  font-weight: bold;
-  color: #5a3e2b;
-  text-align: center;
-  background-color: rgba(255, 193, 0, 0.5);
-  width: 495px;
-  border-radius: 0 0 30px 30px;
-}
-
+/* 버튼 내부 텍스트 위치 및 크기 조정 */
+.PlayCardTagButton span,
+.PlayCameraButton span,
 .PlayAiTalkButton span {
   position: absolute;
-  bottom: 0px; /* AI Talk 버튼의 텍스트 위치 */
+  bottom: 0px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 5rem;
+  font-size: 2rem; /* 텍스트 크기 축소 */
   font-weight: bold;
   color: #5a3e2b;
   text-align: center;
   background-color: rgba(255, 193, 0, 0.5);
-  width: 495px;
-  border-radius: 0 0 30px 30px;
+  width: 220px; /* 버튼 크기에 맞게 조정 */
+  border-radius: 0 0 15px 15px;
 }

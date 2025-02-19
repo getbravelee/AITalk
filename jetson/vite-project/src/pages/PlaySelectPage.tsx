@@ -34,7 +34,7 @@ export default function PlaySelectPage() {
     <div className="BackgroundContainer">
       <div className="BackgroundImage"></div>
       <NavbarContainer>
-        <HStack pl={1200} pt={4}>
+        <HStack pl={350}>
           {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
           {currentUserId && (
             <HStack gap={10}>
