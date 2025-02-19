@@ -5,8 +5,8 @@ import { io } from 'socket.io-client';
 const socket = io('http://localhost:5000');
 
 interface AiTalkButtonProps {
-  childId: string;
-  className?: string; // 👈 className을 props로 받도록 추가
+  childId: string | undefined;
+  className?: string;
 }
 
 export default function AiTalkButton({
