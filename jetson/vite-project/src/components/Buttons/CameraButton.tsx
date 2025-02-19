@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
 interface CameraButtonProps {
-  scheduleId: number;
-  className?: string; // 👈 className을 props로 받을 수 있도록 추가
+  scheduleId: number | null;
+  className?: string;
 }
 
 export default function CameraButton({
