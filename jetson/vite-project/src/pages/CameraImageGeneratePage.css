@@ -13,6 +13,5 @@
 
 /* CameraImageGeneratePage.css */
 .camera-loading-circle {
-  position: absolute;
-  bottom: 13%;
+  margin-top: 215px; /* 원하는 만큼 아래로 내리기 */
 }
