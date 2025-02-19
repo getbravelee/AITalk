@@ -31,7 +31,7 @@ export default function CardPlaySelectWordPage() {
   return (
     <div>
       <NavbarContainer>
-        <BackPlaySelectButton />
+        <BackPlaySelectButton className="CustomMarginTop" />
       </NavbarContainer>
       <div className="CardPlaySelectWordContainer">
         <div className="NfcLoadingsWrapper">

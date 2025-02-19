@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
 
-/* ✅ 전체 컨테이너 (1024x600 크기 고정) */
+/* ✅ 전체 컨테이너 (1024x600 해상도) */
 .CardPlaySelectWordContainer {
   background-image: url('/src/assets/background/background_3.png');
   background-size: cover;
+  background-position: center;
   width: 1024px;
-  height: 600px;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,17 +14,6 @@
   font-family: 'Dongle', serif;
   margin: 0 auto;
   overflow: hidden;
-}
-
-/* ✅ NFC 로딩 컨테이너 (화면 오른쪽 상단 고정) */
-.NfcLoadingsWrapper {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: scale(0.35);
 }
 
 /* ✅ 카드 정보 컨테이너 */
@@ -34,21 +24,36 @@
   flex-direction: column;
   width: 100%;
   height: auto;
-  margin-top: 30px;
 }
 
 /* ✅ 카드 이미지 크기 조정 */
 .CardPlaySelectWordContainer .BigCardInfoContainer .CardInfoContainer img {
-  width: 400px;
+  width: 350px;
   height: auto;
+  margin-left: 22.5rem;
+}
+
+/* ✅ NFC 로딩 컨테이너 (위치 조정) */
+.NfcLoadingsWrapper {
+  position: absolute;
+  top: -1.5rem; /* 기존 -2rem → -1.5rem (살짝 조정) */
+  right: -3rem; /* 기존 -5rem → -3rem (너무 오른쪽으로 밀리는 것 방지) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.4);
 }
 
 /* ✅ NFC 태그 텍스트 스타일 */
 .NfcLoadingsWrapper .SmallNfcTagText p {
-  font-size: 3rem;
+  font-size: 2.2rem;
 }
 
-/* ✅ 카드 이미지 애니메이션 */
+.NfcLoadingsWrapper .SmallNfcCentered img {
+  width: 13rem;
+}
+
+/* ✅ 카드 이미지 애니메이션 (둥둥 떠다니는 효과) */
 .BigCardInfoContainer .CardInfoContainer {
   animation: floating 2s infinite ease-in-out;
 }
@@ -73,22 +78,22 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-top: 50px;
+  margin-top: 30px; /* 기존 50px → 30px */
 }
 
 /* ✅ 여러 이미지를 가로 정렬 */
 .CategoryImagesGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 8px; /* 기존 10px → 8px (조금 압축) */
   justify-content: center;
   align-items: center;
 }
 
 /* ✅ 단어 스타일 */
 .CategoryCardName {
-  font-size: 6rem;
+  font-size: 5rem; /* 기존 6rem → 5rem */
   font-weight: bold;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 15px; /* 기존 20px → 15px */
 }

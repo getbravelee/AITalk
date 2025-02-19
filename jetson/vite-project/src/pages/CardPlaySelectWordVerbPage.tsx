@@ -44,7 +44,7 @@ export default function CardPlaySelectWordVerbPage() {
   return (
     <div>
       <NavbarContainer>
-        <BackPlaySelectButton />
+        <BackPlaySelectButton className="CustomMarginTop" />
       </NavbarContainer>
 
       <div className="CardPlaySelectWordVerbContainer">
