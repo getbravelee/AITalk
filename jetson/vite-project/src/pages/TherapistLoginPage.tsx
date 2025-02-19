@@ -9,7 +9,6 @@ import { RootState } from '../feature/store';
 import { useSelector } from 'react-redux';
 import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
-import HomeButton from '../components/Common/HomeButton';
 import { useNavigate } from 'react-router-dom';
 import UseTherapistLogin from '../hooks/UseTherapistLogin';
 

@@ -31,6 +31,8 @@ import TherapistFaceResisterCompletePage from './pages/TherapistFaceRegisterComp
 import HomeAfterLoginPage from './pages/HomeAfterLoginPage';
 import KidSelectPage from './pages/KidSelectPage';
 import KidFaceLoginPage from './pages/KidFaceLoginPage';
+import NfcTagForFaceRegisterPage from './pages/NfcTagForFaceRegistPage';
+import NfcTagForLoginPage from './pages/NfcTagForLoginPage';
 
 export default function App() {
   return (
@@ -125,6 +127,8 @@ function MainRoutes() {
       <Route path="/HomeAfterLoginPage" element={<HomeAfterLoginPage />} />
       <Route path="/KidSelectPage" element={<KidSelectPage />} />
       <Route path="/KidFaceLoginPage" element={<KidFaceLoginPage />} />
+      <Route path="/NfcTagForFaceRegisterPage" element={<NfcTagForFaceRegisterPage />} />
+      <Route path="/NfcTagForLoginPage" element={<NfcTagForLoginPage />} />
     </Routes>
   );
 }
