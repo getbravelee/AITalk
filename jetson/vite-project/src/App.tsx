@@ -127,7 +127,10 @@ function MainRoutes() {
       <Route path="/HomeAfterLoginPage" element={<HomeAfterLoginPage />} />
       <Route path="/KidSelectPage" element={<KidSelectPage />} />
       <Route path="/KidFaceLoginPage" element={<KidFaceLoginPage />} />
-      <Route path="/NfcTagForFaceRegisterPage" element={<NfcTagForFaceRegisterPage />} />
+      <Route
+        path="/NfcTagForFaceRegisterPage"
+        element={<NfcTagForFaceRegisterPage />}
+      />
       <Route path="/NfcTagForLoginPage" element={<NfcTagForLoginPage />} />
     </Routes>
   );

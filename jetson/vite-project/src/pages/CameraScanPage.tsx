@@ -167,7 +167,7 @@ export default function CameraScanPage() {
     return () => cancelAnimationFrame(animationId);
   }, [model]);
 
-  // ✅ 백엔드 전송 함수 수정 (전송 후 페이지 이동)
+  // ✅ 백엔드 전송 함수 수정 (데이터 전송 후 state와 함께 페이지 이동)
   const sendToBackend = async (objectName: string) => {
     if (!scheduleId) {
       console.error('❌ scheduleId가 없습니다.');
@@ -203,9 +203,10 @@ export default function CameraScanPage() {
       }
 
       console.log('✅ 데이터 전송 성공!');
+      const imageData = await response.json();
 
-      // ✅ 백엔드로 데이터 전송 후 '/camera-img-generate'로 이동
-      navigate('/camera-img-generate');
+      // ✅ 백엔드로 받은 imageDdata를 state와 함께 전달
+      navigate('/camera-img-generate', { state: { data, imageData } });
     } catch (error) {
       console.error('❌ 데이터 전송 실패:', error);
       isDataSentRef.current = false; // ⚠️ 에러 발생 시 다시 감지 가능하도록 초기화

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import DetailPlaySelectText from '../components/Texts/DetailPlaySelectText';
@@ -9,8 +10,10 @@ import ThreeSentenceButton from '../components/Common/ThreeSentenceButton';
 import './CameraPlaySelectPage.css';
 
 export default function CameraPlaySelectPage() {
-  const imageSrc = '/src/assets/card/bread.png';
-  const cardName = '빵';
+  const location = useLocation();
+  const imageSrc = location.state?.imageUrl;
+
+  console.log('📸 사용될 이미지:', imageSrc); // ✅ 콘솔에서 확인
 
   return (
     <div>
@@ -22,31 +25,32 @@ export default function CameraPlaySelectPage() {
         <div className="CameraPlaySelectInnerContainer">
           {/* 1️⃣ "펑!" 애니메이션 (처음 한 번만 실행) */}
           <motion.div
-            animate={{ scale: [0, 1.2, 1], opacity: 1 }} // 펑! 하고 커짐
+            animate={{ scale: [0, 1.2, 1], opacity: 1 }}
             transition={{ duration: 2, ease: 'easeOut' }}
           >
             {/* 2️⃣ 둥둥 떠다니는 애니메이션 (펑! 이후 실행) */}
             <motion.div
               animate={{
-                y: [0, -5, 0, 5, 0], // 위아래 둥둥 떠다니기
-                rotate: [0, 1, -1, 0], // 살짝 흔들리기
+                y: [0, -5, 0, 5, 0],
+                rotate: [0, 1, -1, 0],
               }}
               transition={{
                 duration: 5,
                 ease: 'easeInOut',
-                repeat: Infinity, // 무한 반복
+                repeat: Infinity,
                 repeatType: 'reverse',
               }}
             >
-              {/* 카메라로 찍은 물건으로 생성형 AI가 만들어낸 이미지 정보 올 것임 현재는 그냥 위에 빵으로 선언 해놓음*/}
-              <CardInfoContainer imageSrc={imageSrc} cardName={cardName} />
+              {/* ✅ 불러온 이미지 적용 */}
+              <CardInfoContainer imageSrc={imageSrc.image} />
             </motion.div>
           </motion.div>
 
           <div className="ButtonContainer">
-            {/* CameraPlaySelectPage 전용 경로 설정 */}
-            <WordButton targetPath="/camera-play-select/word" />
-            <ThreeSentenceButton targetPath="/camera-play-select/three-sentence" />
+            <ThreeSentenceButton
+              className="CameraPlaySelectThreeSentenceButtonStyle"
+              targetPath="/camera-play-select/three-sentence"
+            />
           </div>
         </div>
       </div>
