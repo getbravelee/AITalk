@@ -1,103 +1,94 @@
 @import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
 
+/* ✅ 전체 컨테이너 (1024x600 크기 고정) */
 .CardPlaySelectWordContainer {
   background-image: url('/src/assets/background/background_3.png');
   background-size: cover;
-  height: 90vh;
+  width: 1024px;
+  height: 600px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  position: relative; /* 내부 요소의 절대 위치 기준 */
   font-family: 'Dongle', serif;
-  padding-top: 70px;
+  margin: 0 auto;
+  overflow: hidden;
 }
 
-/* NFC 로딩 컨테이너 (우측 상단 고정) */
+/* ✅ NFC 로딩 컨테이너 (화면 오른쪽 상단 고정) */
 .NfcLoadingsWrapper {
   position: absolute;
-  top: -200px;
-  right: -160px;
+  top: 20px;
+  right: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: scale(0.35); /* 크기 축소 */
+  transform: scale(0.35);
 }
 
-/* NFC 이미지 조정 */
-.SmallNfcCentered {
-  position: absolute;
-  z-index: 2;
-  width: 60%;
+/* ✅ 카드 정보 컨테이너 */
+.BigCardInfoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
   height: auto;
-  margin-bottom: -25px;
+  margin-top: 30px;
 }
 
-/* 카드 이름 (text) 스타일 조정 */
-.CardPlaySelectWordContainer .BigCardInfoContainer .CardInfoContainer p {
-  font-family: 'Dongle', serif;
-  font-size: 10rem;
-  font-weight: bold;
-  text-align: center;
-  color: #5a3e2b;
-}
-
+/* ✅ 카드 이미지 크기 조정 */
 .CardPlaySelectWordContainer .BigCardInfoContainer .CardInfoContainer img {
-  width: 600px;
+  width: 400px;
   height: auto;
-  margin-left: 250px;
 }
 
+/* ✅ NFC 태그 텍스트 스타일 */
 .NfcLoadingsWrapper .SmallNfcTagText p {
-  font-size: 4rem;
+  font-size: 3rem;
 }
 
-/* 카드 이미지 부드럽게 흔들리는 애니메이션 */
+/* ✅ 카드 이미지 애니메이션 */
 .BigCardInfoContainer .CardInfoContainer {
   animation: floating 2s infinite ease-in-out;
 }
 
-/* 부드러운 흔들림 (둥둥 떠 있는 듯한 효과) */
+/* ✅ 둥둥 떠 있는 애니메이션 */
 @keyframes floating {
   0% {
     transform: translateY(0) rotate(0);
   }
-  25% {
-    transform: translateY(-5px) rotate(-0.5deg);
-  }
   50% {
-    transform: translateY(5px) rotate(0.5deg);
-  }
-  75% {
-    transform: translateY(-5px) rotate(-0.5deg);
+    transform: translateY(-5px) rotate(0.5deg);
   }
   100% {
     transform: translateY(0) rotate(0);
   }
 }
 
-/* ✅ 전체 컨테이너 (이미지 + 글자) */
+/* ✅ 카테고리 이미지 컨테이너 */
 .CategoryImagesContainer {
   display: flex;
-  flex-direction: column; /* ✅ 이미지 + 글자 세로 정렬 */
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-top: 400px; /* 🔥 기존보다 더 아래로 내림 */
-  animation: floating 2s infinite ease-in-out;
+  margin-top: 50px;
 }
 
-/* ✅ 여러 이미지를 가로 정렬 + 한 줄에 3개씩 */
+/* ✅ 여러 이미지를 가로 정렬 */
 .CategoryImagesGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개 */
-  gap: 15px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
   justify-content: center;
   align-items: center;
 }
 
-/* ✅ 단어 스타일 (이미지 아래) */
+/* ✅ 단어 스타일 */
 .CategoryCardName {
-  font-size: 7rem; /* 🔥 글자 크기 키우기 */
+  font-size: 6rem;
   font-weight: bold;
-  text-align: center; /* ✅ 글자를 중앙 정렬 */
-  margin-top: 30px; /* 🔥 글자를 더 아래로 배치 */
+  text-align: center;
+  margin-top: 20px;
 }

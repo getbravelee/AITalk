@@ -1,51 +1,61 @@
 @import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
 
+/* ✅ 전체 컨테이너 크기 및 정렬 */
 .CardPlaySelectContainer {
   background-image: url('/src/assets/background/background_3.png');
   background-size: cover;
-  height: 90vh;
+  width: 1024px; /* 고정된 가로 크기 */
+  height: 600px; /* 고정된 세로 크기 */
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   font-family: 'Dongle', serif;
+  margin: 0 auto; /* 가운데 정렬 */
+  overflow: hidden; /* 스크롤 방지 */
 }
 
+/* ✅ 내부 요소 정렬 및 위치 조정 */
 .CardPlaySelectInnerContainer {
   display: flex;
-  gap: 5rem; /* 각 요소 사이 간격 */
-  margin-top: 3rem; /* 전체 간격 조정 */
+  gap: 3rem; /* 기존 5rem → 3rem (간격 줄이기) */
+  margin-top: 1.5rem; /* 기존 3rem → 1.5rem (위치 조정) */
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 100%; /* 부모 요소 크기에 맞춤 */
 }
 
+/* ✅ 버튼 컨테이너 */
 .ButtonsContainers {
   display: flex;
   flex-direction: row;
   gap: 1.5rem; /* 버튼 간 간격 설정 */
   position: relative;
-  margin-top: 10%;
+  margin-top: 40px; /* 기존 10% 대신 px 값으로 변경 */
 }
 
-/* ✅ WordButton 크기 조정 */
+/* ✅ Word 버튼 크기 조정 */
 .CardPlaySelectWordButtonStyle {
-  width: 250px;
-  height: 250px;
-  font-size: 7rem;
-  border-radius: 30px;
-  margin-right: 15px;
+  width: 200px; /* 기존 250px → 200px */
+  height: 200px; /* 기존 250px → 200px */
+  font-size: 5rem; /* 기존 7rem → 5rem */
+  border-radius: 20px; /* 기존 30px → 20px */
+  margin-right: 10px; /* 기존 15px → 10px */
 }
 
-/* ✅ ThreeSentenceButton 크기 조정 */
+/* ✅ Three Sentence 버튼 크기 조정 */
 .CardPlaySelectThreeSentenceButtonStyle {
-  width: 250px;
-  height: 250px;
-  font-size: 7rem;
-  border-radius: 30px;
-  margin-left: 15px;
+  width: 200px; /* 기존 250px → 200px */
+  height: 200px; /* 기존 250px → 200px */
+  font-size: 5rem; /* 기존 7rem → 5rem */
+  border-radius: 20px; /* 기존 30px → 20px */
+  margin-left: 10px; /* 기존 15px → 10px */
 }
 
 /* ✅ 카드 이미지 크기 및 스타일 */
 .CardPlaySelectInfoContainer img {
-  width: 550px;
+  width: 450px; /* 기존 550px → 450px */
   height: auto;
-  object-fit: cover; /* 이미지 비율 유지하면서 채우기 */
-  margin-top: -5%;
+  object-fit: cover;
+  margin-top: -3%; /* 기존 -5% → -3% */
 }
