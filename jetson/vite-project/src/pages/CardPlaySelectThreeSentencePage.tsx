@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-
+import { useLocation } from 'react-router-dom';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import CardInfoContainer from '../components/Common/CardInfoContainer';
@@ -7,6 +7,10 @@ import CardInfoContainer from '../components/Common/CardInfoContainer';
 import './CardPlaySelectThreeSentencePage.css';
 
 export default function CardPlaySelectThreeSentencePage() {
+  const location = useLocation()
+  const cardName = location.state.text
+  const image = location.state.image
+  console.log(cardName)
   return (
     <div>
       <NavbarContainer>
@@ -38,8 +42,8 @@ export default function CardPlaySelectThreeSentencePage() {
           >
             <CardInfoContainer
               className="LargeCardInfoContainer"
-              imageSrc={'3어문 이미지 들어갈 곳'}
-              cardName={'3어문 텍스트 들어갈 곳'}
+              imageSrc={image}
+              cardName={cardName}
             />
           </motion.div>
         </motion.div>

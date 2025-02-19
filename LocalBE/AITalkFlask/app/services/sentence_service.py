@@ -35,7 +35,7 @@ def generate_three_word_sentence(schedule_id, prompt):
 
     try:
         # ✅ 영어 문장 생성
-        response_en = openai.chat.completions.create(
+        response_en = openai.ChatCompletion.create(
             model="gpt-4o",
             messages=[{"role": "user", "content": prompt_en}],
             temperature=0.7
@@ -46,7 +46,7 @@ def generate_three_word_sentence(schedule_id, prompt):
 
 
         # ✅ 한국어 문장 생성
-        response_ko = openai.chat.completions.create(
+        response_ko = openai.ChatCompletion.create(
             model="gpt-4o",
             messages=[{"role": "user", "content": prompt_ko}],
             temperature=0.7
@@ -72,7 +72,7 @@ def generate_three_word_sentence(schedule_id, prompt):
         existing_image = get_image_from_db(sentence_en)
         if existing_image:
             print(f"✅ DB에서 기존 이미지 발견: {existing_image}")
-            return {"ko": sentence_ko, "en": sentence_en, "image": f"http://localhost:5000/images/{sentence_en}.png"}
+            return {"text": sentence_ko, "en": sentence_en, "image": f"http://localhost:5000/images/{sentence_en}.png"}
 
         # ✅ EC2에서 기존 이미지 확인
         print(f"🟡 EC2에서 이미지 상태 확인: {sentence_en}")

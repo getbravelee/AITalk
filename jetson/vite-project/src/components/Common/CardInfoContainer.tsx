@@ -11,14 +11,11 @@ export default function CardInfoContainer({
   cardName, // name 값이 여기에 들어옴
   className = '',
 }: CardInfoContainerProps) {
-  // cardName이 있으면 사용, 없으면 이미지 파일명에서 추출
-  const displayCardName =
-    cardName || imageSrc.split('/').pop()?.split('.')[0] || 'Unknown';
-
+  
   return (
     <div className={`CardInfoContainer ${className}`.trim()}>
-      <img className="CardImage" src={imageSrc} alt={displayCardName} />
-      <p className="CardTexts">{displayCardName}</p>
+      <img className="CardImage" src={imageSrc} alt={cardName} />
+      <p className="CardTexts">{cardName}</p>
     </div>
   );
 }
