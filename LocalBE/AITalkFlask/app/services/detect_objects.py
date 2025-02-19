@@ -28,7 +28,7 @@ def download_image(image_url, filename):
 def generate_image(word, schedule_id):
     """명사만 사용하여 EC2에 이미지 생성 요청"""
     prompt_ko = f"Translate '{word}' into Korean. Replace underscores (_) with spaces. Respond only with the translated sentence in Korean, without any additional explanation, punctuation, or quotation marks."
-    response_ko = openai.chat.completions.create(
+    response_ko = openai.ChatCompletion.create (
         model="gpt-4o",
         messages=[{"role": "user", "content": prompt_ko}],
         temperature=0.7

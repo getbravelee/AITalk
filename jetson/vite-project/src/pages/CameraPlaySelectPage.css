@@ -12,14 +12,31 @@
 
 .CameraPlaySelectInnerContainer {
   display: flex;
-  gap: 4rem; /* 각 요소 사이 간격 */
+  gap: 3rem; /* 각 요소 사이 간격 */
   margin-top: 3rem; /* 전체 간격 조정 */
 }
 
 .ButtonContainer {
   display: flex;
   flex-direction: row;
-  gap: 1rem; /* 버튼 간 간격 설정 */
+  gap: 1.5rem; /* 버튼 간 간격 설정 */
   position: relative;
-  top: 10%;
+  margin-top: 10%;
+}
+
+/* ✅ ThreeSentenceButton 크기 조정 */
+.CameraPlaySelectThreeSentenceButtonStyle {
+  width: 250px;
+  height: 250px;
+  font-size: 7rem;
+  border-radius: 30px;
+  margin-left: 15px;
+}
+
+/* ✅ 카드 이미지 크기 및 스타일 */
+.CameraPlaySelectContainer img {
+  width: 550px;
+  height: auto;
+  object-fit: cover; /* 이미지 비율 유지하면서 채우기 */
+  margin-top: -5%;
 }
