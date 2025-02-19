@@ -15,7 +15,7 @@
   justify-content: center; /* 세로 중앙 정렬 */
   gap: 30px; /* 버튼 간 간격 */
   position: relative;
-  top: 73%;
+  top: 61%;
 }
 
 .HomeMusicToggleButton {
