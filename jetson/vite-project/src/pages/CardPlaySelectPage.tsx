@@ -28,7 +28,7 @@ export default function CardPlaySelectPage() {
   return (
     <div>
       <NavbarContainer>
-        <BackPlaySelectButton />
+        <BackPlaySelectButton className="CustomMarginTop" />
       </NavbarContainer>
       <div className="CardPlaySelectContainer">
         <DetailPlaySelectText />
