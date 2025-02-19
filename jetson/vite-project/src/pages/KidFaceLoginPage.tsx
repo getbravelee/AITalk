@@ -2,7 +2,6 @@ import { Text, HStack, Flex, Button, VStack, Box } from '@chakra-ui/react';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import { useNavigate } from 'react-router-dom';
 import '../components/Common/BackgroundContainer.css';
-import BackButton from '../components/Common/BackButton';
 import '../components/Texts/TextFontFromGoogle.css';
 import { RootState } from '../feature/store';
 import { useSelector } from 'react-redux';
@@ -23,7 +22,7 @@ export default function KidFaceLoginPage() {
     <div className="BackgroundContainer">
       <div className="BackgroundImage"></div>
       <NavbarContainer>
-        <HStack pl={1200} pt={4}>
+        <HStack pl={350} >
           {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
           {currentUser && (
             <HStack gap={10}>
@@ -33,14 +32,14 @@ export default function KidFaceLoginPage() {
           )}
         </HStack>
       </NavbarContainer>
-      <Flex direction="column" align="center" pt={3}>
+      <Flex direction="column" align="center">
         <HStack className="font">
-          <Text fontSize={150} textAlign="center">
+          <Text fontSize={120} textAlign="center">
             아이
           </Text>
-          <Text fontSize={100}> 의 얼굴을 인식해 주세요</Text>
+          <Text fontSize={80}> 의 얼굴을 인식해 주세요</Text>
         </HStack>
-        <Box height="150px" />
+        <Box height="70px" />
         <VStack className="font">
           {isVerifying ? (
             // 인증 진행 중에는 로딩 애니메이션(faceid_animation_1)을 보여줌
@@ -61,7 +60,7 @@ export default function KidFaceLoginPage() {
               >
                 <img src={faceIdImage} alt="FaceID" width={200} />
               </Button>
-              <Box height="200px" />
+              <Box height="100px" />
               <Button
                 bg="#b08b7a"
                 color="white"

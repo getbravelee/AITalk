@@ -1,6 +1,14 @@
 // src/pages/TherapistLoginPage.tsx
 import { useState } from 'react';
-import { Flex, HStack, Text, Input, VStack, Button, Box } from '@chakra-ui/react';
+import {
+  Flex,
+  HStack,
+  Text,
+  Input,
+  VStack,
+  Button,
+  Box,
+} from '@chakra-ui/react';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import BackButton from '../components/Common/BackButton';
 import '../components/Common/BackgroundContainer.css';
@@ -15,8 +23,8 @@ import UseTherapistLogin from '../hooks/UseTherapistLogin';
 export default function TherapistLoginPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const faceIdImage: string = 'src/assets/Login/FaceID.svg';
-  const navigate = useNavigate()
-  const { verifyLogin } = UseTherapistLogin()
+  const navigate = useNavigate();
+  const { verifyLogin } = UseTherapistLogin();
   // 로그인 폼 관련 상태
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
@@ -31,8 +39,8 @@ export default function TherapistLoginPage() {
     <div className="BackgroundContainer">
       <div className="BackgroundImage"></div>
       <NavbarContainer>
-        <HStack gap={1120} pt={2}>
-          <BackButton />
+        <BackButton />
+        <HStack pl={350}>
           {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
           {currentUser && (
             <HStack gap={10}>
@@ -42,11 +50,11 @@ export default function TherapistLoginPage() {
           )}
         </HStack>
       </NavbarContainer>
-      <Flex direction="column" align="center" pt='80px' gap={10}>
+      <Flex direction="column" align="center">
         {/* 상단 타이틀 */}
         <HStack className="font">
-          <Text fontSize={150}>치료사</Text>
-          <Text fontSize={100}> 님의 ID, PW를 입력해 주세요</Text>
+          <Text fontSize={120}>치료사</Text>
+          <Text fontSize={80}> 님의 ID, PW를 입력해 주세요</Text>
         </HStack>
         {/* 로그인 폼 */}
         <form onSubmit={handleLoginSubmit}>
@@ -54,7 +62,7 @@ export default function TherapistLoginPage() {
             <VStack>
               <Input
                 placeholder="ID"
-                backgroundColor='orange.200'
+                backgroundColor="orange.200"
                 size="2xl"
                 width={800}
                 variant="subtle"
@@ -65,7 +73,7 @@ export default function TherapistLoginPage() {
               />
               <Input
                 placeholder="Password"
-                backgroundColor='orange.200'
+                backgroundColor="orange.200"
                 type="password"
                 size="2xl"
                 width={800}
@@ -76,7 +84,7 @@ export default function TherapistLoginPage() {
                 required
               />
             </VStack>
-            <Box height={5}/>
+            <Box height={5} />
             <Button
               type="submit"
               colorScheme="teal"
@@ -86,13 +94,13 @@ export default function TherapistLoginPage() {
               rounded="2xl"
               className="font"
               fontSize={80}
-              color='ivory'
+              color="ivory"
             >
               Login
             </Button>
           </VStack>
         </form>
-        <Box height={5}/>
+        <Box height={5} />
         <HStack>
           <Text fontSize={80} className="font">
             Face ID로 로그인 하기

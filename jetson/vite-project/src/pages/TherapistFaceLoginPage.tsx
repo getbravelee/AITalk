@@ -25,8 +25,8 @@ export default function TherapistFaceLoginPage() {
     <div className="BackgroundContainer">
       <div className="BackgroundImage"></div>
       <NavbarContainer>
-        <HStack gap={1120} pt={2}>
-          <BackButton />
+        <BackButton/>
+        <HStack pl={350} >
           {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
           {currentUser && (
             <HStack gap={10}>
@@ -36,14 +36,14 @@ export default function TherapistFaceLoginPage() {
           )}
         </HStack>
       </NavbarContainer>
-      <Flex direction="column" align="center" pt={10}>
+      <Flex direction="column" align="center">
         <HStack className="font">
-          <Text fontSize={150} textAlign="center">
+          <Text fontSize={120} textAlign="center">
             치료사
           </Text>
-          <Text fontSize={100}> 님의 얼굴을 인식해 주세요</Text>
+          <Text fontSize={80}> 님의 얼굴을 인식해 주세요</Text>
         </HStack>
-        <Box height="150px" />
+        <Box height="80px" />
         <VStack>
           {isVerifying ? (
             // 인증 진행 중에는 로딩 애니메이션(faceid_animation_1)을 보여줌
@@ -64,7 +64,7 @@ export default function TherapistFaceLoginPage() {
               >
                 <img src={faceIdImage} alt="FaceID" width={200} />
               </Button>
-              <Box height="200px" />
+              <Box height="120px" />
               <Button
                 bg="#b08b7a"
                 color="white"

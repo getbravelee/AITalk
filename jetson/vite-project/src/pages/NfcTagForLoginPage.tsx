@@ -17,10 +17,9 @@ export default function NfcTagForLoginPage() {
   return (
     <div className="BackgroundContainer">
       <div className="BackgroundImage"></div>
-      {/* NavbarContainer 내부에 BackButton을 children으로 전달 */}
       <NavbarContainer>
-        <HStack gap={1120} pt={2}>
-          <BackButton />
+        <BackButton />
+        <HStack pl={350}>
           {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
           {currentUser && (
             <HStack gap={10}>
