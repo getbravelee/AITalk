@@ -46,7 +46,7 @@ export default function HomePage() {
           className="IdPwLoginButton"
           onClick={() => navigate('/TherapistLoginPage')}
         >
-          ID,PW로 로그인 하기
+          ID, PW로 로그인 하기
         </Button>
       </div>
     </div>
