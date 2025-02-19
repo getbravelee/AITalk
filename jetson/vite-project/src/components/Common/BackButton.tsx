@@ -8,15 +8,15 @@ export default function BackButton() {
 
   const handleBack = () => {
     if (location.pathname === '/play-select') {
-      navigate('/ '); // ✅ PlaySelectPage에서는 HomePage('/')로 이동
+      navigate('/ccc '); // ✅ PlaySelectPage에서는 HomePage('/')로 이동
     } else {
       navigate(-1); // ✅ 다른 경우 기본적으로 -1로 이동
     }
   };
 
   return (
-      <button onClick={handleBack} className="BackButton">
-        <IoArrowBack className="BackIcon" />
-      </button>
+    <button onClick={handleBack} className="BackButton">
+      <IoArrowBack className="BackIcon" />
+    </button>
   );
 }
