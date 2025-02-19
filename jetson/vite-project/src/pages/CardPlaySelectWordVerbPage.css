@@ -9,11 +9,10 @@
   align-items: center;
   justify-content: center;
   position: relative; /* 내부 요소의 절대 위치 기준 */
-  gap: 50px;
 }
 
 .CardPlaySelectWordVerbContainer .Plus {
-  font-size: 150px;
+  font-size: 100px;
   font-weight: bold;
   color: #5a3e2b;
   margin-bottom: 50px;
@@ -22,15 +21,16 @@
 /* 카드 이름 (text) 스타일 조정 */
 .CardPlaySelectWordVerbContainer .CardInfoContainer p {
   font-family: 'Dongle', serif;
-  font-size: 9rem; /* 텍스트 크기 */
+  font-size: 3rem; /* 텍스트 크기 */
   font-weight: bold; /* 텍스트 굵기 */
   text-align: center; /* 중앙 정렬 */
   color: #5a3e2b;
 }
 
 .CardPlaySelectWordVerbContainer .CardInfoContainer img {
-  width: 600px;
-  height: 500px;
+  margin-top: 100px;
+  width: 400px;
+  height: 300px;
 }
 
 /* ✅ 이미지 + 이름을 감싸는 컨테이너 */
