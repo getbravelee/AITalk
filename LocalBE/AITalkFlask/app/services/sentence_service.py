@@ -72,7 +72,7 @@ def generate_three_word_sentence(schedule_id, prompt):
         existing_image = get_image_from_db(sentence_en)
         if existing_image:
             print(f"✅ DB에서 기존 이미지 발견: {existing_image}")
-            return {"text": sentence_ko, "en": sentence_en, "image": f"C:/images/{sentence_en}.png"}
+            return {"text": sentence_ko, "en": sentence_en, "image": f"http://localhost:5000/images/{sentence_en}.png"}
 
         # ✅ EC2에서 기존 이미지 확인
         print(f"🟡 EC2에서 이미지 상태 확인: {sentence_en}")
@@ -91,7 +91,7 @@ def generate_three_word_sentence(schedule_id, prompt):
             downloaded_image = download_image(status, sentence_en)
             if downloaded_image:
                 save_image_to_db(sentence_en, downloaded_image)
-                return {"text": sentence_ko, "image": f"C:/images/{sentence_en}.png"}
+                return {"text": sentence_ko, "image": f"http://localhost:5000/images/{sentence_en}.png"}
             return {"error": "이미지 다운로드 실패"}
 
         # ✅ EC2에 이미지 요청 (새로운 이미지 생성 필요)
@@ -118,7 +118,7 @@ def generate_three_word_sentence(schedule_id, prompt):
                 downloaded_image = download_image(status, sentence_en)
                 if downloaded_image:
                     save_image_to_db(sentence_en, downloaded_image)
-                    return {"text": sentence_ko, "image": f"C:/images/{sentence_en}.png"}
+                    return {"text": sentence_ko, "image": f"http://localhost:5000/images/{sentence_en}.png"}
                 return {"error": "이미지 다운로드 실패"}
 
             if status == "failed":
