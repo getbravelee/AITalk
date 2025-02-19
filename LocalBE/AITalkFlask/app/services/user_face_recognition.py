@@ -14,7 +14,7 @@ SECONDARY_THRESHOLD = 0.65  # 보조 임계값 (필요 시 활용)
 def get_available_camera():
     """사용 가능한 카메라 찾기"""
     for i in range(5):  # 최대 5개 카메라 검사
-        cap = cv2.VideoCapture(i, cv2.CAP_DSHOW)  # V4L2 백엔드 사용
+        cap = cv2.VideoCapture(i, cv2.CAP_V4L2)  # V4L2 백엔드 사용
         if cap.isOpened():
             print(f"✅ 사용 가능한 카메라: {i}번")
             cap.release()
@@ -92,7 +92,7 @@ def register_user_face(therapist_id: int, therapist_name: str):
     if camera_index is None:
         return {"status": 503, "message": "사용 가능한 카메라가 없습니다."}
 
-    cap = cv2.VideoCapture(camera_index, cv2.CAP_DSHOW)
+    cap = cv2.VideoCapture(camera_index, cv2.CAP_V4L2)
     if not cap.isOpened():
         return {"status": 503, "message": "카메라 연결 오류."}
 
@@ -159,7 +159,7 @@ def verify_user_face():
     if camera_index is None:
         return {"status": 503, "message": "사용 가능한 카메라가 없습니다."}
 
-    cap = cv2.VideoCapture(camera_index, cv2.CAP_DSHOW)
+    cap = cv2.VideoCapture(camera_index, cv2.CAP_V4L2)
     if not cap.isOpened():
         return {"status": 503, "message": "카메라 연결 오류."}
 

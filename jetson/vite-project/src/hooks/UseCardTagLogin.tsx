@@ -12,7 +12,7 @@ export function UseCardTagLogin() {
     console.log('📡 서버로부터 카드 데이터를 가져옵니다...');
 
     // 로그인 진행 중 임시 페이지로 이동
-    navigate('/nfc-tag');
+    navigate('/NfcTagForLoginPage');
 
     try {
       const response = await fetch('http://localhost:5000/user/card-login', {

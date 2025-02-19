@@ -35,23 +35,23 @@ def generate_three_word_sentence(schedule_id, prompt):
 
     try:
         # ✅ 영어 문장 생성
-        response_en = openai.ChatCompletion.create(
+        response_en = openai.chat.completions.create(
             model="gpt-4o",
             messages=[{"role": "user", "content": prompt_en}],
             temperature=0.7
         )
-        sentence_en = response_en["choices"][0]["message"]["content"].strip()
+        sentence_en = response_en.choices[0].message.content.strip()
 
         prompt_ko = f"Translate '{sentence_en}' into Korean. Replace underscores (_) with spaces. Respond only with the translated sentence in Korean, without any additional explanation, punctuation, or quotation marks."
 
 
         # ✅ 한국어 문장 생성
-        response_ko = openai.ChatCompletion.create(
+        response_ko = openai.chat.completions.create(
             model="gpt-4o",
             messages=[{"role": "user", "content": prompt_ko}],
             temperature=0.7
         )
-        sentence_ko = response_ko["choices"][0]["message"]["content"].strip()
+        sentence_ko = response_ko.choices[0].message.content.strip()
         treatment = Schedule.query.filter_by(treatment_id=schedule_id).first()
         if treatment:
             # 빈 값 처리

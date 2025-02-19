@@ -259,13 +259,13 @@ def get_gpt_response(user_input, child_id, is_summary=False):
             conversation_history = conversation_history[-10:]
 
         logging.info(f"🤝 GPT에 질문: {user_input}")
-        response = openai.ChatCompletion.create(
+        response = openai.chat.completions.create(
             model="gpt-4o",
             messages=conversation_history,
             max_tokens=500
         )
 
-        gpt_reply = response.choices[0].message['content'].strip()
+        gpt_reply = response.choices[0].message.content.strip()
         logging.info(f"🤖 GPT 응답: {gpt_reply}")
         conversation_history.append({"role": "assistant", "content": gpt_reply})
 

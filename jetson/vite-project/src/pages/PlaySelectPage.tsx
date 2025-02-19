@@ -1,5 +1,4 @@
 import NavbarContainer from '../components/Common/NavbarContainer';
-import BackButton from '../components/Common/BackButton';
 import CardTagButton from '../components/Buttons/CardTagButton';
 import CameraButton from '../components/Buttons/CameraButton';
 import AiTalkButton from '../components/Buttons/AiTalkButton';
@@ -9,34 +8,35 @@ import { useSelector } from 'react-redux';
 import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
 import { HStack } from '@chakra-ui/react';
-import { useLocation } from 'react-router-dom';
 
 import './PlaySelectPage.css';
 
 export default function PlaySelectPage() {
-  const location = useLocation();
+  const currentUserId = useSelector(
+    (state: RootState) => state.user.currentUser?.therapist_id,
+  );
+  const currentChild: string = useSelector((state: RootState) => {
+    const id = state.child.currentChild?.child_id;
+    return id !== undefined ? String(id) : '';
+  });
 
-  // ✅ state로 전달받은 데이터
-  const treatmentId: number = location.state?.treatment_id;
-  const childId: string = location.state?.child_id;
-  const therapistId: string = location.state?.therapist_id;
+  const currentScheduleId: number | null = useSelector((state: RootState) =>
+    state.treatment?.treatmentId
+      ? Number(state.treatment?.treatmentId) // 🔥 string을 number로 변환
+      : null,
+  );
 
-  // ✅ 콘솔에 데이터 출력
-  console.log('📌 [PlaySelectPage] 전달받은 데이터');
-  console.log(`  - scheduleId: ${treatmentId}`);
-  console.log(`  - childId: ${childId} (typeof: ${typeof childId})`); // 🔍 타입까지 확인
-  console.log(`  - therapistId: ${therapistId}`);
-
-  const currentUser = useSelector((state: RootState) => state.user.currentUser);
+  console.log('childId: ' + currentChild);
+  console.log('therapistId: ' + currentUserId);
+  console.log('scheduleId: ' + currentScheduleId);
 
   return (
     <div className="BackgroundContainer">
       <div className="BackgroundImage"></div>
       <NavbarContainer>
-        <HStack gap={1120} pt={2}>
-          <BackButton />
+        <HStack pl={1200} pt={4}>
           {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
-          {currentUser && (
+          {currentUserId && (
             <HStack gap={10}>
               <CurrentUserText />
               <LogoutButton />
@@ -47,8 +47,15 @@ export default function PlaySelectPage() {
       <div className="PlaySelectContainer">
         <div className="PlaySelectInnerContainer">
           <CardTagButton className="PlayCardTagButton" />
-          <CameraButton className="PlayCameraButton" scheduleId={treatmentId} />
-          <AiTalkButton className="PlayAiTalkButton" childId={childId} />
+          <CameraButton
+            className="PlayCameraButton"
+            scheduleId={currentScheduleId ?? 0}
+          />
+
+          <AiTalkButton
+            className="PlayAiTalkButton"
+            childId={currentChild || 'unknown'}
+          />
         </div>
         <PlaySelectText />
       </div>

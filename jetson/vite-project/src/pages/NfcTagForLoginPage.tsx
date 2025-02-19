@@ -8,10 +8,11 @@ import { useSelector } from 'react-redux';
 import CurrentUserText from '../components/Texts/CurrentUserText';
 import LogoutButton from '../components/Buttons/LogoutButton';
 import { HStack } from '@chakra-ui/react';
+import BackButton from '../components/Common/BackButton';
 
 import './NfcTagPage.css';
 
-export default function NfcTagPage() {
+export default function NfcTagForLoginPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   return (
     <div className="BackgroundContainer">
@@ -19,7 +20,7 @@ export default function NfcTagPage() {
       {/* NavbarContainer 내부에 BackButton을 children으로 전달 */}
       <NavbarContainer>
         <HStack gap={1120} pt={2}>
-          <BackPlaySelectButton />
+          <BackButton />
           {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
           {currentUser && (
             <HStack gap={10}>

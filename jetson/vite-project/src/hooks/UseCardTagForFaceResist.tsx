@@ -15,7 +15,7 @@ const UseCardTagForFaceResist = () => {
     }
 
     console.log('📡 Fetching card data from server...');
-    navigate('/nfc-tag');
+    navigate('/NfcTagForFaceRegisterPage');
 
     try {
       // POST 요청 실행: 예시 데이터(tagInfo)를 서버로 전송하여 카드 데이터를 요청합니다.
