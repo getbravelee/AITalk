@@ -4,7 +4,6 @@ import NavbarContainer from '../components/Common/NavbarContainer';
 import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import DetailPlaySelectText from '../components/Texts/DetailPlaySelectText';
 import CardInfoContainer from '../components/Common/CardInfoContainer';
-import WordButton from '../components/Common/WordButton';
 import ThreeSentenceButton from '../components/Common/ThreeSentenceButton';
 
 import './CameraPlaySelectPage.css';
