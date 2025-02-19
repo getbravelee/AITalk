@@ -13,6 +13,7 @@ export default function CameraImageGeneratePage() {
   const location = useLocation();
   const navigate = useNavigate();
   const imageData = location.state?.imageData; // ✅ 받은 데이터의 이미지 요청 주소
+  const data = location.state?.data
 
   console.log('📸 받은 이미지 데이터:', imageData);
 
@@ -26,7 +27,7 @@ export default function CameraImageGeneratePage() {
     // ✅ 8초 대기 후 `/camera-play-select`로 이동 (blob 변환 없이 원본 URL 전달)
     setTimeout(() => {
       navigate('/camera-play-select', {
-        state: { imageUrl: imageData },
+        state: { imageUrl: imageData, data: data },
       });
     }, 8000);
   }, [imageData, navigate]);
