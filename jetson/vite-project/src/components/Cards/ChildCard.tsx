@@ -46,8 +46,8 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
         flexDirection="row"
         overflow="hidden"
         // size='lg'
-        width="700px" // 전체 카드의 너비를 작게 지정
-        height="400px"
+        width="400px" // 전체 카드의 너비를 작게 지정
+        height="200px"
         borderRadius="3xl"
         boxShadow="md"
         onClick={async () => {
@@ -75,19 +75,18 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
           alt={data.child_name}
           className="card-image"
           backgroundColor="lightgrey"
-          boxSize="400px" // 이미지 크기를 작게 설정
+          boxSize="200px" // 이미지 크기를 작게 설정
           objectFit="cover"
         />
-        <Box width="100%">
           <Card.Body backgroundColor="#FF9A6C" height={'400px'} color='#FFFDD0'>
-            <VStack gap={10} pt={10}>
-              <Card.Title fontSize={80}>이름: {data.child_name}</Card.Title>
+            <VStack gap={-1}>
+              <Card.Title fontSize={60}>이름: {data.child_name}</Card.Title>
               <Card.Description>
-                <Text fontSize={80} color='#FFFDD0'>나이 : {data.age}</Text>
+                <Text fontSize={60} color='#FFFDD0'>나이 : {data.age}</Text>
               </Card.Description>
               <HStack onClick={(e) => e.stopPropagation()}>
                 <Badge
-                  fontSize={50}
+                  fontSize={25}
                   height="50px"
                   rounded="3xl"
                   backgroundColor="#FFD3B8"
@@ -111,13 +110,12 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
                     backgroundColor="transparent"
                     onClick={handleRegisterClick}
                   >
-                    <img src={faceIdImage} alt="FaceID" />
+                    <img src={faceIdImage} alt="FaceID" width='50px'/>
                   </Button>
                 )}
               </HStack>
             </VStack>
           </Card.Body>
-        </Box>
       </Card.Root>
     </div>
   );

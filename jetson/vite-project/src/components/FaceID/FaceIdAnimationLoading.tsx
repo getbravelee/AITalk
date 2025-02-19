@@ -49,7 +49,7 @@ const FaceIdAnimationCheck = () => {
 
 const FaceIdAnimationLoadingForKid = () => {
   return (
-    <div style={{ width: '70px', height: '70px' }}>
+    <div style={{ width: '50px', height: '50px' }}>
       <lottie-player
         src="/assets/Login/faceid_animation_1.json"
         background="transparent"
@@ -64,7 +64,7 @@ const FaceIdAnimationLoadingForKid = () => {
 
 const FaceIdAnimationCheckForKid = () => {
   return (
-    <div style={{ width: '70px', height: '70px' }}>
+    <div style={{ width: '50px', height: '50px' }}>
       <lottie-player
         src="/assets/Login/faceid_animation_2.json"
         background="transparent"
