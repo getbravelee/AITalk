@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const UseThreeSentence = () => {
-  const [isVerifying, setIsVerifying] = useState(false);
   const navigate = useNavigate()
+
   const generateSentence = async (schedule_id: number, word: string) => {
     try {
       const response = await fetch(`http://localhost:5000/generate-sentence`, {
@@ -24,15 +24,9 @@ const UseThreeSentence = () => {
       }
     } catch (error) {
       console.error('서버 요청 중 에러 발생:', error);
-    } finally {
-      setIsVerifying(false);
     }
   };
 
-  useEffect(() => {
-    setIsVerifying(true);
-  }, []);
-
-  return { isVerifying, generateSentence };
+  return { generateSentence };
 };
 export default UseThreeSentence;
