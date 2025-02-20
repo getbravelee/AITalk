@@ -18,7 +18,7 @@ export default function CameraPlaySelectPage() {
   return (
     <div>
       <NavbarContainer>
-        <BackPlaySelectButton />
+        <BackPlaySelectButton className="CustomMarginTop" />
       </NavbarContainer>
       <div className="CameraPlaySelectContainer">
         <DetailPlaySelectText />
