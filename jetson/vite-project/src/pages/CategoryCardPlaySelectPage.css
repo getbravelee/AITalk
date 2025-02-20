@@ -12,40 +12,41 @@
 
 .CategoryCardPlaySelectInnerContainer {
   display: flex;
-  gap: 5rem; /* 각 요소 사이 간격 */
+  gap: 1rem; /* 각 요소 사이 간격 */
   margin-top: 3rem; /* 전체 간격 조정 */
 }
 
 .ButtonContainers {
   display: flex;
   flex-direction: row;
-  gap: 1.5rem; /* 버튼 간 간격 설정 */
+  gap: 1rem; /* 버튼 간 간격 설정 */
   position: relative;
-  top: 20%;
+  margin-top: 10rem;
+  margin-left: 3rem;
 }
 
 .CategoryCardPlaySelectWordButtonStyle {
-  width: 250px;
-  height: 250px;
-  font-size: 7rem;
-  border-radius: 30px;
-  margin-right: 15px;
+  width: 160px;
+  height: 160px;
+  font-size: 5rem;
+  border-radius: 20px;
+  margin-right: 1rem;
 }
 
 .CategoryCardPlaySelectThreeSentenceButtonStyle {
-  width: 250px;
-  height: 250px;
-  font-size: 7rem;
-  border-radius: 30px;
-  margin-left: 15px;
+  width: 160px;
+  height: 160px;
+  font-size: 5rem;
+  border-radius: 20px;
+  margin-left: 1rem;
 }
 
 /* ✅ 카드 이름 스타일 */
 .CategoryCardTitle {
   position: absolute;
-  font-size: 5rem; /* 🔥 글자 크기 키우기 */
+  font-size: 4rem; /* 🔥 글자 크기 키우기 */
   font-weight: bold;
-  top: 85%;
-  left: 31%;
+  top: 82%;
+  left: 30%;
   animation: floating 4s infinite ease-in-out;
 }
