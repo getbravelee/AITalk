@@ -12,7 +12,7 @@ body {
 
 /* 카드 정보 컨테이너 크기 조정 */
 .CardPlaySelectWordVerbContainer {
-  background-image: url('/src/assets/background/background_3.png');
+  background-image: url('/images/background/background_3.png');
   background-size: cover;
   height: 90vh;
   display: flex;

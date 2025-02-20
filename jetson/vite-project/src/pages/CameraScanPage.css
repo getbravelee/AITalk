@@ -2,7 +2,7 @@
 
 /* ✅ 전체 컨테이너 */
 .CameraScanContainer {
-  background-image: url('/src/assets/background/background_3.png');
+  background-image: url('/images/background/background_3.png');
   background-size: cover;
   background-position: center;
   width: 100%;
@@ -18,7 +18,7 @@
 
 /* ✅ 카메라 컨테이너 */
 .WebCamContainer {
-  background-image: url('/src/assets/common/camera_background_2.png');
+  background-image: url('/images/common/camera_background_2.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

@@ -4,7 +4,7 @@ import './TalkTalkPage.css';
 
 export default function TalkTalkPage() {
   const [backgroundImage, setBackgroundImage] = useState(
-    '/src/assets/mascot/Smile.png',
+    '/images/mascot/Smile.png',
   );
   let talkInterval: NodeJS.Timeout | null = null;
 
@@ -13,18 +13,18 @@ export default function TalkTalkPage() {
 
     socket.on('speech_ready', () => {
       console.log('🎙 음성 인식이 시작됨! (아직 말하지 않음)');
-      setBackgroundImage('/src/assets/mascot/Smile.png');
+      setBackgroundImage('/images/mascot/Smile.png');
     });
 
     socket.on('speech_detected', () => {
       console.log('🎙 음성 감지 시작! 사용자가 말하고 있음...');
-      setBackgroundImage('/src/assets/mascot/Listen.png');
+      setBackgroundImage('/images/mascot/Listen.png');
     });
 
     socket.on('speech_stopped', () => {
       console.log('🔁 [프론트] speech_stopped 이벤트 수신됨 → 상태 변경 실행');
       setTimeout(() => {
-        setBackgroundImage('/src/assets/mascot/Smile.png');
+        setBackgroundImage('/images/mascot/Smile.png');
       }, 0);
     });
 
@@ -36,9 +36,9 @@ export default function TalkTalkPage() {
 
         talkInterval = setInterval(() => {
           setBackgroundImage((prev) =>
-            prev === '/src/assets/mascot/Talk.png'
-              ? '/src/assets/mascot/Listen.png'
-              : '/src/assets/mascot/Talk.png',
+            prev === '/images/mascot/Talk.png'
+              ? '/images/mascot/Listen.png'
+              : '/images/mascot/Talk.png',
           );
         }, 500);
       }
@@ -67,7 +67,7 @@ export default function TalkTalkPage() {
 
     socket.on('tts_finished', () => {
       console.log('✅ 말하기 종료 → 기본 상태로 복귀');
-      setBackgroundImage('/src/assets/mascot/Smile.png');
+      setBackgroundImage('/images/mascot/Smile.png');
 
       if (talkInterval) {
         clearInterval(talkInterval);

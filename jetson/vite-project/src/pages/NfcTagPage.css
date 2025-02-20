@@ -1,5 +1,5 @@
 .NfcTagContainer {
-  background-image: url('/src/assets/background/background_2.png'); /* 배경 이미지 경로 */
+  background-image: url('/images/background/background_2.png'); /* 배경 이미지 경로 */
   background-size: cover; /* 화면 채우기 */
   background-position: center; /* 이미지 중앙 정렬 */
   height: 90vh;

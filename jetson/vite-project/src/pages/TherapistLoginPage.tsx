@@ -22,7 +22,7 @@ import UseTherapistLogin from '../hooks/UseTherapistLogin';
 
 export default function TherapistLoginPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
-  const faceIdImage: string = 'src/assets/Login/FaceID.svg';
+  const faceIdImage: string = 'images/login/FaceID.svg';
   const navigate = useNavigate();
   const { verifyLogin } = UseTherapistLogin();
   // 로그인 폼 관련 상태

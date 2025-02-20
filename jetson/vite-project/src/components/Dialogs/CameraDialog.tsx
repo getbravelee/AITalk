@@ -29,8 +29,8 @@ export default function CameraDialog({
   isSmall,
 }: CameraDialogProps) {
   // 얼굴 인식 아이콘 이미지 경로 (크기에 따라 분리)
-  const faceIdImage: string = 'src/assets/Login/FaceID.svg';
-  const faceIdImageSmall: string = 'src/assets/Login/FaceID_small.svg';
+  const faceIdImage: string = 'images/login/FaceID.svg';
+  const faceIdImageSmall: string = 'images/login/FaceID_small.svg';
   const navigate = useNavigate();
   const handleFaceVerification = UseFaceVerification()
   const [isCameraDialogOpen, setIsCameraDialogOpen] = useState(false);

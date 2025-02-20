@@ -16,7 +16,7 @@ import {
 export default function KidFaceLoginPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const navigate = useNavigate();
-  const faceIdImage: string = 'src/assets/Login/FaceID.svg';
+  const faceIdImage: string = 'images/login/FaceID.svg';
   const { isVerifying, isVerified, verifyFace } = UseFaceVerification();
   return (
     <div className="BackgroundContainer">

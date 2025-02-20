@@ -2,7 +2,7 @@
 
 /* ✅ 전체 컨테이너 (1024x600 해상도) */
 .CardPlaySelectWordContainer {
-  background-image: url('/src/assets/background/background_3.png');
+  background-image: url('/images/background/background_3.png');
   background-size: cover;
   background-position: center;
   width: 1024px;

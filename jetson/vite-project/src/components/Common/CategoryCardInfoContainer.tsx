@@ -16,7 +16,7 @@ export default function CategoryCardInfoContainer({
     if (categories.length > 0) {
       // ✅ categories 배열을 기반으로 이미지 경로 생성
       const images = categories.map(
-        (item) => `/src/assets/card/${category}/${item}.png`,
+        (item) => `/images/card/${category}/${item}.png`,
       );
       setImageList(images);
     }

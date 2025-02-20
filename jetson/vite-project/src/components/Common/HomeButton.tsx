@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './HomeButton.css'
 
 export default function HomeButton() {
-  const homeImage = 'src/assets/common/Home.svg';
+  const homeImage = 'images/common/Home.svg';
   const navigate = useNavigate();
   return (
     <button
