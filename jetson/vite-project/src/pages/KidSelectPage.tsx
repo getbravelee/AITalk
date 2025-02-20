@@ -37,41 +37,38 @@ export default function KidSelectPage() {
           )}
         </HStack>
       </NavbarContainer>
-      <div className="BackgroundContainer">
-        <div className="BackgroundImage"></div>
-        <Text fontSize={60} pt={1} pl={8} className="font" color="#333333">
-          치료 아동 선택
-        </Text>
-        <Box height={3} />
-        {loading ? (
-          <Flex
-            align="center"
-            justify="center"
-            minHeight="200px"
-            direction="column"
-            gap={4}
-          >
-            <Spinner size="xl" color="black" />
-            <Text>로딩 중...</Text>
-          </Flex>
-        ) : error ? (
-          <Flex align="center" justify="center" minHeight="200px">
-            <Text color="black">{error}</Text>
-          </Flex>
-        ) : (
-          <Flex direction="column" align="center" className="font">
-            <VStack align="stretch" gap={10}>
-              {groupedChildren.map((group, index) => (
-                <HStack key={index} gap={10}>
-                  {group.map((child) => (
-                    <ChildCard key={child.id} data={child} />
-                  ))}
-                </HStack>
-              ))}
-            </VStack>
-          </Flex>
-        )}
-      </div>
+      <Text fontSize={60} pt={1} pl={8} className="font" color="#333333">
+        치료 아동 선택
+      </Text>
+      <Box height={3} />
+      {loading ? (
+        <Flex
+          align="center"
+          justify="center"
+          minHeight="200px"
+          direction="column"
+          gap={4}
+        >
+          <Spinner size="xl" color="black" />
+          <Text>로딩 중...</Text>
+        </Flex>
+      ) : error ? (
+        <Flex align="center" justify="center" minHeight="200px">
+          <Text color="black">{error}</Text>
+        </Flex>
+      ) : (
+        <Flex direction="column" align="center" className="font">
+          <VStack gap={10}>
+            {groupedChildren.map((group, index) => (
+              <HStack key={index} gap={10}>
+                {group.map((child) => (
+                  <ChildCard key={child.id} data={child} />
+                ))}
+              </HStack>
+            ))}
+          </VStack>
+        </Flex>
+      )}
     </div>
   );
 }

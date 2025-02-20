@@ -45,9 +45,8 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
       <Card.Root
         flexDirection="row"
         overflow="hidden"
-        // size='lg'
-        width="400px" // 전체 카드의 너비를 작게 지정
-        height="200px"
+        width='auto' // 전체 카드의 너비를 작게 지정
+        height="auto"
         borderRadius="3xl"
         boxShadow="md"
         onClick={async () => {
@@ -70,10 +69,11 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
           alt={data.child_name}
           className="card-image"
           backgroundColor="lightgrey"
-          boxSize="200px" // 이미지 크기를 작게 설정
+          width='auto' // 이미지 크기를 작게 설정
+          height='auto'
           objectFit="cover"
         />
-        <Card.Body backgroundColor="#FF9A6C" height={'400px'} color="#FFFDD0">
+        <Card.Body backgroundColor="#FF9A6C" height='auto' color="#FFFDD0">
           <VStack gap={-1}>
             <Card.Title fontSize={60}>이름: {data.child_name}</Card.Title>
             <Card.Description>
