@@ -31,14 +31,15 @@ body {
 /* 카드 이름 (text) 스타일 조정 */
 .CardPlaySelectWordVerbContainer .CardInfoContainer p {
   font-family: 'Dongle', serif;
-  font-size: 3rem; /* 텍스트 크기 */
+  font-size: 4rem; /* 텍스트 크기 */
   font-weight: bold; /* 텍스트 굵기 */
   text-align: center; /* 중앙 정렬 */
   color: #5a3e2b;
+  margin-top: 10px;
 }
 
 .CardPlaySelectWordVerbContainer .CardInfoContainer img {
-  margin-top: 100px;
+  margin-top: 80px;
   width: 400px;
   height: 300px;
 }
@@ -58,15 +59,22 @@ body {
   gap: 0px;
   align-items: center;
   margin-top: 130px;
-  margin-left: 100px;
+  margin-left: 70px;
+  margin-right: 70px;
+}
+
+.CategoryImagesGrids .CateCardInfoContainer img {
+  width: 150px;
+  height: 150px;
+  margin-top: 50px;
 }
 
 /* ✅ 카드 이름 스타일 */
 .CategoryCardTitles {
-  font-size: 9rem; /* 🔥 글자 크기 키우기 */
+  font-size: 4rem; /* 🔥 글자 크기 키우기 */
   font-weight: bold;
   text-align: center; /* ✅ 중앙 정렬 */
   font-family: 'Dongle', serif;
-  margin-top: 0px; /* 🔥 이미지와 간격 조정 */
+  margin-bottom: 3rem; /* 🔥 이미지와 간격 조정 */
   color: #5a3e2b;
 }
