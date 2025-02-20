@@ -6,10 +6,11 @@ import NavbarContainer from '../components/Common/NavbarContainer';
 import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import * as cocoSsd from '@tensorflow-models/coco-ssd';
 import * as tf from '@tensorflow/tfjs';
-import { HStack } from '@chakra-ui/react';
+import { HStack, Flex, VStack } from '@chakra-ui/react';
 import './CameraScanPage.css';
 import { useSelector } from 'react-redux';
 import { RootState } from '../feature/store';
+import { GenerateLoading } from '../components/Common/GenerateLoading';
 
 // ✅ 직접 DetectedObject 타입 정의
 type DetectedObject = {
@@ -19,6 +20,7 @@ type DetectedObject = {
 };
 
 export default function CameraScanPage() {
+  const [isGenerating, setIsGenerating] = useState(false);
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const navigate = useNavigate();
   const location = useLocation();
@@ -185,6 +187,8 @@ export default function CameraScanPage() {
       schedule_id: scheduleId,
       word: objectName,
     };
+    // 객체 인식 요청과 동시에 애니메이션 동작을 위해 true 전환
+    setIsGenerating(true);
 
     console.log('📤 백엔드로 데이터 전송:', data);
     isDataSentRef.current = true;
@@ -202,7 +206,6 @@ export default function CameraScanPage() {
       if (!response.ok) {
         throw new Error(`❌ 서버 응답 오류: ${response.status}`);
       }
-
       console.log('✅ 데이터 전송 성공!');
       const imageData = await response.json();
 
@@ -212,6 +215,8 @@ export default function CameraScanPage() {
       console.error('❌ 데이터 전송 실패:', error);
       isDataSentRef.current = false; // ⚠️ 에러 발생 시 다시 감지 가능하도록 초기화
       isDetectingRef.current = true;
+    } finally {
+      setIsGenerating(false);
     }
   };
 
@@ -230,28 +235,35 @@ export default function CameraScanPage() {
           )}
         </HStack>
       </NavbarContainer>
-      <div className="CameraScanContainer">
-        <div className="WebCamContainer">
-          <p className="CameraScanTextContainer">
-            물건을 화면의 <span className="highlight">중앙에</span> 맞춰서
-            보여주세요 !
-          </p>
-          {/* ✅ 웹캠 화면 출력 */}
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            muted
-            className="CameraFeed"
-          ></video>
-
-          {/* ✅ 객체 감지 캔버스 */}
-          <canvas
-            ref={canvasRef}
-            className={`ObjectDetectionCanvas ${isDetecting ? 'active' : ''}`}
-          ></canvas>
-        </div>
-      </div>
+      <VStack>
+        {isGenerating ? (
+          <Flex direction="column" align="center">
+            <GenerateLoading />
+          </Flex>
+        ) : (
+          <div className="CameraScanContainer">
+            <div className="WebCamContainer">
+              <p className="CameraScanTextContainer">
+                물건을 화면의 <span className="highlight">중앙에</span> 맞춰서
+                보여주세요 !
+              </p>
+              {/* ✅ 웹캠 화면 출력 */}
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                className="CameraFeed"
+              ></video>
+              {/* ✅ 객체 감지 캔버스 */}
+              <canvas
+                ref={canvasRef}
+                className={`ObjectDetectionCanvas ${isDetecting ? 'active' : ''}`}
+              ></canvas>
+            </div>
+          </div>
+        )}
+      </VStack>
     </div>
   );
 }

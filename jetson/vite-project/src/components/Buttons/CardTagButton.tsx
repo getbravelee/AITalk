@@ -58,7 +58,6 @@ export default function CardTagButton({ className }: CardTagButtonProps) {
       }
     }  catch (error) {
       console.error('❌ Error fetching card data:', error);
-      alert('명사 카드를 태깅해주세요!');
     }
   };
 

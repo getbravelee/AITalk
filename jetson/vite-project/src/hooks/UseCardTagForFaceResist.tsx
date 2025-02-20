@@ -32,7 +32,6 @@ const UseCardTagForFaceResist = () => {
 
       const cardData = await response.json();
       console.log('✅ Server Response Data:', cardData);
-      alert(`안녕하세요 ${cardData.therapist_name}님!`);
       // 카드의 정보를 redux currentUser에 저장
       dispatch(setUser(cardData));
       
