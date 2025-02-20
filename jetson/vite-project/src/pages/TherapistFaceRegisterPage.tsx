@@ -45,31 +45,6 @@ export default function TherapistFaceResisterPage() {
           )}
         </HStack>
       </NavbarContainer>
-<<<<<<< HEAD
-      <Flex direction="column" align="center" gap="130px">
-        <HStack className="font">
-          <Text fontSize={120}>치료사</Text>
-          <Text fontSize={70}> 님의 얼굴을 등록해 주세요</Text>
-        </HStack>
-        <VStack>
-          {isRegisting ? (
-            // 인증 진행 중에는 로딩 애니메이션(faceid_animation_1)을 보여줌
-            <Flex direction="column" align="center">
-              <FaceIdAnimationLoading />
-            </Flex>
-          ) : isCompleted ? (
-            // 인증 완료 후에는 체크 애니메이션(faceid_animation_2)을 보여줌
-            <Flex direction="column" align="center">
-              <FaceIdAnimationCheck />
-            </Flex>
-          ) : (
-            // 초기 상태 - 인증 시작 전 UI
-            <Button backgroundColor="transparent" onClick={handleRegisterClick}>
-              <img src={faceIdImageSmall} alt="FaceID" width={200} />
-            </Button>
-          )}
-        </VStack>
-=======
       <Flex direction="column" align="center" gap="100px">
         <HStack className="font">
           <Text fontSize={120}>치료사</Text>
@@ -78,7 +53,7 @@ export default function TherapistFaceResisterPage() {
         {isRegisting ? (
           // 인증 진행 중에는 로딩 애니메이션(faceid_animation_1)을 보여줌
           <>
-          <FaceIdAnimationLoading />
+            <FaceIdAnimationLoading />
           </>
         ) : isCompleted ? (
           // 인증 완료 후에는 체크 애니메이션(faceid_animation_2)을 보여줌
@@ -89,7 +64,6 @@ export default function TherapistFaceResisterPage() {
             <img src={faceIdImageSmall} alt="FaceID" width={200} />
           </Button>
         )}
->>>>>>> 6107ef6d6c7613dcaec383f5d44eb8fcf40adb8f
       </Flex>
     </div>
   );
