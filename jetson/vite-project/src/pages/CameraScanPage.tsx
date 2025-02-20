@@ -23,7 +23,7 @@ export default function CameraScanPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const scheduleId = location.state?.scheduleId; // PlaySelectPage에서 전달받은 값
-
+  const streamRef = useRef<MediaStream | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [model, setModel] = useState<ReturnType<typeof cocoSsd.load> | null>(
@@ -53,14 +53,14 @@ export default function CameraScanPage() {
   }, []);
 
   useEffect(() => {
-    if (!videoRef.current) return;
-
+    // startCamera 함수가 비디오 엘리먼트에 연결한 스트림을 streamRef에 저장하도록 수정
     const startCamera = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: { facingMode: 'user' },
         });
-
+        // stream을 별도의 ref에 저장
+        streamRef.current = stream;
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
         }
@@ -71,10 +71,11 @@ export default function CameraScanPage() {
 
     startCamera();
 
+    // ✅ cleanup: 컴포넌트 언마운트 시 camera 스트림 종료
     return () => {
-      if (videoRef.current && videoRef.current.srcObject) {
-        const stream = videoRef.current.srcObject as MediaStream;
-        stream.getTracks().forEach((track) => track.stop());
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+        console.log('✅ 카메라 스트림 종료 완료');
       }
     };
   }, []);
