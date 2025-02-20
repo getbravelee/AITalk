@@ -49,7 +49,6 @@ export default function CameraPlaySelectPage() {
           <div className="ButtonContainer">
             <ThreeSentenceButton
               className="CameraPlaySelectThreeSentenceButtonStyle"
-              targetPath="/camera-play-select/three-sentence"
               schedule_id={data.schedule_id}
               word={data.word}
             />
