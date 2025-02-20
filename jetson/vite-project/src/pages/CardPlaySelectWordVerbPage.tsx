@@ -36,7 +36,7 @@ export default function CardPlaySelectWordVerbPage() {
       navigate('/card-play-select/word/verb/sentence', {
         state: { firstCard, secondCard },
       });
-    }, 7000);
+    }, 6000);
 
     return () => clearTimeout(timer);
   }, [navigate, firstCard, secondCard]);
