@@ -1,5 +1,4 @@
 import NavbarContainer from '../components/Common/NavbarContainer';
-import BackPlaySelectButton from '../components/Common/BackPlaySelectButton';
 import LoadingCircle from '../components/Common/LoadingCircle';
 import NfcImage from '../components/Images/NfcImage';
 import NfcTagText from '../components/Texts/NfcTagText';
