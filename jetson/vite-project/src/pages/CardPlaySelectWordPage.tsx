@@ -44,7 +44,7 @@ export default function CardPlaySelectWordPage() {
           {firstCard[0].card_id >= 3000 && firstCard[0].card_id <= 3999 ? (
             // ✅ 3000~3999번 카드: 기존 방식
             <CardInfoContainer
-              imageSrc={`/src/assets/card/${firstCard[0].image}.png`}
+              imageSrc={`/images/card/${firstCard[0].image}.png`}
               cardName={firstCard[0].name}
             />
           ) : (
@@ -54,7 +54,7 @@ export default function CardPlaySelectWordPage() {
                 {firstCard[0].categories?.map((category: string) => (
                   <CateCardInfoContainer
                     key={category}
-                    imageSrc={`/src/assets/card/${firstCard[0].image}/${category}.png`}
+                    imageSrc={`/images/card/${firstCard[0].image}/${category}.png`}
                   />
                 ))}
               </div>

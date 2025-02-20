@@ -8,7 +8,7 @@ function NfcImage({ className = '' }: NfcImageProps) {
   return (
     <div className={`NfcImageContainer ${className}`.trim()}>
       <img
-        src="/src/assets/common/nfc_tag.png"
+        src="/images/common/nfc_tag.png"
         alt="NFC 태깅 이미지"
         className="NfcImage"
       />

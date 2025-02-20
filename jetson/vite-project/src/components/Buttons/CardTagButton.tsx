@@ -68,7 +68,7 @@ export default function CardTagButton({ className }: CardTagButtonProps) {
       onClick={handleClick}
       disabled={!scheduleId}
     >
-      <img src="/src/assets/menu/nfc_card.png" alt="카드 태그 아이콘" />
+      <img src="/images/menu/nfc_card.png" alt="카드 태그 아이콘" />
       <span>카드 태그</span>
     </button>
   );

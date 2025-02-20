@@ -23,7 +23,7 @@ export default function CardPlaySelectPage() {
   const parsedCardData = Array.isArray(cardData) ? cardData[0] : cardData;
 
   // 이미지 경로 설정
-  const imageSrc = `/src/assets/card/${parsedCardData.image}.png`;
+  const imageSrc = `/images/card/${parsedCardData.image}.png`;
 
   return (
     <div>
