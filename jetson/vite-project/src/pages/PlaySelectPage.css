@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
 
 .PlaySelectContainer {
-  background-image: url('/src/assets/background/background_3.png');
-  background-size: cover;
-  background-position: center;
-  height: 90vh; /* 화면 전체 높이 */
+  background-image: url('/images/background/background_3.png'); /* 배경 이미지 */
+  background-size: cover; /* 화면 채우기 */
+  background-position: center; /* 이미지 중앙 정렬 */
+  height: 90vh; /* 전체 높이 */
   display: flex;
   flex-direction: column;
   align-items: center;

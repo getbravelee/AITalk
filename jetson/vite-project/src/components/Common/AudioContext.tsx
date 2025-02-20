@@ -10,7 +10,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioType, setAudioType] = useState<'home' | 'page'>('page');
   const [audio, setAudio] = useState(
-    new Audio('/src/assets/audio/pagemusic.mp3'),
+    new Audio('/images/audio/pagemusic.mp3'),
   );
 
   useEffect(() => {
@@ -36,10 +36,10 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     audio.currentTime = 0; // ✅ 처음부터 시작
 
     if (audioType === 'home') {
-      const newAudio = new Audio('/src/assets/audio/homepagemusic.mp3');
+      const newAudio = new Audio('/images/audio/homepagemusic.mp3');
       setAudio(newAudio);
     } else if (audioType === 'page') {
-      const newAudio = new Audio('/src/assets/audio/pagemusic.mp3');
+      const newAudio = new Audio('/images/audio/pagemusic.mp3');
       setAudio(newAudio);
     }
 

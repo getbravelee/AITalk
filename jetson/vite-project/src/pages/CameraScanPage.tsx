@@ -225,7 +225,7 @@ export default function CameraScanPage() {
       <div className="BackgroundImage"></div>
       <NavbarContainer>
         <HStack gap={315}>
-          <BackPlaySelectButton />
+          <BackPlaySelectButton className="CustomMarginTop" />
           {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
           {currentUser && (
             <HStack gap={10}>

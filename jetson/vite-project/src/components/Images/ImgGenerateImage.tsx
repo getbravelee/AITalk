@@ -13,7 +13,7 @@ export default function ImgGenerateImage({
   return (
     <div className={`ImgGenerateImageContainer ${className}`.trim()}>
       <img
-        src="/src/assets/common/img_generate_loading.png"
+        src="/images/menu/symbol.png"
         alt="이미지 생성 중 캐릭터 이미지"
         className="ImgGenerateImage"
         onClick={() => navigate('/camera-play-select')}

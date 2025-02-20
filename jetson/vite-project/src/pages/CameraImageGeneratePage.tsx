@@ -24,12 +24,12 @@ export default function CameraImageGeneratePage() {
       return;
     }
 
-    // ✅ 8초 대기 후 `/camera-play-select`로 이동 (blob 변환 없이 원본 URL 전달)
+    // ✅ 6초 대기 후 `/camera-play-select`로 이동 (blob 변환 없이 원본 URL 전달)
     setTimeout(() => {
       navigate('/camera-play-select', {
         state: { imageUrl: imageData, data: data },
       });
-    }, 8000);
+    }, 6000);
   }, [imageData, navigate]);
 
   return (

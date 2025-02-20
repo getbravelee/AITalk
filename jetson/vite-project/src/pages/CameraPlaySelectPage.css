@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
 
 .CameraPlaySelectContainer {
-  background-image: url('/src/assets/background/background_3.png');
+  background-image: url('/images/background/background_3.png');
   background-size: cover;
   height: 90vh;
   display: flex;
@@ -21,22 +21,24 @@
   flex-direction: row;
   gap: 1.5rem; /* 버튼 간 간격 설정 */
   position: relative;
-  margin-top: 10%;
+  margin-top: 23%;
+  margin-right: 5rem;
 }
 
 /* ✅ ThreeSentenceButton 크기 조정 */
 .CameraPlaySelectThreeSentenceButtonStyle {
-  width: 250px;
-  height: 250px;
-  font-size: 7rem;
-  border-radius: 30px;
-  margin-left: 15px;
+  width: 190px;
+  height: 190px;
+  font-size: 5rem;
+  border-radius: 20px;
+  margin-left: 1rem;
 }
 
 /* ✅ 카드 이미지 크기 및 스타일 */
 .CameraPlaySelectContainer img {
-  width: 550px;
+  width: 18.5rem; /* 기존 550px → 450px */
   height: auto;
-  object-fit: cover; /* 이미지 비율 유지하면서 채우기 */
-  margin-top: -5%;
+  object-fit: cover;
+  margin-top: 8rem;
+  margin-left: 20%;
 }

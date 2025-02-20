@@ -36,7 +36,7 @@ export default function CardPlaySelectWordVerbPage() {
       navigate('/card-play-select/word/verb/sentence', {
         state: { firstCard, secondCard },
       });
-    }, 7000);
+    }, 6000);
 
     return () => clearTimeout(timer);
   }, [navigate, firstCard, secondCard]);
@@ -60,7 +60,7 @@ export default function CardPlaySelectWordVerbPage() {
               {firstCard[0].categories.map((category: string) => (
                 <CateCardInfoContainer
                   key={category}
-                  imageSrc={`/src/assets/card/${firstCard[0].image}/${category}.png`}
+                  imageSrc={`/images/card/${firstCard[0].image}/${category}.png`}
                 />
               ))}
             </motion.div>
@@ -75,7 +75,7 @@ export default function CardPlaySelectWordVerbPage() {
             transition={{ duration: 2, ease: 'easeOut' }}
           >
             <CardInfoContainer
-              imageSrc={`/src/assets/card/${firstCard[0].image}.png`}
+              imageSrc={`/images/card/${firstCard[0].image}.png`}
               cardName={firstCard[0].name}
             />
           </motion.div>
@@ -98,7 +98,7 @@ export default function CardPlaySelectWordVerbPage() {
           transition={{ duration: 2, ease: 'easeOut', delay: 3.5 }}
         >
           <CardInfoContainer
-            imageSrc={`/src/assets/card/${secondCard.image}.png`}
+            imageSrc={`/images/card/${secondCard.image}.png`}
             cardName={secondCard.name}
           />
         </motion.div>

@@ -2,7 +2,7 @@
 
 /* ✅ 전체 컨테이너 크기 및 정렬 */
 .CardPlaySelectContainer {
-  background-image: url('/src/assets/background/background_3.png');
+  background-image: url('/images/background/background_3.png');
   background-size: cover;
   background-position: top center; /* 기존 center → top center로 조정 */
   height: 90vh;

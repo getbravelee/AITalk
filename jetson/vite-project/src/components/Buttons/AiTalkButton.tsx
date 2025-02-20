@@ -102,7 +102,7 @@ export default function AiTalkButton({
 
   return (
     <button className={`AiTalkButton ${className || ''}`} onClick={handleClick}>
-      <img src="/src/assets/menu/symbol.png" alt="톡톡이 아이콘" />
+      <img src="/images/menu/symbol.png" alt="톡톡이 아이콘" />
       <span>톡톡이</span>
     </button>
   );

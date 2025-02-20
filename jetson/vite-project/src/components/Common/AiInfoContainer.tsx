@@ -13,7 +13,7 @@ export default function AiInfoContainer({
       <p className="AiText">{aiText}</p>
       <img
         className={`AiImage ${isTalking ? 'talking' : ''}`} // 🔥 말할 때 'talking' 클래스 추가
-        src="/src/assets/menu/symbol.png"
+        src="/images/menu/symbol.png"
         alt={aiText}
       />
     </div>

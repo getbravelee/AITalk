@@ -3,7 +3,7 @@
     "id": 1,
     "name": "김철수",
     "age": 7,
-    "profileImage": "../src/assets/ChildDummyImage/child_1.png",
+    "profileImage": "images/childDummyImage/child_1.png",
     "center": "서울센터",
     "characteristic":  ["지연발달", "앙증맞음"]
   },
@@ -11,7 +11,7 @@
     "id": 2,
     "name": "이영희",
     "age": 6,
-    "profileImage": "../src/assets/ChildDummyImage/child_2.png",
+    "profileImage": "images/childDummyImage/child_2.png",
     "center": "부산센터",
     "characteristic":  ["폐쇄적", "귀여움"]
   },
@@ -19,7 +19,7 @@
     "id": 3,
     "name": "박민수",
     "age": 8,
-    "profileImage": "../src/assets/ChildDummyImage/child_3.png",
+    "profileImage": "images/childDummyImage/child_3.png",
     "center": "대전센터",
     "characteristic":  ["유창성장애", "카와이"]
   },
@@ -27,7 +27,7 @@
     "id": 4,
     "name": "최수진",
     "age": 5,
-    "profileImage": "../src/assets/ChildDummyImage/child_4.png",
+    "profileImage": "images/childDummyImage/child_4.png",
     "center": "광주센터",
     "characteristic":  ["바들바들", "보들보들"]
   }

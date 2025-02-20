@@ -22,7 +22,7 @@ export default function CameraButton({
 
   return (
     <button className={`CameraButton ${className || ''}`} onClick={handleClick}>
-      <img src="/src/assets/menu/camera.png" alt="카메라 아이콘" />
+      <img src="/images/menu/camera.png" alt="카메라 아이콘" />
       <span>사진 찍기</span>
     </button>
   );

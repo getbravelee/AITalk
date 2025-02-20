@@ -2,7 +2,7 @@
 
 /* ✅ AI Talk 컨테이너 (1024x600 해상도에 맞춤) */
 .AiTalkContainer {
-  background-image: url('/src/assets/background/background_4.jpg');
+  background-image: url('/images/background/background_4.jpg');
   background-size: cover;
   width: 1024px;
   height: 600px;

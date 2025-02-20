@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
 
 .CameraImageGenerateContainer {
-  background-image: url('/src/assets/background/background_2.png'); /* 배경 이미지 경로 */
+  background-image: url('/images/background/background_2.png'); /* 배경 이미지 경로 */
   background-size: cover; /* 화면 채우기 */
   background-position: center; /* 이미지 중앙 정렬 */
   height: 90vh;
@@ -14,20 +14,4 @@
 /* CameraImageGeneratePage.css */
 .camera-loading-circle {
   margin-top: 215px; /* 원하는 만큼 아래로 내리기 */
-}
-
-/* ✅ 생성된 이미지 스타일 */
-.GeneratedImage {
-  width: 300px;
-  height: auto;
-  border-radius: 10px;
-  margin-top: 20px;
-}
-
-/* ✅ 에러 메시지 스타일 */
-.error-text {
-  font-size: 1.2rem;
-  color: red;
-  text-align: center;
-  margin-top: 20px;
 }

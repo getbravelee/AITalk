@@ -139,8 +139,44 @@ def initialize_conversation(child_id):
     conversation_history.append({"role": "system", "content": initial_system_prompt})
 
 
+
+def get_input_device():
+    """ EarPods 또는 Logitech StreamCam 중 우선 선택 가능한 마이크를 반환 """
+    p = pyaudio.PyAudio()
+    input_device_index = None
+    preferred_device_index = None  # 최적의 장치를 저장하는 변수
+
+    for i in range(p.get_device_count()):
+        device_info = p.get_device_info_by_index(i)
+        device_name = device_info["name"]
+        max_channels = device_info["maxInputChannels"]
+
+        logging.info(f"🎤 Device {i}: {device_name} - Input Channels: {max_channels}")
+
+        # 🎯 Logitech StreamCam이 감지되면 최우선 선택 (이름 포함 여부 체크)
+        if "Logitech StreamCam" in device_name and max_channels > 0:
+            preferred_device_index = i  # Logitech StreamCam을 우선적으로 선택
+            break  # StreamCam을 찾았으면 즉시 종료
+
+        # 🎯 EarPods이 감지되면 선택 후보로 저장 (이름 포함 여부 체크)
+        if "EarPods" in device_name and max_channels > 0:
+            input_device_index = i
+
+    p.terminate()
+
+    # ✅ Logitech StreamCam이 있으면 그것을 사용, 없으면 EarPods 사용
+    final_device = preferred_device_index if preferred_device_index is not None else input_device_index
+
+    if final_device is None:
+        logging.error("❌ 사용 가능한 마이크 입력 장치를 찾을 수 없습니다.")
+    else:
+        logging.info(f"✅ 선택된 입력 장치: Device {final_device}")
+
+    return final_device
+
+
 def recognize_audio(child_id):
-    global is_recognizing, keep_listening, gpt_processing, is_tts_playing
+    global is_recognizing, keep_listening, is_tts_playing
 
     with recognition_lock:
         is_recognizing = True
@@ -148,33 +184,34 @@ def recognize_audio(child_id):
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
-    RATE = 16000
-    RECORD_SECONDS = 2.0  # 🔥 녹음 시간 조정
+    RATE = 48000
+    RECORD_SECONDS = 2.0  
+
+    # 🔥 입력 장치 찾기
+    input_device_index = get_input_device()
+    if input_device_index is None:
+        logging.error("🚨 마이크 입력 장치가 없습니다. 음성 인식을 중단합니다.")
+        return
+
+    logging.info(f"🎙 선택된 마이크 장치 인덱스: {input_device_index}")
 
     p = pyaudio.PyAudio()
-    stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=CHUNK)
-
-    # 스트림 초기화
-    for _ in range(5):
-        stream.read(CHUNK, exception_on_overflow=False)
-
-    stream.stop_stream()
-    stream.start_stream()
-
-    audio_buffer = []
-    silence_threshold = 0.0003  # 🔥 더 작은 소리도 감지 가능하도록 조정
-    silence_duration = 1.0  # 🔥 침묵 감지 시간 유지
-
-    last_speech_time = time.time()
-    last_rms = 0
+    stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True,
+                    frames_per_buffer=CHUNK, input_device_index=input_device_index)
 
     logging.info("🎙 음성 인식 시작")
     socketio.emit("speech_ready")
 
+    audio_buffer = []
+    silence_threshold = 0.01
+    silence_duration = 1.0  
+
+    last_speech_time = time.time()
+
     while keep_listening:
         if is_tts_playing:
             if audio_buffer:
-                logging.debug("TTS 재생 중: audio_buffer 초기화")
+                logging.debug("🔇 TTS 재생 중: audio_buffer 초기화")
                 audio_buffer.clear()
             time.sleep(0.1)
             continue
@@ -185,26 +222,25 @@ def recognize_audio(child_id):
         audio_data = b''.join(frames)
         audio_np = np.frombuffer(audio_data, dtype=np.int16).astype(np.float32) / 32768.0
 
-        # RMS 계산
+        # 🔥 RMS 계산 (음성 감지)
         rms = np.sqrt(np.mean(np.square(audio_np)))
         logging.debug(f"🔊 RMS 값: {rms:.4f}, 버퍼 길이: {len(audio_buffer)}")
 
         if rms > silence_threshold:
-            logging.debug("🎤 음성 감지 중...")
+            logging.debug("🎤 음성 감지됨")
             socketio.emit('speech_detected', {'status': 'speaking'}, namespace='/')
             audio_buffer.append(audio_data)
             last_speech_time = time.time()
-            last_rms = rms  # 🔥 마지막 음성 RMS 값 저장
         else:
-            # 🔥 버퍼 길이가 1 이상이면 즉시 변환
             if len(audio_buffer) > 0 and (time.time() - last_speech_time > silence_duration):
-                logging.info("🔁 말 멈춤 감지 → 즉시 텍스트 변환 시도")
+                logging.info("🔁 말 멈춤 감지 → 즉시 텍스트 변환 시작")
                 socketio.emit('speech_stopped', {'status': 'silent'}, namespace='/')
 
                 is_tts_playing = True
                 full_audio = b''.join(audio_buffer)
                 audio_buffer.clear()
 
+                # 🔥 Whisper API 변환 시도
                 try:
                     wav_io = BytesIO()
                     with wave.open(wav_io, "wb") as wf:
@@ -214,36 +250,48 @@ def recognize_audio(child_id):
                         wf.writeframes(full_audio)
                     wav_io.seek(0)
 
-                    with tempfile.NamedTemporaryFile(suffix=".wav") as tmp:
+                    # 🔥 임시 WAV 파일 저장 후 OpenAI Whisper 사용
+                    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp:
                         tmp.write(wav_io.getvalue())
-                        tmp.seek(0)
-                        result = openai.Audio.transcribe(
-                            "whisper-1", tmp, language="ko", temperature=0.2
+                        tmp_path = tmp.name
+
+                    with open(tmp_path, "rb") as audio_file:
+                        result = openai.audio.transcriptions.create(
+                            model="whisper-1",
+                            file=audio_file,
+                            language="ko",
+                            temperature=0.2
                         )
-                    text = result["text"].strip()
+                    text = result.text.strip()
 
                     if text:
-                        logging.info(f"📝 텍스트 변환 완료: {text}")
-                        gpt_processing = True
+                        logging.info(f"📝 변환된 텍스트: {text}")
                         Thread(target=get_gpt_response, args=(text, child_id), daemon=True).start()
                     else:
                         logging.warning("⚠️ 음성에서 텍스트를 추출하지 못함")
                         is_tts_playing = False
+
                 except Exception as e:
                     logging.error(f"❌ 텍스트 변환 오류: {e}")
                     is_tts_playing = False
-                last_rms = 0  # 🔥 마지막 RMS 초기화
+
+                finally:
+                    # 🔥 임시 파일 삭제
+                    if os.path.exists(tmp_path):
+                        os.remove(tmp_path)
+
             else:
-                logging.debug("🤫 침묵 중...")
+                logging.debug("🤫 침묵 감지 중...")
 
         time.sleep(0.01)
 
     stream.stop_stream()
     stream.close()
     p.terminate()
-    logging.info("🔁 음성 인식 종료")
+    logging.info("🎙 음성 인식 종료")
     with recognition_lock:
         is_recognizing = False
+
 
 
 
