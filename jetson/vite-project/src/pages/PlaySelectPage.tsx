@@ -51,7 +51,6 @@ export default function PlaySelectPage() {
             className="PlayCameraButton"
             scheduleId={currentScheduleId ?? 0}
           />
-
           <AiTalkButton
             className="PlayAiTalkButton"
             childId={currentChild || 'unknown'}
