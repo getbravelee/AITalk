@@ -17,7 +17,6 @@ import CategoryCardPlaySelectPage from './pages/CategoryCardPlaySelectPage';
 import CameraScanPage from './pages/CameraScanPage';
 import CameraImageGeneratePage from './pages/CameraImageGeneratePage';
 import CameraPlaySelectPage from './pages/CameraPlaySelectPage';
-import CameraPlaySelectThreeSentencePage from './pages/CameraPlaySelectThreeSentencePage';
 
 import AiTalkPage from './pages/AiTalkPage';
 
@@ -90,10 +89,6 @@ function MainRoutes() {
       <Route
         path="/camera-play-select"
         element={<CameraPlaySelectPage />}
-      ></Route>
-      <Route
-        path="/camera-play-select/three-sentence"
-        element={<CameraPlaySelectThreeSentencePage />}
       ></Route>
       <Route path="/ai-talk" element={<AiTalkPage />} />
       <Route
