@@ -73,44 +73,46 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
           boxSize="200px" // 이미지 크기를 작게 설정
           objectFit="cover"
         />
-          <Card.Body backgroundColor="#FF9A6C" height={'400px'} color='#FFFDD0'>
-            <VStack gap={-1}>
-              <Card.Title fontSize={60}>이름: {data.child_name}</Card.Title>
-              <Card.Description>
-                <Text fontSize={60} color='#FFFDD0'>나이 : {data.age}</Text>
-              </Card.Description>
-              <HStack onClick={(e) => e.stopPropagation()}>
-                <Badge
-                  fontSize={25}
-                  height="50px"
-                  rounded="3xl"
-                  backgroundColor="#FFD3B8"
-                  color="#333333"
+        <Card.Body backgroundColor="#FF9A6C" height={'400px'} color="#FFFDD0">
+          <VStack gap={-1}>
+            <Card.Title fontSize={60}>이름: {data.child_name}</Card.Title>
+            <Card.Description>
+              <Text fontSize={60} color="#FFFDD0">
+                나이 : {data.age}
+              </Text>
+            </Card.Description>
+            <HStack onClick={(e) => e.stopPropagation()}>
+              <Badge
+                fontSize={25}
+                height="50px"
+                rounded="3xl"
+                backgroundColor="#FFD3B8"
+                color="#333333"
+              >
+                {data.disability_type}
+              </Badge>
+              {isRegisting ? (
+                // 인증 진행 중에는 로딩 애니메이션(faceid_animation_1)을 보여줌
+                <Flex direction="column" align="center">
+                  <FaceIdAnimationLoadingForKid />
+                </Flex>
+              ) : isCompleted ? (
+                // 인증 완료 후에는 체크 애니메이션(faceid_animation_2)을 보여줌
+                <Flex direction="column" align="center">
+                  <FaceIdAnimationCheckForKid />
+                </Flex>
+              ) : (
+                // 초기 상태 - 인증 시작 전 UI
+                <Button
+                  backgroundColor="transparent"
+                  onClick={handleRegisterClick}
                 >
-                  {data.disability_type}
-                </Badge>
-                {isRegisting ? (
-                  // 인증 진행 중에는 로딩 애니메이션(faceid_animation_1)을 보여줌
-                  <Flex direction="column" align="center">
-                    <FaceIdAnimationLoadingForKid />
-                  </Flex>
-                ) : isCompleted ? (
-                  // 인증 완료 후에는 체크 애니메이션(faceid_animation_2)을 보여줌
-                  <Flex direction="column" align="center">
-                    <FaceIdAnimationCheckForKid />
-                  </Flex>
-                ) : (
-                  // 초기 상태 - 인증 시작 전 UI
-                  <Button
-                    backgroundColor="transparent"
-                    onClick={handleRegisterClick}
-                  >
-                    <img src={faceIdImage} alt="FaceID" width='50px'/>
-                  </Button>
-                )}
-              </HStack>
-            </VStack>
-          </Card.Body>
+                  <img src={faceIdImage} alt="FaceID" width="50px" />
+                </Button>
+              )}
+            </HStack>
+          </VStack>
+        </Card.Body>
       </Card.Root>
     </div>
   );

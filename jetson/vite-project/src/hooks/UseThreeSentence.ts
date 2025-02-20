@@ -9,16 +9,18 @@ const UseThreeSentence = () => {
       const response = await fetch(`http://localhost:5000/generate-sentence`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({schedule_id, word}),
+        body: JSON.stringify({ schedule_id, word }),
       });
 
       const data = await response.json();
-      console.log(data)
+      console.log(data);
       if (Number(response.status) === 200) {
-        navigate('/card-play-select/three-sentence' , {state: {
-          text: data.text,
-          image: data.image
-        }})
+        navigate('/card-play-select/three-sentence', {
+          state: {
+            text: data.text,
+            image: data.image,
+          },
+        });
       } else {
         console.error('인증 실패');
       }

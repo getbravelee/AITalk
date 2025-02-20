@@ -34,7 +34,7 @@ const UseCardTagForFaceResist = () => {
       console.log('✅ Server Response Data:', cardData);
       // 카드의 정보를 redux currentUser에 저장
       dispatch(setUser(cardData));
-      
+
       navigate('/TherapistFaceResisterPage');
     } catch (error) {
       console.error('❌ Error fetching card data:', error);
