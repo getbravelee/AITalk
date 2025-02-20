@@ -35,7 +35,7 @@ def generate_three_word_sentence(schedule_id, prompt):
 
     try:
         # ✅ 영어 문장 생성
-        response_en = openai.ChatCompletion.create(
+        response_en = openai.chat.completions.create(
             model="gpt-4o",
             messages=[{"role": "user", "content": prompt_en}],
             temperature=0.7
@@ -46,7 +46,7 @@ def generate_three_word_sentence(schedule_id, prompt):
 
 
         # ✅ 한국어 문장 생성
-        response_ko = openai.ChatCompletion.create(
+        response_ko = openai.chat.completions.create(
             model="gpt-4o",
             messages=[{"role": "user", "content": prompt_ko}],
             temperature=0.7

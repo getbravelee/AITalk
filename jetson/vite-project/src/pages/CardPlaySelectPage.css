@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
 
 .CardPlaySelectContainer {
-  background-image: url('/src/assets/background/background_3.png');
+  background-image: url('/images/background/background_3.png');
   background-size: cover;
   height: 90vh;
   display: flex;

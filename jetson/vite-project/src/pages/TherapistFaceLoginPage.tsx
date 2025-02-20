@@ -18,7 +18,7 @@ export default function TherapistFaceLoginPage() {
   const { isVerifying, isVerified, verifyFace } = UseFaceVerification();
 
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
-  const faceIdImage: string = 'src/assets/Login/FaceID.svg';
+  const faceIdImage: string = 'images/login/FaceID.svg';
   const navigate = useNavigate();
 
   return (

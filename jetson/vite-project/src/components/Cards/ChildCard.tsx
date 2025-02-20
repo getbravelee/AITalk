@@ -28,8 +28,8 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const { isRegisting, isCompleted, registerFace } = UseFaceRegistration();
   const playStart = usePlayStart();
-  const faceIdImage: string = 'src/assets/Login/FaceID.svg';
-  const childDefaultImage = 'src/assets/ChildDummyImage/child_default.png';
+  const faceIdImage: string = 'images/login/FaceID.svg';
+  const childDefaultImage = 'images/childDummyImage/child_default.png';
   const handleRegisterClick = () => {
     registerFace(
       currentUser?.therapist_id,

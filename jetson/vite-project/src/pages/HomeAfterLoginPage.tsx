@@ -6,9 +6,9 @@ import BackButton from '../components/Common/BackButton';
 import '../components/Texts/TextFontFromGoogle.css';
 
 export default function HomeAfterLoginPage() {
-  const eduKitImg: string = 'src/assets/AfterLogin/edu_kit.svg';
-  const careSelectImg: string = 'src/assets/AfterLogin/care_select.svg';
-  const kidSelectImg: string = 'src/assets/AfterLogin/kid_select.svg';
+  const eduKitImg: string = 'images/AfterLogin/edu_kit.svg';
+  const careSelectImg: string = 'images/AfterLogin/care_select.svg';
+  const kidSelectImg: string = 'images/AfterLogin/kid_select.svg';
   const navigate = useNavigate();
 
   return (

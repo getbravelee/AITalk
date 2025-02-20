@@ -15,7 +15,7 @@ import {
 
 export default function TherapistFaceResisterPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
-  const faceIdImageSmall: string = 'src/assets/Login/FaceID_small.svg';
+  const faceIdImageSmall: string = 'images/Login/FaceID_small.svg';
   const { isRegisting, isCompleted, registerFace } = UseFaceRegistration();
 
   const handleRegisterClick = () => {

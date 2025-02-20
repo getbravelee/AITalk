@@ -14,8 +14,8 @@ export default function NavbarContainer({ children }: NavbarContainerProps) {
         <img
           src={
             isPlaying
-              ? '/src/assets/common/sound_off.png'
-              : '/src/assets/common/sound_on.png'
+              ? '/images/common/sound_off.png'
+              : '/images/common/sound_on.png'
           }
           alt={isPlaying ? '음악 끄기' : '음악 켜기'}
           className="MusicToggleIcon"

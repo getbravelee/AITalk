@@ -6,6 +6,7 @@ import CardTagButtonForFaceResist from '../components/Buttons/CardTagButtonForFa
 import CardTagButtonForLogin from '../components/Buttons/CardTagButtonForLogin';
 import HomeLogo from '../components/logo/HomeLogo';
 import './CardPlaySelectWordPage.css';
+import './HomePage.css'
 
 export default function HomePage() {
   const { setAudioType, isPlaying, toggleAudio } = useAudio(); // 🎵 오디오 상태 & 토글 함수 가져오기
@@ -22,8 +23,8 @@ export default function HomePage() {
         <img
           src={
             isPlaying
-              ? '/src/assets/common/sound_off.png'
-              : '/src/assets/common/sound_on.png'
+              ? '/images/common/sound_off.png'
+              : '/images/common/sound_on.png'
           }
           alt={isPlaying ? '음악 끄기' : '음악 켜기'}
           className="HomeMusicToggleIcon"
