@@ -1,10 +1,10 @@
 .ImgGenerateImageContainer {
   position: absolute;
-  bottom: 23%;
+  bottom: 17%;
 }
 
 .ImgGenerateImage {
-  width: 50vh;
+  width: 33vh;
   height: auto;
   animation: diagonal-jump 1.5s infinite ease-in-out; /* 대각선 점프 애니메이션 */
   transform-origin: center bottom; /* 중심을 발 부분으로 설정 */

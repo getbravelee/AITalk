@@ -35,7 +35,7 @@ export default function CameraScanPage() {
 
   // ✅ 추가된 변수 (객체 인식 유지 시간 체크)
   const CONFIDENCE_THRESHOLD = 0.7; // 최소 확률 임계값
-  const DETECTION_DURATION = 1000; // 유지해야 하는 시간(ms)
+  const DETECTION_DURATION = 100000; // 유지해야 하는 시간(ms)
 
   let detectedObject: string | null = null;
   let detectedStartTime: number | null = null;
@@ -220,7 +220,7 @@ export default function CameraScanPage() {
       <div className="BackgroundImage"></div>
       <NavbarContainer>
         <HStack gap={315}>
-          <BackPlaySelectButton />
+          <BackPlaySelectButton className="CustomMarginTop" />
           {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
           {currentUser && (
             <HStack gap={10}>
