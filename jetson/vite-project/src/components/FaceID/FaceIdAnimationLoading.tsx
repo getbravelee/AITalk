@@ -19,7 +19,7 @@ declare global {
 
 const FaceIdAnimationLoading = () => {
   return (
-    <div style={{ width: '250px', height: '250px' }}>
+    <div style={{ width: '250px', height: '250px', marginTop: '-100px' }}>
       <lottie-player
         src="/assets/Login/faceid_animation_1.json"
         background="transparent"
@@ -27,14 +27,15 @@ const FaceIdAnimationLoading = () => {
         loop
         autoplay
         style={{ width: '100%', height: '100%' }}
-      ></lottie-player>
+      >
+      </lottie-player>
     </div>
   );
 };
 
 const FaceIdAnimationCheck = () => {
   return (
-    <div style={{ width: '250px', height: '250px' }}>
+    <div style={{ width: '250px', height: '250px', marginTop: '-100px' }}>
       <lottie-player
         src="/assets/Login/faceid_animation_2.json"
         background="transparent"
@@ -49,7 +50,7 @@ const FaceIdAnimationCheck = () => {
 
 const FaceIdAnimationLoadingForKid = () => {
   return (
-    <div style={{ width: '50px', height: '50px' }}>
+    <div style={{ width: '50px', height: '50px', marginLeft: '20px'}}>
       <lottie-player
         src="/assets/Login/faceid_animation_1.json"
         background="transparent"
@@ -64,7 +65,7 @@ const FaceIdAnimationLoadingForKid = () => {
 
 const FaceIdAnimationCheckForKid = () => {
   return (
-    <div style={{ width: '50px', height: '50px' }}>
+    <div style={{ width: '50px', height: '50px', marginLeft: '20px'}}>
       <lottie-player
         src="/assets/Login/faceid_animation_2.json"
         background="transparent"
