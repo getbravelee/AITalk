@@ -1,4 +1,4 @@
-import { Flex, HStack, Text, VStack, Button, Box } from '@chakra-ui/react';
+import { Flex, HStack, Text, Button } from '@chakra-ui/react';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import '../components/Common/BackgroundContainer.css';
 import BackButton from '../components/Common/BackButton';
