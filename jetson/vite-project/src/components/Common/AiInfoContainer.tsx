@@ -1,5 +1,4 @@
 import './AiInfoContainer.css';
-
 interface AiInfoContainerProps {
   aiText?: string; // AI 관련 텍스트 (기본값은 "AI 정보 없음")
   isTalking?: boolean; // 🔥 말하는 중 여부

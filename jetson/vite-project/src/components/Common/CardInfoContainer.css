@@ -1,6 +1,6 @@
 .CardInfoContainer {
-  width: 800px;
-  height: 600px;
+  width: 500px;
+  height: 400px;
   text-align: center;
   background-color: hsla(93, 70%, 48%, 0); /* 배경 색상 및 투명도 */
   margin-top: 25px; /* 위로 이동 */
@@ -16,6 +16,7 @@
   margin: auto;
   width: 300px;
   height: 300px;
+  animation: floating 2s infinite ease-in-out;
 }
 
 .BigCardInfoContainer {
@@ -38,4 +39,17 @@
 
 .BigCardInfoContainer .CardText {
   font-size: 2.5rem;
+}
+
+/* ✅ 둥둥 떠 있는 애니메이션 */
+@keyframes floating {
+  0% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(-5px) rotate(0.5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0);
+  }
 }

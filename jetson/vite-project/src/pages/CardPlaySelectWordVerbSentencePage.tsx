@@ -43,7 +43,7 @@ export default function CardPlaySelectWordVerbSentencePage() {
   return (
     <div>
       <NavbarContainer>
-        <BackPlaySelectButton />
+        <BackPlaySelectButton className="CustomMarginTop" />
       </NavbarContainer>
       <div className="CardPlaySelectWordVerbSentenceContainer">
         {/* ✅ 등장은 기존처럼 유지, 이후 자연스럽게 움직이도록 설정 */}

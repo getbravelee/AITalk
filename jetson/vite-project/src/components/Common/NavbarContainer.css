@@ -3,6 +3,8 @@
 .NavbarContainer {
   background-color: #6f4439;
   height: 10vh;
+  display: flex;
+  align-items: center;
 }
 
 .MusicToggleButton {
@@ -16,6 +18,6 @@
 }
 
 .MusicToggleIcon {
-  width: 100px;
-  height: 100px;
+  width: 55px;
+  height: 55px;
 }

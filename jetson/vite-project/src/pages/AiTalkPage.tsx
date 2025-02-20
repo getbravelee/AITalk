@@ -91,12 +91,13 @@ export default function AiTalkPage() {
   }, []);
 
   return (
-    <div>
+    <div className="BackgroundContainer">
+      <div className="BackgroundImage"></div>
       <NavbarContainer>
-        <HStack gap={1120} pt={2}>
-        <BackPlaySelectButton />
-                  {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
-                  {currentUser && (
+        <HStack gap={315}>
+          <BackPlaySelectButton />
+          {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
+          {currentUser && (
             <HStack gap={10}>
               <CurrentUserText />
               <LogoutButton />

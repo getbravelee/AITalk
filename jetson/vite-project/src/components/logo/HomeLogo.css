@@ -1,9 +1,9 @@
 .HomeLogoContainer {
   position: absolute;
-  width: 60%;
+  width: 50%;
   height: auto;
-  top: 40%;
-  left: 51%;
+  top: 33%;
+  left: 49%;
   transform: translate(-50%, -50%);
   animation: logofloating 2s infinite ease-in-out;
 }

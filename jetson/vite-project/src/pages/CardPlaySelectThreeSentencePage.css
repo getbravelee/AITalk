@@ -13,20 +13,19 @@
 
 .CardPlaySelectThreeSentenceContainer .LargeCardInfoContainer {
   width: 800px;
-  height: 800px;
-  margin-bottom: 20px;
+  height: 460px;
   animation: floating 2s infinite ease-in-out;
 }
 
 .CardPlaySelectThreeSentenceContainer .LargeCardInfoContainer .CardImage {
-  width: 600px;
-  height: 600px;
+  width: 350px;
+  height: 350px;
 }
 
 /* 카드 이름 (text) 스타일 조정 */
 .CardPlaySelectThreeSentenceContainer .CardInfoContainer p {
   font-family: 'Dongle', serif;
-  font-size: 8rem; /* 텍스트 크기 */
+  font-size: 5rem; /* 텍스트 크기 */
   font-weight: bold; /* 텍스트 굵기 */
   text-align: center; /* 중앙 정렬 */
   color: #5a3e2b;

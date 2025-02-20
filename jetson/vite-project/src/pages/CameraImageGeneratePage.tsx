@@ -13,7 +13,7 @@ export default function CameraImageGeneratePage() {
   const location = useLocation();
   const navigate = useNavigate();
   const imageData = location.state?.imageData; // ✅ 받은 데이터의 이미지 요청 주소
-  const data = location.state?.data
+  const data = location.state?.data;
 
   console.log('📸 받은 이미지 데이터:', imageData);
 
@@ -35,7 +35,7 @@ export default function CameraImageGeneratePage() {
   return (
     <div>
       <NavbarContainer>
-        <BackPlaySelectButton />
+        <BackPlaySelectButton className="CustomMarginTop" />
       </NavbarContainer>
       <div className="CameraImageGenerateContainer">
         <ImgGenerateText />

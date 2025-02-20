@@ -13,13 +13,13 @@ export default function ThreeSentenceButton({
   targetPath,
   className = '',
   schedule_id,
-  word
+  word,
 }: ThreeSentenceButtonProps) {
-  const { generateSentence } = UseThreeSentence() 
+  const { generateSentence } = UseThreeSentence();
 
   const handleClick = (): void => {
     console.log(`🔄 Navigating to ${targetPath}...`);
-    generateSentence(schedule_id, word)
+    generateSentence(schedule_id, word);
   };
 
   return (

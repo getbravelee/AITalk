@@ -2,12 +2,13 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import userReducer from './user/userSlice';
 import childReducer from './child/childSlice';
 import treatmentReducer from "./treatment/treatmentSlice";
-import storage from 'redux-persist/lib/storage';
+// import storage from 'redux-persist/lib/storage';
+import sessionStorage from 'redux-persist/lib/storage/session';
 import { persistStore, persistReducer } from 'redux-persist';
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage: sessionStorage,
   whitelist: ['user','child', 'treatment'],
 };
 
