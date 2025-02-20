@@ -15,15 +15,21 @@ const UseThreeSentence = () => {
       const data = await response.json();
       console.log(data);
       if (Number(response.status) === 200) {
+<<<<<<< HEAD
         navigate('/card-play-select/three-sentence', {
           state: {
             text: data.text,
             image: data.image,
           },
         });
+=======
+        navigate('/card-play-select/three-sentence' , {state: {
+          text: data.text,
+          image: data.image
+        }})
+>>>>>>> 73181f52967c356dc8d556b78243785c8e17787a
       } else {
         console.error('인증 실패');
-        alert('인증이 실패했습니다! 다시 시도해주세요!');
       }
     } catch (error) {
       console.error('서버 요청 중 에러 발생:', error);

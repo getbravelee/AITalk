@@ -54,9 +54,12 @@ export default function ChildCard({ data }: ChildCardProps): JSX.Element {
           // Card.Root를 클릭하면 child_id를 전역 state (redux persist 포함)에 저장
           // 이후 치료가 완료되면 해당 child의 치료 정보를 서버에 전달할 수 있도록 함.
           dispatch(setChildId(data));
+<<<<<<< HEAD
 
           // alert 닫기 버튼을 누르면 currentUser.therapist_id 와 data.child_id를
           // /play-start 주소로 api 요청 해야함
+=======
+>>>>>>> 73181f52967c356dc8d556b78243785c8e17787a
           try {
             // 아이의 카드를 누르면 play-select 페이지로 이동
             await playStart({
