@@ -190,6 +190,9 @@ export default function CameraScanPage() {
     isDataSentRef.current = true;
     isDetectingRef.current = false;
 
+    // ✅ 백엔드 응답 없이 먼저 페이지 이동 (백엔드 응답을 기다리지 않음)
+    navigate('/camera-img-generate', { state: { data } });
+
     try {
       const response = await fetch('http://localhost:5000/play/camera-scan', {
         method: 'POST',
@@ -206,11 +209,13 @@ export default function CameraScanPage() {
       console.log('✅ 데이터 전송 성공!');
       const imageData = await response.json();
 
-      // ✅ 백엔드로 받은 imageDdata를 state와 함께 전달
-      navigate('/camera-img-generate', { state: { data, imageData } });
+      // ✅ 백엔드 응답을 다음 페이지에서 업데이트하도록 설정
+      window.dispatchEvent(
+        new CustomEvent('backendResponse', { detail: imageData }),
+      );
     } catch (error) {
       console.error('❌ 데이터 전송 실패:', error);
-      isDataSentRef.current = false; // ⚠️ 에러 발생 시 다시 감지 가능하도록 초기화
+      isDataSentRef.current = false;
       isDetectingRef.current = true;
     }
   };

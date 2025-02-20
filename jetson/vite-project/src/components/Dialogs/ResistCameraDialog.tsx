@@ -96,7 +96,6 @@ export default function ResistCameraDialog({
                 if (from === 'thera_face') {
                   navigate('/KidFaceLoginPage');
                 } else {
-                  alert('아이 얼굴 등록 완료');
                   navigate('/play-select');
                 }
               }}
