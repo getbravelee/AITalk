@@ -20,10 +20,10 @@ export default function CameraImageGeneratePage() {
   console.log('📸 받은 이미지 데이터:', imageData);
 
   useEffect(() => {
-    // ✅ 6초 후 이동 가능 상태로 변경
+    // ✅ 8초 후 이동 가능 상태로 변경
     const timeoutId = setTimeout(() => {
       setIsTimeoutPassed(true);
-    }, 6000);
+    }, 8000);
 
     return () => clearTimeout(timeoutId);
   }, []);
@@ -44,7 +44,7 @@ export default function CameraImageGeneratePage() {
   useEffect(() => {
     if (imageData) {
       const elapsedTime = Date.now() - startTime; // ✅ 경과 시간 계산
-      const remainingTime = Math.max(6000 - elapsedTime, 0); // ✅ 남은 시간 계산
+      const remainingTime = Math.max(8000 - elapsedTime, 0); // ✅ 남은 시간 계산
 
       console.log(
         `⏳ 경과 시간: ${elapsedTime}ms, 남은 시간: ${remainingTime}ms`,
@@ -67,7 +67,7 @@ export default function CameraImageGeneratePage() {
       <div className="CameraImageGenerateContainer">
         <ImgGenerateText />
         <LoadingCircle className="camera-loading-circle" />
-        {imageData ? <ImgGenerateImage /> : <p>이미지를 기다리는 중...</p>}
+        <ImgGenerateImage />
       </div>
     </div>
   );

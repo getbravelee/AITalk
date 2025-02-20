@@ -13,9 +13,11 @@ import {
   FaceIdAnimationCheck,
 } from '../components/FaceID/FaceIdAnimationLoading';
 
+import './CardPlaySelectPage.css';
+
 export default function TherapistFaceResisterPage() {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
-  const faceIdImageSmall: string = 'images/Login/FaceID_small.svg';
+  const faceIdImageSmall: string = 'images/login/FaceID_small.svg';
   const { isRegisting, isCompleted, registerFace } = UseFaceRegistration();
 
   const handleRegisterClick = () => {
@@ -33,7 +35,7 @@ export default function TherapistFaceResisterPage() {
       <div className="BackgroundImage"></div>
       <NavbarContainer>
         <HStack gap={1300} pt={2}>
-          <BackButton />
+          <BackButton className="CustomMarginBottom" />
           {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
           {currentUser && (
             <HStack gap={10}>
@@ -43,10 +45,10 @@ export default function TherapistFaceResisterPage() {
           )}
         </HStack>
       </NavbarContainer>
-      <Flex direction="column" align="center" pt='50px' gap='220px'>
+      <Flex direction="column" align="center" gap="130px">
         <HStack className="font">
-          <Text fontSize={150}>치료사</Text>
-          <Text fontSize={100}> 님의 얼굴을 등록해 주세요</Text>
+          <Text fontSize={120}>치료사</Text>
+          <Text fontSize={70}> 님의 얼굴을 등록해 주세요</Text>
         </HStack>
         <VStack>
           {isRegisting ? (
@@ -62,7 +64,7 @@ export default function TherapistFaceResisterPage() {
           ) : (
             // 초기 상태 - 인증 시작 전 UI
             <Button backgroundColor="transparent" onClick={handleRegisterClick}>
-              <img src={faceIdImageSmall} alt="FaceID" width={200}/>
+              <img src={faceIdImageSmall} alt="FaceID" width={200} />
             </Button>
           )}
         </VStack>

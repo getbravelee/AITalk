@@ -67,3 +67,9 @@
   position: relative;
   top: 0.4rem; /* Navbar는 그대로 두고 버튼만 내려줌 */
 }
+
+/* ✅ 이 페이지에서만 적용하는 BackPlaySelectButton 스타일 */
+.CustomMarginBottom {
+  position: relative;
+  bottom: 0.2rem; /* Navbar는 그대로 두고 버튼만 내려줌 */
+}
