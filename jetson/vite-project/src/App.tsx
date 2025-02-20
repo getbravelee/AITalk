@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AudioProvider, useAudio } from './components/Common/AudioContext';
 
-import TalkTalkPage from './pages/TalkTalkPage';
 
 import HomePage from './pages/HomePage';
 import PlaySelectPage from './pages/PlaySelectPage';
@@ -55,8 +54,6 @@ function MainRoutes() {
 
   return (
     <Routes>
-      <Route path="talk-talk" element={<TalkTalkPage />} />
-
       <Route path="/" element={<HomePage />} />
       <Route path="/play-select" element={<PlaySelectPage />} />
       <Route path="/nfc-tag" element={<NfcTagPage />} />
