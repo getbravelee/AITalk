@@ -36,7 +36,7 @@ export default function CardTagButton({ className }: CardTagButtonProps) {
         },
         body: JSON.stringify({ scheduleId }), // ✅ 자동으로 받은 scheduleId 사용
       });
-      console.log('response 확인')
+      console.log('response 확인');
       if (!response.ok)
         throw new Error(
           `Failed to fetch card data (Status: ${response.status})`,
@@ -45,8 +45,8 @@ export default function CardTagButton({ className }: CardTagButtonProps) {
       const cardData = await response.json();
       console.log('✅ Server Response Data:', cardData);
       const cardId = cardData[0].card_id;
-        console.log("cardData: " + cardData)
-        console.log("cardId: " + cardId)
+      console.log('cardData: ' + cardData);
+      console.log('cardId: ' + cardId);
       if (cardId >= 3000 && cardId <= 3999) {
         // ✅ 3000~3999: /card-play-select 이동
         navigate('/card-play-select', { state: cardData });
@@ -56,9 +56,8 @@ export default function CardTagButton({ className }: CardTagButtonProps) {
       } else {
         console.log('🚫 Unsupported cardId range:', cardId);
       }
-    }  catch (error) {
+    } catch (error) {
       console.error('❌ Error fetching card data:', error);
-      alert('명사 카드를 태깅해주세요!');
     }
   };
 

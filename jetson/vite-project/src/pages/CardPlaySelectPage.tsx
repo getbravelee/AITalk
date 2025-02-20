@@ -66,7 +66,6 @@ export default function CardPlaySelectPage() {
             />
             <ThreeSentenceButton
               className="CardPlaySelectThreeSentenceButtonStyle"
-              targetPath="/card-play-select/three-sentence"
               schedule_id={currentScheduleId ?? 0}
               word={parsedCardData.image}
             />

@@ -27,11 +27,11 @@ export function UseCardTagLogin() {
         setFailedAttempts((prev) => {
           const newCount = prev + 1;
           if (newCount >= 3) {
-            alert('3번 초과하여 인증에 실패했습니다. 인증 과정을 종료합니다.');
+            // alert('3번 초과하여 인증에 실패했습니다. 인증 과정을 종료합니다.');
             navigate('/');
             return 0;
           } else {
-            alert('인증된 사용자가 아닙니다. 다른 카드를 사용해 주세요!');
+            // alert('인증된 사용자가 아닙니다. 다른 카드를 사용해 주세요!');
             return newCount;
           }
         });
@@ -47,10 +47,10 @@ export function UseCardTagLogin() {
       // 카드의 정보를 redux-persist에 저장
       dispatch(setUser(cardData));
       setFailedAttempts(0);
-      alert(`${cardData.therapist_name}님 안녕하세요!`);
+      // alert(`${cardData.therapist_name}님 안녕하세요!`);
       navigate('/KidFaceLoginPage');
     } catch (error: any) {
-      alert('인식된 사용자가 아닙니다. 다른 카드를 시도해주세요!');
+      // alert('인식된 사용자가 아닙니다. 다른 카드를 시도해주세요!');
       console.error('❌ 카드 데이터를 가져오는 중 에러 발생:', error);
     }
   }, [dispatch, navigate]);

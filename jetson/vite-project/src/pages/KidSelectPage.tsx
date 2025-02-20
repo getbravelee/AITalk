@@ -1,7 +1,6 @@
 import { Text, VStack, HStack, Flex, Box, Spinner } from '@chakra-ui/react';
 import NavbarContainer from '../components/Common/NavbarContainer';
 import ChildCard from '../components/Cards/ChildCard';
-import BackButton from '../components/Common/BackButton';
 import '../components/Common/BackgroundContainer.css';
 import '../components/Texts/TextFontFromGoogle.css';
 import { UseFetch } from '../hooks/UseFetch';
@@ -28,7 +27,7 @@ export default function KidSelectPage() {
     <div className="BackgroundContainer">
       <div className="BackgroundImage"></div>
       <NavbarContainer>
-        <HStack pl={550}>
+        <HStack pl={370}>
           {/* 로그인 한 경우에만 치료사의 이름이 렌더링되도록 함함 */}
           {currentUser && (
             <HStack gap={10}>
