@@ -2,10 +2,6 @@ import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AudioProvider, useAudio } from './components/Common/AudioContext';
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 73181f52967c356dc8d556b78243785c8e17787a
 import HomePage from './pages/HomePage';
 import PlaySelectPage from './pages/PlaySelectPage';
 import NfcTagPage from './pages/NfcTagPage';

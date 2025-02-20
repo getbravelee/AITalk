@@ -15,19 +15,12 @@ const UseThreeSentence = () => {
       const data = await response.json();
       console.log(data);
       if (Number(response.status) === 200) {
-<<<<<<< HEAD
         navigate('/card-play-select/three-sentence', {
           state: {
             text: data.text,
             image: data.image,
           },
         });
-=======
-        navigate('/card-play-select/three-sentence' , {state: {
-          text: data.text,
-          image: data.image
-        }})
->>>>>>> 73181f52967c356dc8d556b78243785c8e17787a
       } else {
         console.error('인증 실패');
       }

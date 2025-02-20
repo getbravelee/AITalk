@@ -32,10 +32,6 @@ const UseCardTagForFaceResist = () => {
 
       const cardData = await response.json();
       console.log('✅ Server Response Data:', cardData);
-<<<<<<< HEAD
-
-=======
->>>>>>> 73181f52967c356dc8d556b78243785c8e17787a
       // 카드의 정보를 redux currentUser에 저장
       dispatch(setUser(cardData));
 
