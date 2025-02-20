@@ -18,7 +18,7 @@
 /* ✅ Speech 상태 표시 (1024x600 화면 기준 위치 조정) */
 .speech-status {
   position: absolute;
-  bottom: 30px; /* 기존 5%에서 px 값으로 변경 */
+  bottom: 70px; /* 기존 5%에서 px 값으로 변경 */
   right: 30px; /* 기존 5%에서 px 값으로 변경 */
   font-size: 1.2rem; /* 글씨 크기 조정 */
   font-weight: bold;
