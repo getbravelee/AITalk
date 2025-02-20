@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
 
+/* ✅ 기본 여백 제거 */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 /* 카드 정보 컨테이너 크기 조정 */
 .CardPlaySelectWordVerbContainer {
   background-image: url('/src/assets/background/background_3.png');

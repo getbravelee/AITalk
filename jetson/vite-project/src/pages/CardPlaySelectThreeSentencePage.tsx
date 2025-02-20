@@ -7,14 +7,14 @@ import CardInfoContainer from '../components/Common/CardInfoContainer';
 import './CardPlaySelectThreeSentencePage.css';
 
 export default function CardPlaySelectThreeSentencePage() {
-  const location = useLocation()
-  const cardName = location.state.text
-  const image = location.state.image
-  console.log(cardName)
+  const location = useLocation();
+  const cardName = location.state.text;
+  const image = location.state.image;
+  console.log(cardName);
   return (
     <div>
       <NavbarContainer>
-        <BackPlaySelectButton />
+        <BackPlaySelectButton className="CustomMarginTop" />
       </NavbarContainer>
       <div className="CardPlaySelectThreeSentenceContainer">
         <motion.div
