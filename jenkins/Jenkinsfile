@@ -5,6 +5,7 @@ pipeline {
         IMAGE_NAME = "suhwany/aitalk"  // ✅ 하나의 Docker Hub 레포지토리
         IMAGE_TAG_BACKEND = "backend-latest"  // 백엔드 태그
         IMAGE_TAG_FRONTEND = "frontend-latest"  // 프론트엔드 태그
+        IMAGE_TAG_MIDDLE = "middle-latest"  // 미들웨어 태그
 
         MATTERMOST_WEBHOOK = "https://meeting.ssafy.com/hooks/9p1665jgnjdn3msh9piyg1zpme"  // ✅ Mattermost 웹훅 URL
     }
@@ -27,22 +28,15 @@ pipeline {
             }
         }
 
-        stage('Build Backend') {
-            steps {
-                sh '''
-                cd Be/AITalk
-                chmod +x ./gradlew
-                ./gradlew clean build -x test "-Dorg.gradle.jvmargs=-Xmx2g"
-                '''
-            }
-        }
-
-        stage('Docker Build & Push Backend') {
+        // ✅ Backend 빌드 및 배포
+        stage('Build & Push Backend') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'DockerId', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         sh '''
                         cd Be/AITalk
+                        chmod +x ./gradlew
+                        ./gradlew clean build -x test "-Dorg.gradle.jvmargs=-Xmx2g"
                         docker build -t ${IMAGE_NAME}:${IMAGE_TAG_BACKEND} .
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                         docker push ${IMAGE_NAME}:${IMAGE_TAG_BACKEND}
@@ -52,36 +46,7 @@ pipeline {
             }
         }
 
-        stage('Build Frontend') {
-            steps {
-                sh '''
-                cd Fe/admin-project
-                rm -rf node_modules package-lock.json dist
-                npm install
-                chmod +x node_modules/.bin/tsc  # TypeScript 실행 권한 추가
-                npm run build
-                '''
-            }
-        }
-
-        stage('Docker Build & Push Frontend') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'DockerId', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        sh '''
-                        cd Fe/admin-project
-                        docker build -t ${IMAGE_NAME}:${IMAGE_TAG_FRONTEND} .
-
-                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                        docker push ${IMAGE_NAME}:${IMAGE_TAG_FRONTEND}
-                        '''
-                    }
-                }
-            }
-        }       
-
-
-        stage('Deploy to EC2 (Backend)') {
+        stage('Deploy Backend') {
             steps {
                 sh '''
                 chmod +x jenkins/scripts/deploy_backend.sh
@@ -90,11 +55,56 @@ pipeline {
             }
         }
 
-        stage('Deploy to EC2 (Frontend)') {
+        // ✅ Frontend 빌드 및 배포
+        stage('Build & Push Frontend') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'DockerId', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh '''
+                        cd Fe/admin-project
+                        rm -rf node_modules package-lock.json dist
+                        npm install
+                        chmod +x node_modules/.bin/tsc
+                        npm run build
+                        docker build -t ${IMAGE_NAME}:${IMAGE_TAG_FRONTEND} .
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker push ${IMAGE_NAME}:${IMAGE_TAG_FRONTEND}
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Deploy Frontend') {
             steps {
                 sh '''
                 chmod +x jenkins/scripts/deploy_frontend.sh
                 ./jenkins/scripts/deploy_frontend.sh
+                '''
+            }
+        }
+
+        // ✅ Middle-tier 빌드 및 배포
+        stage('Build & Push Middleware') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'DockerId', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh '''
+                        cd Middle
+                        docker build -t ${IMAGE_NAME}:${IMAGE_TAG_MIDDLE} .
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker push ${IMAGE_NAME}:${IMAGE_TAG_MIDDLE}
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Deploy Middleware') {
+            steps {
+                sh '''
+                chmod +x jenkins/scripts/deploy_middle.sh
+                ./jenkins/scripts/deploy_middle.sh
                 '''
             }
         }
@@ -123,3 +133,5 @@ pipeline {
         }
     }
 }
+
+
