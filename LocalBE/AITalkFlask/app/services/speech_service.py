@@ -307,7 +307,8 @@ def get_gpt_response(user_input, child_id, is_summary=False):
             conversation_history = conversation_history[-10:]
 
         logging.info(f"🤝 GPT에 질문: {user_input}")
-        response = openai.chat.completions.create(
+        # response = openai.ChatCompletion.create ( # 노트북 코드
+        response = openai.chat.completions.create(  # jetson 코드
             model="gpt-4o",
             messages=conversation_history,
             max_tokens=500
