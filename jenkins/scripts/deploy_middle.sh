@@ -7,8 +7,8 @@ docker stop jetson-middle || true
 docker rm jetson-middle || true
 
 docker run -d --name jetson-middle \
-  --network my_network \
   -p 7260:7260 \
+  -v /home/ubuntu/images:/home/ubuntu/images \
   suhwany/aitalk:middle-latest
 
 docker image prune -a -f
