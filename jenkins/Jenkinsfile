@@ -34,7 +34,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'DockerId', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         sh '''
-                        cd Be/AITalk
+                        cd backend
                         chmod +x ./gradlew
                         ./gradlew clean build -x test "-Dorg.gradle.jvmargs=-Xmx2g"
                         docker build -t ${IMAGE_NAME}:${IMAGE_TAG_BACKEND} .
@@ -61,7 +61,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'DockerId', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         sh '''
-                        cd Fe/admin-project
+                        cd frontend
                         rm -rf node_modules package-lock.json dist
                         npm install
                         chmod +x node_modules/.bin/tsc
@@ -90,7 +90,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'DockerId', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         sh '''
-                        cd Middle
+                        cd middle
                         docker build -t ${IMAGE_NAME}:${IMAGE_TAG_MIDDLE} .
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                         docker push ${IMAGE_NAME}:${IMAGE_TAG_MIDDLE}
