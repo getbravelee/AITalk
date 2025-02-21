@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
+
+.ImgGenerateTextContainer {
+  position: absolute;
+  top: 12%;
+  text-align: center;
+}
+
+.ImgGenerateText {
+  font-size: 5rem;
+  font-weight: bold;
+  color: #5a3e2b;
+  font-family: 'Dongle', serif;
+}

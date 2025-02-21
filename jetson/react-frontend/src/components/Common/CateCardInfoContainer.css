@@ -1,0 +1,39 @@
+/* ✅ 1000~1999번 카드일 때 컨테이너 */
+.CateCardInfoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px; /* 🔥 이미지 크기 줄이기 */
+  height: 150px;
+  animation: floating 2s infinite ease-in-out;
+}
+
+/* ✅ 이미지 스타일 */
+.CateCardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  margin-bottom: 4rem;
+}
+
+/* ✅ 카드 이름 스타일 */
+.CategoryCardName {
+  font-size: 5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: -2rem; /* 기존보다 위로 올림 */
+  position: relative;
+}
+
+/* ✅ 둥둥 떠 있는 애니메이션 */
+@keyframes floating {
+  0% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(-5px) rotate(0.5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+}

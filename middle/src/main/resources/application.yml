@@ -1,0 +1,10 @@
+server:
+  port: 7260
+
+spring:
+  application:
+    name: ImageGenerator
+  web:
+    resources:
+      static-locations: file:/home/ubuntu/images/
+      add-mappings: true

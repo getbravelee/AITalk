@@ -1,0 +1,38 @@
+/* 전체 컨테이너 스타일 */
+.CategoryCardInfoContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개씩 */
+  gap: -0px; /* 이미지 간격 */
+  justify-content: center;
+  align-items: center;
+  margin-top: -10px; /* 위로 살짝 이동 */
+}
+
+/* 개별 카드 스타일 */
+.CategoryCardItem {
+  width: 150px; /* ✅ 이미지 크기 키움 */
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: hsla(93, 70%, 48%, 0); /* 배경 색상 */
+}
+
+/* 이미지 스타일 */
+.CategoryCardImage {
+  width: 150px;
+  height: 150px;
+  object-fit: contain; /* 원본 비율 유지 */
+  margin: auto;
+  margin-top: 6rem;
+  margin-right: 3rem;
+  margin-left: 3rem;
+}
+
+/* 로딩 텍스트 */
+.LoadingText {
+  font-size: 3rem;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+}

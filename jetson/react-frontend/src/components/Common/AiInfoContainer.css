@@ -1,0 +1,40 @@
+.AiInfoContainer {
+  display: flex;
+  flex-direction: column; /* ✅ 세로 정렬 (텍스트 위, 이미지 아래) */
+  align-items: center;
+  text-align: center;
+  width: 1000px;
+  height: 400px;
+  background-color: transparent;
+}
+
+.AiText {
+  font-family: 'Dongle', serif;
+  font-size: 3rem; /* ✅ 폰트 크기 유지 */
+  font-weight: bold;
+  color: black;
+  position: relative;
+  top: -20%;
+}
+
+.AiImage {
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  bottom: 15%;
+}
+
+/* 🔴 톡톡이가 말하는 중일 때 애니메이션 */
+.AiImage.talking {
+  animation: shake 0.3s infinite alternate ease-in-out;
+}
+
+/* 흔들리는 애니메이션 */
+@keyframes shake {
+  from {
+    transform: rotate(-2deg);
+  }
+  to {
+    transform: rotate(2deg);
+  }
+}

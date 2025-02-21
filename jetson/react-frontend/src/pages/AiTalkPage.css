@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
+
+/* ✅ AI Talk 컨테이너 (1024x600 해상도에 맞춤) */
+.AiTalkContainer {
+  background-image: url('/images/background/background_4.jpg');
+  background-size: cover;
+  width: 1024px;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* 내부 요소의 절대 위치 기준 */
+  font-family: 'Dongle', serif;
+  margin: 0 auto;
+  overflow: hidden; /* 스크롤 방지 */
+}
+
+/* ✅ Speech 상태 표시 (1024x600 화면 기준 위치 조정) */
+.speech-status {
+  position: absolute;
+  bottom: 70px; /* 기존 5%에서 px 값으로 변경 */
+  right: 30px; /* 기존 5%에서 px 값으로 변경 */
+  font-size: 1.2rem; /* 글씨 크기 조정 */
+  font-weight: bold;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 8px 15px;
+  border-radius: 20px;
+  width: 150px;
+  text-align: center;
+  white-space: nowrap;
+  transition: all 0.3s ease-in-out;
+}
+
+/* ✅ 🟢 말할 수 있는 상태 */
+.speech-status.speak-ready {
+  color: #00ff00;
+  animation: pulse 1.5s infinite alternate;
+}
+
+/* ✅ 🎤 음성 감지 중 */
+.speech-status.speaking {
+  color: #ffcc00;
+  animation: bounce 0.5s infinite alternate;
+}
+
+/* ✅ 🟡 톡톡이 생각 중 */
+.speech-status.thinking {
+  color: #ffaa00;
+  animation: pulse 1.5s infinite alternate;
+}
+
+/* ✅ 🔴 톡톡이 말하는 중 */
+.speech-status.talking {
+  color: #ff4444;
+  animation: wave 1.5s infinite alternate;
+}
+
+/* ✅ 애니메이션 정리 */
+@keyframes pulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes wave {
+  from {
+    transform: rotate(-3deg);
+  }
+  to {
+    transform: rotate(3deg);
+  }
+}

@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
+
+/* ✅ 전체 컨테이너 크기 및 정렬 */
+.CardPlaySelectContainer {
+  background-image: url('/images/background/background_3.png');
+  background-size: cover;
+  background-position: top center; /* 기존 center → top center로 조정 */
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Dongle', serif;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* ✅ 내부 요소 정렬 및 위치 조정 */
+.CardPlaySelectInnerContainer {
+  display: flex;
+  gap: 0rem; /* 기존 5rem → 3rem (간격 줄이기) */
+  margin-top: 1.5rem; /* 기존 3rem → 1.5rem (위치 조정) */
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 100%; /* 부모 요소 크기에 맞춤 */
+}
+
+/* ✅ 버튼 컨테이너 */
+.ButtonsContainers {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem; /* 버튼 간 간격 설정 */
+  position: relative;
+  margin-top: 5rem; /* 기존 10% 대신 px 값으로 변경 */
+  margin-right: 8rem;
+}
+
+/* ✅ Word 버튼 크기 조정 */
+.CardPlaySelectWordButtonStyle {
+  width: 190px;
+  height: 190px;
+  font-size: 5rem;
+  border-radius: 20px;
+  margin-right: 1rem;
+}
+
+/* ✅ Three Sentence 버튼 크기 조정 */
+.CardPlaySelectThreeSentenceButtonStyle {
+  width: 190px;
+  height: 190px;
+  font-size: 5rem;
+  border-radius: 20px;
+  margin-left: 1rem;
+}
+
+/* ✅ 카드 이미지 크기 및 스타일 */
+.CardPlaySelectInfoContainer img {
+  width: 18.5rem; /* 기존 550px → 450px */
+  height: auto;
+  object-fit: cover;
+  margin-top: 8rem;
+  margin-left: 20%;
+}
+
+/* ✅ 이 페이지에서만 적용하는 BackPlaySelectButton 스타일 */
+.CustomMarginTop {
+  position: relative;
+  top: 0.4rem; /* Navbar는 그대로 두고 버튼만 내려줌 */
+}
+
+/* ✅ 이 페이지에서만 적용하는 BackPlaySelectButton 스타일 */
+.CustomMarginBottom {
+  position: relative;
+  bottom: 0.2rem; /* Navbar는 그대로 두고 버튼만 내려줌 */
+}

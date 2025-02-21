@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Batang&display=swap');
+
+.PlaySelectContainer {
+  background-image: url('/images/background/background_3.png'); /* 배경 이미지 */
+  background-size: cover; /* 화면 채우기 */
+  background-position: center; /* 이미지 중앙 정렬 */
+  height: 90vh; /* 전체 높이 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 4vh; /* 상단 여백 조정 */
+  font-family: 'Dongle', serif;
+}
+
+.PlaySelectInnerContainer {
+  display: flex;
+  gap: 20px; /* 버튼 간격 축소 */
+}
+
+/* 버튼 크기 축소 */
+.PlaySelectInnerContainer button {
+  width: 220px; /* 버튼 너비 */
+  height: 260px; /* 버튼 높이 */
+  position: relative;
+  border-radius: 15px; /* 둥근 모서리 조정 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* 버튼별 이미지 크기 조정 */
+.PlayCardTagButton img {
+  width: 180px;
+  height: 180px;
+  margin-bottom: 40px;
+}
+
+.PlayCameraButton img {
+  width: 160px;
+  height: 180px;
+  margin-bottom: 40px;
+}
+
+.PlayAiTalkButton img {
+  width: 150px;
+  height: 160px;
+  margin-bottom: 40px;
+}
+
+/* 버튼 내부 텍스트 위치 및 크기 조정 */
+.PlayCardTagButton span,
+.PlayCameraButton span,
+.PlayAiTalkButton span {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem; /* 텍스트 크기 축소 */
+  font-weight: bold;
+  color: #5a3e2b;
+  text-align: center;
+  background-color: rgba(255, 193, 0, 0.5);
+  width: 220px; /* 버튼 크기에 맞게 조정 */
+  border-radius: 0 0 15px 15px;
+}
