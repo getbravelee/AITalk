@@ -40,16 +40,21 @@
     <td style="text-align: center;" width="16.66%">최진문<br/><a href=""></a></td>
     <td style="text-align: center;" width="16.66%">김경민<br/><a href=""></a></td>
   </tr>
+    <tr>
+    <td style="text-align: center;" width="16.66%">백엔드,프론트</br> (팀장)</td>
+    <td style="text-align: center;" width="16.66%">백엔드</td>
+    <td style="text-align: center;" width="16.66%">인프라, 임베디드</td>
+    <td style="text-align: center;" width="16.66%">프론트</td>
+    <td style="text-align: center;" width="16.66%">프론트</td>
+    <td style="text-align: center;" width="16.66%">백엔드</td>
+  </tr>
   <tr>
-    <td style="text-align: center;" width="16.66%">백엔드, 프론트(팀장)  </br> 
-    </br> 로그인, 치료 아동 관리, 카드 태깅 관련 api, DB관리 / 언어치료사 웹 화면 제작, 스케줄 관리 캘린더 제작</td>
-    <td style="text-align: center;" width="16.66%">백엔드 </br> </br>  백엔드 스케줄 관련 api, 대화하기 api, 센터 관련 api, 로컬 id,pw 로그인, 로컬 아동 목록, 치료 시작하기, 3어문 api</td>
-    <td style="text-align: center;" width="16.66%">인프라, 임베디드 </br></br>
-CI/CD 구축, 생성형AI 모델을 활용한 이미지 생성,  jetson orin nano 환경 세팅 및 개발, GPU서버 rootless 개발</td>
-    <td style="text-align: center;" width="16.66%">프론트 개발 </br>  </br> 전체 피그마 디자인 및 컴포넌트 구성, 디바이스(사물인식, NFC 태그, AITalk) API 연동, AiTalk socket연동, NFC 태그 데이터 관리</td>
-    <td style="text-align: center;" width="16.66%">프론트 개발</br></br>웹 관리자 페이지(로그인 외) 구성, Redux기반 상태 관리, 얼굴인식 로그인 및 등록 API 연동, 디바이스 로그인(NFC, ID/PW) API 연동</td>
-    <td style="text-align: center;" width="16.66%">백엔드</br></br>
-    회원가입, 치료사(유저) 관리 관련 api, face ID 등록 및 로그인 api,실시간 사물인식 api,영상 포트폴리오 제작 </td>
+    <td style="text-align: center;" width="16.66%">로그인, 치료 아동 관리, 카드 태깅 관련 api, DB관리 / 언어치료사 웹 화면 제작, 스케줄 관리 캘린더 제작</td>
+    <td style="text-align: center;" width="16.66%">스케줄 관련 api, 대화하기 api, 센터 관련 api, 로컬 id,pw 로그인, 로컬 아동 목록, 치료 시작하기, 3어문 api</td>
+    <td style="text-align: center;" width="16.66%">CI/CD 구축, 생성형AI 모델을 활용한 이미지 생성,  jetson orin nano 환경 세팅 및 개발, GPU서버 rootless 개발</td>
+    <td style="text-align: center;" width="16.66%">전체 피그마 디자인 및 컴포넌트 구성, 디바이스(사물인식, NFC 태그, AITalk) API 연동, AiTalk socket연동, NFC 태그 데이터 관리</td>
+    <td style="text-align: center;" width="16.66%">웹 관리자 페이지(로그인 외) 구성, Redux기반 상태 관리, 얼굴인식 로그인 및 등록 API 연동, 디바이스 로그인(NFC, ID/PW) API 연동</td>
+    <td style="text-align: center;" width="16.66%">회원가입, 치료사(유저) 관리 관련 api, face ID 등록 및 로그인 api,실시간 사물인식 api,영상 포트폴리오 제작 </td>
   </tr>
 </table>
 
@@ -87,7 +92,26 @@ ChatGPT API를 활용하여 아동의 대화 및 치료 과정 지원
 맥락을 이해하고 자연스러운 답변을 제공하여 대화 품질 향상
 
 - 빠른 이미지 생성을 위하여 이미지 생성 시간 약 94.86% 단축
-
+    - 문제점 :
+    - Stable Diffusion 3.5 Large 모델 사용 시, 이미지 생성 속도가 3분 34초로 너무 느렸음.
+    - 고성능 GPU(Tesla V100)를 사용했음에도 성능이 기대보다 낮았음.
+    - 원인 분석 : 
+    - GPU 연산 방식 차이:
+Tesla V100은 기본적으로 FP32(32비트 부동소수점 연산) 사용
+일반적인 노트북/데스크톱 GPU는 FP16(16비트 부동소수점 연산) 사용
+FP16 연산이 FP32 대비 속도가 빠르고 메모리 사용량이 적음
+    - 해결 방법 :
+      1. PyTorch에서 FP16(16-bit Half Precision) 연산 적용
+torch_dtype=torch.float16 설정
+torch.cuda.empty_cache()로 GPU 메모리 캐시 비우기 (누수 방지)
+Stable Diffusion 3 Pipeline을 FP16 모드로 실행
+      2. 모델 변경 및 최적화
+FP16 적용 후: 3분 34초 → 24초로 단축
+모델을 3 Medium으로 변경 후: 24초 → 11초로 추가 단축
+    - 성능 개선 결과
+3분 34초 → 24초 (약 88.79% 감소)
+24초 → 11초 (약 54.17% 감소)
+전체적으로 94.86% 속도 개선 🎉
 
 ### [ 협업툴 ]
 
